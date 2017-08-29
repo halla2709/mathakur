@@ -1,16 +1,18 @@
-const pgp = require('pg-promise')();
+const pgp = require('pg-promise')({
+    query: e => {
+        console.log('QUERY:', e.query);
+    }
+});
 
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:brynjav@localhost:5432/testDB';
-const db = pgp(connectionString);
+const cn = {
+    host: 'localhost', // 'localhost' is the default;
+    port: 5432, // 5432 is the default;
+    database: 'mathakur',
+    user: 'mathakur',
+    password: 'mathakur'
+};
+const db = pgp(cn);
 
-function createTable(tableName, columns) {
-    columns.unshift(tableName);
-    const columnInjectionString = "";
-    /*for(const i = ) {
-
-    }*/
-    const queryString = "CREATE TABLE IF NOT EXISTS $1(" + columnInjectionString + ")";
-    db.none('CREATE TABLE IF NOT EXISTS $1')
-}
-
-module.exports = db;
+module.exports = {
+    db
+};
