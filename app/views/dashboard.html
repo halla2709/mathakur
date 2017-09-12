@@ -1,0 +1,35 @@
+<!doctype html>
+<html ng-app="mathakur">
+
+<head>
+  <meta charset="utf-8">
+  <title>Mathákur</title>
+  <base href="/dashboard">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="styles/main.css?version=1">
+</head>
+
+<div class="dashboard-page">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-2 sidebar">
+          <img src="images/mathakur.png" class="icon-mathakur" />
+         <div class="text-center">
+        <h2 class="brand">Velkomin </h2>
+        <h2><small>Nafn</small></h2>
+        <img src="images/flat-avatar.png" class="user-avatar" /><br />
+        <a ui-sref="login" class="btn btn-white btn-outline btn-small btn-rounded">Skrá út</a>
+      </div>
+
+      <ul class="nav nav-sidebar">
+        <li ng-class="{active: $state.includes('overview')}"><a ui-sref="overview">Kennarar<span class="sr-only">(current)</span></a></li>
+      </ul>
+
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ui-view>
+    </div>
+  </div>
+</div>
+</div>
+</html>
