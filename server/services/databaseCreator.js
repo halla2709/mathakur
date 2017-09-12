@@ -20,14 +20,16 @@ db.none("CREATE TABLE IF NOT EXISTS school(id SERIAL PRIMARY KEY, \
 });
 db.none("CREATE TABLE IF NOT EXISTS food(id SERIAL PRIMARY KEY, \
     name varchar(40) NOT NULL, \
-    category varchar(40))")
+    category varchar(40), \
+    photoUrl varchar(255))")
 .catch(error => {
     console.log('ERROR:', error); // print the error;
 });
 db.none("CREATE TABLE IF NOT EXISTS employee(id SERIAL PRIMARY KEY, \
     name varchar(40) NOT NULL, \
     nickname varchar(20), \
-    credit integer NOT NULL)")
+    credit integer NOT NULL, \
+    photoUrl varchar(255))")
 .catch(error => {
     console.log('ERROR:', error); // print the error;
 });

@@ -11,6 +11,7 @@ angular.module('mathakur')
   .controller('LoginCtrl', function($scope, $location) {
 
     $scope.submit = function() {
+      console.log("submitting");
 
       $location.path('dashboard');
 

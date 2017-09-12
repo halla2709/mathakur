@@ -9,10 +9,7 @@
  * Main module of the application.
  */
 angular
-  .module('mathakur', [
-    'ui.router',
-    'ngAnimate'
-  ])
+  .module('mathakur', [])
   .config(function($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.when('/dashboard', '/dashboard/overview');

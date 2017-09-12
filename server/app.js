@@ -26,5 +26,5 @@ dbHelper.getFromTable(database, 'employee', ['name = \'halla\''])
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', indexRouter);
-app.use(express.static('app'));
+app.use(express.static('../app'));
 app.listen(3000);

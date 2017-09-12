@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="mathakur">
+<html>
 
 <head>
   <meta charset="utf-8">
@@ -14,18 +14,18 @@
   <link rel="stylesheet" type="text/css" href="styles/main.css?version=1">
 </head>
 
-<body>
+<body ng-app="mathakur">
   <div class="login-page">
     <header class="headeronlogin">
       <img src="images/mathakur.png" class="headericon-mathakur" />
     </header>
     <div class="login-page2">
       <div class="row">
-        <div class="col-md-4 col-lg-4 col-md-offset-4 col-lg-offset-4">
+        <div ng-controller="LoginCtrl" class="col-md-4 col-lg-4 col-md-offset-4 col-lg-offset-4">
           <br>
           <h1>Velkomin! </h1>
           <h1><small>Vinsamlega skráðu skólann þinn inn JEI:</small></h1>
-          <form ng-controller="LoginCtrl" role="form" ng-submit="submit()">
+          <form role="form" ng-submit="submit()">
 
             <div class="form-content">
               <div class="form-group">
