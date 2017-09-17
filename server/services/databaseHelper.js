@@ -49,8 +49,8 @@ function replaceTableName(tableName) {
         case "employee":
             return 'employee';
             break;
-        case "favoritefood":
-            return 'favoritefood';
+        case "recentfood":
+            return 'recentfood';
             break;
         case "food":
             return 'food';
