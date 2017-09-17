@@ -22,6 +22,10 @@ angular
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
       })
+      .state('userlogin', {
+        url: '/userlogin',
+        templateUrl: 'views/userlogin.html'
+      })
       .state('dashboard', {
         url: '/dashboard',
         templateUrl: 'views/dashboard.html',
