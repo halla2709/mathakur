@@ -14,7 +14,8 @@ const cn = {
 const db = pgp(cn);
 
 db.none("CREATE TABLE IF NOT EXISTS school(id SERIAL PRIMARY KEY, \
-    name varchar(40) NOT NULL)")
+    name varchar(40) UNIQUE NOT NULL, \
+    password varchar(155) NOT NULL)")
 .catch(error => {
     console.log('ERROR:', error); // print the error;
 });
@@ -29,28 +30,31 @@ db.none("CREATE TABLE IF NOT EXISTS employee(id SERIAL PRIMARY KEY, \
     name varchar(40) NOT NULL, \
     nickname varchar(20), \
     credit integer NOT NULL, \
-    photoUrl varchar(255))")
+    photoUrl varchar(255), \
+    schoolID integer REFERENCES school(id))")
 .catch(error => {
     console.log('ERROR:', error); // print the error;
 });
 db.none("CREATE TABLE IF NOT EXISTS administrator(id SERIAL PRIMARY KEY, \
+    name varchar(40) NOT NULL, \
     username varchar(40) NOT NULL, \
-    password varchar(40) NOT NULL)")
+    password varchar(40) NOT NULL, \
+    schoolID integer REFERENCES school(id))")
 .catch(error => {
     console.log('ERROR:', error); // print the error;
 });
-db.none("CREATE TABLE IF NOT EXISTS foodprice(schoolID integer references school(id), \
-    foodID integer references food(id), \
+db.none("CREATE TABLE IF NOT EXISTS foodprice(schoolID integer REFERENCES school(id), \
+    foodID integer REFERENCES food(id), \
     price integer not null)")
 .catch(error => {
     console.log('ERROR:', error); // print the error;
 });
-db.none("CREATE TABLE IF NOT EXISTS favoritefood(employeeID integer references employee(id), \
-    foodID1 integer references food(id), \
-    foodID2 integer references food(id), \
-    foodID3 integer references food(id), \
-    foodID4 integer references food(id), \
-    foodID5 integer references food(id))")
+db.none("CREATE TABLE IF NOT EXISTS recentfood(employeeID integer REFERENCES employee(id), \
+    foodID1 integer REFERENCES food(id), \
+    foodID2 integer REFERENCES food(id), \
+    foodID3 integer REFERENCES food(id), \
+    foodID4 integer REFERENCES food(id), \
+    foodID5 integer REFERENCES food(id))")
 .catch(error => {
     console.log('ERROR:', error); // print the error;
 });

@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const database = require('./server/services/databaseCreator').db;
 const dbHelper = require('./server/services/databaseHelper');
 
-const indexRouter = require('./server/routes/index.js');
+const schoolRouter = require('./server/routes/schoolRouter.js');
 
 /*dbHelper.insertIntoTable(database, 'employee', ['name', 'nickname', 'credit'], ['halla', 'halla', 500])
     .then(function() {
@@ -25,6 +25,6 @@ dbHelper.getFromTable(database, 'employee', ['name = \'halla\''])
 
 app.use(bodyParser.json({ type: 'application/json' }));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/', indexRouter);
+app.use('/school', schoolRouter);
 app.use(express.static('./app'));
 app.listen(3000);
