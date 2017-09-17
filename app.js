@@ -2,10 +2,10 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
-//const database = require('./services/databaseCreator').db;
-//const dbHelper = require('./services/databaseHelper');
+const database = require('./server/services/databaseCreator').db;
+const dbHelper = require('./server/services/databaseHelper');
 
-const indexRouter = require('./routes/index.js');
+const indexRouter = require('./server/routes/index.js');
 
 /*dbHelper.insertIntoTable(database, 'employee', ['name', 'nickname', 'credit'], ['halla', 'halla', 500])
     .then(function() {
@@ -23,8 +23,8 @@ dbHelper.getFromTable(database, 'employee', ['name = \'halla\''])
         console.error(error)
     });*/
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({ type: 'application/json' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', indexRouter);
-app.use(express.static('../app'));
+app.use(express.static('./app'));
 app.listen(3000);
