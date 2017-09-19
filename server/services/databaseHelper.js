@@ -69,5 +69,7 @@ function replaceTableName(tableName) {
 
 module.exports = {
     getFromTable,
-    insertIntoTable
+    insertIntoTable,
+    updateCreditOfEmployee,
+    deleteFromTable
 }
