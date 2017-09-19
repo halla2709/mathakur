@@ -82,7 +82,7 @@ sub {
 img {
   border: 0;
   max-width: 100%;
-  max-height: 8em;
+  max-height: 11em;
 
 }
 svg:not(:root) {
@@ -328,7 +328,7 @@ figure {
 }
 img.icon-mathakur {
   vertical-align: middle;
-  max-width: 160px;
+  max-width: 194px;
 }
 .img-responsive,
 .thumbnail > img,
@@ -529,6 +529,10 @@ mark,
   text-align: right;
 }
 .text-center {
+  text-align: center;
+  padding: 0 20px 20px 20px;
+}
+.adminview {
   text-align: center;
   padding: 0 20px 20px 20px;
 }
@@ -783,11 +787,36 @@ pre code {
   max-height: 340px;
   overflow-y: scroll;
 }
+.staffname {
+  height: 40px;
+}
+.staffphoto {
+  max-height: 9em;
+  padding-top: 1em;
+}
 .container {
   margin-right: auto;
   margin-left: auto;
   padding-left: 15px;
   padding-right: 15px;
+}
+.containers{
+  text-align: center;
+  margin: 1em;
+  padding: 1em;
+  height: 15em;
+  border-radius: 5px;
+  box-shadow: 10px 10px 5px #888888;
+  background-color: #FFF;
+}
+  .containers-select{
+    text-align: center;
+    margin: 1em;
+    padding: 1em;
+    height: 15em;
+    border-radius: 5px;
+    box-shadow: 10px 10px 5px #888888;
+    background-color: #FFF;
 }
 @media (min-width: 768px) {
   .container {
@@ -1169,7 +1198,7 @@ pre code {
     width: 25%;
   }
   .col-md-2 {
-    width: 16.66666667%;
+    width: 12.666667%;
   }
   .col-md-1 {
     width: 8.33333333%;
@@ -4033,7 +4062,7 @@ a.badge:focus {
   padding: 30px 15px;
   margin-bottom: 30px;
   color: inherit;
-  background-color: #eeeeee;
+  background-color: rgb(249,249,249);
 }
 .jumbotron h1,
 .jumbotron .h1 {
@@ -5812,8 +5841,8 @@ button.close {
 }
 @media (min-width: 768px) {
   .dashboard-page .main {
-    padding-right: 40px;
-    padding-left: 40px;
+        padding-right: 50px;
+        padding-left: 0px;
   }
 }
 .dashboard-page .main .page-header {
@@ -5978,4 +6007,7 @@ to prevent collapsing during animation*/
 html,
 body {
   overflow: hidden;
+}
+.adminview {
+  float: bottom;
 }

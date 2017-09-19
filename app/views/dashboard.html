@@ -5,14 +5,16 @@
           <img src="images/mathakur.png" class="icon-mathakur" />
          <div class="text-center">
         <h3 class="brand">Innskráður skóli:</h3>
-        <h2><small>"Skólanafn"</small></h2>
         <br>
-        <a ui-sref="login" class="btn btn-white btn-outline btn-small btn-rounded">Skrá út</a>
+        <h5>"Skólanafn"</h5>
+        <br>
+        <br>
+        <a ui-sref="login" class="btn btn-white btn-outline btn-small btn-rounded">Skrá skóla út</a>
       </div>
 
       <div class="adminview">
       <ul class="nav nav-sidebar">
-        <li ng-class="{active: $state.includes('overview')}"><a ui-sref="overview">Stjórnandasíða<span class="sr-only">(current)</span></a></li>
+        <li ng-class="{active: $state.includes('staff')}"><a ui-sref="staff">Stjórnandasíða<span class="sr-only">(current)</span></a></li>
       </ul>
     </div>
 
