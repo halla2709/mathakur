@@ -8,6 +8,8 @@ html {
 body {
   margin: 0;
 }
+
+
 article,
 aside,
 details,
@@ -82,7 +84,7 @@ sub {
 img {
   border: 0;
   max-width: 100%;
-  max-height: 11em;
+  max-height: 100%;
 
 }
 svg:not(:root) {
@@ -142,14 +144,21 @@ input {
 }
 icon-mathakur{
   margin: 10px 0 10px 0;
-  max-width: 1px;
+  max-width: 115%;
+  max-height: 100%;
   align-content: center;
+  
+}
+img.headericon-mathakur {
+  max-width: 8em;
+  max-height: 8em;
 }
 header.headeronlogin {
   background: rgb(249,249,249);
   top: 0px;
   right: 0px;
   left: 0px;
+  max-height: 20%;
 }
 
 input[type="checkbox"],
@@ -230,6 +239,7 @@ th {
   }
   img {
     max-width: 100% !important;
+    max-height: 100%;
   }
   p,
   h2,
@@ -328,7 +338,7 @@ figure {
 }
 img.icon-mathakur {
   vertical-align: middle;
-  max-width: 194px;
+  max-width: 115%;
 }
 .img-responsive,
 .thumbnail > img,
@@ -337,7 +347,7 @@ img.icon-mathakur {
 .carousel-inner > .item > a > img {
   display: block;
   max-width: 100%;
-  height: auto;
+  max-height: 100%;
 }
 .img-rounded {
   border-radius: 6px;
@@ -791,8 +801,10 @@ pre code {
   height: 40px;
 }
 .staffphoto {
-  max-height: 9em;
-  padding-top: 1em;
+  max-height: 10em;
+  padding: 1em;
+  position: absolute;
+  bottom: 0;
 }
 .container {
   margin-right: auto;

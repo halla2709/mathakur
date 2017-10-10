@@ -3,12 +3,25 @@
 <div class="col-sm-8">
 		<h2>Velkomin, <small>Veldu þig með því að smella á myndina af þér</small></h2>
 </div>
-<div class="col-sm-4">
-		<input type="text" name="leita" placeholder="Leita..">
+<body ng-controller="myCtrl"></body>
+<div class="container">
+	<div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <div id="imaginary_container"> 
+                <div class="input-group stylish-input-group">
+                    <input type="text" class="form-control"  placeholder="Search" >
+                    <span class="input-group-addon">
+                        <button type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>  
+                    </span>
+                </div>
+            </div>
+        </div>
 	</div>
 </div>
-						<div class="col-sm-2 containers">
-							<div class="staffname">
+<div class="col-sm-2 containers">
+							<div class="staffname" ng-click="openPerson(staff.Id)">
 								<p>Linda Rós Jónsdóttir með sjuklegalalgngslkelkffsnafn</p>
 							</div>
 							<img src="images/flat-avatar.png" class="staffphoto" />
