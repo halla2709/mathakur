@@ -30,6 +30,16 @@ function updateCreditOfEmployee(db, employeeId, newCredit) {
     return db.none(queryString, [newCredit, employeeId]);
 }
 
+function updateEmployeeImage(db, employeeId, url) {
+    let queryString = 'UPDATE employee SET photourl = $1 WHERE id = $2';
+    return db.none(queryString, [url, employeeId]);
+}
+
+function updateFoodImage(db, foodId, url) {
+    let queryString = 'UPDATE food SET photourl = $1 WHERE id = $2';
+    return db.none(queryString, [url, foodId]);
+}
+
 function deleteFromTable(db, tableName, conditions) {
     let queryString = 'DELETE FROM ' + replaceTableName(tableName);
     if (conditions.length > 0) queryString += ' WHERE';
@@ -71,5 +81,7 @@ module.exports = {
     getFromTable,
     insertIntoTable,
     updateCreditOfEmployee,
-    deleteFromTable
+    deleteFromTable,
+    updateEmployeeImage,
+    updateFoodImage
 }

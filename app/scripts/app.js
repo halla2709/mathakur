@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 angular
-  .module('mathakur', ['ui.router'])
+  .module('mathakur', ['ui.router', 'cloudinary', 'angular-file-input'])
   .config(    
     function ($stateProvider, $urlRouterProvider) {
 
@@ -21,6 +21,11 @@ angular
         url: '/login',
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
+      })
+      .state('imagetest', {
+        url: '/imagetest',
+        templateUrl: 'views/imagetest.html',
+        controller: 'ImageCtrl'
       })
       .state('userlogin', {
         url: '/userlogin',
@@ -45,6 +50,11 @@ angular
         url: '/selectfood',
         parent: 'dashboard',
         templateUrl: 'views/dashboard/selectfood.html'
-      });
-
+      })
+  })
+  .config(function(CloudinaryProvider) {
+    CloudinaryProvider.configure({
+      cloud_name: 'dk7mpsfkw',
+      api_key: '431766444682953'
   });
+});

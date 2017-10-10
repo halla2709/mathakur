@@ -3,6 +3,12 @@ const router = express.Router();
 const path = require('path');
 const database = require('../services/databaseCreator').db;
 const dbHelper = require('../services/databaseHelper');
+const cloudinary = require("cloudinary");
+cloudinary.config({ 
+    cloud_name: 'dk7mpsfkw', 
+    api_key: '431766444682953', 
+    api_secret: 'YOJiDrJckmm7by_FDJVqWQiXcEk' 
+  });
 
 router.get('/', function (req, res, next) {
     dbHelper.getFromTable(database, 'employee', [])
@@ -47,6 +53,17 @@ router.post('/', function(req, res, next) {
         res.statusCode = 500;
         return res.json({ errors: ['Could not create employee'] });
     });
+});
+
+router.post('/photo', function(req, res, next) {
+    console.log("received photo");
+    console.log(req.body.photo);
+    
+    cloudinary.v2.uploader.upload(req.body.photo, function(error, result) {
+        dbHelper.updateEmployeeImage(database, 1, result.public_id);
+        console.log(result);
+    })
+    res.end();
 });
 
 module.exports = router;

@@ -8,7 +8,7 @@ const dbHelper = require('./server/services/databaseHelper');
 const schoolRouter = require('./server/routes/schoolRouter');
 const employeeRouter = require('./server/routes/employeeRouter');
 
-app.use(bodyParser.json({ type: 'application/json' }));
+app.use(bodyParser.json({ type: 'application/json', limit: "20mb" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/school', schoolRouter);
 app.use('/employee', employeeRouter);
