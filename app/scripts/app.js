@@ -9,10 +9,8 @@
  * Main module of the application.
  */
 angular
-  .module('mathakur', ['ui.router'])
-  .config(    
-    function ($stateProvider, $urlRouterProvider) {
-
+  .module('mathakur', ['ui.router', 'cloudinary', 'angular-file-input'])
+  .config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.when('/dashboard', '/dashboard/overview');
     $urlRouterProvider.otherwise('/login');
 
@@ -21,6 +19,11 @@ angular
         url: '/login',
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
+      })
+      .state('imagetest', {
+        url: '/imagetest',
+        templateUrl: 'views/imagetest.html',
+        controller: 'ImageCtrl'
       })
       .state('dashboard', {
         url: '/dashboard',
@@ -37,5 +40,10 @@ angular
         parent: 'dashboard',
         templateUrl: 'views/dashboard/reports.html'
       });
-
+  })
+  .config(function(CloudinaryProvider) {
+    CloudinaryProvider.configure({
+      cloud_name: 'dk7mpsfkw',
+      api_key: '431766444682953'
   });
+});
