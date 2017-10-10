@@ -10,8 +10,10 @@
  */
 angular
   .module('mathakur', ['ui.router', 'cloudinary', 'angular-file-input'])
-  .config(function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.when('/dashboard', '/dashboard/overview');
+  .config(    
+    function ($stateProvider, $urlRouterProvider) {
+
+    $urlRouterProvider.when('/dashboard', '/dashboard/staff');
     $urlRouterProvider.otherwise('/login');
 
     $stateProvider
@@ -25,21 +27,30 @@ angular
         templateUrl: 'views/imagetest.html',
         controller: 'ImageCtrl'
       })
+      .state('userlogin', {
+        url: '/userlogin',
+        templateUrl: 'views/userlogin.html'
+      })
       .state('dashboard', {
         url: '/dashboard',
         templateUrl: 'views/dashboard.html',
         controller: 'DashboardCtrl'
       })
-      .state('overview', {
-        url: '/overview',
+      .state('food', {
+        url: '/food',
         parent: 'dashboard',
-        templateUrl: 'views/dashboard/overview.html'
+        templateUrl: 'views/dashboard/food.html'
       })
-      .state('reports', {
-        url: '/reports',
+      .state('staff', {
+        url: '/staff',
         parent: 'dashboard',
-        templateUrl: 'views/dashboard/reports.html'
-      });
+        templateUrl: 'views/dashboard/staff.html'
+      })
+      .state('selectfood', {
+        url: '/selectfood',
+        parent: 'dashboard',
+        templateUrl: 'views/dashboard/selectfood.html'
+      })
   })
   .config(function(CloudinaryProvider) {
     CloudinaryProvider.configure({
