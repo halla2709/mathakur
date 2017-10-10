@@ -39,7 +39,7 @@ angular
       .state('staff', {
         url: '/staff',
         parent: 'dashboard',
-        templateUrl: 'views/dashboard/staff.html'
+        templateUrl: 'views/dashboard/staff.html',
       })
       .state('selectfood', {
         url: '/selectfood',
