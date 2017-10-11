@@ -19,23 +19,12 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-2 containers">
-		<div class="staffname" ng-repeat="x in myData">
+	<div ng-repeat="x in myDataEmployee">
+		<div class="col-sm-2 containers staffname">
+			<a href="#/dashboard/staff/{{ x.id }}">
 			<p>{{x.name}}</p>
+		</a>
+			<img src="images/flat-avatar.png" class="staffphoto" />
 		</div>
-		{{x.photourl}}
 	</div>
-	<div class="col-sm-2 containers">
-		<p>Linda Rós Jónsdóttir</p>
-		<img src="images/flat-avatar.png" class="staffphoto" />
-	</div>
-	<div class="col-sm-2 containers">
-	<ul>
-		<li >
-				{{ x.id + x.name }}
-		</li>
-		
-	  </ul>
-	</div>
-
 </div>

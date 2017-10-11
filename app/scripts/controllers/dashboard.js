@@ -14,13 +14,26 @@ angular.module('mathakur')
         
   
     $http.get("employee").then(function(response) {
-      $scope.myData = response.data;
+      $scope.myDataEmployee = response.data;
        })
        .catch(function(response) {
         //Error handle
         $scope.content = "Something went wrong";
        });
-      
     
+       $http.get("school").then(function(response) {
+        $scope.myDataSchool = response.data;
+         })
+         .catch(function(response) {
+          //Error handle
+          $scope.content = "Something went wrong";
+         });
+
+
+         workPost.getData().success(function(data){
+          $scope.data = data.find(function (element) {
+              return element.id === $scope.projectID;
+          });
+      });
 
     }]);

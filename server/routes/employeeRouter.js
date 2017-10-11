@@ -60,8 +60,10 @@ router.post('/photo', function(req, res, next) {
     console.log(req.body.photo);
     
     cloudinary.v2.uploader.upload(req.body.photo, function(error, result) {
+        console.log(error);
         dbHelper.updateEmployeeImage(database, 1, result.public_id);
         console.log(result);
+    
     })
     res.end();
 });

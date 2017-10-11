@@ -8,7 +8,7 @@
  * Controller of yapp
  */
 angular.module('mathakur')
-  .controller('LoginCtrl', function($scope, $location) {
+  .controller('LoginCtrl', ['$scope', '$state','$location','$http', function($scope, $state, $location, $http) {
 
     $scope.submit = function() {
       console.log("submitting");
@@ -18,4 +18,12 @@ angular.module('mathakur')
       return false;
     }
 
-  });
+    $http.get("school").then(function(response) {
+      $scope.myData = response.data;
+       })
+       .catch(function(response) {
+        //Error handle
+        $scope.content = "Something went wrong";
+       });
+
+  }]);

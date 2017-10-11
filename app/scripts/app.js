@@ -9,12 +9,16 @@
  * Main module of the application.
  */
 angular
-  .module('mathakur', ['ui.router', 'cloudinary', 'angular-file-input'])
+  .module('mathakur', ['ui.router', 'cloudinary'])
   .config(    
     function ($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.when('/dashboard', '/dashboard/staff');
     $urlRouterProvider.otherwise('/login');
+    /**$urlRouterProvider.when('/dashboard/staff/:id', {
+      templateUrl: 'views/dashboard/food.html',
+    })
+    */
 
     $stateProvider
       .state('login', {
@@ -51,6 +55,7 @@ angular
         parent: 'dashboard',
         templateUrl: 'views/dashboard/selectfood.html'
       })
+      
   })
   .config(function(CloudinaryProvider) {
     CloudinaryProvider.configure({

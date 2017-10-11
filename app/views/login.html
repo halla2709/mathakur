@@ -12,10 +12,11 @@
 
 				<div class="form-content">
 					<div class="form-group">
+
+
 						<select class="form-control input-underline input-lg">
 							<option value="choose">Veldu skóla</option>
-							<option value="laugo">Laugalækjarskóli</option>
-							<option value="lango">Langholtsskóli</option>
+							<option ng-repeat="x in myData">{{x.name}}</option>
 						</select>
 					</div>
 
