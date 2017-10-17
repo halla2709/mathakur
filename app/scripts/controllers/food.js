@@ -8,10 +8,13 @@
  * Controller of yapp
  */
 angular.module('mathakur')
-  .controller('SelectFoodCtrl', ['$scope', '$state', '$http', '$stateParams', function ($scope, $state, $http, $stateParams) {
+  .controller('FoodCtrl', ['$scope', '$state', '$http', function ($scope, $state, $http) {
 
+      
     $scope.$state = $state;
-    $scope.employee = $stateParams.param;
+    $scope.selectStaff = function(food) {
+      $state.go("orderconfirm", {param:food});
+    }
 
     $http.get("employee").then(function (response) {
         $scope.myDataEmployee = response.data;
@@ -22,7 +25,7 @@ angular.module('mathakur')
       });
 
       $http.get("food").then(function (response) {
-        $scope.myDataEmployee = response.data;
+        $scope.myDataFood = response.data;
       })
       .catch(function (response) {
         //Error handle
@@ -36,5 +39,14 @@ angular.module('mathakur')
         //Error handle
         $scope.content = "Something went wrong";
       });
+
+
+
+    /*workPost.getData().success(function (data) {
+      $scope.data = data.find(function (element) {
+        return element.id === $scope.projectID;
+      });
+    });
+    */
 
   }]);

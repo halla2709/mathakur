@@ -24,6 +24,14 @@ angular.module('mathakur')
         $scope.content = "Something went wrong";
       });
 
+      $http.get("food").then(function (response) {
+        $scope.myDataFood = response.data;
+      })
+      .catch(function (response) {
+        //Error handle
+        $scope.content = "Something went wrong";
+      });
+
       $http.get("school").then(function (response) {
         $scope.myDataSchool = response.data;
       })
