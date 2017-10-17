@@ -15,25 +15,17 @@ angular
 
     $urlRouterProvider.when('/dashboard', '/dashboard/staff');
     $urlRouterProvider.otherwise('/login');
-    /**$urlRouterProvider.when('/dashboard/staff/:id', {
-      templateUrl: 'views/dashboard/food.html',
-    })
+
     
-
     $stateProvider
-    .state('staff.id', {
-        url: "/contacts/:contactId",
-        templateUrl: 'contacts.detail.html',
-        controller: function ($stateParams) {
-            // If we got here from a url of /contacts/42
-            expect($stateParams).toBe({contactId: "42"});
-        }
+    .state('selectfood', {
+      url: '/staff/selectfood',
+      parent: 'dashboard',
+      controller: 'SelectFoodCtrl',
+      templateUrl: 'views/dashboard/selectfood.html',
+      params: {param:null}
+
     })
-    */
-
-
-
-    $stateProvider
       .state('login', {
         url: '/login',
         templateUrl: 'views/login.html',
@@ -67,11 +59,6 @@ angular
         url: '/staff',
         parent: 'dashboard',
         templateUrl: 'views/dashboard/staff.html',
-      })
-      .state('selectfood', {
-        url: '/selectfood',
-        parent: 'dashboard',
-        templateUrl: 'views/dashboard/selectfood.html'
       })
       
   })
