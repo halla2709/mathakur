@@ -8,12 +8,12 @@
  * Controller of yapp
  */
 angular.module('mathakur')
-  .controller('DashboardCtrl', ['$scope', '$state', '$http', function ($scope, $state, $http) {
+  .controller('FoodCtrl', ['$scope', '$state', '$http', function ($scope, $state, $http) {
 
       
     $scope.$state = $state;
-    $scope.selectStaff = function(employee) {
-      $state.go("selectfood", {param:employee});
+    $scope.selectStaff = function(food) {
+      $state.go("orderconfirm", {param:food});
     }
 
     $http.get("employee").then(function (response) {

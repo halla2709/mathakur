@@ -19,11 +19,10 @@
 			</div>
 		</div>
 	</div>
-	<div ng-repeat="x in myDataEmployee">
+	<div ng-repeat="x in myDataEmployee" ng-click="selectStaff(x)">
 		<div class="col-sm-2 containers staffname">
-			<a href="#/dashboard/staff/{{x.id}}">
 			<p>{{x.name}}</p>
-			<img src="images/flat-avatar.png" class="staffphoto" />
+			<img cl-src="{{x.photourl}}" class="staffphoto"></img>
 			</a>
 		</div>
 	</div>
