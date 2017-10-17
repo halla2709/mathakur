@@ -53,6 +53,11 @@ angular
         templateUrl: 'views/adminpanel.html',
         controller: 'AdminPanelCtrl'
       })
+      .state('staffTable', {
+        url: '/staffTable',
+        templateUrl: 'views/admin/staffTable.html',
+        parent: 'adminpanel'
+      })
       .state('dashboard', {
         url: '/dashboard',
         templateUrl: 'views/dashboard.html',
