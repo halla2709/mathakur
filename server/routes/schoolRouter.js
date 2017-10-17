@@ -36,7 +36,7 @@ function getSchools(req, res, next) {
         dbHelper.getFromTable(database, 'school', [])
         .then(function(data) {
             req.schools = data;
-            next()
+            next();
         })
         .catch(function(error) {
             console.error(error)
