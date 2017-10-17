@@ -13,7 +13,7 @@ angular.module('mathakur')
     $scope.submit = function() {
       console.log("submitting");
 
-      $location.path('dashboard');
+      $location.path('adminpanel');
 
       return false;
     }

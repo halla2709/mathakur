@@ -5853,8 +5853,8 @@ button.close {
 }
 @media (min-width: 768px) {
   .dashboard-page .main {
-        padding-right: 50px;
-        padding-left: 0px;
+        padding-right: 30px;
+        padding-left: 30px;
   }
 }
 .dashboard-page .main .page-header {

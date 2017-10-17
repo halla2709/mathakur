@@ -18,7 +18,20 @@ angular
     /**$urlRouterProvider.when('/dashboard/staff/:id', {
       templateUrl: 'views/dashboard/food.html',
     })
+    
+
+    $stateProvider
+    .state('staff.id', {
+        url: "/contacts/:contactId",
+        templateUrl: 'contacts.detail.html',
+        controller: function ($stateParams) {
+            // If we got here from a url of /contacts/42
+            expect($stateParams).toBe({contactId: "42"});
+        }
+    })
     */
+
+
 
     $stateProvider
       .state('login', {
@@ -34,6 +47,11 @@ angular
       .state('userlogin', {
         url: '/userlogin',
         templateUrl: 'views/userlogin.html'
+      })
+      .state('adminpanel', {
+        url: '/adminpanel',
+        templateUrl: 'views/adminpanel.html',
+        controller: 'AdminPanelCtrl'
       })
       .state('dashboard', {
         url: '/dashboard',
