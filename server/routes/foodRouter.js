@@ -24,7 +24,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', savePhotoToCloudinary, validateColumns, function (req, res, next) {
-    dbHelper.insertIntoTable(database, 'employee',
+    dbHelper.insertIntoTable(database, 'food',
         ['name', 'category', 'photoUrl'], [req.body.name, req.body.category, req.body.photoUrl])
         .then(function () {
             res.end();
@@ -49,11 +49,13 @@ function savePhotoToCloudinary(req, res, next) {
             console.log(error);
             req.body.photoUrl = result.public_id;
             console.log(result);
+            next();
         })
     }
-    else
+    else {
         req.body.photoUrl = '';
-    next();
+        next();
+    }        
 }
 
 function validateColumns(req, res, next) {

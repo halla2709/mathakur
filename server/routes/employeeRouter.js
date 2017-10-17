@@ -69,12 +69,13 @@ function savePhotoToCloudinary(req, res, next) {
             console.log(error);
             req.body.photoUrl = result.public_id;
             console.log(result);
-        })
+            next();
+        });
     }
-    else
+    else {
         req.body.photoUrl = '';
-
-    next();
+        next();
+    }
 }
 
 module.exports = router;

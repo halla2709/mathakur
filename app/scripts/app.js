@@ -46,7 +46,8 @@ angular
       })
       .state('userlogin', {
         url: '/userlogin',
-        templateUrl: 'views/userlogin.html'
+        templateUrl: 'views/userlogin.html',
+        controller: 'UserLoginCtrl'
       })
       .state('adminpanel', {
         url: '/adminpanel',
