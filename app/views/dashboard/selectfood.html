@@ -1,7 +1,10 @@
 <div class="row">
     <div class="col-sm-8">
-        <h2>Velkomin {{employee.name}}, þú átt {{employee.credit}}kr</h2>
+        <h2>Velkomin {{employee.nickname}}, þú átt {{employee.credit}}kr</h2>
+
+        <h3>Pöntunin þín:</h3>
     </div>
+
 
     <table class="table table-condensed table-hover">
         <thead>
@@ -24,17 +27,17 @@
                 <td>5stk</td>
             </tr>
             <tr>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                    <td><b>50.000kr</b></td>
-             </tr>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td><b>50.000kr</b></td>
+            </tr>
 
         </tbody>
     </table>
 </div>
 
-<h2><small>Veldu matinn sem þú ætlar að kaupa</small></h2>
+<h3>Veldu matinn sem þú ætlar að kaupa:</h3>
 
 <div class="container">
     <div class="row">
@@ -53,12 +56,11 @@
     </div>
 </div>
 
-<div class="col-sm-2 containers-select">
-    <div>
-        <img src="images/flat-avatar.png" />
-        <p><b>Epli</b></p>
-        <p>Verð</p>
-
+<div ng-repeat="x in myDataFood">
+    <div class="col-sm-2 containers staffname">
+        <img cl-src="{{x.photourl}}" class="foodphoto"></img>
+        <p><b>{{x.name}}</b></p>
+        <p>{{x.price}} kr</p>
         <select class="input-sm">
                                 <option>1</option>
                                 <option>2</option>

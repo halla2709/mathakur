@@ -511,7 +511,8 @@ h6,
 }
 p {
   margin: 0 0 10px;
-  word-break: break-all;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
 .lead {
@@ -803,9 +804,11 @@ pre code {
   height: 40px;
 }
 .staffphoto {
-  max-height: 10em;
-  padding: 1em;
-  bottom: 0;
+  padding-bottom: 0.5em;
+}
+.foodphoto {
+  padding-bottom: 0.5em;
+  max-height: 120px;
 }
 .container {
   margin-right: auto;
@@ -817,7 +820,7 @@ pre code {
   text-align: center;
   margin: 1em;
   padding: 1em;
-  height: 15em;
+  height: 18em;
   border-radius: 5px;
   box-shadow: 10px 10px 5px #888888;
   background-color: #FFF;

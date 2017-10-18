@@ -19,10 +19,13 @@
 			</div>
 		</div>
 	</div>
-<div ng-repeat="x in myDataSchool" ng-click="selectFood(x)">
+<div ng-repeat="x in myDataFood">
 	<div class="col-sm-2 containers staffname">
-		<p>{{x.name}}</p>
-		<img src="images/flat-avatar.png" class="staffphoto" />
+		<img cl-src="{{x.photourl}}" class="staffphoto" radius:"max">
+	</img>
+
+		<p><b>{{x.name}}</b></p>
+		<p>{{x.price}}</p>
 	</div>
 </div>
 </div>

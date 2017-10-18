@@ -21,8 +21,9 @@
 	</div>
 	<div ng-repeat="x in myDataEmployee" ng-click="selectStaff(x)">
 		<div class="col-sm-2 containers staffname">
+			<img cl-src="{{x.photourl}}" class="staffphoto" radius:"max">
+			</img>
 			<p>{{x.name}}</p>
-			<img cl-src="{{x.photourl}}" class="staffphoto"></img>
 			</a>
 		</div>
 	</div>
