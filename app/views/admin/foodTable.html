@@ -1,0 +1,15 @@
+<table style="width:50%;">
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Has photo</th>
+        </tr>
+        <tr ng-repeat="food in foodData">
+            <td>{{food.name}}</td>
+            <td>{{food.category}}</td>
+            <td>{{food.price}}</td>
+            <td>{{food.photourl !== ''}}</td>
+            <td><button ng-click="editFood(food)">Edit</button></td>
+        </tr>
+    </table>

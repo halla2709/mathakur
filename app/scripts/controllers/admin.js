@@ -4,6 +4,7 @@ angular.module('mathakur')
         $scope.$state = $state;
 
         $http.get("employee").then(function (response) {
+            console.log("getting data");
             $scope.employeeData = response.data;
             console.log($scope.employeeData);
         })
@@ -21,7 +22,19 @@ angular.module('mathakur')
                 $scope.content = "Something went wrong";
             });
 
-        $scope.editEmployee = function(employeeID) {
-            console.log("editing employee " + employeeID);
+        $scope.goToStaff = function() {
+            $state.go('staffTable');
+        }
+
+        $scope.goToFood = function() {
+            $state.go('foodTable');
+        }
+
+        $scope.editEmployee = function(employee) {
+            //TODO klara $state.go('editEmployee', {employee: employee});
         };
+
+        $scope.editFood = function(food) {
+
+        }
     }]);
