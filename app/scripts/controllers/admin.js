@@ -14,12 +14,14 @@ angular.module('mathakur')
 
         $http.get("food").then(function (response) {
             $scope.foodData = response.data;
-            console.log($scope.foodData);            
+            console.log($scope.foodData);
         })
             .catch(function (response) {
                 //Error handle
                 $scope.content = "Something went wrong";
             });
 
-
+        $scope.editEmployee = function(employeeID) {
+            console.log("editing employee " + employeeID);
+        };
     }]);

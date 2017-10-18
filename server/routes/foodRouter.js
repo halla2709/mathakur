@@ -10,17 +10,18 @@ cloudinary.config({
     api_secret: 'YOJiDrJckmm7by_FDJVqWQiXcEk' 
   });
 
-router.get('/', function (req, res, next) {
-    dbHelper.getFromTable(database, 'food', [])
-    .then(function(data) {
-        req.food = data;
-        res.json(req.food);
-    })
-    .catch(function(error) {
-        console.error(error)
-        res.statusCode = 500;
-        return res.json({ errors: ['Could not get food'] });
+router.get('/', getAllFood, function (req, res, next) {
+    res.json(res.food);
+});
+
+router.get('/:schoolID', getAllFood, getPricesForSchool, function(req, res, next) {
+    let resultTable = [];
+    res.prices.forEach(function(price) {
+        res.food.forEach(function(food) {
+            if(price.foodid === food.id) resultTable.push({id: food.id, name: food.name, category: food.category, photourl: food.photourl, price: price.price});
+        });
     });
+    res.json(resultTable);
 });
 
 router.post('/', savePhotoToCloudinary, validateColumns, function (req, res, next) {
@@ -32,8 +33,12 @@ router.post('/', savePhotoToCloudinary, validateColumns, function (req, res, nex
         .catch(function (error) {
             console.error(error)
             res.statusCode = 500;
-            return res.json({ errors: ['Could not create employee'] });
+            return res.json({ errors: ['Could not create food'] });
         });
+});
+
+router.get('/foodprice/:schoolID', getPricesForSchool, function(req, res, next) {
+    res.json(res.prices);
 });
 
 router.post('/photo', savePhotoToCloudinary, function (req, res, next) {
@@ -67,6 +72,38 @@ function validateColumns(req, res, next) {
         req.body.category = '';
     }
     next();
+}
+
+function getAllFood(req, res, next) {
+    dbHelper.getFromTable(database, 'food', [])
+    .then(function(data) {
+        res.food = data;
+        next();
+    })
+    .catch(function(error) {
+        console.error(error)
+        res.statusCode = 500;
+        return res.json({ errors: ['Could not get food'] });
+    });
+}
+
+function getPricesForSchool(req, res, next) {
+    if(!isNaN(parseFloat(req.params.schoolID))) {
+        dbHelper.getFromTable(database, 'foodprice', ['schoolid = ' + req.params.schoolID])
+            .then(function(data) {
+                res.prices = data;
+                next();
+            })
+            .catch(function(error) {
+                console.error(error)
+                res.statusCode = 500;
+                return res.json({ errors: ['Could not get food prices'] });
+            });
+    }
+    else {
+        res.statusCode = 403;
+        return res.json({ errors: ['School ID must be a number'] });
+    }
 }
 
 module.exports = router;

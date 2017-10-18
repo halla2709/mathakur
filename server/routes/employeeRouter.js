@@ -39,13 +39,13 @@ router.patch('/:id', function (req, res, next) {
         });
 });
 
-router.post('/', savePhotoToCloudinary, function (req, res, next) {
+router.post('/', savePhotoToCloudinary, addNicknameIfNotExists, function (req, res, next) {
     if (typeof req.body.credit === 'undefined') {
         req.body.credit = 0;
     }
 
     dbHelper.insertIntoTable(database, 'employee',
-        ['name', 'credit', 'photoUrl'], [req.body.name, req.body.credit, req.body.photoUrl])
+        ['name', 'nickname', 'credit', 'photoUrl'], [req.body.name, req.body.nickname, req.body.credit, req.body.photoUrl])
         .then(function () {
             res.end();
         })
@@ -65,7 +65,7 @@ function savePhotoToCloudinary(req, res, next) {
         console.log("received photo");
         console.log(req.body);
 
-        cloudinary.v2.uploader.upload(req.body.photo, function (error, result) {
+        cloudinary.v2.uploader.upload(req.body.photo, {upload_preset: "j8gkhubq"}, function (error, result) {
             console.log(error);
             req.body.photoUrl = result.public_id;
             console.log(result);
@@ -76,6 +76,13 @@ function savePhotoToCloudinary(req, res, next) {
         req.body.photoUrl = '';
         next();
     }
+}
+
+function addNicknameIfNotExists(req, res, next) {
+    if (typeof req.body.nickname === 'undefined') {
+        req.body.nickname = req.body.name.split(" ")[0];
+    }
+    next();
 }
 
 module.exports = router;
