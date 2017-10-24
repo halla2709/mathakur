@@ -1,15 +1,35 @@
-<table style="width:50%;">
-        <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Has photo</th>
-        </tr>
-        <tr ng-repeat="food in foodData">
-            <td>{{food.name}}</td>
-            <td>{{food.category}}</td>
-            <td>{{food.price}}</td>
-            <td>{{food.photourl !== ''}}</td>
-            <td><button ng-click="editFood(food)">Edit</button></td>
-        </tr>
-    </table>
+<button ng-show="!editing" ng-click="editFood()">Skrá nýjan mat</button>
+<table style="width:50%;" ng-show="!editing">
+    <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Has photo</th>
+    </tr>
+    <tr ng-repeat="food in foodData">
+        <td>{{food.name}}</td>
+        <td>{{food.category}}</td>
+        <td>{{food.price}}</td>
+        <td>{{food.photourl !== ''  && food.photourl !== defaultFoodPhotoUrl}}</td>
+        <td><button ng-click="editFood(food)">Edit</button></td>
+    </tr>
+</table>
+
+<form role="form" ng-show="editing" ng-submit="submitFood(currentFood)">
+    <input id="name" required ng-disabled="updating" ng-model="currentFood.name" type="text" placeholder="Heiti matar" class="form-control input-lg"
+    />
+    <label for="name">Heiti</label>
+    <input id="category" ng-disabled="updating" ng-model="currentFood.category" type="text" placeholder="Matarflokkur" class="form-control input-lg"
+    />
+    <label for="category">Flokkur</label>
+    <input id="price" required ng-model="currentFood.price" type="number" placeholder="Verð" class="form-control input-lg"
+    />
+    <label for="name">Verð í krónum</label>
+    <input id="fileInput" type="file" custom-on-change="uploadFile" accept="image/*" capture="user" />
+    <label for="fileInput">Mynd af matnum</label>
+    <div class="row">
+        <button type="submit" class="btn btn-success btn-outline btn-lg btn-rounded">Vista</button>
+        <button type="button" ng-click="back()" class="btn btn-default btn-outline btn-lg btn-rounded">Hætta við</button>        
+    </div>
+    
+</form>

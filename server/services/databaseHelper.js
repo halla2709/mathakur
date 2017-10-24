@@ -35,6 +35,16 @@ function updateEmployeeImage(db, employeeId, url) {
     return db.none(queryString, [url, employeeId]);
 }
 
+function updateEmployee(db, employeeId, newPhotoUrl, newCredit) {
+    let queryString = 'UPDATE employee SET photourl = $1, credit = $2 WHERE id = $3';
+    return db.none(queryString, [newPhotoUrl, newCredit, employeeId]);
+}
+
+function updateFoodPrice(db, schoolId, foodId, newPrice) {
+    let queryString = 'UPDATE foodprice SET price = $1 WHERE schoolid = $2 and foodid = $3';
+    return db.none(queryString, [newPrice, schoolId, foodId]);
+}
+
 function updateFoodImage(db, foodId, url) {
     let queryString = 'UPDATE food SET photourl = $1 WHERE id = $2';
     return db.none(queryString, [url, foodId]);
@@ -83,5 +93,7 @@ module.exports = {
     updateCreditOfEmployee,
     deleteFromTable,
     updateEmployeeImage,
-    updateFoodImage
+    updateFoodImage,
+    updateEmployee,
+    updateFoodPrice
 }

@@ -4,11 +4,7 @@ const path = require('path');
 const database = require('../services/databaseCreator').db;
 const dbHelper = require('../services/databaseHelper');
 const cloudinary = require("cloudinary");
-cloudinary.config({ 
-    cloud_name: 'dk7mpsfkw', 
-    api_key: '431766444682953', 
-    api_secret: 'YOJiDrJckmm7by_FDJVqWQiXcEk' 
-  });
+const savePhotoToCloudinary = require("../services/cloudinaryHelper").savePhotoToCloudinary;
 
 router.get('/', getAllFood, function (req, res, next) {
     res.json(res.food);
@@ -28,12 +24,39 @@ router.post('/', savePhotoToCloudinary, validateColumns, function (req, res, nex
     dbHelper.insertIntoTable(database, 'food',
         ['name', 'category', 'photoUrl'], [req.body.name, req.body.category, req.body.photoUrl])
         .then(function () {
-            res.end();
+            res.statusCode = 200;
+            res.json({photoUrl: req.body.photoUrl});
         })
         .catch(function (error) {
             console.error(error)
             res.statusCode = 500;
             return res.json({ errors: ['Could not create food'] });
+        });
+});
+
+router.patch('/:schoolid/:id', savePhotoToCloudinary, function (req, res, next) {
+    const schoolid = req.params.schoolid;
+    const id = req.params.id;
+    const newPrice = req.body.newPrice;
+    const newPhotoUrl = req.body.photoUrl;
+
+    dbHelper.updateFoodPrice(database, schoolid, id, newPrice)
+        .then(function() {
+            dbHelper.updateFoodImage(database, id, newPhotoUrl)
+                .then(function() {
+                    res.statusCode = 200;
+                    res.json({photoUrl: newPhotoUrl});
+                })
+                .catch(function(error) {
+                    console.error(error)
+                    res.statusCode = 500;
+                    return res.json({ errors: ['Could not update food image'] });
+                });            
+        })
+        .catch(function(error) {
+            console.error(error)
+            res.statusCode = 500;
+            return res.json({ errors: ['Could not update food price'] });
         });
 });
 
@@ -44,24 +67,6 @@ router.get('/foodprice/:schoolID', getPricesForSchool, function(req, res, next) 
 router.post('/photo', savePhotoToCloudinary, function (req, res, next) {
     res.end();
 });
-
-function savePhotoToCloudinary(req, res, next) {
-    if (req.body.photo !== 'undefined' && req.body.photo !== '') {
-        console.log("received photo");
-        console.log(req.body.photo);
-
-        cloudinary.v2.uploader.upload(req.body.photo, function (error, result) {
-            console.log(error);
-            req.body.photoUrl = result.public_id;
-            console.log(result);
-            next();
-        })
-    }
-    else {
-        req.body.photoUrl = '';
-        next();
-    }        
-}
 
 function validateColumns(req, res, next) {
     if (typeof req.body.name === 'undefined') {
