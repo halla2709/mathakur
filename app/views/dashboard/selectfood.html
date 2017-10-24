@@ -1,76 +1,93 @@
-<div class="row">
-    <div class="col-sm-8">
-        <h2>Velkomin {{employee.nickname}}, þú átt {{employee.credit}}kr</h2>
+<div class="d1">
+    <div class="d2">
+        <div class="d3">
+            <div class="d3-1">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h2>Velkomin {{employee.nickname}}, þú átt {{employee.credit}}kr</h2>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm-6 col-sm-offset-3">
+                                    <div id="imaginary_container">
+                                        <div class="input-group stylish-input-group">
+                                            <input type="text" class="form-control ng-valid" placeholder="Leita..." ng-model="searchKeyword">
+                                            <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-        <h3>Pöntunin þín:</h3>
-    </div>
 
-
-    <table class="table table-condensed table-hover">
-        <thead>
-            <tr>
-                <th>Matur</th>
-                <th>Verð</th>
-                <th>Fjöldi</th>
-                <th>Samtals</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Epli</td>
-                <td>500kr</td>
-                <td>10stk</td>
-            </tr>
-            <tr>
-                <td>Banani</td>
-                <td>100kr</td>
-                <td>5stk</td>
-            </tr>
-            <tr>
-                <td> </td>
-                <td> </td>
-                <td> </td>
-                <td><b>50.000kr</b></td>
-            </tr>
-
-        </tbody>
-    </table>
-</div>
-
-<h3>Veldu matinn sem þú ætlar að kaupa:</h3>
-
-<div class="container">
-    <div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
-            <div id="imaginary_container">
-                <div class="input-group stylish-input-group">
-                    <input type="text" class="form-control" placeholder="Search">
-                    <span class="input-group-addon">
-                            <button type="submit">
-                                <span class="glyphicon glyphicon-search"></span>
+                    <div class="col-sm-8">
+                            <h3>Veldu í körfuna þína:
+                                <div class="d3-2">
+                                    <div class="d4">
+                                        <div class="d5">
+    
+                                            <div ng-repeat="x in myDataFood" ng-click="selectFood(x)">
+                                                <div class="col-sm-2 containers staffname">
+                                                    <img cl-src="{{x.photourl}}" class="foodphoto" radius: "max"></img>
+                                                    </img>
+                                                    <p><b>{{x.name}}</b></p>
+                                                    <p>{{x.price}} kr</p>
+    
+                                                    <button type="remove" ng-click="removeFood(x)">
+                            <span class="glyphicon glyphicon-minus"></span>
                     </button>
-                    </span>
+                                                    </select>
+                                                    <button type="add" ng-click="addFood(x)">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+
+
+                    <div class="col-sm-4" id="shoppingbag">
+                        <h3>Karfan þín:</h3>
+                        <table class="table table-condensed table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Matur</th>
+                                    <th>Verð</th>
+                                    <th>Fjöldi</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="x in receipt" | filter: searchKeyword>
+                                    <td>{{x.name}}
+                                    </td>
+                                    <td>{{x.price}}
+                                    </td>
+                                    <td>{{x.quantity}}
+                                    </td>
+                                    <td>&nbsp;
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Samtals: {{total}}kr</th>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    
+                    <button class="btn-primary">Kaupa!</button>
+
+                </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div ng-repeat="x in myDataFood">
-    <div class="col-sm-2 containers staffname">
-        <img cl-src="{{x.photourl}}" class="foodphoto"></img>
-        <p><b>{{x.name}}</b></p>
-        <p>{{x.price}} kr</p>
-        <select class="input-sm">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-         </select>
-        <button type="add">
-                    <span class="glyphicon glyphicon-plus"></span>
-            </button>
     </div>
 </div>
 </div>
