@@ -12,6 +12,52 @@ angular.module('mathakur')
 
     $scope.$state = $state;
     $scope.employee = $stateParams.param;
+    $scope.receipt = [];
+    $scope.currentSchool = 1;
+    var path = '/food/' + $scope.currentSchool;
+    $scope.total = 0;
+
+    $scope.addFood = function (food) {
+
+      var index = -1;
+      var quantity = 0;
+      var ordertotal = 0;
+      $scope.total += food.price;
+
+      for (var i = 0; i < $scope.receipt.length; i++) {
+        if ($scope.receipt[i].name === food.name) {
+          $scope.receipt[i].quantity++;
+          index = i;
+          $scope.receipt[i].ordertotal = $scope.receipt[i].price * $scope.receipt[i].quantity;
+          break;
+        }
+      }
+
+      if (index == -1) {
+        food.quantity = 1;
+        food.ordertotal = food.price;
+        $scope.receipt.push(food);
+        
+
+      }
+      console.log($scope.total);
+    
+    };
+
+    $scope.removeFood = function (food) {
+      console.log(food);
+      for (var i = 0; i < $scope.receipt.length; i++) {
+
+        if ($scope.receipt[i].name === food.name) {
+          $scope.receipt[i].quantity--;
+          if ($scope.receipt[i].quantity == 0) {
+            $scope.receipt.splice(i, 1);
+          }
+          break;
+        }
+      }
+    }
+
 
     $http.get("employee").then(function (response) {
         $scope.myDataEmployee = response.data;
@@ -21,15 +67,15 @@ angular.module('mathakur')
         $scope.content = "Something went wrong";
       });
 
-      $http.get("food").then(function (response) {
-        $scope.myDataEmployee = response.data;
+    $http.get(path).then(function (response) {
+        $scope.myDataFood = response.data;
       })
       .catch(function (response) {
         //Error handle
         $scope.content = "Something went wrong";
       });
 
-      $http.get("school").then(function (response) {
+    $http.get("school").then(function (response) {
         $scope.myDataSchool = response.data;
       })
       .catch(function (response) {

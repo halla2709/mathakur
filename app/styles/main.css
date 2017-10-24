@@ -806,6 +806,44 @@ pre code {
 .staffphoto {
   padding-bottom: 0.5em;
 }
+.d1 {
+  height: 100%;
+}
+.d2 {
+  height: 100%; 
+}
+.d3 {
+ height:100%; 
+ position: relative;
+}
+.d3-1 {
+}
+.d3-2{
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding-top: 5em;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  min-height:20em;
+}
+.d4
+{
+position: relative;
+max-height: 100%;
+overflow: auto;
+
+}
+.d5 {
+  height:100%;
+
+}
+
+#shoppingbag {
+  background-color: white;
+  
+}
 .foodphoto {
   padding-bottom: 0.5em;
   max-height: 120px;

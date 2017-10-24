@@ -40,13 +40,4 @@ angular.module('mathakur')
         $scope.content = "Something went wrong";
       });
 
-
-
-    /*workPost.getData().success(function (data) {
-      $scope.data = data.find(function (element) {
-        return element.id === $scope.projectID;
-      });
-    });
-    */
-
   }]);
