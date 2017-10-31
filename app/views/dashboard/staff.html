@@ -1,4 +1,4 @@
-<a ui-sref="food" class="pull-right btn btn-primary btn-outline btn-rounded">Skoða Mat</a>
+<a ui-sref="food" class="pull-right btn-primary2 btn-outline"><span class="glyphicon glyphicon-apple"></span> Skoða Mat</a>
 <div class="row">
 	<div class="col-sm-8">
 		<h2>Velkomin, <small>Veldu þig með því að smella á myndina af þér</small></h2>
@@ -8,7 +8,7 @@
 			<div class="col-sm-6 col-sm-offset-3">
 				<div id="imaginary_container">
 					<div class="input-group stylish-input-group">
-						<input type="text" class="form-control" placeholder="Search">
+						<input type="text" ng-model="searchBox" class="form-control" placeholder="Leita...">
 						<span class="input-group-addon">
                         <button type="submit">
                             <span class="glyphicon glyphicon-search"></span>
@@ -19,11 +19,12 @@
 			</div>
 		</div>
 	</div>
-	<div ng-repeat="x in myDataEmployee" ng-click="selectStaff(x)">
-		<div class="col-sm-2 containers staffname">
-			<img cl-src="{{x.photourl}}" class="staffphoto" radius:"max">
+	<div ng-repeat="x in myDataEmployee | filter:searchBox" ng-click="selectStaff(x)">
+		<div class="col-sm-3 containers staffname">
+			<img cl-src="{{x.photourl}}" class="staffphoto">
 			</img>
 			<p>{{x.name}}</p>
 		</div>
 	</div>
+</div>
 </div>

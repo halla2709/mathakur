@@ -1,36 +1,36 @@
 <div class="login-page">
-			<header class="headeronlogin">
-				<img src="images/mathakur.png" class="headericon-mathakur" />
-			</header>
-			<div class="login-page2">
-			<div class="row">
+	<header class="headeronlogin">
+		<img src="images/mathakur.png" class="headericon-mathakur" />
+	</header>
+	<div class="login-page2">
+		<div class="row">
 			<div class="col-md-4 col-lg-4 col-md-offset-4 col-lg-offset-4">
-			<br>
+				<br>
 				<h1>Velkomin! </h1>
-			<h1><small>Vinsamlega skráðu skólann þinn inn:</small></h1>
-			<form role="form" ng-submit="submit()">
+				<h1><small>Vinsamlega skráðu skólann þinn inn:</small></h1>
+				<form role="form" ng-submit="submit()">
 
-				<div class="form-content">
-					<div class="form-group">
+					<div class="form-content">
+						<div class="form-group">
 
 
-						<select class="form-control input-underline input-lg">
+							<select class="form-control input-underline input-lg">
 							<option value="choose">Veldu skóla</option>
 							<option ng-repeat="x in myData">{{x.name}}</option>
 						</select>
+						</div>
+
+						<div class="form-group">
+							<input type="password" class="form-control input-underline input-lg" id="passwordplaceholder" placeholder="Lykilorð">
+						</div>
 					</div>
 
-					<div class="form-group">
-						<input type="password" class="form-control input-underline input-lg" id="passwordplaceholder" placeholder="Lykilorð">
-					</div>
-				</div>
+					<button type="submit" class="btn btn-white btn-outline btn-lg btn-rounded">Skrá inn</button>
 
-				<button type="submit" class="btn btn-white btn-outline btn-lg btn-rounded">Skrá inn</button>
+				</form>
 
-			</form>
-
-		</div>	
+			</div>
+		</div>
 	</div>
-</div>
 
 </div>

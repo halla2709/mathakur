@@ -1,93 +1,73 @@
-<div class="d1">
-    <div class="d2">
-        <div class="d3">
-            <div class="d3-1">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h2>Velkomin {{employee.nickname}}, þú átt {{employee.credit}}kr</h2>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-sm-6 col-sm-offset-3">
-                                    <div id="imaginary_container">
-                                        <div class="input-group stylish-input-group">
-                                            <input type="text" class="form-control ng-valid" placeholder="Leita..." ng-model="searchKeyword">
-                                            <span class="input-group-addon">
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Velkomin {{employee.nickname}}, þú átt {{employee.credit}}kr</h2>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <div id="imaginary_container">
+                        <div class="input-group stylish-input-group">
+                            <input type="text" ng-model="searchBox" class="form-control ng-valid" placeholder="Leita..." ng-model="searchKeyword">
+                            <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-search"></span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            </span>
                         </div>
                     </div>
-
-
-                    <div class="col-sm-8">
-                            <h3>Veldu í körfuna þína:
-                                <div class="d3-2">
-                                    <div class="d4">
-                                        <div class="d5">
-    
-                                            <div ng-repeat="x in myDataFood" ng-click="selectFood(x)">
-                                                <div class="col-sm-2 containers staffname">
-                                                    <img cl-src="{{x.photourl}}" class="foodphoto" radius: "max"></img>
-                                                    </img>
-                                                    <p><b>{{x.name}}</b></p>
-                                                    <p>{{x.price}} kr</p>
-    
-                                                    <button type="remove" ng-click="removeFood(x)">
-                            <span class="glyphicon glyphicon-minus"></span>
-                    </button>
-                                                    </select>
-                                                    <button type="add" ng-click="addFood(x)">
-                                    <span class="glyphicon glyphicon-plus"></span>
-                            </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-
-
-                    <div class="col-sm-4" id="shoppingbag">
-                        <h3>Karfan þín:</h3>
-                        <table class="table table-condensed table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Matur</th>
-                                    <th>Verð</th>
-                                    <th>Fjöldi</th>
-                                    <th>&nbsp;</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="x in receipt" | filter: searchKeyword>
-                                    <td>{{x.name}}
-                                    </td>
-                                    <td>{{x.price}}
-                                    </td>
-                                    <td>{{x.quantity}}
-                                    </td>
-                                    <td>&nbsp;
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th>Samtals: {{total}}kr</th>
-                                </tr>
-                            </tbody>
-
-                        </table>
-                    
-                    <button class="btn-primary">Kaupa!</button>
-
-                </div>
                 </div>
             </div>
         </div>
+    </div>
+
+
+    <div class="col-sm-8">
+        <h3>Veldu í körfuna þína:</h3>
+        <div ng-repeat="x in myDataFood | filter:searchBox" ng-click="selectFood(x)" >
+            <div class="containers staffname col-sm-3" type="add" ng-click="addFood(x)">
+                <img cl-src="{{x.photourl}}"></img>
+                </img>
+                <div class="foodname">
+                <p>{{x.name}}</p> 
+                <p>Verð: {{x.price}} kr</p>
+            </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-sm-4">
+        <h3>Karfan þín:</h3>
+        <table class="table table-condensed table-hover" id="shoppingbag">
+            <thead>
+                <tr>
+                    <th>Matur</th>
+                    <th>Verð</th>
+                    <th>Fjöldi</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="x in receipt" type="remove" ng-click="removeFood(x)">
+                    <td>{{x.name}}
+                    </td>
+                    <td>{{x.price}}
+                    </td>
+                    <td>{{x.quantity}}
+                    </td>
+                    <td>&nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>Samtals: {{total}}kr</th>
+                </tr>
+            </tbody>
+
+        </table>
+
+        <button class="btn-primary2">Ganga frá kaupum</button>
+
     </div>
 </div>
 </div>

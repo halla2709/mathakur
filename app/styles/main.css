@@ -65,6 +65,11 @@ mark {
   background: #ff0;
   color: #000;
 }
+#logoutlook {
+  font-size:1.3em;
+
+
+}
 small {
   font-size: 80%;
 }
@@ -512,6 +517,7 @@ h6,
 p {
   margin: 0 0 10px;
   word-break: normal;
+  size: 12em;
   overflow-wrap: break-word;
 }
 
@@ -806,43 +812,10 @@ pre code {
 .staffphoto {
   padding-bottom: 0.5em;
 }
-.d1 {
-  height: 100%;
-}
-.d2 {
-  height: 100%; 
-}
-.d3 {
- height:100%; 
- position: relative;
-}
-.d3-1 {
-}
-.d3-2{
-  height: 100%;
-  overflow: hidden;
-  box-sizing: border-box;
-  padding-top: 5em;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  min-height:20em;
-}
-.d4
-{
-position: relative;
-max-height: 100%;
-overflow: auto;
-
-}
-.d5 {
-  height:100%;
-
-}
 
 #shoppingbag {
   background-color: white;
-  
+
 }
 .foodphoto {
   padding-bottom: 0.5em;
@@ -858,10 +831,16 @@ overflow: auto;
   text-align: center;
   margin: 1em;
   padding: 1em;
-  height: 18em;
+  height: 100%;
+  width: 100%;
   border-radius: 5px;
   box-shadow: 10px 10px 5px #888888;
   background-color: #FFF;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.containers:hover{
+cursor:pointer;
 }
   .containers-select{
     text-align: center;
@@ -1556,7 +1535,7 @@ th {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  padding: 8px;
+  padding: 2em;
   line-height: 1.42857143;
   vertical-align: top;
   border-top: 1px solid #ddd;
@@ -2360,48 +2339,48 @@ fieldset[disabled] .btn-default.active {
   color: #fff;
   background-color: #333;
 }
-.btn-primary {
+.btn-primary2 {
   color: #fff;
   background-color: rgb(197,52,55);
-  border-color: rgb(169,44,44);
+  border-color: #fff;
+  padding: 1em;
 }
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary.focus,
-.btn-primary:active,
-.btn-primary.active,
-.open > .dropdown-toggle.btn-primary {
-  color: #fff;
-  background-color: rgb(169,44,44);
-  border-color: rgb(218,128,127);
+.btn-primary2:hover {
+
+  color: #E5E5E5;
+  background-color: rgb(197,52,55);
+  border-color: #E5E5E5;
+  text-decoration: none;
+  
 }
-.btn-primary:active,
-.btn-primary.active,
-.open > .dropdown-toggle.btn-primary {
-  background-image: none;
-}
-.btn-primary.disabled,
-.btn-primary[disabled],
-fieldset[disabled] .btn-primary,
-.btn-primary.disabled:hover,
-.btn-primary[disabled]:hover,
-fieldset[disabled] .btn-primary:hover,
-.btn-primary.disabled:focus,
-.btn-primary[disabled]:focus,
-fieldset[disabled] .btn-primary:focus,
-.btn-primary.disabled.focus,
-.btn-primary[disabled].focus,
-fieldset[disabled] .btn-primary.focus,
-.btn-primary.disabled:active,
-.btn-primary[disabled]:active,
-fieldset[disabled] .btn-primary:active,
-.btn-primary.disabled.active,
-.btn-primary[disabled].active,
-fieldset[disabled] .btn-primary.active {
+.btn-primary2:focus,
+.btn-primary2.focus,
+.btn-primary2:active,
+.btn-primary2.active
+.btn-primary2:active,
+.btn-primary2.active,
+.btn-primary2.disabled,
+.btn-primary2[disabled],
+fieldset[disabled] .btn-primary2,
+.btn-primary2.disabled:hover,
+.btn-primary2[disabled]:hover,
+fieldset[disabled] .btn-primary2:hover,
+.btn-primary2.disabled:focus,
+.btn-primary2[disabled]:focus,
+fieldset[disabled] .btn-primary2:focus,
+.btn-primary2.disabled.focus,
+.btn-primary2[disabled].focus,
+fieldset[disabled] .btn-primary2.focus,
+.btn-primary2.disabled:active,
+.btn-primary2[disabled]:active,
+fieldset[disabled] .btn-primary2:active,
+.btn-primary2.disabled.active,
+.btn-primary2[disabled].active,
+fieldset[disabled] .btn-primary2.active {
   background-color: rgb(197,52,55);
   border-color: rgb(218,128,127);
 }
-.btn-primary .badge {
+.btn-primary2 .badge {
   color: rgb(197,52,55);
   background-color: #fff;
 }
@@ -5961,11 +5940,11 @@ button.close {
   box-shadow: 0 0 0 2px #ffffff inset;
   color: #ffffff;
 }
-.btn-outline.btn-primary {
+.btn-outline.btn-primary2 {
   box-shadow: 0 0 0 2px rgb(218,128,127) inset;
   color: rgb(218,128,127);
 }
-.btn-outline.btn-primary:hover {
+.btn-outline.btn-primary2:hover {
   box-shadow: 0 0 0 2px rgb(197,52,55) inset;
   color: rgb(197,52,55);
 }
@@ -6063,5 +6042,7 @@ body {
   overflow: hidden;
 }
 .adminview {
-  float: bottom;
+  position: absolute;
+  bottom: 0;
+  width: 100%
 }

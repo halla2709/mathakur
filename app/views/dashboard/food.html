@@ -1,4 +1,4 @@
-<a ui-sref="staff" class="pull-right btn btn-primary btn-outline btn-rounded">Skoða Starfsfólk</a>
+<a ui-sref="staff" class="pull-right btn-primary2 btn-outline"><span class="glyphicon glyphicon-user"></span> Skoða Starfsfólk</a>
 <div class="row">
 	<div class="col-sm-8">
 		<h2>Velkomin, <small>Hér er hægt að skoða matinn sem er í boði</small></h2>
@@ -8,7 +8,7 @@
 			<div class="col-sm-6 col-sm-offset-3">
 				<div id="imaginary_container">
 					<div class="input-group stylish-input-group">
-						<input type="text" class="form-control" placeholder="Search">
+						<input type="text" ng-model="searchBox" class="form-control" placeholder="Leita...">
 						<span class="input-group-addon">
 										<button type="submit">
 											<span class="glyphicon glyphicon-search"></span>
@@ -19,13 +19,13 @@
 			</div>
 		</div>
 	</div>
-<div ng-repeat="x in myDataFood">
-	<div class="col-sm-2 containers staffname">
-		<img cl-src="{{x.photourl}}" class="staffphoto" radius:"max">
+<div ng-repeat="x in myDataFood | filter:searchBox">
+	<div class="col-sm-3 containers staffname">
+		<img cl-src="{{x.photourl}}" class="staffphoto">
 	</img>
 
-		<p><b>{{x.name}}</b></p>
-		<p>{{x.price}}</p>
+		<p>{{x.name}}</p>
+		<p>Verð: {{x.price}} kr</p>
 	</div>
 </div>
 </div>

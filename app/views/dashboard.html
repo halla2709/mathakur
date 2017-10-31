@@ -2,26 +2,26 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-3 col-md-2 sidebar">
-          <img src="images/mathakur.png" class="icon-mathakur" />
-         <div class="text-center">
-        <h3 class="brand">Innskráður skóli:</h3>
-        
-        <br>
-        <h5 ng-repeat="x in myDataSchool">{{x.name}}</h5>
-        <br>
-        <br>
-        <a ui-sref="login" class="btn btn-white btn-outline btn-small btn-rounded">Skrá skóla út</a>
+        <img src="images/mathakur.png" class="icon-mathakur" />
+        <div class="text-center">
+          <h3 class="brand">Innskráður skóli:</h3>
+
+          <br>
+          <h5 ng-repeat="x in myDataSchool">{{x.name}}</h5>
+        </div>
+
+        <div class="adminview">
+          <ul class="nav nav-sidebar">
+            <li><a ui-sref="userlogin"><span class="glyphicon glyphicon-lock"></span> Stjórnandasíða</a></li>
+            <li>&nbsp;</li>
+            <li>&nbsp;</li>
+            <li><a id="logoutlook" ui-sref="login"><span class="glyphicon glyphicon-log-out"></span> Skrá skóla út</a></li>
+          </ul>
+        </div>
+
       </div>
-
-      <div class="adminview">
-      <ul class="nav nav-sidebar">
-        <li><a ui-sref="userlogin">Stjórnandasíða<span class="sr-only">(current)</span></a></li>
-      </ul>
-    </div>
-
-    </div>
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ui-view>
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ui-view>
+      </div>
     </div>
   </div>
-</div>
 </div>

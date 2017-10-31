@@ -40,19 +40,20 @@ angular.module('mathakur')
         
 
       }
-      console.log($scope.total);
-    
+   
     };
 
     $scope.removeFood = function (food) {
-      console.log(food);
+      $scope.total -= food.price;
       for (var i = 0; i < $scope.receipt.length; i++) {
 
+       
         if ($scope.receipt[i].name === food.name) {
           $scope.receipt[i].quantity--;
           if ($scope.receipt[i].quantity == 0) {
             $scope.receipt.splice(i, 1);
           }
+          
           break;
         }
       }

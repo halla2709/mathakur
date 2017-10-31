@@ -1,15 +1,18 @@
-<table style="width:50%;">
+<table class="table table-responsive table-hover" style="width:85%;">
     <tr>
         <th>Name</th>
         <th>Nickname</th>
         <th>Credit</th>
-        <th>Has photo</th>
+        <th>Photo</th>
+        <th>&nbsp;</th>
     </tr>
+
     <tr ng-repeat="employee in employeeData">
         <td>{{employee.name}}</td>
         <td>{{employee.nickname}}</td>
         <td>{{employee.credit}}</td>
         <td>{{employee.photourl !== ''}}</td>
-        <td><button ng-click="editEmployee(employee)">Edit</button></td>
+        <td><span ng-click="editEmployee(employee)" class="glyphicon glyphicon-pencil">
+            </span></td>
     </tr>
 </table>
