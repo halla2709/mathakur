@@ -1,7 +1,10 @@
 <div ng-show="!editing">
-<h2>Velkomin {{admin.name}}, hér er tafla með öllum starfsmönnum í kerfinu:</h2>
+    <button class="pull-right btn-primary2" ng-show="!editing" ng-click="editEmployee()">
+                <span class="glyphicon glyphicon-user"></span> Skrá nýjan starfsmann</button>
 
-<div class="col-sm-6 col-sm-offset-2">
+    <h2>Velkomin {{admin.name}}, hér er tafla með öllum starfsmönnum í kerfinu:</h2>
+
+    <div class="col-sm-6 col-sm-offset-2">
         <div id="imaginary_container">
             <div class="input-group stylish-input-group">
                 <input type="text" ng-model="searchBox" class="form-control ng-valid" placeholder="Leita..." ng-model="searchKeyword">
@@ -12,34 +15,31 @@
         </div>
     </div>
 
-    <div class="col-sm-3 col-sm-offset-1">
-    <button class="btn-primary2" ng-show="!editing" ng-click="editEmployee()">
-        <span class="glyphicon glyphicon-user"></span> Skrá nýjan starfsmann</button>
-    </div>
-
-    
-<table class="table table-responsive table-hover" style="width:85%;">
-    <tr>
-        <th>Fullt Nafn</th>
-        <th>Gælunafn</th>
-        <th>Inneign</th>
-        <th>Mynd</th>
-        <th>&nbsp;</th>
-    </tr>
-
-    <tr ng-repeat="employee in employeeData | filter:searchBox">
-        <td>{{employee.name}}</td>
-        <td>{{employee.nickname}}</td>
-        <td>{{employee.credit}}</td>
-        <td>{{employee.photourl !== '' && employee.photourl !== defaultEmployeePhotoUrl}}</td>
-        <td><span ng-click="editEmployee(employee)" class="glyphicon glyphicon-pencil"></span></td>
-   </tr>
-</table>
+    <table id="tafla" class="table table-responsive table-hover">
+        <thead>
+            <tr>
+                <th>Fullt Nafn</th>
+                <th>Gælunafn</th>
+                <th>Inneign</th>
+                <th>Mynd</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="employee in employeeData | filter:searchBox">
+                <td>{{employee.name}}</td>
+                <td>{{employee.nickname}}</td>
+                <td>{{employee.credit}}</td>
+                <td>{{employee.photourl !== '' && employee.photourl !== defaultEmployeePhotoUrl}}</td>
+                <td><span ng-click="editEmployee(employee)" class="glyphicon glyphicon-pencil"></span></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 <form id="form" role="form" ng-show="editing" ng-submit="submitEmployee(currentEmployee)">
-    <input id="name" required ng-disabled="updating" ng-model="currentEmployee.name" type="text" placeholder="Jón Jón Jónsson" class="form-control input-lg"
-    />
+    <input id="name" required ng-disabled="updating" ng-model="currentEmployee.name" type="text" placeholder="Jón Jón Jónsson"
+        class="form-control input-lg" />
     <label for="name">Full nafn</label>
     <input id="nickname" ng-disabled="updating" ng-model="currentEmployee.nickname" type="text" placeholder="Jón" class="form-control input-lg"
     />
@@ -47,12 +47,12 @@
     <input id="credit" required ng-model="currentEmployee.credit" type="number" placeholder="1500" class="form-control input-lg"
     />
     <label for="name">Innistæða í krónum</label>
-    <input id="fileInput" type="file" custom-on-change="uploadFile" accept="image/*" capture="user"/>
+    <input id="fileInput" type="file" custom-on-change="uploadFile" accept="image/*" capture="user" />
     <label for="fileInput">
         Andiltsmynd af starfsmanni</label>
     <div class="row">
         <button type="submit" class="btn btn-success">Vista</button>
-        <button type="button" ng-click="back()" class="btn btn-danger">Hætta við</button>        
+        <button type="button" ng-click="back()" class="btn btn-danger">Hætta við</button>
     </div>
-    
+
 </form>

@@ -8,6 +8,9 @@ html {
 body {
   margin: 0;
 }
+#tafla {
+  margin-top: 20px;
+}
 
 
 article,
@@ -272,6 +275,7 @@ th {
   }
   .table {
     border-collapse: collapse !important;
+    
   }
   .table td,
   .table th {
@@ -1528,6 +1532,8 @@ th {
   width: 100%;
   max-width: 100%;
   margin-bottom: 20px;
+
+  background-color: rgba(255, 255, 255, 0.93);
 }
 .table > thead > tr > th,
 .table > tbody > tr > th,
@@ -1543,6 +1549,8 @@ th {
 .table > thead > tr > th {
   vertical-align: bottom;
   border-bottom: 2px solid #ddd;
+  background-color: rgb(197,52,55); 
+  color:#fff;
 }
 .table > caption + thead > tr:first-child > th,
 .table > colgroup + thead > tr:first-child > th,
@@ -1618,6 +1626,7 @@ table th[class*="col-"] {
 .table-hover > tbody > tr:hover > .active,
 .table-hover > tbody > tr.active:hover > th {
   background-color: #e8e8e8;
+  
 }
 .table > thead > tr > td.success,
 .table > tbody > tr > td.success,
@@ -1717,6 +1726,7 @@ table th[class*="col-"] {
   }
   .table-responsive > .table {
     margin-bottom: 0;
+
   }
   .table-responsive > .table > thead > tr > th,
   .table-responsive > .table > tbody > tr > th,
@@ -4578,6 +4588,7 @@ a.list-group-item-danger.active:focus {
 .panel > .table-responsive > .table,
 .panel > .panel-collapse > .table {
   margin-bottom: 0;
+  
 }
 .panel > .table caption,
 .panel > .table-responsive > .table caption,

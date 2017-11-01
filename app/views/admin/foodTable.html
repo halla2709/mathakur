@@ -1,7 +1,10 @@
 <div ng-show="!editing">
-<h2>Velkomin {{admin.name}}, hér er tafla með öllum mat í kerfinu:</h2>
+    <button class="pull-right btn-primary2" ng-show="!editing" ng-click="editFood()">
+                <span class="glyphicon glyphicon-apple"></span> Skrá nýjan mat</button>
 
-<div class="col-sm-6 col-sm-offset-2">
+    <h2>Velkomin {{admin.name}}, hér er tafla með öllum mat í kerfinu:</h2>
+
+    <div class="col-sm-6 col-sm-offset-2">
         <div id="imaginary_container">
             <div class="input-group stylish-input-group">
                 <input type="text" ng-model="searchBox" class="form-control ng-valid" placeholder="Leita..." ng-model="searchKeyword">
@@ -12,27 +15,28 @@
         </div>
     </div>
 
-<div class="col-sm-3 col-sm-offset-1">
-    <button class="btn-primary2" ng-show="!editing" ng-click="editFood()">
-                        <span class="glyphicon glyphicon-apple"></span> Skrá nýjan mat</button>
-</div>
+    <table class="table table-responsive table-hover">
 
-<table class="table table-responsive table-hover" style="width:85%;">
-    <tr>
-        <th>Nafn</th>
-        <th>Matarflokkur</th>
-        <th>Verð</th>
-        <th>Mynd</th>
-        <th>&nbsp;</th>
-    </tr>
-    <tr ng-repeat="food in foodData | filter:searchBox">
-        <td>{{food.name}}</td>
-        <td>{{food.category}}</td>
-        <td>{{food.price}}</td>
-        <td>{{food.photourl !== '' && food.photourl !== defaultFoodPhotoUrl}}</td>
-        <td><span ng-click="editEmployee(employee)" class="glyphicon glyphicon-pencil"></span></td>
-    </tr>
-</table>
+        <thead>
+            <tr>
+                <th>Nafn</th>
+                <th>Matarflokkur</th>
+                <th>Verð</th>
+                <th>Mynd</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="food in foodData | filter:searchBox">
+                <td>{{food.name}}</td>
+                <td>{{food.category}}</td>
+                <td>{{food.price}}</td>
+                <td>{{food.photourl !== '' && food.photourl !== defaultFoodPhotoUrl}}</td>
+                <td><span ng-click="editEmployee(employee)" class="glyphicon glyphicon-pencil"></span></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 <form id="form" role="form" ng-show="editing" ng-submit="submitFood(currentFood)">
