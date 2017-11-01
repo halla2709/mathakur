@@ -3,12 +3,7 @@ const router = express.Router();
 const path = require('path');
 const database = require('../services/databaseCreator').db;
 const dbHelper = require('../services/databaseHelper');
-const cloudinary = require("cloudinary");
-cloudinary.config({
-    cloud_name: 'dk7mpsfkw',
-    api_key: '431766444682953',
-    api_secret: 'YOJiDrJckmm7by_FDJVqWQiXcEk'
-});
+const savePhotoToCloudinary = require("../services/cloudinaryHelper").savePhotoToCloudinary;
 
 router.get('/', function (req, res, next) {
     dbHelper.getFromTable(database, 'employee', [])
@@ -23,19 +18,20 @@ router.get('/', function (req, res, next) {
         });
 });
 
-router.patch('/:id', function (req, res, next) {
+router.patch('/:id', savePhotoToCloudinary, function (req, res, next) {
     const id = req.params.id;
     const newCredit = req.body.newCredit;
+    const newPhotoUrl = req.body.photoUrl;
 
-    dbHelper.updateCreditOfEmployee(database, id, newCredit)
-        .then(function () {
+    dbHelper.updateEmployee(database, id, newPhotoUrl, newCredit)
+        .then(function() {
             res.statusCode = 200;
-            res.end();
+            res.json({photoUrl: newPhotoUrl});
         })
-        .catch(function (error) {
+        .catch(function(error) {
             console.error(error)
             res.statusCode = 500;
-            return res.json({ errors: ['Could not update employee credit'] });
+            return res.json({ errors: ['Could not update employee'] });
         });
 });
 
@@ -47,7 +43,8 @@ router.post('/', savePhotoToCloudinary, addNicknameIfNotExists, function (req, r
     dbHelper.insertIntoTable(database, 'employee',
         ['name', 'nickname', 'credit', 'photoUrl'], [req.body.name, req.body.nickname, req.body.credit, req.body.photoUrl])
         .then(function () {
-            res.end();
+            res.statusCode = 200;
+            res.json({photoUrl: req.body.photoUrl});
         })
         .catch(function (error) {
             console.error(error)
@@ -59,24 +56,6 @@ router.post('/', savePhotoToCloudinary, addNicknameIfNotExists, function (req, r
 router.post('/photo', savePhotoToCloudinary, function (req, res, next) {
     res.end();
 });
-
-function savePhotoToCloudinary(req, res, next) {
-    if (typeof req.body.photo !== 'undefined' && req.body.photo !== '') {
-        console.log("received photo");
-        console.log(req.body);
-
-        cloudinary.v2.uploader.upload(req.body.photo, {upload_preset: "j8gkhubq"}, function (error, result) {
-            console.log(error);
-            req.body.photoUrl = result.public_id;
-            console.log(result);
-            next();
-        });
-    }
-    else {
-        req.body.photoUrl = '';
-        next();
-    }
-}
 
 function addNicknameIfNotExists(req, res, next) {
     if (typeof req.body.nickname === 'undefined') {
