@@ -1,3 +1,4 @@
+<div ng-show="!editing">
 <h2>Velkomin {{admin.name}}, hér er tafla með öllum starfsmönnum í kerfinu:</h2>
 
 <div class="col-sm-6 col-sm-offset-2">
@@ -17,11 +18,11 @@
     </div>
 
     
-<table ng-show="!editing" class="table table-responsive table-hover" style="width:85%;">
+<table class="table table-responsive table-hover" style="width:85%;">
     <tr>
         <th>Fullt Nafn</th>
         <th>Gælunafn</th>
-        <th>Peningaeign</th>
+        <th>Inneign</th>
         <th>Mynd</th>
         <th>&nbsp;</th>
     </tr>
@@ -34,22 +35,24 @@
         <td><span ng-click="editEmployee(employee)" class="glyphicon glyphicon-pencil"></span></td>
    </tr>
 </table>
+</div>
 
-<form role="form" ng-show="editing" ng-submit="submitEmployee(currentEmployee)">
-    <input id="name" required ng-disabled="updating" ng-model="currentEmployee.name" type="text" placeholder="Nafn starfsmanns" class="form-control input-lg"
+<form id="form" role="form" ng-show="editing" ng-submit="submitEmployee(currentEmployee)">
+    <input id="name" required ng-disabled="updating" ng-model="currentEmployee.name" type="text" placeholder="Jón Jón Jónsson" class="form-control input-lg"
     />
     <label for="name">Full nafn</label>
-    <input id="nickname" ng-disabled="updating" ng-model="currentEmployee.nickname" type="text" placeholder="Gælunafn starfsmanns" class="form-control input-lg"
+    <input id="nickname" ng-disabled="updating" ng-model="currentEmployee.nickname" type="text" placeholder="Jón" class="form-control input-lg"
     />
     <label for="name">Gælunafn</label>
-    <input id="credit" required ng-model="currentEmployee.credit" type="number" placeholder="Innistæða" class="form-control input-lg"
+    <input id="credit" required ng-model="currentEmployee.credit" type="number" placeholder="1500" class="form-control input-lg"
     />
     <label for="name">Innistæða í krónum</label>
-    <input id="fileInput" type="file" custom-on-change="uploadFile" accept="image/*" capture="user" />
-    <label for="fileInput">Andiltsmynd af starfsmanni</label>
+    <input id="fileInput" type="file" custom-on-change="uploadFile" accept="image/*" capture="user"/>
+    <label for="fileInput">
+        Andiltsmynd af starfsmanni</label>
     <div class="row">
-        <button type="submit" class="btn btn-success btn-outline btn-lg btn-rounded">Vista</button>
-        <button type="button" ng-click="back()" class="btn btn-default btn-outline btn-lg btn-rounded">Hætta við</button>        
+        <button type="submit" class="btn btn-success">Vista</button>
+        <button type="button" ng-click="back()" class="btn btn-danger">Hætta við</button>        
     </div>
     
 </form>

@@ -1802,6 +1802,9 @@ input[type="checkbox"]:focus {
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
+#form{
+  width:50%;
+}
 output {
   display: block;
   padding-top: 7px;

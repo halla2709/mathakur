@@ -1,3 +1,4 @@
+<div ng-show="!editing">
 <h2>Velkomin {{admin.name}}, hér er tafla með öllum mat í kerfinu:</h2>
 
 <div class="col-sm-6 col-sm-offset-2">
@@ -16,7 +17,7 @@
                         <span class="glyphicon glyphicon-apple"></span> Skrá nýjan mat</button>
 </div>
 
-<table ng-show="!editing" class="table table-responsive table-hover" style="width:85%;">
+<table class="table table-responsive table-hover" style="width:85%;">
     <tr>
         <th>Nafn</th>
         <th>Matarflokkur</th>
@@ -32,21 +33,22 @@
         <td><span ng-click="editEmployee(employee)" class="glyphicon glyphicon-pencil"></span></td>
     </tr>
 </table>
+</div>
 
-<form role="form" ng-show="editing" ng-submit="submitFood(currentFood)">
-    <input id="name" required ng-disabled="updating" ng-model="currentFood.name" type="text" placeholder="Heiti matar" class="form-control input-lg"
+<form id="form" role="form" ng-show="editing" ng-submit="submitFood(currentFood)">
+    <input id="name" required ng-disabled="updating" ng-model="currentFood.name" type="text" placeholder="Epli" class="form-control input-lg"
     />
-    <label for="name">Heiti</label>
-    <input id="category" ng-disabled="updating" ng-model="currentFood.category" type="text" placeholder="Matarflokkur" class="form-control input-lg"
+    <label for="name">Matarheiti</label>
+    <input id="category" ng-disabled="updating" ng-model="currentFood.category" type="text" placeholder="Ávöxtur" class="form-control input-lg"
     />
-    <label for="category">Flokkur</label>
-    <input id="price" required ng-model="currentFood.price" type="number" placeholder="Verð" class="form-control input-lg" />
+    <label for="category">Matarflokkur</label>
+    <input id="price" required ng-model="currentFood.price" type="number" placeholder="200" class="form-control input-lg" />
     <label for="name">Verð í krónum</label>
     <input id="fileInput" type="file" custom-on-change="uploadFile" accept="image/*" capture="user" />
     <label for="fileInput">Mynd af matnum</label>
     <div class="row">
-        <button type="submit" class="btn btn-success btn-outline btn-lg btn-rounded">Vista</button>
-        <button type="button" ng-click="back()" class="btn btn-default btn-outline btn-lg btn-rounded">Hætta við</button>
+        <button type="submit" class="btn btn-success">Vista</button>
+        <button type="button" ng-click="back()" class="btn btn-danger">Hætta við</button>
     </div>
 
 </form>
