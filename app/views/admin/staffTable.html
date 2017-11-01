@@ -1,5 +1,21 @@
-<button ng-show="!editing" ng-click="editEmployee()">Skrá nýjan starfsmann</button>
-<table style="width:50%;" ng-show="!editing" class="table table-responsive table-hover" style="width:85%;">
+<div class="col-sm-6">
+        <div id="imaginary_container">
+            <div class="input-group stylish-input-group">
+                <input type="text" ng-model="searchBox" class="form-control ng-valid" placeholder="Leita..." ng-model="searchKeyword">
+                <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-search"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-2 col-sm-offset-3">
+    <button class="btn-primary2" ng-show="!editing" ng-click="editEmployee()">
+        <span class="glyphicon glyphicon-user"></span> Skrá nýjan starfsmann</button>
+    </div>
+    <br>
+
+<table ng-show="!editing" class="table table-responsive table-hover" style="width:85%;">
     <tr>
         <th>Name</th>
         <th>Nickname</th>
@@ -8,7 +24,7 @@
         <th>&nbsp;</th>
     </tr>
 
-    <tr ng-repeat="employee in employeeData">
+    <tr ng-repeat="employee in employeeData | filter:searchBox">
         <td>{{employee.name}}</td>
         <td>{{employee.nickname}}</td>
         <td>{{employee.credit}}</td>
