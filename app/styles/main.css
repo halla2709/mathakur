@@ -2343,7 +2343,7 @@ fieldset[disabled] .btn-default.active {
   color: #fff;
   background-color: rgb(197,52,55);
   border-color: #fff;
-  padding: 1em;
+  padding: 8px;
 }
 .btn-primary2:hover {
 
@@ -2351,7 +2351,7 @@ fieldset[disabled] .btn-default.active {
   background-color: rgb(197,52,55);
   border-color: #E5E5E5;
   text-decoration: none;
-  
+
 }
 .btn-primary2:focus,
 .btn-primary2.focus,
