@@ -4,7 +4,7 @@
 	</header>
 	<div class="login-page2">
 		<div class="row">
-			<div class="col-md-4 col-lg-4 col-md-offset-4 col-lg-offset-4">
+			<div class=" col-lg-4 col-md-offset-4 ">
 				<br>
 				<h1>Velkomin! </h1>
 				<h1><small>Vinsamlega skráðu skólann þinn inn:</small></h1>
@@ -12,16 +12,14 @@
 
 					<div class="form-content">
 						<div class="form-group">
-
-
-							<select class="form-control input-underline input-lg">
-							<option value="choose">Veldu skóla</option>
-							<option ng-repeat="x in myData">{{x.name}}</option>
-						</select>
+							<select ng-model="school" class="form-control input-underline input-lg">
+								<option value="{{}}" disabled selected>Veldu skóla</option>
+								<option value="{{x}}" ng-repeat="x in myData">{{x.name}}</option>
+							</select>
 						</div>
 
 						<div class="form-group">
-							<input type="password" class="form-control input-underline input-lg" id="passwordplaceholder" placeholder="Lykilorð">
+							<input ng-model="password" type="password" class="form-control input-underline input-lg" id="passwordplaceholder" placeholder="Lykilorð">
 						</div>
 					</div>
 

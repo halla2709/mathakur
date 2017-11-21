@@ -15,14 +15,15 @@ const db = pgp(cn);
 
 db.none("CREATE TABLE IF NOT EXISTS school(id SERIAL PRIMARY KEY, \
     name varchar(40) UNIQUE NOT NULL, \
-    password varchar(155) NOT NULL)")
+    password varchar(155) NOT NULL, \
+    rand varchar(10) NOT NULL)")
 .catch(error => {
     console.log('ERROR:', error); // print the error;
 });
 db.none("CREATE TABLE IF NOT EXISTS food(id SERIAL PRIMARY KEY, \
     name varchar(40) NOT NULL, \
     category varchar(40), \
-    photoUrl varchar(255) DEFAULT \"sample\")")
+    photoUrl varchar(255) DEFAULT \'sample\')")
 .catch(error => {
     console.log('ERROR:', error); // print the error;
 });
@@ -30,7 +31,7 @@ db.none("CREATE TABLE IF NOT EXISTS employee(id SERIAL PRIMARY KEY, \
     name varchar(40) NOT NULL, \
     nickname varchar(20), \
     credit integer NOT NULL, \
-    photoUrl varchar(255) DEFAULT \"flat-avatar_schlbg\", \
+    photoUrl varchar(255) DEFAULT \'flat-avatar_schlbg\', \
     schoolID integer REFERENCES school(id))")
 .catch(error => {
     console.log('ERROR:', error); // print the error;
@@ -39,6 +40,7 @@ db.none("CREATE TABLE IF NOT EXISTS administrator(id SERIAL PRIMARY KEY, \
     name varchar(40) NOT NULL, \
     username varchar(40) NOT NULL, \
     password varchar(40) NOT NULL, \
+    rand varchar(10) NOT NULL, \
     schoolID integer REFERENCES school(id))")
 .catch(error => {
     console.log('ERROR:', error); // print the error;

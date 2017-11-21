@@ -1,0 +1,52 @@
+<div class="login-page">
+	<header class="headeronlogin">
+		<img src="images/mathakur.png" class="headericon-mathakur" />
+	</header>
+	<div class="login-page2">
+		<div class="row">
+			<div class="col-md-3 col-lg-3 col-md-offset-2 col-lg-offset-2">
+                <br>
+				<h1><small>Skrá skóla</small></h1>
+				<form role="form" ng-submit="submitSchool()">
+
+					<div class="form-content">
+						<div class="form-group">
+                            <input ng-model="schoolName" type="text" class="form-control input-underline input-lg" placeholder="Skóli">
+						</div>
+
+						<div class="form-group">
+							<input ng-model="schoolPassword" type="password" class="form-control input-underline input-lg" id="passwordplaceholder" placeholder="Lykilorð">
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-white btn-outline btn-lg btn-rounded">Skrá inn</button>
+
+				</form>
+
+            </div>
+            <div class="col-md-3 col-lg-3 col-md-offset-2 col-lg-offset-2">
+                <br>
+				<h1><small>Skrá stjórnanda</small></h1>
+				<form role="form" ng-submit="submitAdmin()">
+
+					<div class="form-content">
+						<div class="form-group">
+                            <input ng-model="adminName" type="text" class="form-control input-underline input-lg" placeholder="Nafn">
+                            <input ng-model="userName" type="text" class="form-control input-underline input-lg" placeholder="Notandanafn">
+                            <input ng-model="schoolName" type="text" class="form-control input-underline input-lg" placeholder="Skóli">                            
+						</div>
+
+						<div class="form-group">
+							<input ng-model="adminPassword" type="password" class="form-control input-underline input-lg" id="passwordplaceholder" placeholder="Lykilorð">
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-white btn-outline btn-lg btn-rounded">Skrá inn</button>
+
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+</div>

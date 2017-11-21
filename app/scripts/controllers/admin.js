@@ -11,6 +11,7 @@ angular.module('mathakur')
         $scope.defaultEmployeePhotoUrl = 'tzeqj4l6kjyq0jptankn';
         $scope.defaultFoodPhotoUrl = 'bazcykvn86tp963v8ocn';
 
+
         $http.get("employee").then(function (response) {
             console.log("getting data");
             $scope.employeeData = response.data;

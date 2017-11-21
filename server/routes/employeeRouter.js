@@ -35,6 +35,26 @@ router.patch('/:id', savePhotoToCloudinary, function (req, res, next) {
         });
 });
 
+
+router.patch('/updatecredit/:id', function (req, res, next) {
+    const id = req.params.id;
+    const newCredit = req.body.newCredit;
+    console.log(req.body);
+    
+    dbHelper.updateCreditOfEmployee(database, id, newCredit)
+        .then(function() {
+            res.statusCode = 200;
+            res.end();
+           })
+        .catch(function(error) {
+            console.error(error)
+            res.statusCode = 500;
+            return res.json({ errors: ['Could not update employee'] });
+        });
+});
+
+
+
 router.post('/', savePhotoToCloudinary, addNicknameIfNotExists, function (req, res, next) {
     if (typeof req.body.credit === 'undefined') {
         req.body.credit = 0;

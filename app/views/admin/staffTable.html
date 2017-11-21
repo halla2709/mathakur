@@ -7,7 +7,7 @@
     <div class="col-sm-6 col-sm-offset-2">
         <div id="imaginary_container">
             <div class="input-group stylish-input-group">
-                <input type="text" ng-model="searchBox" class="form-control ng-valid" placeholder="Leita..." ng-model="searchKeyword">
+                <input type="text" ng-model="searchBox" class="form-control ng-valid" placeholder="Leita...">
                 <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-search"></span>
                 </span>
@@ -26,33 +26,42 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="employee in employeeData | filter:searchBox">
+            <tr ng-repeat="employee in employeeData | filter:searchBox" ng-click="editEmployee(employee)">
                 <td>{{employee.name}}</td>
                 <td>{{employee.nickname}}</td>
                 <td>{{employee.credit}}</td>
-                <td>{{employee.photourl !== '' && employee.photourl !== defaultEmployeePhotoUrl}}</td>
-                <td><span ng-click="editEmployee(employee)" class="glyphicon glyphicon-pencil"></span></td>
+                <td><span ng-show="{{employee.photourl !== '' && employee.photourl !== defaultEmployeePhotoUrl}}" class="glyphicon glyphicon-ok"></span>
+                    <span ng-show="{{employee.photourl === '' || employee.photourl === defaultEmployeePhotoUrl}}" class="glyphicon glyphicon-remove"></span>
+                </td>
+                <td><span class="glyphicon glyphicon-pencil" style="opacity: .20"></span></td>
             </tr>
         </tbody>
     </table>
 </div>
 
 <form id="form" role="form" ng-show="editing" ng-submit="submitEmployee(currentEmployee)">
+    <label for="name">Full nafn</label>
     <input id="name" required ng-disabled="updating" ng-model="currentEmployee.name" type="text" placeholder="Jón Jón Jónsson"
         class="form-control input-lg" />
-    <label for="name">Full nafn</label>
+
+    <br> <label for="name">Gælunafn</label>
     <input id="nickname" ng-disabled="updating" ng-model="currentEmployee.nickname" type="text" placeholder="Jón" class="form-control input-lg"
     />
-    <label for="name">Gælunafn</label>
+
+    <br><label for="name">Innistæða í krónum</label>
     <input id="credit" required ng-model="currentEmployee.credit" type="number" placeholder="1500" class="form-control input-lg"
     />
-    <label for="name">Innistæða í krónum</label>
+
+    <br><label for="fileInput">Mynd af starfsmanni</label>
     <input id="fileInput" type="file" custom-on-change="uploadFile" accept="image/*" capture="user" />
-    <label for="fileInput">
-        Andiltsmynd af starfsmanni</label>
-    <div class="row">
-        <button type="submit" class="btn btn-success">Vista</button>
-        <button type="button" ng-click="back()" class="btn btn-danger">Hætta við</button>
-    </div>
+
+    <br>
+    <button type="submit" class="btn btn-success">Vista</button>
+    <button type="button" ng-click="back()" class="btn btn-danger">Hætta við</button>
+
+    <div class="col-sm-3">
+            <img cl-src="{{currentPhoto}}" class="staffphoto">
+        </img>
+        </div>
 
 </form>
