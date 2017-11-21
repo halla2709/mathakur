@@ -1,5 +1,7 @@
+
 <div class="row">
     <div class="col-sm-12">
+            <p ng-model="myText">Bla</p>            
         <h2>Velkomin {{employee.nickname}}, þú átt {{employee.credit}}kr</h2>
     </div>
 
@@ -26,8 +28,8 @@
                 <img cl-src="{{x.photourl}}"></img>
                 </img>
                 <div class="foodname">
-                <p>{{x.name}}</p> 
                 <p>Verð: {{x.price}} kr</p>
+                <p>{{x.name}}</p> 
             </div>
 
             </div>
@@ -67,8 +69,8 @@
 
         </table>
 
-        <button class="btn btn-success">Kaupa</button>
-        <button class="btn btn-danger">Hætta við</button>
+        <button class="btn btn-success" ng-click="buyFood(x)">Kaupa</button>
+        <button class="btn btn-danger" ng-click="removeAllFood()">Tæma</button>
 
     </div>
 </div>

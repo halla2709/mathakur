@@ -7,7 +7,7 @@
     <div class="col-sm-6 col-sm-offset-2">
         <div id="imaginary_container">
             <div class="input-group stylish-input-group">
-                <input type="text" ng-model="searchBox" class="form-control ng-valid" placeholder="Leita..." ng-model="searchKeyword">
+                <input type="text" ng-model="searchBox" class="form-control ng-valid" placeholder="Leita...">
                 <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-search"></span>
                 </span>
@@ -28,31 +28,42 @@
         </thead>
 
         <tbody>
-            <tr ng-repeat="food in foodData | filter:searchBox">
+            <tr ng-repeat="food in foodData | filter:searchBox" ng-click="editEmployee(employee)">
                 <td>{{food.name}}</td>
                 <td>{{food.category}}</td>
                 <td>{{food.price}}</td>
-                <td>{{food.photourl !== '' && food.photourl !== defaultFoodPhotoUrl}}</td>
-                <td><span ng-click="editEmployee(employee)" class="glyphicon glyphicon-pencil"></span></td>
+                <td><span ng-show="{{food.photourl !== '' && food.photourl !== defaultFoodPhotoUrl}}" class="glyphicon glyphicon-ok"></span>
+                    <span ng-show="{{food.photourl === '' || food.photourl === defaultFoodPhotoUrl}}" class="glyphicon glyphicon-remove"></span>
+                </td>
+                <td><span class="glyphicon glyphicon-pencil"></span></td>
             </tr>
         </tbody>
     </table>
 </div>
 
 <form id="form" role="form" ng-show="editing" ng-submit="submitFood(currentFood)">
+        <div class="col-sm-3">
+                <img cl-src="{{currentPhoto.image}}" class="staffphoto">
+            </img>
+            </div>
+
+    <label for="name">Matarheiti</label>
     <input id="name" required ng-disabled="updating" ng-model="currentFood.name" type="text" placeholder="Epli" class="form-control input-lg"
     />
-    <label for="name">Matarheiti</label>
+
+    <br><label for="category">Matarflokkur</label>
     <input id="category" ng-disabled="updating" ng-model="currentFood.category" type="text" placeholder="Ávöxtur" class="form-control input-lg"
     />
-    <label for="category">Matarflokkur</label>
+
+    <br><label for="name">Verð í krónum</label>
     <input id="price" required ng-model="currentFood.price" type="number" placeholder="200" class="form-control input-lg" />
-    <label for="name">Verð í krónum</label>
+
+    <br><label for="fileInput">Mynd af matnum</label>
     <input id="fileInput" type="file" custom-on-change="uploadFile" accept="image/*" capture="user" />
-    <label for="fileInput">Mynd af matnum</label>
-    <div class="row">
-        <button type="submit" class="btn btn-success">Vista</button>
-        <button type="button" ng-click="back()" class="btn btn-danger">Hætta við</button>
-    </div>
+
+    <br>
+    <button type="submit" class="btn btn-success">Vista</button>
+    <button type="button" ng-click="back()" class="btn btn-danger">Hætta við</button>
+
 
 </form>
