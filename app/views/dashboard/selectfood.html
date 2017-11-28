@@ -1,7 +1,8 @@
 
 <div class="row">
     <div class="col-sm-12">
-            <p ng-model="myText">Bla</p>            
+            <p class="bg-success" ng-show="myText">Þér hefur tekist að kaupa allt í körfunni! Eigðu góðan dag.</p>    
+            <p class="bg-danger" ng-show="myText2">Þú átt ekki nægan pening fyrir matnum. Fjarlægðu úr körfunni og reyndu aftur eða leggðu pening inn hjá þér.</p>
         <h2>Velkomin {{employee.nickname}}, þú átt {{employee.credit}}kr</h2>
     </div>
 
@@ -28,8 +29,9 @@
                 <img cl-src="{{x.photourl}}"></img>
                 </img>
                 <div class="foodname">
+                <p class = "onlyonerow">{{x.name}}</p> 
                 <p>Verð: {{x.price}} kr</p>
-                <p>{{x.name}}</p> 
+                
             </div>
 
             </div>
@@ -45,7 +47,6 @@
                     <th>Matur</th>
                     <th>Verð</th>
                     <th>Fjöldi</th>
-                    <th>&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,21 +56,15 @@
                     <td>{{x.price}}
                     </td>
                     <td>{{x.quantity}}
-                    </td>
-                    <td>&nbsp;
-                    </td>
                 </tr>
                 <tr>
+                    <th>Samtals:</th>
+                    <th>{{total}}kr</th>
                     <th></th>
-                    <th></th>
-                    <th></th>
-                    <th>Samtals: {{total}}kr</th>
                 </tr>
             </tbody>
-
         </table>
-
-        <button class="btn btn-success" ng-click="buyFood(x)">Kaupa</button>
+        <button class="btn btn-success" ng-model="myText" ng-model="myText2" ng-click="buyFood(x)">Kaupa</button>
         <button class="btn btn-danger" ng-click="removeAllFood()">Tæma</button>
 
     </div>

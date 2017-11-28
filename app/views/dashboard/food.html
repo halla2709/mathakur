@@ -1,11 +1,11 @@
 <a ui-sref="staff" class="pull-right btn-primary2 btn-outline"><span class="glyphicon glyphicon-user"></span> Skoða Starfsfólk</a>
 <div class="row">
-	<div class="col-sm-8">
-		<h2>Velkomin, <small>Hér er hægt að skoða matinn sem er í boði</small></h2>
+	<div class="col-sm-12">
+		<h2>Matur, <small>Hér er maturinn sem er í boði </small></h2>
 	</div>
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-6 col-sm-offset-3">
+			<div class="col-sm-8">
 				<div id="imaginary_container">
 					<div class="input-group stylish-input-group">
 						<input type="text" ng-model="searchBox" class="form-control" placeholder="Leita...">
@@ -24,9 +24,8 @@
 		<img cl-src="{{x.photourl}}" class="staffphoto">
 	</img>
 
-		
-		<p>Verð: {{x.price}} kr</p>
-		<p>{{x.name}}</p>
+		<p class = "onlyonerow">{{x.name}}</p>
+		<p class = "onlyonerow">Verð: {{x.price}} kr</p>
 	</div>
 </div>
 </div>

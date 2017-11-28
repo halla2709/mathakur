@@ -17,7 +17,6 @@ angular.module('mathakur')
     $scope.currentSchool = 1;
     var path = '/food/' + $scope.currentSchool;
     $scope.total = 0;
-    $scope.myText = "text";
 
 
     $scope.addFood = function (food) {
@@ -83,12 +82,12 @@ angular.module('mathakur')
                 })
           })
           console.log(credit);
-          $scope.myText = "Þér hefur tekist að kaupa allt í körfunni! Eigðu góðan dag.";
+          $scope.myText = "Hæ";
         }
   
         else {
           console.log("Þú átt ekki nægann pening fyrir matnum!")
-          $scope.myText = "Þú átt ekki nægann pening fyrir matnum! Fjarlægðu úr körfu og reyndu aftur eða leggðu meira inn hjá þer"
+          $scope.myText2 = "Bæ";
         }
     } else {
         // Do nothing!
