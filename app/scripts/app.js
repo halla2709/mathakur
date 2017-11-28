@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 angular
-  .module('mathakur', ['ui.router', 'cloudinary'])
+  .module('mathakur', ['ui.router', 'cloudinary', 'angular-md5'])
   .config(    
     function ($stateProvider, $urlRouterProvider) {
 
@@ -18,13 +18,17 @@ angular
 
     
     $stateProvider
+    .state('signup', {
+      url: '/signup',
+      templateUrl: 'views/signup.html',
+      controller: 'SignupCtrl'
+    })
     .state('selectfood', {
       url: '/staff/selectfood',
       parent: 'dashboard',
       controller: 'SelectFoodCtrl',
       templateUrl: 'views/dashboard/selectfood.html',
       params: {param:null}
-
     })
     .state('orderconfirm', {
       url: '/selectfood/orderconfirm',
@@ -32,7 +36,6 @@ angular
       controller: 'orderConfirmCtrl',
       templateUrl: 'views/dashboard/orderconfirm.html',
       params: {param:null}
-
     })
       .state('login', {
         url: '/login',
