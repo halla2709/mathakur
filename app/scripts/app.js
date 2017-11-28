@@ -26,15 +26,8 @@ angular
     .state('selectfood', {
       url: '/staff/selectfood',
       parent: 'dashboard',
-      controller: 'SelectFoodCtrl',
       templateUrl: 'views/dashboard/selectfood.html',
-      params: {param:null}
-    })
-    .state('orderconfirm', {
-      url: '/selectfood/orderconfirm',
-      parent: 'dashboard',
-      controller: 'orderConfirmCtrl',
-      templateUrl: 'views/dashboard/orderconfirm.html',
+      controller: 'DashboardCtrl',
       params: {param:null}
     })
       .state('login', {
@@ -76,7 +69,6 @@ angular
         url: '/food',
         parent: 'dashboard',
         templateUrl: 'views/dashboard/food.html',
-        controller: 'FoodCtrl'
       })
       .state('staff', {
         url: '/staff',

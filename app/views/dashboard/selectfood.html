@@ -1,8 +1,6 @@
-
 <div class="row">
     <div class="col-sm-12">
-            <p class="bg-success" ng-show="myText">Þér hefur tekist að kaupa allt í körfunni! Eigðu góðan dag.</p>    
-            <p class="bg-danger" ng-show="myText2">Þú átt ekki nægan pening fyrir matnum. Fjarlægðu úr körfunni og reyndu aftur eða leggðu pening inn hjá þér.</p>
+        <p class="bg-danger" ng-show="myText2">Þú átt ekki nægan pening fyrir matnum. Fjarlægðu úr körfunni og reyndu aftur eða leggðu pening inn hjá þér.</p>
         <h2>Velkomin {{employee.nickname}}, þú átt {{employee.credit}}kr</h2>
     </div>
 
@@ -10,29 +8,29 @@
     <div class="col-sm-8">
         <h3>Veldu í körfuna þína:</h3>
         <div class="container">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div id="imaginary_container">
-                            <div class="input-group stylish-input-group">
-                                <input type="text" ng-model="searchBox" class="form-control ng-valid" placeholder="Leita..." ng-model="searchKeyword">
-                                <span class="input-group-addon">
-                                                        <span class="glyphicon glyphicon-search"></span>
-                                </span>
-                            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div id="imaginary_container">
+                        <div class="input-group stylish-input-group">
+                            <input type="text" ng-model="searchBox" class="form-control ng-valid" placeholder="Leita..." ng-model="searchKeyword">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-        <div ng-repeat="x in myDataFood | filter:searchBox" ng-click="selectFood(x)" >
+        <div ng-repeat="x in myDataFood | filter:searchBox" ng-click="selectFood(x)">
             <div class="containers staffname col-sm-3" type="add" ng-click="addFood(x)">
                 <img cl-src="{{x.photourl}}"></img>
                 </img>
                 <div class="foodname">
-                <p class = "onlyonerow">{{x.name}}</p> 
-                <p>Verð: {{x.price}} kr</p>
-                
-            </div>
+                    <p class="onlyonerow">{{x.name}}</p>
+                    <p>Verð: {{x.price}} kr</p>
+
+                </div>
 
             </div>
         </div>
@@ -64,9 +62,13 @@
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-success" ng-model="myText" ng-model="myText2" ng-click="buyFood(x)">Kaupa</button>
+        <button class="btn btn-success" ng-model="myText2" ng-model="myText3" ng-click="buyFood(x)">Kaupa</button>
         <button class="btn btn-danger" ng-click="removeAllFood()">Tæma</button>
 
     </div>
 </div>
 </div>
+
+
+
+
