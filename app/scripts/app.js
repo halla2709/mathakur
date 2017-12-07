@@ -10,33 +10,32 @@
  */
 angular
   .module('mathakur', ['ui.router', 'cloudinary', 'angular-md5'])
-  .config(    
-    function ($stateProvider, $urlRouterProvider) {
+  .config(
+  function ($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.when('/dashboard', '/dashboard/staff');
     $urlRouterProvider.otherwise('/login');
 
-    
     $stateProvider
-    .state('signup', {
-      url: '/signup',
-      templateUrl: 'views/signup.html',
-      controller: 'SignupCtrl'
-    })
-    .state('selectfood', {
-      url: '/staff/selectfood',
-      parent: 'dashboard',
-      controller: 'SelectFoodCtrl',
-      templateUrl: 'views/dashboard/selectfood.html',
-      params: {param:null}
-    })
-    .state('orderconfirm', {
-      url: '/selectfood/orderconfirm',
-      parent: 'dashboard',
-      controller: 'orderConfirmCtrl',
-      templateUrl: 'views/dashboard/orderconfirm.html',
-      params: {param:null}
-    })
+      .state('signup', {
+        url: '/signup',
+        templateUrl: 'views/signup.html',
+        controller: 'SignupCtrl'
+      })
+      .state('selectfood', {
+        url: '/staff/selectfood',
+        parent: 'dashboard',
+        controller: 'SelectFoodCtrl',
+        templateUrl: 'views/dashboard/selectfood.html',
+        params: { param: null }
+      })
+      .state('orderconfirm', {
+        url: '/selectfood/orderconfirm',
+        parent: 'dashboard',
+        controller: 'orderConfirmCtrl',
+        templateUrl: 'views/dashboard/orderconfirm.html',
+        params: { param: null }
+      })
       .state('login', {
         url: '/login',
         templateUrl: 'views/login.html',
@@ -83,11 +82,16 @@ angular
         parent: 'dashboard',
         templateUrl: 'views/dashboard/staff.html',
       })
-      
+
   })
-  .config(function(CloudinaryProvider) {
+  .config(function (CloudinaryProvider) {
     CloudinaryProvider.configure({
       cloud_name: 'dk7mpsfkw',
       api_key: '431766444682953'
-  });
-});
+    })
+  })
+  .run(['$rootScope', 'session', '$location', assignServicesToRootScope]);
+
+function assignServicesToRootScope($rootScope, session, $location) {
+  $rootScope.session = session;
+}

@@ -8,7 +8,7 @@
  * Controller of yapp
  */
 angular.module('mathakur')
-  .controller('LoginCtrl', ['$scope', '$state', '$location', '$http', 'md5', function ($scope, $state, $location, $http, md5) {
+  .controller('LoginCtrl', ['$scope', '$rootScope', '$state', '$location', '$http', 'md5', function ($scope, $rootScope, $state, $location, $http, md5) {
 
     $scope.school = '';
     $scope.password = '';
@@ -42,6 +42,7 @@ angular.module('mathakur')
             .then(function (responseJson2) {
               console.log(responseJson2);
               if (responseJson2.data.loggedIn) {
+                $rootScope.session.setUser(responseJson2.data.loggedIn, 0);
                 $location.path('dashboard');
               }
               else {

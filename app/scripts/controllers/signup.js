@@ -8,7 +8,7 @@
  * Controller of yapp
  */
 angular.module('mathakur')
-  .controller('SignupCtrl', ['$scope', '$state', '$location', '$http', 'md5', function ($scope, $state, $location, $http, md5) {
+  .controller('SignupCtrl', ['$scope', '$rootScope', '$state', '$location', '$http', 'md5', function ($scope, $rootscope, $state, $location, $http, md5) {
 
     $scope.schoolName = '';
     $scope.adminName = '';
@@ -40,8 +40,9 @@ angular.module('mathakur')
               passwordHash: md5.createHash(passwordHash + responseJson.data.randomString)
             })
           })
-            .then(function () {
+            .then(function (responseJson2) {
               console.log("Signup successful");
+              $rootscope.session.setUser(responseJson2.data.school, 0);
               $location.path('dashboard');
             })
             .catch(function (error) { console.error(error) })

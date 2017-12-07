@@ -8,8 +8,12 @@
  * Controller of yapp
  */
 angular.module('mathakur')
-  .controller('DashboardCtrl', ['$scope', '$state', '$http', function ($scope, $state, $http) {
+  .controller('DashboardCtrl', ['$scope', '$rootScope', '$state', '$http', '$location', function ($scope, $rootScope, $state, $http, $location) {
 
+    if($rootScope.session.getLevel() < 0) {
+      console.log("no one is logged in");
+      $location.path('/login');
+    }
       
     $scope.$state = $state;
     $scope.selectStaff = function(employee) {
@@ -39,5 +43,10 @@ angular.module('mathakur')
         //Error handle
         $scope.content = "Something went wrong";
       });
+
+      $scope.logOut = function() {
+        $rootScope.session.destroy();
+        $location.path('/login');
+      }
 
   }]);

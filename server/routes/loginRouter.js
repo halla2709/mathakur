@@ -36,7 +36,7 @@ router.post('/signupSchool', authenticateConnection, addSchool, function (req, r
     currentPassword = '';
     waitingPassword = '';
     currentRandomString = '';
-    res.end();
+    res.json({ school: req.body.name });
 });
 
 function authenticateConnection(req, res, next) {
@@ -82,10 +82,7 @@ function checkSchoolAuthorization(req, res, next) {
             const randomString = results[0].rand;
             const rehashed = md5(waitingPassword + randomString);
             if (results[0].password === rehashed) {
-                let loggedInSchool = {};
-                loggedInSchool.name = results[0].name;
-                loggedInSchool.id = results[0].id;
-                res.loggedIn = loggedInSchool;
+                res.loggedIn = results[0].name;
             }
             else {
                 res.loggedIn = null;

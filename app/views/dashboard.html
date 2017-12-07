@@ -7,7 +7,7 @@
           <h3 class="brand">Innskráður skóli:</h3>
 
           <br>
-          <h5 ng-repeat="x in myDataSchool">{{x.name}}</h5>
+          <h5>{{session.getUser()}}</h5>
         </div>
 
         <div class="adminview">
@@ -15,7 +15,7 @@
             <li><a ui-sref="userlogin"><span class="glyphicon glyphicon-lock"></span> Stjórnandasíða</a></li>
             <li>&nbsp;</li>
             <li>&nbsp;</li>
-            <li><a id="logoutlook" ui-sref="login"><span class="glyphicon glyphicon-log-out"></span> Skrá skóla út</a></li>
+            <li><a id="logoutlook" href ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span> Skrá skóla út</a></li>
           </ul>
         </div>
 
