@@ -8,18 +8,13 @@
  * Controller of yapp
  */
 angular.module('mathakur')
-<<<<<<< HEAD
-  .controller('DashboardCtrl', ['$scope', '$rootScope', '$state', '$http', '$location', function ($scope, $rootScope, $state, $http, $location) {
+  .controller('DashboardCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', function ($scope, $rootScope, $state, $stateParams, $http, $location) {
 
     if($rootScope.session.getLevel() < 0) {
       console.log("no one is logged in");
       $location.path('/login');
     }
       
-=======
-  .controller('DashboardCtrl', ['$scope', '$state', '$http', '$stateParams', '$window', function ($scope, $state, $http, $stateParams, $window) {
-
->>>>>>> 35afe7618fd6c46b07b1bebb0bd2f201d97773e6
     $scope.$state = $state;
     $scope.employee = $stateParams.param;
     $scope.receipt = [];
@@ -138,13 +133,9 @@ angular.module('mathakur')
         $scope.content = "Something went wrong";
       });
 
-<<<<<<< HEAD
       $scope.logOut = function() {
         $rootScope.session.destroy();
         $location.path('/login');
       }
 
   }]);
-=======
-  }]);
->>>>>>> 35afe7618fd6c46b07b1bebb0bd2f201d97773e6
