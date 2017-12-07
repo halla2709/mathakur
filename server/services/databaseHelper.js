@@ -40,9 +40,9 @@ function updateEmployee(db, employeeId, newPhotoUrl, newCredit) {
     return db.none(queryString, [newPhotoUrl, newCredit, employeeId]);
 }
 
-function updateFoodPrice(db, schoolId, foodId, newPrice) {
-    let queryString = 'UPDATE foodprice SET price = $1 WHERE schoolid = $2 and foodid = $3';
-    return db.none(queryString, [newPrice, schoolId, foodId]);
+function updateFoodPrice(db, schoolName, foodId, newPrice) {
+    let queryString = 'UPDATE foodprice SET price = $1 WHERE schoolName = $2 and foodid = $3';
+    return db.none(queryString, [newPrice, schoolName, foodId]);
 }
 
 function updateFoodImage(db, foodId, url) {
@@ -63,7 +63,7 @@ function deleteFromTable(db, tableName, conditions) {
 
 function replaceTableName(tableName) {
     switch (tableName) {
-        case "administator":
+        case "administrator":
             return 'administrator';
             break;
         case "employee":

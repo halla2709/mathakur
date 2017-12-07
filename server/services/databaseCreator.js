@@ -32,20 +32,20 @@ db.none("CREATE TABLE IF NOT EXISTS employee(id SERIAL PRIMARY KEY, \
     nickname varchar(20), \
     credit integer NOT NULL, \
     photoUrl varchar(255) DEFAULT \'flat-avatar_schlbg\', \
-    schoolID integer REFERENCES school(id))")
+    schoolName integer REFERENCES school(name))")
 .catch(error => {
     console.log('ERROR:', error); // print the error;
 });
 db.none("CREATE TABLE IF NOT EXISTS administrator(id SERIAL PRIMARY KEY, \
     name varchar(40) NOT NULL, \
-    username varchar(40) NOT NULL, \
+    username varchar(40) UNIQUE NOT NULL, \
     password varchar(40) NOT NULL, \
     rand varchar(10) NOT NULL, \
-    schoolID integer REFERENCES school(id))")
+    schoolName integer REFERENCES school(name))")
 .catch(error => {
     console.log('ERROR:', error); // print the error;
 });
-db.none("CREATE TABLE IF NOT EXISTS foodprice(schoolID integer REFERENCES school(id), \
+db.none("CREATE TABLE IF NOT EXISTS foodprice(schoolName integer REFERENCES school(name), \
     foodID integer REFERENCES food(id), \
     price integer not null)")
 .catch(error => {

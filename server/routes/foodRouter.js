@@ -10,11 +10,11 @@ router.get('/', getAllFood, function (req, res, next) {
     res.json(res.food);
 });
 
-router.get('/:schoolID', getAllFood, getPricesForSchool, function(req, res, next) {
+router.get('/:schoolName', getAllFood, getPricesForSchool, function (req, res, next) {
     let resultTable = [];
-    res.prices.forEach(function(price) {
-        res.food.forEach(function(food) {
-            if(price.foodid === food.id) resultTable.push({id: food.id, name: food.name, category: food.category, photourl: food.photourl, price: price.price});
+    res.prices.forEach(function (price) {
+        res.food.forEach(function (food) {
+            if (price.foodid === food.id) resultTable.push({ id: food.id, name: food.name, category: food.category, photourl: food.photourl, price: price.price });
         });
     });
     res.json(resultTable);
@@ -25,7 +25,7 @@ router.post('/', savePhotoToCloudinary, validateColumns, function (req, res, nex
         ['name', 'category', 'photoUrl'], [req.body.name, req.body.category, req.body.photoUrl])
         .then(function () {
             res.statusCode = 200;
-            res.json({photoUrl: req.body.photoUrl});
+            res.json({ photoUrl: req.body.photoUrl });
         })
         .catch(function (error) {
             console.error(error)
@@ -34,33 +34,33 @@ router.post('/', savePhotoToCloudinary, validateColumns, function (req, res, nex
         });
 });
 
-router.patch('/:schoolid/:id', savePhotoToCloudinary, function (req, res, next) {
-    const schoolid = req.params.schoolid;
+router.patch('/:schoolName/:id', savePhotoToCloudinary, function (req, res, next) {
+    const schoolName = req.params.schoolName;
     const id = req.params.id;
     const newPrice = req.body.newPrice;
     const newPhotoUrl = req.body.photoUrl;
 
-    dbHelper.updateFoodPrice(database, schoolid, id, newPrice)
-        .then(function() {
+    dbHelper.updateFoodPrice(database, schoolName, id, newPrice)
+        .then(function () {
             dbHelper.updateFoodImage(database, id, newPhotoUrl)
-                .then(function() {
+                .then(function () {
                     res.statusCode = 200;
-                    res.json({photoUrl: newPhotoUrl});
+                    res.json({ photoUrl: newPhotoUrl });
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.error(error)
                     res.statusCode = 500;
                     return res.json({ errors: ['Could not update food image'] });
-                });            
+                });
         })
-        .catch(function(error) {
+        .catch(function (error) {
             console.error(error)
             res.statusCode = 500;
             return res.json({ errors: ['Could not update food price'] });
         });
 });
 
-router.get('/foodprice/:schoolID', getPricesForSchool, function(req, res, next) {
+router.get('/foodprice/:schoolName', getPricesForSchool, function (req, res, next) {
     res.json(res.prices);
 });
 
@@ -81,34 +81,28 @@ function validateColumns(req, res, next) {
 
 function getAllFood(req, res, next) {
     dbHelper.getFromTable(database, 'food', [])
-    .then(function(data) {
-        res.food = data;
-        next();
-    })
-    .catch(function(error) {
-        console.error(error)
-        res.statusCode = 500;
-        return res.json({ errors: ['Could not get food'] });
-    });
+        .then(function (data) {
+            res.food = data;
+            next();
+        })
+        .catch(function (error) {
+            console.error(error)
+            res.statusCode = 500;
+            return res.json({ errors: ['Could not get food'] });
+        });
 }
 
 function getPricesForSchool(req, res, next) {
-    if(!isNaN(parseFloat(req.params.schoolID))) {
-        dbHelper.getFromTable(database, 'foodprice', ['schoolid = ' + req.params.schoolID])
-            .then(function(data) {
-                res.prices = data;
-                next();
-            })
-            .catch(function(error) {
-                console.error(error)
-                res.statusCode = 500;
-                return res.json({ errors: ['Could not get food prices'] });
-            });
-    }
-    else {
-        res.statusCode = 403;
-        return res.json({ errors: ['School ID must be a number'] });
-    }
+    dbHelper.getFromTable(database, 'foodprice', ['schoolName = ' + req.params.schoolName])
+        .then(function (data) {
+            res.prices = data;
+            next();
+        })
+        .catch(function (error) {
+            console.error(error)
+            res.statusCode = 500;
+            return res.json({ errors: ['Could not get food prices'] });
+        });
 }
 
 module.exports = router;
