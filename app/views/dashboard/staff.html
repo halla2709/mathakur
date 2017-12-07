@@ -1,11 +1,12 @@
 <a ui-sref="food" class="pull-right btn-primary2 btn-outline"><span class="glyphicon glyphicon-apple"></span> Skoða Mat</a>
 <div class="row">
-	<div class="col-sm-8">
-		<h2>Velkomin, <small>Veldu þig með því að smella á myndina af þér</small></h2>
+	<div class="col-sm-12">
+			<p class="bg-success" ng-show="myText3">Þér hefur tekist að kaupa allt í körfunni! Eigðu góðan dag.</p>
+		<h2>Starfsmenn, <small> Veldu starfsmann:</small></h2>
 	</div>
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-6 col-sm-offset-3">
+				<div class="col-sm-8">
 				<div id="imaginary_container">
 					<div class="input-group stylish-input-group">
 						<input type="text" ng-model="searchBox" class="form-control" placeholder="Leita...">
@@ -23,7 +24,7 @@
 		<div class="col-sm-3 containers staffname">
 			<img cl-src="{{x.photourl}}" class="staffphoto">
 			</img>
-			<p>{{x.name}}</p>
+			<p class = "onlyonerow">{{x.name}}</p>
 		</div>
 	</div>
 </div>

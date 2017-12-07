@@ -529,6 +529,10 @@ p {
   overflow-wrap: break-word;
 }
 
+p.onlyonerow {
+  white-space: nowrap; 
+}
+
 .lead {
   margin-bottom: 20px;
   font-size: 16px;
