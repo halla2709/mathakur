@@ -2,7 +2,7 @@
     <button class="pull-right btn-primary2" ng-show="!editing" ng-click="editFood()">
                 <span class="glyphicon glyphicon-apple"></span> Skrá nýjan mat</button>
 
-    <h2>Velkomin {{admin.name}}, hér er tafla með öllum mat í kerfinu:</h2>
+    <h2>Velkomin {{session.getUser()}}, hér er tafla með öllum mat í kerfinu:</h2>
 
     <div class="col-sm-6 col-sm-offset-2">
         <div id="imaginary_container">
@@ -41,12 +41,8 @@
     </table>
 </div>
 
-<form id="form" role="form" ng-show="editing" ng-submit="submitFood(currentFood)">
-        <div class="col-sm-3">
-                <img cl-src="{{currentPhoto.image}}" class="staffphoto">
-            </img>
-            </div>
-
+<form id="form" role="form" ng-show="editing" ng-submit="submitFood(currentFood)" class="col-md-offset-2 col-md-8 col-md-offset-2">
+        
     <label for="name">Matarheiti</label>
     <input id="name" required ng-disabled="updating" ng-model="currentFood.name" type="text" placeholder="Epli" class="form-control input-lg"
     />
@@ -64,6 +60,10 @@
     <br>
     <button type="submit" class="btn btn-success">Vista</button>
     <button type="button" ng-click="back()" class="btn btn-danger">Hætta við</button>
-
+    
+    <div class="col-sm-3">
+                <img cl-src="{{currentPhoto.image}}" class="staffphoto">
+            </img>
+            </div>
 
 </form>

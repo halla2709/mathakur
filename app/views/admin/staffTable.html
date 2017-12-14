@@ -2,7 +2,7 @@
     <button class="pull-right btn-primary2" ng-show="!editing" ng-click="editEmployee()">
                 <span class="glyphicon glyphicon-user"></span> Skrá nýjan starfsmann</button>
 
-    <h2>Velkomin {{admin.name}}, hér er tafla með öllum starfsmönnum í kerfinu:</h2>
+    <h2>Velkomin {{session.getUser()}}, hér er tafla með öllum starfsmönnum í kerfinu:</h2>
 
     <div class="col-sm-6 col-sm-offset-2">
         <div id="imaginary_container">
@@ -39,7 +39,7 @@
     </table>
 </div>
 
-<form id="form" role="form" ng-show="editing" ng-submit="submitEmployee(currentEmployee)">
+<form id="form" role="form" ng-show="editing" ng-submit="submitEmployee(currentEmployee)" class="col-md-offset-2 col-md-8 col-md-offset-2">
     <label for="name">Full nafn</label>
     <input id="name" required ng-disabled="updating" ng-model="currentEmployee.name" type="text" placeholder="Jón Jón Jónsson"
         class="form-control input-lg" />

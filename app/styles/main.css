@@ -294,6 +294,7 @@ th {
   .table td,
   .table th {
     background-color: #fff !important;
+    
   }
   .table-bordered th,
   .table-bordered td {
@@ -424,7 +425,9 @@ h4,
 h5,
 h6,
 .h1,
-.h2,
+.h2 {
+  text-align: center;
+}
 .h3,
 .h4,
 .h5,
@@ -1545,6 +1548,7 @@ caption {
 }
 th {
   text-align: left;
+  
 }
 .table {
   width: 100%;

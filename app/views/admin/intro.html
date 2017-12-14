@@ -1,4 +1,4 @@
-<h2>Velkomin! Veldu hvað þú vilt gera:</h2>
+<h2>Velkomin {{session.getUser()}}! Veldu hvað þú vilt gera:</h2>
           <a href ng-click="goToStaff()"><span class="glyphicon glyphicon-user"></span> Skoða starfsmenn<span class="sr-only">(current)</span></a>
           <a href ng-click="goToFood()"><span class="glyphicon glyphicon-apple"></span> Skoða mat<span class="sr-only">(current)</span></a>
           
