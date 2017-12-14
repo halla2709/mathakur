@@ -20,6 +20,7 @@ body {
   z-index: 1000;
   background-color: white;
   margin:0.5em;
+  size: 50em;
 }
 
 
@@ -2878,6 +2879,7 @@ tbody.collapse.in {
 .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
+  
 }
 .btn-group > .btn:last-child:not(:first-child),
 .btn-group > .dropdown-toggle:not(:first-child) {

@@ -139,7 +139,7 @@ function checkUserCredientials(req, res, next) {
                     console.log('school in req ' + req.body.schoolName);
                     res.loggedIn = null;
                 }
-                next();
+               
             }
             else {
                 res.loggedIn = null;
@@ -147,9 +147,8 @@ function checkUserCredientials(req, res, next) {
                 currentPassword = '';
                 waitingPassword = '';
                 currentRandomString = '';
-                res.statusCode = 500;
-                return res.json({ errors: ['Wrong password'] });
             }
+            next();
 
         })
         .catch(function (error) {

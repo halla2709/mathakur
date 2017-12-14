@@ -6,6 +6,8 @@
 		<div class="row">
 			<div class="col-md-offset-3 col-sm-6 col-md-offset-3">
 				<br>
+				
+
 				<h1>Velkomin! </h1>
 				<h1><small>Vinsamlega skráðu skólann þinn inn:</small></h1>
 				<form role="form" ng-submit="submit()">
@@ -21,6 +23,7 @@
 						<div class="form-group">
 							<input ng-model="password" type="password" class="form-control input-underline input-lg" id="passwordplaceholder" placeholder="Lykilorð">
 						</div>
+						<p ng-show="wrongpassword">Eitthvað fór úrskeiðis, sláðu inn rétt lykilorð og reyndu aftur.</p>
 					</div>
 
 					<button type="submit" class="btn btn-white btn-outline btn-lg btn-rounded">Skrá inn</button>

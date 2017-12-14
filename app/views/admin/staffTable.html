@@ -2,16 +2,17 @@
     <button class="pull-right btn-primary2" ng-show="!editing" ng-click="editEmployee()">
                 <span class="glyphicon glyphicon-user"></span> Skrá nýjan starfsmann</button>
 
-    <h2>Velkomin {{session.getUser()}}, hér er tafla með öllum starfsmönnum í kerfinu:</h2>
+    <h2>Velkomin {{session.getUser()}}, <small>hér er tafla með öllum starfsmönnum í kerfinu:</small></h2><br>
 
-    <div class="col-sm-6 col-sm-offset-2">
+    <div class="col-sm-offset-3 col-sm-6 col-sm-offset-3">
         <div id="imaginary_container">
             <div class="input-group stylish-input-group">
                 <input type="text" ng-model="searchBox" class="form-control ng-valid" placeholder="Leita...">
                 <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-search"></span>
+                <span class="glyphicon glyphicon-search"></span>
                 </span>
             </div>
+        <br>
         </div>
     </div>
 

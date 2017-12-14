@@ -12,6 +12,7 @@ angular.module('mathakur')
 
     $scope.school = '';
     $scope.password = '';
+    $scope.wrongpassword = '';
 
     $scope.submit = function () {
       console.log("submitting");
@@ -47,6 +48,7 @@ angular.module('mathakur')
               else {
                 $scope.school = '';
                 $scope.password = '';
+                $scope.wrongpassword = 'Eitthvað fór úrskeiðis, sláðu inn rétt lykilorð og reyndu aftur.';
               }
             })
             .catch(function (error) { console.error(error) })

@@ -12,6 +12,7 @@ angular.module('mathakur')
 
     $scope.username = '';
     $scope.password = '';
+    $scope.wrongpassword = '';
 
     if($rootScope.session.getLevel() < 0) {
       console.log("no school is logged in");
@@ -51,6 +52,7 @@ angular.module('mathakur')
               else {
                 $scope.username = '';
                 $scope.password = '';
+                $scope.wrongpassword = 'Eitthvað fór úrskeiðis, sláðu inn rétt lykilorð og reyndu aftur.';
               }
             })
             .catch(function (error) { console.error(error) })
