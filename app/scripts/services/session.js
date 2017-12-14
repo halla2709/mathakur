@@ -6,6 +6,7 @@ angular.module('mathakur')
         this._school = localStorage.getItem('session.school');
         this._user = localStorage.getItem('session.user');
         this._level = localStorage.getItem('session.level') || -1;
+        this._lastselecteduser = localStorage.getItem('session.lastselecteduser')
         console.log(this._level);
 
         this.getSchool = function () {
@@ -18,6 +19,10 @@ angular.module('mathakur')
 
         this.getLevel = function() {
             return this._level;
+        }
+
+        this.getLastSelectedUser = function() {
+            return this._lastselecteduser;
         }
 
         this.setUser = function (user, level) {

@@ -8,7 +8,7 @@
  * Controller of yapp
  */
 angular.module('mathakur')
-  .controller('DashboardCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', function ($scope, $rootScope, $state, $stateParams, $http, $location) {
+  .controller('DashboardCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', '$window', function ($scope, $rootScope, $state, $stateParams, $http, $location, $window) {
 
     if($rootScope.session.getLevel() < 0) {
       console.log("no one is logged in");
@@ -23,6 +23,8 @@ angular.module('mathakur')
     var path = '/food/' + $rootScope.session.getSchool();
     $scope.total = 0;
     $scope.class = 'col-sm-12 col-md-12 main';
+    $scope.class2 = 'col-sm-8 cool';
+    $scope.myText3 = '';
 
     $scope.selectStaff = function(employee) {
       $state.go("selectfood", {param:employee});
@@ -35,9 +37,11 @@ angular.module('mathakur')
       if($scope.sidebar)
       {
         $scope.class = 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main';
+        $scope.class2 = 'col-sm-2 col-md-2 cool';
       }
       else {
         $scope.class = 'col-sm-12 col-md-12 main';
+        $scope.class2 = 'col-sm-1 col-md-1 cool';
       }
     }
 
@@ -84,7 +88,6 @@ angular.module('mathakur')
     }
 
     $scope.buyFood = function (food) {
-      console.log("employee á", $scope.employee.credit);
       var credit = $scope.employee.credit;
 
       if (confirm('Ertu viss um að þú viljir kaupa allt í körfunni?')) {
@@ -93,8 +96,6 @@ angular.module('mathakur')
         {
               credit -= $scope.total;
               $scope.employee.credit = credit;
-
-              console.log(credit);
 
               $http({
                 method: 'PATCH',
@@ -105,13 +106,15 @@ angular.module('mathakur')
           })
             if(confirm('Til hamingju! þér hefur tekist að versla allt í körfunni, eigðu góðann dag!')) {
               $window.location.href = '/#/dashboard/staff';
+              
             }
             else {
               $window.location.href = '/#/dashboard/staff';
+              $scope.myText3 = "Þér hefur tekist að kaupa allt í körfunni! Eigðu góðan dag.";
             }
-          console.log(credit);
           $window.location.href = '/#/dashboard/staff';
           $scope.myText3 = "Hæ";
+          
 
         }
   
