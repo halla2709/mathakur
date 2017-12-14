@@ -18,12 +18,21 @@ angular.module('mathakur')
     $scope.$state = $state;
     $scope.employee = $stateParams.param;
     $scope.receipt = [];
+    $scope.editing = false;
+    $scope.hideSidebar = true;
     $scope.currentSchool = 1;
     var path = '/food/' + $scope.currentSchool;
     $scope.total = 0;
 
     $scope.selectStaff = function(employee) {
       $state.go("selectfood", {param:employee});
+    }
+
+
+    $scope.showSidebar = function (hideSidebar){
+      console.log("komst hingað");
+      $scope.hideSidebar = true;
+
     }
 
     $scope.addFood = function (food) {

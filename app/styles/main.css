@@ -5845,6 +5845,7 @@ button.close {
 }
 @media (min-width: 768px) {
   .dashboard-page .sidebar {
+    
     position: fixed;
     top: 0px;
     bottom: 0;
