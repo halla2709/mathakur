@@ -20,18 +20,9 @@ router.get('/:schoolName', getAllFood, getPricesForSchool, function (req, res, n
     res.json(resultTable);
 });
 
-router.post('/', savePhotoToCloudinary, validateColumns, function (req, res, next) {
-    dbHelper.insertIntoTable(database, 'food',
-        ['name', 'category', 'photoUrl'], [req.body.name, req.body.category, req.body.photoUrl])
-        .then(function () {
-            res.statusCode = 200;
-            res.json({ photoUrl: req.body.photoUrl });
-        })
-        .catch(function (error) {
-            console.error(error)
-            res.statusCode = 500;
-            return res.json({ errors: ['Could not create food'] });
-        });
+router.post('/', savePhotoToCloudinary, validateColumns, insertIntoTables, function (req, res, next) {
+    res.statusCode = 200;
+    res.json({ photoUrl: res.photourl });
 });
 
 router.patch('/:schoolName/:id', savePhotoToCloudinary, function (req, res, next) {
@@ -93,7 +84,7 @@ function getAllFood(req, res, next) {
 }
 
 function getPricesForSchool(req, res, next) {
-    dbHelper.getFromTable(database, 'foodprice', ['schoolName = \'' + req.params.schoolName + '\''])
+    dbHelper.getFromTable(database, 'foodprice', ['schoolName = \'' + req.params.schoolName + '\' '])
         .then(function (data) {
             res.prices = data;
             next();
@@ -103,6 +94,29 @@ function getPricesForSchool(req, res, next) {
             res.statusCode = 500;
             return res.json({ errors: ['Could not get food prices'] });
         });
+}
+
+function insertIntoTables(req, res, next) {
+    dbHelper.insertIntoTableReturningID(database, 'food',
+    ['name', 'category', 'photoUrl'], [req.body.name, req.body.category, res.photoUrl])
+    .then(function (id) {
+        dbHelper.insertIntoTable(database, 'foodprice', 
+        ['schoolname', 'foodid', 'price'], [req.body.school, id.id, req.body.price])
+            .then(function() {
+                console.log("ADDED FOOD PRICE");
+            })
+            .catch(function(error){
+                console.error(error);
+                res.statusCode = 500;
+                return res.json({ errors: ['Could not add food price'] });
+            })
+        next();
+    })
+    .catch(function (error) {
+        console.error(error)
+        res.statusCode = 500;
+        return res.json({ errors: ['Could not create food'] });
+    });
 }
 
 module.exports = router;

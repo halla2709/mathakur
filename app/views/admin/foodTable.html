@@ -28,12 +28,12 @@
         </thead>
 
         <tbody>
-            <tr ng-repeat="food in foodData | filter:searchBox" ng-click="editEmployee(employee)">
+            <tr ng-repeat="food in foodData | filter:searchBox" ng-click="editFood(food)">
                 <td>{{food.name}}</td>
                 <td>{{food.category}}</td>
                 <td>{{food.price}}</td>
-                <td><span ng-show="{{food.photourl !== '' && food.photourl !== defaultFoodPhotoUrl}}" class="glyphicon glyphicon-ok"></span>
-                    <span ng-show="{{food.photourl === '' || food.photourl === defaultFoodPhotoUrl}}" class="glyphicon glyphicon-remove"></span>
+                <td><span ng-show="{{food.photourl && food.photourl !== '' && food.photourl !== defaultFoodPhotoUrl}}" class="glyphicon glyphicon-ok"></span>
+                    <span ng-show="{{!food.photourl || food.photourl === '' || food.photourl === defaultFoodPhotoUrl}}" class="glyphicon glyphicon-remove"></span>
                 </td>
                 <td><span class="glyphicon glyphicon-pencil"></span></td>
             </tr>

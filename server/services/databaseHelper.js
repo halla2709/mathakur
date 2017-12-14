@@ -9,6 +9,26 @@ function getFromTable(db, tableName, conditions) {
     return db.any(queryString, tableName);
 }
 
+function insertIntoTableReturningID(db, tableName, columns, values) {
+    if(tableName == 'school' || tableName == 'foodprice') {
+        console.error(tableName + " does not have id");
+        return;
+    }
+    let queryString = 'INSERT INTO ' + replaceTableName(tableName);
+    let columnsString = '(';
+    let valuesString = '(';
+    if (columns.length != values.length) throw "Column and value number mismatch";
+    for(let i = 0; i < columns.length-1; i++) {
+        columnsString += columns[i] + ', ';
+        valuesString += '$' + (i+1) + ', ';
+    }
+    columnsString += ' ' + columns[columns.length-1] + ')';
+    valuesString += ' $' + values.length + ')';
+    queryString += columnsString + " VALUES" + valuesString + ' RETURNING id;';
+    console.log(queryString);
+    return db.one(queryString, values);
+}
+
 function insertIntoTable(db, tableName, columns, values) {
     let queryString = 'INSERT INTO ' + replaceTableName(tableName);
     let columnsString = '(';
@@ -90,6 +110,7 @@ function replaceTableName(tableName) {
 module.exports = {
     getFromTable,
     insertIntoTable,
+    insertIntoTableReturningID,
     updateCreditOfEmployee,
     deleteFromTable,
     updateEmployeeImage,
