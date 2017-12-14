@@ -1,7 +1,9 @@
+
 <div class="dashboard-page" >
+     
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-3 col-md-2 sidebar" ng-show="hidesidebar">
+      <div class="col-sm-3 col-md-2 sidebar changesidebar" ng-show="sidebar" >
 
         <img src="images/mathakur.png" class="icon-mathakur" />
         <div class="text-center">
@@ -21,7 +23,8 @@
         </div>
 
       </div>
-      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ui-view>
+      <button class="pull-left btn-lg glyphicon glyphicon-option-horizontal" id="showSidebarButton" ng-click = "showSidebar()"></button>  
+      <div ng-class="class" ui-view>
       </div>
     </div>
   </div>

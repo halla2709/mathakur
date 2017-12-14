@@ -12,6 +12,16 @@ body {
   margin-top: 20px;
 }
 
+#showSidebarButton {
+  top:0px;
+  right:0px;
+  text-align: center;
+  padding: 0.2em;
+  z-index: 1000;
+  background-color: white;
+  margin:0.5em;
+}
+
 
 article,
 aside,
@@ -5811,6 +5821,15 @@ button.close {
 .login-page .form-content {
   padding: 40px 0;
 }
+
+.changesidebar {
+  transition: all 0.5s ease-out;
+}
+
+.changesidebar.ng-hide {
+  transition: all 1s ease-out;
+}
+
 .dashboard-page {
   position: absolute;
   top: 0;
@@ -5860,6 +5879,7 @@ button.close {
     border-right: 1px solid #eee;
   }
 }
+ 
 .dashboard-page .nav > li > a:hover,
 .dashboard-page .nav > li > a:focus {
   background: rgb(169,44,44);

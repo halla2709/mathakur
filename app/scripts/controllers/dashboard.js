@@ -19,20 +19,29 @@ angular.module('mathakur')
     $scope.employee = $stateParams.param;
     $scope.receipt = [];
     $scope.editing = false;
-    $scope.hideSidebar = true;
+    $scope.sidebar = false;
     $scope.currentSchool = 1;
     var path = '/food/' + $scope.currentSchool;
     $scope.total = 0;
+    $scope.class = 'col-sm-12 col-md-12 main';
 
     $scope.selectStaff = function(employee) {
       $state.go("selectfood", {param:employee});
     }
 
 
-    $scope.showSidebar = function (hideSidebar){
-      console.log("komst hingað");
-      $scope.hideSidebar = true;
-
+    $scope.showSidebar = function (sidebar){
+      $scope.sidebar = !$scope.sidebar;
+      
+      if($scope.sidebar)
+      {
+        console.log("komst hingað")
+        $scope.class = 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main';
+      }
+      else {
+        console.log("komst hingað.....")
+        $scope.class = 'col-sm-12 col-md-12 main';
+      }
     }
 
     $scope.addFood = function (food) {
