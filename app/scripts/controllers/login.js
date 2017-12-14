@@ -41,7 +41,7 @@ angular.module('mathakur')
             .then(function (responseJson2) {
               console.log(responseJson2);
               if (responseJson2.data.loggedIn) {
-                $rootScope.session.setUser(responseJson2.data.loggedIn, 0);
+                $rootScope.session.setSchool(responseJson2.data.loggedIn, 0);
                 $location.path('dashboard');
               }
               else {

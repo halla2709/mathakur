@@ -1,5 +1,5 @@
 angular.module('mathakur')
-    .controller('AdminPanelCtrl', ['$scope', '$state', '$http', '$rootScope', function ($scope, $state, $http, $rootScope) {
+    .controller('AdminPanelCtrl', ['$scope', '$state', '$http', '$rootScope', '$location', function ($scope, $state, $http, $rootScope, $location) {
         
         if($rootScope.session.getLevel() < 1) {
             console.log("admin is not logged in");
@@ -32,6 +32,8 @@ angular.module('mathakur')
               $scope.class = 'col-sm-12 col-md-12 main';
             }
           }
+        $scope.defaultEmployeePhotoUrl = 'flat-avatar_schlbg';
+        $scope.defaultFoodPhotoUrl = 'sample';
 
 
         $http.get("employee").then(function (response) {
@@ -217,7 +219,12 @@ angular.module('mathakur')
             }
         }
 
+        $scope.logOut = function() {
+            $rootScope.session.destroy();
+            $location.path('/dashboard/staff');
+          }
 
+        
     }])
     .directive('customOnChange', function () {
         return {
