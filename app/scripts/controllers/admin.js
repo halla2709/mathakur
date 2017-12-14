@@ -24,17 +24,12 @@ angular.module('mathakur')
             
             if($scope.sidebar)
             {
-              console.log("komst hingað")
               $scope.class = 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main';
             }
             else {
-              console.log("komst hingað.....")
               $scope.class = 'col-sm-12 col-md-12 main';
             }
           }
-        $scope.defaultEmployeePhotoUrl = 'flat-avatar_schlbg';
-        $scope.defaultFoodPhotoUrl = 'sample';
-
 
         $http.get("employee").then(function (response) {
                 console.log("getting data");
@@ -46,7 +41,7 @@ angular.module('mathakur')
                 $scope.content = "Something went wrong";
             });
 
-        $http.get("food/1").then(function (response) {
+        $http.get("food/" + $rootScope.session.getSchool()).then(function (response) {
                 $scope.foodData = response.data;
                 console.log($scope.foodData);
             })
@@ -55,12 +50,10 @@ angular.module('mathakur')
                 $scope.content = "Something went wrong";
             });
 
-        //TODO get food table for only this school and filter
         $scope.goToStaff = function () {
             $state.go('staffTable');
             $scope.editing = false;
             $scope.updating = false;
-
         }
 
         $scope.goToFood = function () {
