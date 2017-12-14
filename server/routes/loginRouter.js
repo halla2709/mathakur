@@ -11,7 +11,6 @@ let waitingPassword = '';
 let currentRandomString = '';
 
 router.post('/requestConnection', function (req, res, next) {
-    const shoolName = req.body.name;
     currentRandomString = randomString({ length: 10 });
     waitingPassword = req.body.passwordHash;
     currentPassword = req.body.passwordHash + currentRandomString;
@@ -21,11 +20,6 @@ router.post('/requestConnection', function (req, res, next) {
 });
 
 router.post('/loginSchool', authenticateConnection, checkSchoolAuthorization, function (req, res, next) {
-    const schoolName = req.body.name;
-    const passwordHash = req.body.passwordHash;
-    const myPasswordHash = md5(currentPassword);
-    console.log(passwordHash);
-    console.log(myPasswordHash);
     currentPassword = '';
     waitingPassword = '';
     currentRandomString = '';
@@ -37,6 +31,20 @@ router.post('/signupSchool', authenticateConnection, addSchool, function (req, r
     waitingPassword = '';
     currentRandomString = '';
     res.json({ school: req.body.name });
+});
+
+router.post('/signupAdmin', authenticateConnection, addAdmin, function (req, res, next) {
+    currentPassword = '';
+    waitingPassword = '';
+    currentRandomString = '';
+    res.json({ schoolName: req.body.schoolName, name: req.body.name });
+});
+
+router.post('/loginUser', authenticateConnection, checkUserCredientials, function (req, res, next) {
+    currentPassword = '';
+    waitingPassword = '';
+    currentRandomString = '';
+    res.json({ loggedIn: res.loggedIn });
 });
 
 function authenticateConnection(req, res, next) {
@@ -52,7 +60,7 @@ function authenticateConnection(req, res, next) {
     else {
         currentPassword = '';
         waitingPassword = '';
-        currentRandomString = '';    
+        currentRandomString = '';
         res.statusCode = 401;
         return res.json({ errors: ['Authentication error'] });
     }
@@ -68,9 +76,26 @@ function addSchool(req, res, next) {
             console.error(error);
             currentPassword = '';
             waitingPassword = '';
-            currentRandomString = '';            
+            currentRandomString = '';
             res.statusCode = 500;
             return res.json({ errors: ['Could not create school'] });
+        });
+}
+
+function addAdmin(req, res, next) {
+    dbHelper.insertIntoTable(database, 'administrator',
+        ['name', 'password', 'rand', 'username', 'schoolName'],
+        [req.body.name, req.body.passwordHash, currentRandomString, req.body.username, req.body.schoolName])
+        .then(function () {
+            next();
+        })
+        .catch(function (error) {
+            console.error(error);
+            currentPassword = '';
+            waitingPassword = '';
+            currentRandomString = '';
+            res.statusCode = 500;
+            return res.json({ errors: ['Could not create admin'] });
         });
 }
 
@@ -93,9 +118,45 @@ function checkSchoolAuthorization(req, res, next) {
             console.error(error);
             currentPassword = '';
             waitingPassword = '';
-            currentRandomString = '';    
+            currentRandomString = '';
             res.statusCode = 500;
             return res.json({ errors: ['Could not find school'] });
+        });
+}
+
+function checkUserCredientials(req, res, next) {
+    console.log('checking ' + req.body.username + ' and ' + req.body.schoolName);
+    dbHelper.getFromTable(database, 'administrator', ['username = \'' + req.body.username + '\''])
+        .then(function (results) {
+            const randomString = results[0].rand;
+            const rehashed = md5(waitingPassword + randomString);
+            if (results[0].password === rehashed) {
+                if (results[0].schoolName === req.body.schoolName) {
+                    res.loggedIn = results[0].name;
+                }
+                else {
+                    res.loggedIn = null;
+                }
+                next();
+            }
+            else {
+                res.loggedIn = null;
+                console.log("here");
+                currentPassword = '';
+                waitingPassword = '';
+                currentRandomString = '';
+                res.statusCode = 500;
+                return res.json({ errors: ['Wrong password'] });
+            }
+
+        })
+        .catch(function (error) {
+            console.error(error);
+            currentPassword = '';
+            waitingPassword = '';
+            currentRandomString = '';
+            res.statusCode = 500;
+            return res.json({ errors: ['Could not find administrator'] });
         });
 }
 

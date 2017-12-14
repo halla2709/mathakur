@@ -1,6 +1,11 @@
 angular.module('mathakur')
-    .controller('AdminPanelCtrl', ['$scope', '$state', '$http', function ($scope, $state, $http) {
-
+    .controller('AdminPanelCtrl', ['$scope', '$state', '$http', '$rootScope', function ($scope, $state, $http, $rootScope) {
+        
+        if($rootScope.session.getLevel() < 1) {
+            console.log("admin is not logged in");
+            $location.path('/userlogin');
+          }
+        
         $scope.$state = $state;
         $scope.currentPhoto = {};
         $scope.currentEmployee = {};

@@ -8,7 +8,7 @@
  * Controller of yapp
  */
 angular.module('mathakur')
-  .controller('SignupCtrl', ['$scope', '$rootScope', '$state', '$location', '$http', 'md5', function ($scope, $rootscope, $state, $location, $http, md5) {
+  .controller('SignupCtrl', ['$scope', '$rootScope', '$state', '$location', '$http', 'md5', function ($scope, $rootScope, $state, $location, $http, md5) {
 
     $scope.schoolName = '';
     $scope.adminName = '';
@@ -25,7 +25,6 @@ angular.module('mathakur')
         method: 'POST',
         url: '/login/requestConnection',
         data: JSON.stringify({
-          name: $scope.schoolName,
           passwordHash: passwordHash
         })
       })
@@ -42,7 +41,7 @@ angular.module('mathakur')
           })
             .then(function (responseJson2) {
               console.log("Signup successful");
-              $rootscope.session.setUser(responseJson2.data.school, 0);
+              $rootScope.session.setSchool(responseJson2.data.school, 0);
               $location.path('dashboard');
             })
             .catch(function (error) { console.error(error) })
@@ -54,14 +53,13 @@ angular.module('mathakur')
 
     $scope.submitAdmin = function () {
         console.log("submitting");
-        console.log($scope.school);
+        console.log($scope.adminName);
         let passwordHash = md5.createHash($scope.adminPassword || '');
         console.log(passwordHash);
-        /*$http({
+        $http({
           method: 'POST',
-          url: '/login/requestLogin',
+          url: '/login/requestConnection',
           data: JSON.stringify({
-            name: $scope.school.name,
             passwordHash: passwordHash
           })
         })
@@ -70,20 +68,24 @@ angular.module('mathakur')
             console.log("Rehashing " + passwordHash + " to " + md5.createHash(passwordHash + responseJson.data.randomString));
             $http({
               method: 'POST',
-              url: '/login/loginSchool',
+              url: '/login/signupAdmin',
               data: JSON.stringify({
-                name: $scope.school.name,
+                schoolName: $scope.schoolName,
+                name: $scope.adminName,
+                username: $scope.userName,
                 passwordHash: md5.createHash(passwordHash + responseJson.data.randomString)
               })
             })
-              .then(function () {
+              .then(function (responseJson2) {
                 console.log("login successful");
-                $location.path('dashboard');
+                $rootScope.session.setSchool(responseJson2.data.schoolName, 0);
+                $rootScope.session.setUser(responseJson2.data.name, 1);
+                $location.path('adminpanel');
               })
               .catch(function (error) { console.error(error) })
           })
           .catch(function (error) { console.error(error) });
-          */
+          
         return false;
       }
   }]);

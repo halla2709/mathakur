@@ -35,8 +35,7 @@ angular.module('mathakur')
             url: '/login/loginSchool',
             data: JSON.stringify({
               name: schoolName,
-              passwordHash: md5.createHash(passwordHash + responseJson.data.randomString),
-              halla: "HALLO"
+              passwordHash: md5.createHash(passwordHash + responseJson.data.randomString)
             })
           })
             .then(function (responseJson2) {

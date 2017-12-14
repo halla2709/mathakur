@@ -34,11 +34,6 @@ angular
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
       })
-      .state('imagetest', {
-        url: '/imagetest',
-        templateUrl: 'views/imagetest.html',
-        controller: 'ImageCtrl'
-      })
       .state('userlogin', {
         url: '/userlogin',
         templateUrl: 'views/userlogin.html',
