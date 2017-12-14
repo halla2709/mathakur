@@ -14,6 +14,7 @@ angular
   function ($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.when('/dashboard', '/dashboard/staff');
+    $urlRouterProvider.when('/adminpanel', '/adminpanel/intro');
     $urlRouterProvider.otherwise('/login');
 
     $stateProvider
@@ -52,6 +53,11 @@ angular
       .state('foodTable', {
         url: '/foodTable',
         templateUrl: 'views/admin/foodTable.html',
+        parent: 'adminpanel'
+      })
+      .state('intro', {
+        url: '/intro',
+        templateUrl: 'views/admin/intro.html',
         parent: 'adminpanel'
       })
       .state('dashboard', {
