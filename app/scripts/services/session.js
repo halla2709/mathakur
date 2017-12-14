@@ -44,7 +44,12 @@ angular.module('mathakur')
          */
         this.destroy = function destroy() {
             console.log("Destroying");
-            this.setUser(null, -1);
+            if(this._level > 0) {
+                this.setUser(null, 0)
+            }
+            else {
+                this.setUser(null, -1);
+            }            
         };
     }])
     .factory('localStorage', ['$window', function($window) {
