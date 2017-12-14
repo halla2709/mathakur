@@ -131,10 +131,12 @@ function checkUserCredientials(req, res, next) {
             const randomString = results[0].rand;
             const rehashed = md5(waitingPassword + randomString);
             if (results[0].password === rehashed) {
-                if (results[0].schoolName === req.body.schoolName) {
+                if (results[0].schoolname === req.body.schoolName) {
                     res.loggedIn = results[0].name;
                 }
                 else {
+                    console.log('school in db ' + results[0].schoolname);
+                    console.log('school in req ' + req.body.schoolName);
                     res.loggedIn = null;
                 }
                 next();

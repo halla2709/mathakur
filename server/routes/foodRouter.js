@@ -93,7 +93,7 @@ function getAllFood(req, res, next) {
 }
 
 function getPricesForSchool(req, res, next) {
-    dbHelper.getFromTable(database, 'foodprice', ['schoolName = ' + req.params.schoolName])
+    dbHelper.getFromTable(database, 'foodprice', ['schoolName = \'' + req.params.schoolName + '\''])
         .then(function (data) {
             res.prices = data;
             next();
