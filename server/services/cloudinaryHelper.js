@@ -23,13 +23,13 @@ function savePhotoToCloudinary(req, res, next) {
 
         cloudinary.v2.uploader.upload(req.body.photo, {upload_preset: currentPreset}, function (error, result) {
             console.log(error);
-            req.body.photoUrl = result.public_id;
+            res.photoUrl = result.public_id;
             console.log(result);
             next();
         });
     }
     else {
-        req.body.photoUrl = currentDefaultUrl;
+        res.photoUrl = currentDefaultUrl;
         next();
     }
 }

@@ -40,7 +40,11 @@
     </table>
 </div>
 
+<<<<<<< HEAD
+<form class="col-sm-6 col-sm-offset-2" id="form" role="form" ng-show="editing" ng-submit="submitEmployee(currentEmployee)">
+=======
 <form id="form" role="form" ng-show="editing" ng-submit="submitEmployee(currentEmployee)" class="col-md-offset-2 col-md-8 col-md-offset-2">
+>>>>>>> e20d451b724c3b05edd1ed628087c8157b1ba020
     <label for="name">Full nafn</label>
     <input id="name" required ng-disabled="updating" ng-model="currentEmployee.name" type="text" placeholder="Jón Jón Jónsson"
         class="form-control input-lg" />
@@ -59,11 +63,10 @@
     <br>
     <button type="submit" class="btn btn-success">Vista</button>
     <button type="button" ng-click="back()" class="btn btn-danger">Hætta við</button>
-
-    <div class="col-sm-3">
-            <img cl-src="{{currentPhoto}}" class="staffphoto">
-        </img>
-        </div>
 </form>
+
+<div class="col-sm-4" ng-show="updating">
+    <img cl-src="{{currentEmployee.photourl}}" class="staffphoto"></img>
+</div>
 
       

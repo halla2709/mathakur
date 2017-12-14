@@ -14,6 +14,7 @@ angular.module('mathakur')
         $scope.updating = false;
         $scope.sidebar = true;
         $scope.image = '';
+        $scope.currentSchoolLoggedIn = $rootScope.session.getSchool();
         $scope.defaultEmployeePhotoUrl = 'tzeqj4l6kjyq0jptankn';
         $scope.defaultFoodPhotoUrl = 'bazcykvn86tp963v8ocn';
         $scope.class = 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main';
@@ -41,7 +42,7 @@ angular.module('mathakur')
                 $scope.content = "Something went wrong";
             });
 
-        $http.get("food/" + $rootScope.session.getSchool()).then(function (response) {
+        $http.get("food/" + $scope.currentSchoolLoggedIn).then(function (response) {
                 $scope.foodData = response.data;
                 console.log($scope.foodData);
             })
@@ -82,17 +83,15 @@ angular.module('mathakur')
         $scope.editEmployee = function (employee) {
             if (employee) {
                 $scope.updating = true;
-                $scope.currentEmployee = {};
-                console.log($scope.currentEmployee)
-            } else {
                 $scope.currentEmployee = employee;
-                console.log($scope.currentEmployee)
+            } else {
+                $scope.currentEmployee = {};
             }
             $scope.editing = true;
         };
 
         $scope.submitEmployee = function (employee) {
-            $scope.currentEmployee = employee;
+            //$scope.currentEmployee = employee;
             const hasImage = $scope.image !== '';
             if ($scope.updating) {
                 const employeeID = $scope.currentEmployee.id;
@@ -138,24 +137,28 @@ angular.module('mathakur')
             $scope.editing = false;
             $scope.updating = false;
             $scope.image = '';
-            console.log("ég komst hingað")
         }
 
         $scope.editFood = function (food) {
-            if (food) $scope.updating = true;
-            $scope.currentFood = food;
+            if (food) {
+                $scope.updating = true;
+                $scope.currentFood = food;
+            }
+            else {
+                $scope.currentFood = {};
+            }
+            console.log($scope.currentFood);
             $scope.editing = true;
-            $scope.currentEmployee = {};
         }
 
         $scope.submitFood = function (food) {
-            $scope.currentFood = food;
+            //$scope.currentFood = food;
             const hasImage = $scope.image !== '';
             if ($scope.updating) {
                 const foodID = $scope.currentFood.id;
                 $http({
                         method: 'PATCH',
-                        url: '/food/1/' + foodID,
+                        url: '/food/' + $scope.currentSchoolLoggedIn + '/' + foodID,
                         data: JSON.stringify({
                             newPrice: $scope.currentFood.price,
                             photo: $scope.image
@@ -179,7 +182,8 @@ angular.module('mathakur')
                             photo: $scope.image,
                             name: $scope.currentFood.name,
                             category: $scope.currentFood.category,
-                            price: $scope.currentFood.price
+                            price: $scope.currentFood.price,
+                            school: $scope.currentSchoolLoggedIn
                         })
                     })
                     .then(function (newPhotoUrlJson) {
