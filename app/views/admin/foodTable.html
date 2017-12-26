@@ -2,9 +2,9 @@
     <button class="pull-right btn-primary2" ng-show="!editing" ng-click="editFood()">
                 <span class="glyphicon glyphicon-apple"></span> Skrá nýjan mat</button>
 
-    <h2>Velkomin {{session.getUser()}}, hér er tafla með öllum mat í kerfinu:</h2>
+    <h2>Velkomin {{session.getUser()}}, <small> hér er tafla með öllum mat í kerfinu:</small></h2><br>
 
-    <div class="col-sm-6 col-sm-offset-2">
+    <div class="col-sm-offset-3 col-sm-6 col-sm-offset-3">
         <div id="imaginary_container">
             <div class="input-group stylish-input-group">
                 <input type="text" ng-model="searchBox" class="form-control ng-valid" placeholder="Leita...">
@@ -12,10 +12,12 @@
                 <span class="glyphicon glyphicon-search"></span>
                 </span>
             </div>
+            <br>
         </div>
+      
     </div>
 
-    <table class="table table-responsive table-hover">
+    <table class="table table-responsive table-hover" style="margin-top:1em">
 
         <thead>
             <tr>

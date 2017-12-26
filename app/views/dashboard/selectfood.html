@@ -1,11 +1,10 @@
 <div class="row">
     <div class="col-sm-12">
-        <p class="bg-danger" ng-show="myText2">Þú átt ekki nægan pening fyrir matnum. Fjarlægðu úr körfunni og reyndu aftur eða leggðu pening inn hjá þér.</p>
         <h2>Velkomin {{employee.nickname}}, þú átt {{employee.credit}}kr</h2>
+        <p class="bg-danger" ng-show="myText2" style="text-align:center">Þú átt ekki nægan pening fyrir matnum. Fjarlægðu úr körfunni og reyndu aftur eða leggðu pening inn hjá þér.</p>
     </div>
 
-
-    <div class="col-sm-8">
+    <div ng-class="class2">
         <h3>Veldu í körfuna þína:</h3>
         <div class="container">
             <div class="row">
