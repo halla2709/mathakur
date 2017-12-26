@@ -22,14 +22,14 @@ router.get('/:schoolName', getAllFood, getPricesForSchool, function (req, res, n
 
 router.post('/', savePhotoToCloudinary, validateColumns, insertIntoTables, function (req, res, next) {
     res.statusCode = 200;
-    res.json({ photoUrl: res.photourl });
+    res.json({ photoUrl: res.photoUrl });
 });
 
 router.patch('/:schoolName/:id', savePhotoToCloudinary, function (req, res, next) {
     const schoolName = req.params.schoolName;
     const id = req.params.id;
     const newPrice = req.body.newPrice;
-    const newPhotoUrl = req.body.photoUrl;
+    const newPhotoUrl = res.photoUrl;
 
     dbHelper.updateFoodPrice(database, schoolName, id, newPrice)
         .then(function () {
@@ -50,6 +50,23 @@ router.patch('/:schoolName/:id', savePhotoToCloudinary, function (req, res, next
             return res.json({ errors: ['Could not update food price'] });
         });
 });
+
+router.patch('/price/:schoolName/:id', function(req, res, next) {
+    const schoolName = req.params.schoolName;
+    const id = req.params.id;
+    const newPrice = req.body.newPrice;
+
+    dbHelper.updateFoodPrice(database, schoolName, id, newPrice)
+        .then(function () {
+            res.statusCode = 200;
+            res.end();
+        })
+        .catch(function (error) {
+            console.error(error)
+            res.statusCode = 500;
+            return res.json({ errors: ['Could not update food price'] });
+        });
+})
 
 router.get('/foodprice/:schoolName', getPricesForSchool, function (req, res, next) {
     res.json(res.prices);

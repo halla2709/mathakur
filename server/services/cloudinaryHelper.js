@@ -22,7 +22,6 @@ function savePhotoToCloudinary(req, res, next) {
         console.log(req.body);
 
         cloudinary.v2.uploader.upload(req.body.photo, {upload_preset: currentPreset}, function (error, result) {
-            console.log(error);
             res.photoUrl = result.public_id;
             console.log(result);
             next();

@@ -21,7 +21,7 @@ router.get('/', function (req, res, next) {
 router.patch('/:id', savePhotoToCloudinary, function (req, res, next) {
     const id = req.params.id;
     const newCredit = req.body.newCredit;
-    const newPhotoUrl = req.body.photoUrl;
+    const newPhotoUrl = res.photoUrl;
 
     dbHelper.updateEmployee(database, id, newPhotoUrl, newCredit)
         .then(function() {
@@ -34,7 +34,6 @@ router.patch('/:id', savePhotoToCloudinary, function (req, res, next) {
             return res.json({ errors: ['Could not update employee'] });
         });
 });
-
 
 router.patch('/updatecredit/:id', function (req, res, next) {
     const id = req.params.id;
@@ -53,18 +52,16 @@ router.patch('/updatecredit/:id', function (req, res, next) {
         });
 });
 
-
-
 router.post('/', savePhotoToCloudinary, addNicknameIfNotExists, function (req, res, next) {
     if (typeof req.body.credit === 'undefined') {
         req.body.credit = 0;
     }
 
     dbHelper.insertIntoTable(database, 'employee',
-        ['name', 'nickname', 'credit', 'photoUrl'], [req.body.name, req.body.nickname, req.body.credit, req.body.photoUrl])
+        ['name', 'nickname', 'credit', 'photoUrl'], [req.body.name, req.body.nickname, req.body.credit, res.photoUrl])
         .then(function () {
             res.statusCode = 200;
-            res.json({photoUrl: req.body.photoUrl});
+            res.json({photoUrl: res.photoUrl});
         })
         .catch(function (error) {
             console.error(error)

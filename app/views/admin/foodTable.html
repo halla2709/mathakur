@@ -42,7 +42,7 @@
 </div>
 
 <form id="form" role="form" ng-show="editing" ng-submit="submitFood(currentFood)" class="col-md-offset-2 col-md-8 col-md-offset-2">
-        
+
     <label for="name">Matarheiti</label>
     <input id="name" required ng-disabled="updating" ng-model="currentFood.name" type="text" placeholder="Epli" class="form-control input-lg"
     />
@@ -60,10 +60,9 @@
     <br>
     <button type="submit" class="btn btn-success">Vista</button>
     <button type="button" ng-click="back()" class="btn btn-danger">Hætta við</button>
-    
-    <div class="col-sm-3">
-                <img cl-src="{{currentPhoto.image}}" class="staffphoto">
-            </img>
-            </div>
 
 </form>
+
+<div class="col-sm-4" ng-show="updating">
+    <img cl-src="{{currentFood.photourl}}" class="staffphoto"></img>
+</div>
