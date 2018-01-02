@@ -5,7 +5,6 @@ function getFromTable(db, tableName, conditions) {
         queryString += " " + condition;
     });
     queryString += ";";
-    console.log(queryString);
     return db.any(queryString, tableName);
 }
 
@@ -25,7 +24,6 @@ function insertIntoTableReturningID(db, tableName, columns, values) {
     columnsString += ' ' + columns[columns.length-1] + ')';
     valuesString += ' $' + values.length + ')';
     queryString += columnsString + " VALUES" + valuesString + ' RETURNING id;';
-    console.log(queryString);
     return db.one(queryString, values);
 }
 
@@ -41,7 +39,6 @@ function insertIntoTable(db, tableName, columns, values) {
     columnsString += ' ' + columns[columns.length-1] + ')';
     valuesString += ' $' + values.length + ')';
     queryString += columnsString + " VALUES" + valuesString + ';';
-    console.log(queryString);
     return db.none(queryString, values);
 }
 
@@ -77,7 +74,6 @@ function deleteFromTable(db, tableName, conditions) {
         queryString += " " + condition;
     });
     queryString += ";";
-    console.log(queryString);
     return db.any(queryString, tableName);
 }
 

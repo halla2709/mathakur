@@ -120,7 +120,6 @@ function insertIntoTables(req, res, next) {
         dbHelper.insertIntoTable(database, 'foodprice', 
         ['schoolname', 'foodid', 'price'], [req.body.school, id.id, req.body.price])
             .then(function() {
-                console.log("ADDED FOOD PRICE");
             })
             .catch(function(error){
                 console.error(error);

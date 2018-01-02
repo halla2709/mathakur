@@ -32,9 +32,7 @@ angular.module('mathakur')
         }
 
         $http.get("employee").then(function (response) {
-            console.log("getting data");
             $scope.employeeData = response.data;
-            console.log($scope.employeeData);
         })
             .catch(function (response) {
                 //Error handle
@@ -43,7 +41,6 @@ angular.module('mathakur')
 
         $http.get("food/" + $scope.currentSchoolLoggedIn).then(function (response) {
             $scope.foodData = response.data;
-            console.log($scope.foodData);
         })
             .catch(function (response) {
                 //Error handle
@@ -65,17 +62,13 @@ angular.module('mathakur')
         $scope.uploadFile = function (event) {
             const newFile = event.target.files[0];
             var reader = new FileReader();
-            console.log("file changed");
-            console.log(newFile);
             reader.addEventListener("load", function () {
                 $scope.image = reader.result;
-                console.log("loaded");
             }, false);
 
             if (newFile.size > 0) {
                 reader.readAsDataURL(newFile);
                 $scope.currentPhoto = newFile;
-                console.log($scope.currentPhoto);
             }
         };
 
@@ -99,7 +92,6 @@ angular.module('mathakur')
                     submitEmployeeCredit(employeeID);
                 }
             } else {
-                console.log($scope.currentEmployee);
                 $http({
                     method: 'POST',
                     url: '/employee',
@@ -111,9 +103,7 @@ angular.module('mathakur')
                     })
                 })
                     .then(function (newPhotoUrlJson) {
-                        console.log("created new employee");
                         $scope.currentEmployee.photourl = newPhotoUrlJson.data.photoUrl;
-                        console.log($scope.currentEmployee);
                         $scope.employeeData.push($scope.currentEmployee);
                         $scope.currentEmployee = {};
                     })
@@ -136,7 +126,6 @@ angular.module('mathakur')
                 })
             })
                 .then(function () {
-                    console.log("updated employee credit");
                     updateInformation($scope.employeeData, employeeID, $scope.currentEmployee);
                 })
                 .catch(function (error) {
@@ -154,7 +143,6 @@ angular.module('mathakur')
                 })
             })
                 .then(function (newPhotoUrlJson) {
-                    console.log("updated employee" + employeeID);
                     $scope.currentEmployee.photourl = newPhotoUrlJson.data.photoUrl;
                     updateInformation($scope.employeeData, employeeID, $scope.currentEmployee);
                 })
@@ -171,7 +159,6 @@ angular.module('mathakur')
             else {
                 $scope.currentFood = {};
             }
-            console.log($scope.currentFood);
             $scope.editing = true;
         }
 
@@ -185,7 +172,6 @@ angular.module('mathakur')
                 })
             })
                 .then(function (newPhotoUrlJson) {
-                    console.log("updated food " + foodID);
                     $scope.currentFood.photourl = newPhotoUrlJson.data.photoUrl;
                     updateInformation($scope.foodData, foodID, $scope.currentFood);
                     $scope.editing = false;
@@ -204,7 +190,6 @@ angular.module('mathakur')
                 })
             })
                 .then(function (newPhotoUrlJson) {
-                    console.log("updated food price " + foodID);
                     updateInformation($scope.foodData, foodID, $scope.currentFood);
                     $scope.editing = false;
                 })
@@ -223,7 +208,6 @@ angular.module('mathakur')
                     submitFoodPriceChange(foodID);
                 }                
             } else {
-                console.log($scope.currentFood);
                 $http({
                     method: 'POST',
                     url: '/food',
@@ -236,10 +220,7 @@ angular.module('mathakur')
                     })
                 })
                     .then(function (newPhotoUrlJson) {
-                        console.log("created new food");
-                        console.log(newPhotoUrlJson)
                         $scope.currentFood.photourl = newPhotoUrlJson.data.photoUrl;
-                        console.log($scope.currentFood);
                         $scope.foodData.push($scope.currentFood);
                     })
                     .catch(function (error) {

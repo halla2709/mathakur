@@ -17,10 +17,7 @@ angular.module('mathakur')
     $scope.schoolPassword = '';
 
     $scope.submitSchool = function () {
-      console.log("submitting school");
-      console.log($scope.schoolName);
       let passwordHash = md5.createHash($scope.schoolPassword || '');
-      console.log(passwordHash);
       $http({
         method: 'POST',
         url: '/login/requestConnection',
@@ -29,8 +26,6 @@ angular.module('mathakur')
         })
       })
         .then(function (responseJson) {
-          console.log("got random string response " + responseJson.data.randomString);
-          console.log("Rehashing " + passwordHash + " to " + md5.createHash(passwordHash + responseJson.data.randomString));
           $http({
             method: 'POST',
             url: '/login/signupSchool',
@@ -40,7 +35,6 @@ angular.module('mathakur')
             })
           })
             .then(function (responseJson2) {
-              console.log("Signup successful");
               $rootScope.session.setSchool(responseJson2.data.school, 0);
               $location.path('dashboard');
             })
@@ -52,10 +46,7 @@ angular.module('mathakur')
     }
 
     $scope.submitAdmin = function () {
-        console.log("submitting");
-        console.log($scope.adminName);
         let passwordHash = md5.createHash($scope.adminPassword || '');
-        console.log(passwordHash);
         $http({
           method: 'POST',
           url: '/login/requestConnection',
@@ -64,8 +55,6 @@ angular.module('mathakur')
           })
         })
           .then(function (responseJson) {
-            console.log("got random string response " + responseJson.data.randomString);
-            console.log("Rehashing " + passwordHash + " to " + md5.createHash(passwordHash + responseJson.data.randomString));
             $http({
               method: 'POST',
               url: '/login/signupAdmin',
@@ -77,7 +66,6 @@ angular.module('mathakur')
               })
             })
               .then(function (responseJson2) {
-                console.log("login successful");
                 $rootScope.session.setSchool(responseJson2.data.schoolName, 0);
                 $rootScope.session.setUser(responseJson2.data.name, 1);
                 $location.path('adminpanel');

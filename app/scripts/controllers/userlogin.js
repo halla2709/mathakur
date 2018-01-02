@@ -20,9 +20,7 @@ angular.module('mathakur')
     }
 
     $scope.submit = function () {
-      console.log("submitting");
       let passwordHash = md5.createHash($scope.password || '');
-      console.log(passwordHash);
       $http({
         method: 'POST',
         url: '/login/requestConnection',
@@ -31,9 +29,6 @@ angular.module('mathakur')
         })
       })
         .then(function (responseJson) {
-          console.log("got random string response " + responseJson.data.randomString);
-          console.log("Rehashing " + passwordHash + " to " + md5.createHash(passwordHash + responseJson.data.randomString));
-          console.log("User name " + $scope.username);
           $http({
             method: 'POST',
             url: '/login/loginUser',
@@ -44,7 +39,6 @@ angular.module('mathakur')
             })
           })
             .then(function (responseJson2) {
-              console.log(responseJson2);
               if (responseJson2.data.loggedIn) {
                 $rootScope.session.setUser(responseJson2.data.loggedIn, 1);
                 $location.path('adminpanel/staffTable');

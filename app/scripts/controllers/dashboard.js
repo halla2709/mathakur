@@ -119,7 +119,6 @@ angular.module('mathakur')
         }
   
         else {
-          console.log("Þú átt ekki nægann pening fyrir matnum!")
           $scope.myText2 = "Bæ";
         }
     } else {

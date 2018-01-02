@@ -14,8 +14,6 @@ router.post('/requestConnection', function (req, res, next) {
     currentRandomString = randomString({ length: 10 });
     waitingPassword = req.body.passwordHash;
     currentPassword = req.body.passwordHash + currentRandomString;
-    console.log(currentPassword);
-    console.log(currentRandomString);
     res.json({ randomString: currentRandomString });
 });
 
@@ -48,12 +46,8 @@ router.post('/loginUser', authenticateConnection, checkUserCredientials, functio
 });
 
 function authenticateConnection(req, res, next) {
-    console.log(req.body);
-    console.log('authenticating ' + req.body.name);
     const passwordHash = req.body.passwordHash;
     const myPasswordHash = md5(currentPassword);
-    console.log(passwordHash);
-    console.log(myPasswordHash);
     if (passwordHash === myPasswordHash) {
         next();
     }
@@ -100,7 +94,6 @@ function addAdmin(req, res, next) {
 }
 
 function checkSchoolAuthorization(req, res, next) {
-    console.log('authorizing ' + req.body.name);
     const schoolName = req.body.name;
     dbHelper.getFromTable(database, 'school', ['name = \'' + schoolName + '\''])
         .then(function (results) {
@@ -125,7 +118,6 @@ function checkSchoolAuthorization(req, res, next) {
 }
 
 function checkUserCredientials(req, res, next) {
-    console.log('checking ' + req.body.username + ' and ' + req.body.schoolName);
     dbHelper.getFromTable(database, 'administrator', ['username = \'' + req.body.username + '\''])
         .then(function (results) {
             const randomString = results[0].rand;
@@ -135,15 +127,12 @@ function checkUserCredientials(req, res, next) {
                     res.loggedIn = results[0].name;
                 }
                 else {
-                    console.log('school in db ' + results[0].schoolname);
-                    console.log('school in req ' + req.body.schoolName);
                     res.loggedIn = null;
                 }
                
             }
             else {
                 res.loggedIn = null;
-                console.log("here");
                 currentPassword = '';
                 waitingPassword = '';
                 currentRandomString = '';

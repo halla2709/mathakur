@@ -38,7 +38,6 @@ router.patch('/:id', savePhotoToCloudinary, function (req, res, next) {
 router.patch('/updatecredit/:id', function (req, res, next) {
     const id = req.params.id;
     const newCredit = req.body.newCredit;
-    console.log(req.body);
     
     dbHelper.updateCreditOfEmployee(database, id, newCredit)
         .then(function() {

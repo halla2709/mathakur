@@ -15,11 +15,9 @@ angular.module('mathakur')
     $scope.wrongpassword = '';
 
     $scope.submit = function () {
-      console.log("submitting");
       $scope.school = JSON.parse($scope.school);
       let passwordHash = md5.createHash($scope.password || '');
       let schoolName = $scope.school.name;
-      console.log(passwordHash);
       $http({
         method: 'POST',
         url: '/login/requestConnection',
@@ -28,9 +26,6 @@ angular.module('mathakur')
         })
       })
         .then(function (responseJson) {
-          console.log("got random string response " + responseJson.data.randomString);
-          console.log("Rehashing " + passwordHash + " to " + md5.createHash(passwordHash + responseJson.data.randomString));
-          console.log("School name " + schoolName);
           $http({
             method: 'POST',
             url: '/login/loginSchool',
@@ -40,7 +35,6 @@ angular.module('mathakur')
             })
           })
             .then(function (responseJson2) {
-              console.log(responseJson2);
               if (responseJson2.data.loggedIn) {
                 $rootScope.session.setSchool(responseJson2.data.loggedIn, 0);
                 $location.path('dashboard');

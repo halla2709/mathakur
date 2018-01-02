@@ -7,7 +7,6 @@ angular.module('mathakur')
         this._user = localStorage.getItem('session.user');
         this._level = localStorage.getItem('session.level') || -1;
         this._lastselecteduser = localStorage.getItem('session.lastselecteduser')
-        console.log(this._level);
 
         this.getSchool = function () {
             return this._school;
@@ -48,7 +47,6 @@ angular.module('mathakur')
          * Destroy session
          */
         this.destroy = function destroy() {
-            console.log("Destroying");
             if(this._level > 0) {
                 this.setUser(null, 0)
             }

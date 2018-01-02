@@ -13,17 +13,12 @@ function savePhotoToCloudinary(req, res, next) {
     let currentPreset = foodPreset;
     let currentDefaultUrl = foodPhotoDefaultUrl;
     if (req.baseUrl.includes('employee')) {
-        console.log("EMPLOYEE");
         currentDefaultUrl = employeeDefaultUrl;
         currentPreset = employeePreset;
     }
     if (typeof req.body.photo !== 'undefined' && req.body.photo !== '') {
-        console.log("received photo");
-        console.log(req.body);
-
         cloudinary.v2.uploader.upload(req.body.photo, {upload_preset: currentPreset}, function (error, result) {
             res.photoUrl = result.public_id;
-            console.log(result);
             next();
         });
     }
