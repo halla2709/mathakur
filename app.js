@@ -17,4 +17,4 @@ app.use('/employee', employeeRouter);
 app.use('/food', foodRouter);
 app.use('/login', loginRouter);
 app.use(express.static('./app'));
-app.listen(3000);
+app.listen(Number(process.env.PORT || 3000));
