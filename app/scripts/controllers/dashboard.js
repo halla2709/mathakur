@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @ngdoc function
+ * @ngdoc functions
  * @name yapp.controller:MainCtrl
  * @description
  * # MainCtrl
@@ -28,28 +28,13 @@ angular.module('mathakur')
     $scope.myText3 = '';
 
     $scope.selectStaff = function(employee) {
+      $scope.employee = employee;
       $state.go("selectfood", {param:employee});
     }
 
-    console.log("creating controller");
-    console.log("sidebar " + $scope.sidebar);
-    console.log($scope.class);
 
     $scope.showSidebar = function (sidebar){
-      $scope.sidebar = !$scope.sidebar;
-      /*console.log("showsidebar");
-      if($scope.sidebar)
-      {
-        $scope.class = 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main';
-        $scope.class2 = 'col-sm-2 col-md-2 cool';
-      }
-      else {
-        $scope.class = "{'col-sm-12 col-md-12 main'}";
-        $scope.class2 = "{'col-sm-1 col-md-1 cool'}";
-      }
-      console.log("sidebar " + $scope.sidebar);
-      console.log($scope.class);
-      console.log($scope.class2);*/     
+      $scope.sidebar = !$scope.sidebar;    
     }
 
     $scope.addFood = function (food) {
