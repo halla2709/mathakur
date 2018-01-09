@@ -31,7 +31,7 @@ angular.module('mathakur')
             }
         }
 
-        $http.get("employee").then(function (response) {
+        $http.get("employee/" + $scope.currentSchoolLoggedIn).then(function (response) {
             $scope.employeeData = response.data;
         })
             .catch(function (response) {
@@ -92,6 +92,7 @@ angular.module('mathakur')
                     submitEmployeeCredit(employeeID);
                 }
             } else {
+                console.log("sending for school " + $scope.currentSchoolLoggedIn);
                 $http({
                     method: 'POST',
                     url: '/employee',
@@ -99,7 +100,8 @@ angular.module('mathakur')
                         photo: $scope.image,
                         name: $scope.currentEmployee.name,
                         nickname: $scope.currentEmployee.nickname,
-                        credit: $scope.currentEmployee.credit
+                        credit: $scope.currentEmployee.credit,
+                        schoolName: $scope.currentSchoolLoggedIn
                     })
                 })
                     .then(function (newPhotoUrlJson) {

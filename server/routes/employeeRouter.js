@@ -18,6 +18,19 @@ router.get('/', function (req, res, next) {
         });
 });
 
+router.get('/:schoolName', function(req, res, next) {
+    dbHelper.getFromTable(database, 'employee', ['schoolName = \'' + req.params.schoolName + '\' '])
+    .then(function (data) {
+        req.employees = data;
+        res.json(req.employees);
+    })
+    .catch(function (error) {
+        console.error(error)
+        res.statusCode = 500;
+        return res.json({ errors: ['Could not get employees for school ' + req.params.schoolName] });
+    });
+});
+
 router.patch('/:id', savePhotoToCloudinary, function (req, res, next) {
     const id = req.params.id;
     const newCredit = req.body.newCredit;
@@ -57,7 +70,7 @@ router.post('/', savePhotoToCloudinary, addNicknameIfNotExists, function (req, r
     }
 
     dbHelper.insertIntoTable(database, 'employee',
-        ['name', 'nickname', 'credit', 'photoUrl'], [req.body.name, req.body.nickname, req.body.credit, res.photoUrl])
+        ['name', 'nickname', 'credit', 'photoUrl', 'schoolname'], [req.body.name, req.body.nickname, req.body.credit, res.photoUrl, req.body.schoolName])
         .then(function () {
             res.statusCode = 200;
             res.json({photoUrl: res.photoUrl});
