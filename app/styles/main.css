@@ -834,6 +834,8 @@ pre code {
 }
 .staffname {
   height: 40px;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 .staffphoto {
   padding-bottom: 0.5em;
