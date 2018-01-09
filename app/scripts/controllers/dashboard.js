@@ -27,6 +27,7 @@ angular.module('mathakur')
     $scope.myText3 = '';
 
     $scope.selectStaff = function(employee) {
+      $scope.employee = employee;
       $state.go("selectfood", {param:employee});
     }
 
