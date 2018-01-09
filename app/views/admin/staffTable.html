@@ -27,14 +27,14 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="employee in employeeData | filter:searchBox" ng-click="editEmployee(employee)">
+            <tr ng-repeat="employee in employeeData | filter:searchBox" ng-click="!employee.hasOwnProperty('id') || editEmployee(employee)">
                 <td>{{employee.name}}</td>
                 <td>{{employee.nickname}}</td>
                 <td>{{employee.credit}}</td>
                 <td><span ng-show="{{employee.photourl !== '' && employee.photourl !== defaultEmployeePhotoUrl}}" class="glyphicon glyphicon-ok"></span>
                     <span ng-show="{{employee.photourl === '' || employee.photourl === defaultEmployeePhotoUrl}}" class="glyphicon glyphicon-remove"></span>
                 </td>
-                <td><span class="glyphicon glyphicon-pencil" style="opacity: .20"></span></td>
+                <td><span class="glyphicon glyphicon-pencil" ng-style ="employee.hasOwnProperty('id') ? {} : {opacity: .20} "></span></td>
             </tr>
         </tbody>
     </table>

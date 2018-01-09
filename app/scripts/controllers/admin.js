@@ -179,6 +179,7 @@ angular.module('mathakur')
                 .catch(function (error) {
                     console.error(error)
                 });
+
         }
 
         function submitFoodPriceChange(foodID) {
@@ -222,15 +223,19 @@ angular.module('mathakur')
                     .then(function (newPhotoUrlJson) {
                         $scope.currentFood.photourl = newPhotoUrlJson.data.photoUrl;
                         $scope.foodData.push($scope.currentFood);
+                        console.log($scope.foodData);
+                        console.log($scope.currentFood.hasOwnProperty("id"));
                     })
                     .catch(function (error) {
-                        console.error(error)
+                        console.error(error);
+                        
                     });
             }
             $scope.editing = false;
             $scope.updating = false;
             $scope.image = '';
             $scope.currentPhoto = {};
+            console.log(food.id);
         }
 
         $scope.back = function () {
