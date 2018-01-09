@@ -92,7 +92,6 @@ angular.module('mathakur')
                     submitEmployeeCredit(employeeID);
                 }
             } else {
-                console.log("sending for school " + $scope.currentSchoolLoggedIn);
                 $http({
                     method: 'POST',
                     url: '/employee',
