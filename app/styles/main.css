@@ -16,11 +16,10 @@ body {
   top:0px;
   right:0px;
   text-align: center;
-  padding: 0.2em;
+  padding: 0.4em;
   z-index: 1000;
   background-color: white;
-  margin:0.5em;
-  size: 50em;
+  margin: 0.5em;
 }
 
 
