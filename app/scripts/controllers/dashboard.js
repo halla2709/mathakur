@@ -30,19 +30,25 @@ angular.module('mathakur')
       $state.go("selectfood", {param:employee});
     }
 
+    console.log("creating controller");
+    console.log("sidebar " + $scope.sidebar);
+    console.log($scope.class);
 
     $scope.showSidebar = function (sidebar){
       $scope.sidebar = !$scope.sidebar;
-      
+      /*console.log("showsidebar");
       if($scope.sidebar)
       {
         $scope.class = 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main';
         $scope.class2 = 'col-sm-2 col-md-2 cool';
       }
       else {
-        $scope.class = 'col-sm-12 col-md-12 main';
-        $scope.class2 = 'col-sm-1 col-md-1 cool';
+        $scope.class = "{'col-sm-12 col-md-12 main'}";
+        $scope.class2 = "{'col-sm-1 col-md-1 cool'}";
       }
+      console.log("sidebar " + $scope.sidebar);
+      console.log($scope.class);
+      console.log($scope.class2);*/     
     }
 
     $scope.addFood = function (food) {
@@ -114,10 +120,7 @@ angular.module('mathakur')
             }
           $window.location.href = '/#/dashboard/staff';
           $scope.myText3 = "Hæ";
-          
-
         }
-  
         else {
           $scope.myText2 = "Bæ";
         }
@@ -133,7 +136,7 @@ angular.module('mathakur')
         //Error handle
         $scope.content = "Something went wrong";
       });
-//Instaed of Path there should be "food" NEEDS TO BE CHANGED
+      
     $http.get(path).then(function (response) {
         $scope.myDataFood = response.data;
       })

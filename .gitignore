@@ -4,3 +4,4 @@ bower_components/
 #dist/
 gen/
 docs/
+server/services/databaseCreator.js

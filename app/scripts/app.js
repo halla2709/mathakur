@@ -27,7 +27,6 @@ angular
       url: '/staff/selectfood',
       parent: 'dashboard',
       templateUrl: 'views/dashboard/selectfood.html',
-      controller: 'DashboardCtrl',
       params: {param:null}
     })
       .state('login', {
