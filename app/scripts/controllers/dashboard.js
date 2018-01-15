@@ -74,9 +74,7 @@ angular.module('mathakur')
 
     $scope.removeAllFood = function (food) {
       $scope.total = 0;
-      for (var i = 0; i < $scope.receipt.length; i++) {
-        $scope.receipt.splice(i);
-      }
+      $scope.receipt = [];
     }
 
     $scope.buyFood = function (food) {
@@ -96,9 +94,10 @@ angular.module('mathakur')
                     newCredit: credit
                 })
           })
+          $scope.receipt = [];
+          $scope.total = 0;
             if(confirm('Til hamingju! þér hefur tekist að versla allt í körfunni, eigðu góðann dag!')) {
               $window.location.href = '/#/dashboard/staff';
-              
             }
             else {
               $window.location.href = '/#/dashboard/staff';
