@@ -20,8 +20,8 @@ angular.module('mathakur')
     $scope.receipt = [];
     $scope.editing = false;
     $scope.sidebar = false;
-    const foodPath = '/food/' + $rootScope.session.getSchool();
-    const employeePath = '/employee/' + $rootScope.session.getSchool(); 
+    var foodPath = '/food/' + $rootScope.session.getSchool();
+    var employeePath = '/employee/' + $rootScope.session.getSchool(); 
     $scope.total = 0;
     $scope.class = 'col-sm-12 col-md-12 main';
     $scope.class2 = 'col-sm-8 cool';

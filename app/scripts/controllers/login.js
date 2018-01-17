@@ -16,8 +16,8 @@ angular.module('mathakur')
 
     $scope.submit = function () {
       $scope.school = JSON.parse($scope.school);
-      let passwordHash = md5.createHash($scope.password || '');
-      let schoolName = $scope.school.name;
+      var passwordHash = md5.createHash($scope.password || '');
+      var schoolName = $scope.school.name;
       $http({
         method: 'POST',
         url: '/login/requestConnection',

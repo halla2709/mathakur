@@ -17,7 +17,7 @@ angular.module('mathakur')
     $scope.schoolPassword = '';
 
     $scope.submitSchool = function () {
-      let passwordHash = md5.createHash($scope.schoolPassword || '');
+      var passwordHash = md5.createHash($scope.schoolPassword || '');
       $http({
         method: 'POST',
         url: '/login/requestConnection',
@@ -46,7 +46,7 @@ angular.module('mathakur')
     }
 
     $scope.submitAdmin = function () {
-        let passwordHash = md5.createHash($scope.adminPassword || '');
+        var passwordHash = md5.createHash($scope.adminPassword || '');
         $http({
           method: 'POST',
           url: '/login/requestConnection',

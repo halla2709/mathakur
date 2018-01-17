@@ -60,7 +60,7 @@ angular.module('mathakur')
         }
 
         $scope.uploadFile = function (event) {
-            const newFile = event.target.files[0];
+            var newFile = event.target.files[0];
             var reader = new FileReader();
             reader.addEventListener("load", function () {
                 $scope.image = reader.result;
@@ -84,7 +84,7 @@ angular.module('mathakur')
 
         $scope.submitEmployee = function (employee) {
             if ($scope.updating) {
-                const employeeID = $scope.currentEmployee.id;
+                var employeeID = $scope.currentEmployee.id;
                 if ($scope.image) {
                     submitEmployeeUpdate(employeeID);
                 }
@@ -202,7 +202,7 @@ angular.module('mathakur')
 
         $scope.submitFood = function (food) {
             if ($scope.updating) {
-                const foodID = $scope.currentFood.id;
+                var foodID = $scope.currentFood.id;
                 if ($scope.image) {
                     submitFoodUpdate(foodID);
                 }
@@ -246,8 +246,8 @@ angular.module('mathakur')
         }
 
         function updateInformation(table, id, updated) {
-            for (let i = 0; i < table.size; i++) {
-                const current = table[i];
+            for (var i = 0; i < table.size; i++) {
+                var current = table[i];
                 if (current.id === id) {
                     table[i] = updated;
                     break;
