@@ -76,10 +76,23 @@ router.post('/', savePhotoToCloudinary, addNicknameIfNotExists, function (req, r
             res.json({photoUrl: res.photoUrl});
         })
         .catch(function (error) {
-            console.error(error)
+            console.error(error);
             res.statusCode = 500;
             return res.json({ errors: ['Could not create employee'] });
         });
+});
+
+router.delete('/:id', function(req, res, next) {
+    dbHelper.deleteFromTable(database, 'employee', ['id =' + req.params.id])
+    .then(function() {
+        res.statusCode = 200;
+        res.end();
+    })
+    .catch(function(error) {
+        console.error(error);
+        res.statusCode = 500;
+        return res.json({ errors: ['Could not delete employee'] });
+    })
 });
 
 router.post('/photo', savePhotoToCloudinary, function (req, res, next) {

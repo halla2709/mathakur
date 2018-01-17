@@ -152,6 +152,27 @@ angular.module('mathakur')
                 });
         }
 
+        $scope.deleteEmployee = function() {
+            if (confirm('Ertu viss um að þú viljir eyða þessum starfsmanni?')) {                    
+                $http({
+                    method: 'DELETE',
+                    url: '/employee/' + $scope.currentEmployee.id
+                })
+                .then(function() {
+                    const index = $scope.employeeData.indexOf($scope.currentEmployee);
+                    $scope.employeeData.splice(index, 1);
+                    console.log($scope.employeeData);
+                })
+                .catch(function(error){
+                    console.error(error);
+                });                
+                $scope.editing = false;
+                $scope.updating = false;
+                $scope.image = '';
+                $scope.currentPhoto = {};
+            }
+        }
+
         $scope.editFood = function (food) {
             if (food) {
                 $scope.updating = true;
@@ -237,6 +258,27 @@ angular.module('mathakur')
             $scope.image = '';
             $scope.currentPhoto = {};
             console.log(food.id);
+        }
+
+        $scope.deleteFood = function() {
+            if (confirm('Ertu viss um að þú viljir eyða þessum mat?')) {                    
+                $http({
+                    method: 'DELETE',
+                    url: '/food/' + $scope.currentFood.id + '/' + $scope.currentSchoolLoggedIn
+                })
+                .then(function() {
+                    const index = $scope.foodData.indexOf($scope.currentFood);
+                    $scope.foodData.splice(index, 1);
+                    console.log($scope.foodData);
+                })
+                .catch(function(error){
+                    console.error(error);
+                });                
+                $scope.editing = false;
+                $scope.updating = false;
+                $scope.image = '';
+                $scope.currentPhoto = {};
+            }
         }
 
         $scope.back = function () {

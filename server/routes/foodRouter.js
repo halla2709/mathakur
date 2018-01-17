@@ -66,10 +66,23 @@ router.patch('/price/:schoolName/:id', function(req, res, next) {
             res.statusCode = 500;
             return res.json({ errors: ['Could not update food price'] });
         });
-})
+});
 
 router.get('/foodprice/:schoolName', getPricesForSchool, function (req, res, next) {
     res.json(res.prices);
+});
+
+router.delete('/:food/:school', function(req, res, next) {
+    dbHelper.deleteFromTable(database, 'foodprice', ['foodid =' + req.params.food + ' AND schoolname = \'' + req.params.school + '\''])
+    .then(function() {
+        res.statusCode = 200;
+        res.end();
+    })
+    .catch(function(error) {
+        console.error(error);
+        res.statusCode = 500;
+        return res.json({ errors: ['Could not delete food'] });
+    })
 });
 
 router.post('/photo', savePhotoToCloudinary, function (req, res, next) {
