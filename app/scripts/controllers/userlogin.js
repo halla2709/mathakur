@@ -20,7 +20,7 @@ angular.module('mathakur')
     }
 
     $scope.submit = function () {
-      let passwordHash = md5.createHash($scope.password || '');
+      var passwordHash = md5.createHash($scope.password || '');
       $http({
         method: 'POST',
         url: '/login/requestConnection',

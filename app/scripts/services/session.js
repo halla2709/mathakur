@@ -2,7 +2,7 @@ angular.module('mathakur')
     .service('session', ['localStorage', function (localStorage) {
         // Instantiate data when service
         // is loaded
-        const levels = {noOne: -1, school: 0, admin: 1, superAdmin: 2};
+        var levels = {noOne: -1, school: 0, admin: 1, superAdmin: 2};
         this._school = localStorage.getItem('session.school');
         this._user = localStorage.getItem('session.user');
         this._level = localStorage.getItem('session.level') || -1;

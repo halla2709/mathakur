@@ -3,8 +3,8 @@ const pgp = require('pg-promise')({
         console.log('QUERY:', e.query);
     }
 });
-
-/*const cn = {
+/*
+const cn = {
    host: 'localhost', // 'localhost' is the default;
    port: 5432, // 5432 is the default;
    database: 'mathakur',

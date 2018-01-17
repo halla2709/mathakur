@@ -15,7 +15,7 @@ angular.module('mathakur')
         var currentPhoto = {};
 
         $scope.uploadFile = function(event) {
-            const newFile = event.target.files[0];
+            var newFile = event.target.files[0];
             var reader = new FileReader();
             console.log("file changed");
             console.log(newFile);
