@@ -12,6 +12,12 @@ body {
   margin-top: 20px;
 }
 
+#karfan {
+  position: fixed;
+  right: 3%;
+  min-width: 25em;
+}
+
 #showSidebarButton {
   top:0px;
   right:0px;
@@ -173,14 +179,18 @@ icon-mathakur{
 }
 img.headericon-mathakur {
   max-width: 8em;
-  max-height: 8em;
+  max-height: 6em;
 }
+#deleteFoodAndStaff {
+  float:right;
+}
+
 header.headeronlogin {
   background: rgb(249,249,249);
   top: 0px;
   right: 0px;
   left: 0px;
-  max-height: 20%;
+  max-height: 47%;
 }
 
 input[type="checkbox"],

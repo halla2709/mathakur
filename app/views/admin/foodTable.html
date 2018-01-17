@@ -46,12 +46,14 @@
 
 <form id="form" role="form" ng-show="editing" ng-submit="submitFood(currentFood)" class="col-md-offset-2 col-md-8 col-md-offset-2">
 
+   
+
     <label for="name">Matarheiti</label>
-    <input id="name" required ng-disabled="updating" ng-model="currentFood.name" type="text" placeholder="Epli" class="form-control input-lg"
+    <input id="name" maxlength="40" required ng-disabled="updating" ng-model="currentFood.name" type="text" placeholder="Epli" class="form-control input-lg"
     />
 
     <br><label for="category">Matarflokkur</label>
-    <input id="category" ng-disabled="updating" ng-model="currentFood.category" type="text" placeholder="Ávöxtur" class="form-control input-lg"
+    <input id="category" maxlength="40" ng-disabled="updating" ng-model="currentFood.category" type="text" placeholder="Ávöxtur" class="form-control input-lg"
     />
 
     <br><label for="name">Verð í krónum</label>
@@ -64,8 +66,12 @@
     <button type="submit" class="btn btn-success">Vista</button>
     <button type="button" ng-click="back()" class="btn btn-danger">Hætta við</button>
 
+    <button type="button" ng-show="updating" id="deleteFoodAndStaff" ng-click="deleteFood()" class="btn btn-warning">Eyða Mat</button>
 </form>
+
 
 <div class="col-sm-4" ng-show="updating">
     <img cl-src="{{currentFood.photourl}}" class="staffphoto"></img>
 </div>
+
+
