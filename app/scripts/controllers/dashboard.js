@@ -115,13 +115,11 @@ angular.module('mathakur')
     }
 
     $http.get(employeePath).then(function (response) {
-      console.log(response.data);      
       response.data.sort(function(a, b){
         if(a.name < b.name) return -1;
         if(a.name > b.name) return 1;
         return 0;
       })
-      console.log(response.data);
         $scope.myDataEmployee = response.data;
       })
       .catch(function (response) {
