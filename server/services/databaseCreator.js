@@ -13,16 +13,15 @@ const cn = {
 };
 */
 const cn = {
-    host: 'ec2-54-217-205-90.eu-west-1.compute.amazonaws.com', // 'localhost' is the default;
-    port: 5432, // 5432 is the default;
-    database: 'dadb0vrl24bdlo',
-    user: 'pzajdxlyjnuijf',
-    password: 'a5ce922304b3811cffbb801593e45a28ab3d8396c3f30bcf86a141a4f0d440d5'
+    connectionString: process.env.DATABASE_URL+ "?sslmode=require",
+    ssl: {
+        rejectUnauthorized: false
+    }
  };
  
 const db = pgp(cn);
 
-db.none("CREATE TABLE IF NOT EXISTS school(id SERIAL PRIMARY KEY, \
+/*db.none("CREATE TABLE IF NOT EXISTS school(id SERIAL PRIMARY KEY, \
     name varchar(40) UNIQUE NOT NULL, \
     password varchar(155) NOT NULL, \
     rand varchar(10) NOT NULL)")
@@ -68,7 +67,7 @@ db.none("CREATE TABLE IF NOT EXISTS recentfood(employeeID integer REFERENCES emp
     foodID5 integer REFERENCES food(id))")
 .catch(error => {
     console.log('ERROR:', error); // print the error;
-});
+});*/
 
 module.exports = {
     db
