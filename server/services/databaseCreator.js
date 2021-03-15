@@ -18,7 +18,7 @@ const cn = {
  */
  console.log("Database url " + process.env.DATABASE_URL);
  
-const db = pgp(process.env.DATABASE_URL+ "?sslmode=require");
+const db = pgp(process.env.DATABASE_URL+ "?ssl=true");
 
 /*db.none("CREATE TABLE IF NOT EXISTS school(id SERIAL PRIMARY KEY, \
     name varchar(40) UNIQUE NOT NULL, \
