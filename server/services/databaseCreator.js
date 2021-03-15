@@ -12,11 +12,14 @@ const cn = {
    password: 'mathakur'
 };
 */
-const cn = {
-    connectionString: process.env.DATABASE_URL,
-    ssl: true
+
+ const cn = {
+    host: 'ec2-54-217-205-90.eu-west-1.compute.amazonaws.com', // 'localhost' is the default;
+    port: 5432, // 5432 is the default;
+    database: 'dadb0vrl24bdlo',
+    user: 'pzajdxlyjnuijf',
+    password: 'a5ce922304b3811cffbb801593e45a28ab3d8396c3f30bcf86a141a4f0d440d5'
  };
- 
  
 const db = pgp(cn);
 
