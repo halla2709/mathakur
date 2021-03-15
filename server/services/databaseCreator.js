@@ -23,7 +23,7 @@ const cn = {
  
 const db = pgp(cn);
 
-/*db.none("CREATE TABLE IF NOT EXISTS school(id SERIAL PRIMARY KEY, \
+db.none("CREATE TABLE IF NOT EXISTS school(id SERIAL PRIMARY KEY, \
     name varchar(40) UNIQUE NOT NULL, \
     password varchar(155) NOT NULL, \
     rand varchar(10) NOT NULL)")
@@ -69,7 +69,7 @@ db.none("CREATE TABLE IF NOT EXISTS recentfood(employeeID integer REFERENCES emp
     foodID5 integer REFERENCES food(id))")
 .catch(error => {
     console.log('ERROR:', error); // print the error;
-});*/
+});
 
 module.exports = {
     db
