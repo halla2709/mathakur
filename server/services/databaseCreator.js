@@ -12,14 +12,13 @@ const cn = {
    password: 'mathakur'
 };
 */
-const cn = {
-    connectionString: process.env.DATABASE_URL+ "?sslmode=require",
-    ssl: {
-        rejectUnauthorized: false
-    }
+/*const cn = {
+    connectionString: process.env.DATABASE_URL+ "?sslmode=require"
  };
+ */
+ console.log("Database url " + process.env.DATABASE_URL);
  
-const db = pgp(cn);
+const db = pgp(process.env.DATABASE_URL+ "?sslmode=require");
 
 /*db.none("CREATE TABLE IF NOT EXISTS school(id SERIAL PRIMARY KEY, \
     name varchar(40) UNIQUE NOT NULL, \
