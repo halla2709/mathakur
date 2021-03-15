@@ -14,9 +14,7 @@ const cn = {
 */
 const cn = {
     connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false
-      }
+    ssl: true
  };
  
  
