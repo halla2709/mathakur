@@ -12,12 +12,15 @@ const cn = {
    password: 'mathakur'
 };
 */
-/*const cn = {
-    connectionString: process.env.DATABASE_URL+ "?sslmode=require"
+const cn = {
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+      }
  };
- */
  
-const db = pgp(process.env.DATABASE_URL);
+ 
+const db = pgp(cn);
 
 /*db.none("CREATE TABLE IF NOT EXISTS school(id SERIAL PRIMARY KEY, \
     name varchar(40) UNIQUE NOT NULL, \
