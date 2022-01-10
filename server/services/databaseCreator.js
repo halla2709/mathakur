@@ -4,7 +4,15 @@ const pgp = require('pg-promise')({
     }
 });
 
-const connString = process.env.DATABASE_URL || 'postgres://mathakur:mathakur@localhost:5432/mathakur';
+//const connString = process.env.DATABASE_URL || 'postgres://mathakur:mathakur@localhost:5432/mathakur';
+
+const cn = {
+    host: 'ec2-54-216-90-155.eu-west-1.compute.amazonaws.com', // 'localhost' is the default;
+    port: 5432, // 5432 is the default;
+    database: 'daqplm46lvuuvm',
+    user: 'bntwiwilcfxqxw',
+    password: '8f4bb706dd0e541fbce676542e0697ceb64c875856cb95bb11267c71c00ba05e'
+ };
  
 const db = pgp(connString);
 
