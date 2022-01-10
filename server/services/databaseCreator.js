@@ -14,7 +14,9 @@ const cn = {
     password: '8f4bb706dd0e541fbce676542e0697ceb64c875856cb95bb11267c71c00ba05e'
  };
  
-const db = pgp(connString);
+const db = pgp(cn);
+
+console.log(process.env.DATABASE_URL);
 
 db.none("CREATE TABLE IF NOT EXISTS school(id SERIAL PRIMARY KEY, \
     name varchar(40) UNIQUE NOT NULL, \
