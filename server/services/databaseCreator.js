@@ -18,6 +18,14 @@ const db = pgp({
     }
   });
 
+db.connect()
+  .then(obj => {
+      console.log("Successfully connected to database");
+      obj.done(); // success, release the connection;
+  })
+  .catch(error => {
+      console.log('ERROR while connecting:', error.message || error);
+});
 
 db.none("CREATE TABLE IF NOT EXISTS school(id SERIAL PRIMARY KEY, \
     name varchar(40) UNIQUE NOT NULL, \
