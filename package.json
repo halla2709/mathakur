@@ -1,6 +1,6 @@
 {
   "name": "mathakur",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Matstofu vefapp fyrir skola",
   "main": "app.js",
   "scripts": {
