@@ -18,17 +18,17 @@
   "homepage": "https://github.com/halla2709/mathakur#readme",
   "dependencies": {
     "angular-cloudinary": "1.3.1",
-    "body-parser": "1.18.1",
-    "cloudinary": "1.9.0",
+    "body-parser": "1.19.1",
+    "cloudinary": "1.28.1",
     "cloudinary-angular": "1.0.1",
-    "express": "4.15.4",
+    "express": "4.17.2",
     "glyphicons": "0.2.0",
-    "md5": "2.2.1",
+    "md5": "2.3.0",
     "ng-file-upload": "12.2.13",
-    "pg-promise": "6.7.0",
+    "pg-promise": "10.11.1",
     "random-string": "0.2.0"
   },
   "engines": {
-    "node": "12.18.2"
+    "node": "16.13.2"
   }
 }
