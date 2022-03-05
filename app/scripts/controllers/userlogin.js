@@ -23,9 +23,9 @@ angular.module('mathakur')
       var passwordHash = md5.createHash($scope.password || '');
       $http({
         method: 'POST',
-        url: '/login/requestConnection',
+        url: '/login/requestAdminConnection',
         data: JSON.stringify({
-          passwordHash: passwordHash
+          adminPassHash: passwordHash
         })
       })
         .then(function (responseJson) {
@@ -33,9 +33,9 @@ angular.module('mathakur')
             method: 'POST',
             url: '/login/loginUser',
             data: JSON.stringify({
-              username: $scope.username,
-              schoolName: $rootScope.session.getSchool(),
-              passwordHash: md5.createHash(passwordHash + responseJson.data.randomString)
+              adminUser: $scope.username,
+              companyName: $rootScope.session.getSchool(),
+              adminPassHash: md5.createHash(passwordHash + responseJson.data.adminRandomString)
             })
           })
             .then(function (responseJson2) {

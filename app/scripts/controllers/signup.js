@@ -28,7 +28,7 @@ angular.module('mathakur')
         .then(function (responseJson) {
           $http({
             method: 'POST',
-            url: '/login/signupSchool',
+            url: '/login/signupCompany',
             data: JSON.stringify({
               name: $scope.schoolName,
               passwordHash: md5.createHash(passwordHash + responseJson.data.randomString)

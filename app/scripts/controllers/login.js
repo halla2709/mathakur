@@ -20,7 +20,7 @@ angular.module('mathakur')
       var schoolName = $scope.school.name;
       $http({
         method: 'POST',
-        url: '/login/requestConnection',
+        url: '/login/requestCompanyConnection',
         data: JSON.stringify({
           passwordHash: passwordHash
         })
@@ -28,10 +28,10 @@ angular.module('mathakur')
         .then(function (responseJson) {
           $http({
             method: 'POST',
-            url: '/login/loginSchool',
+            url: '/login/loginCompany',
             data: JSON.stringify({
-              name: schoolName,
-              passwordHash: md5.createHash(passwordHash + responseJson.data.randomString)
+              companyName: schoolName,
+              companyPassHash: md5.createHash(passwordHash + responseJson.data.companyRandomString)
             })
           })
             .then(function (responseJson2) {
