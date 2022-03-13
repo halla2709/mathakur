@@ -1,0 +1,195 @@
+$color-myPinkDark: #93329E;
+$color-myPinkLight: #FFE3FE;
+$color-myPurpleDark: #440A67;
+$color-myBlueDark: #160075;
+
+$color-myPurpleLight: #ffffff;
+$color-myGreyLight: #f0f0f0;
+$color-myGreyLight2: #dbdbdb;
+
+$theme-colors: (
+  "primary": $color-myPinkDark,
+  "secondary": $color-myPurpleDark,
+  "info":$color-myPurpleLight,
+  "danger": #dc3545,
+  "success": #198754,
+  "light": $color-myPinkLight
+);
+
+html {
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 7em 0.8em 6em 0.8em !important;
+    background-color: $color-myGreyLight !important;
+  }
+
+  p {
+    margin: 0px !important;
+  }
+
+  .alert {
+    padding: 0.5em  0.5em;
+    border: none;
+    font-weight: 500;
+  }
+
+  $position-values: (
+    0: 0,
+    30: 30%,
+    50: 50%,
+    100: 100%
+);
+
+  /* --- NAVBAR --- */
+  .nav-tabs {
+    border: none !important;
+  }
+
+
+  /* --- LOGIN --- */
+
+  #login-jumbotron {
+    margin: auto;
+    bottom: 8em;
+    border: 0.3em solid $color-myGreyLight2; 
+    background-color: #f7f7f7;
+    color: $color-myPurpleDark;
+    padding: 3em;
+    border-top-left-radius: 15px; 
+    border-top-right-radius: 0px; 
+    border-bottom-right-radius: 15px; 
+    border-bottom-left-radius: 0px;
+  }
+
+  #login-div {
+    border-radius: 15px; 
+    text-align: center;
+    margin-top: 5em;
+    max-width: 35em !important;
+  }
+
+  #loginInputs {
+    background-color: $color-myPurpleDark;
+    color: white;
+    max-width: 35em;
+  }
+
+  /* -------- STAFF --------- */
+
+  #employeeCard {
+    background-color: white;
+    border-top-left-radius: 20px; 
+    border-top-right-radius: 20px; 
+    border-bottom-right-radius: 20px; 
+    border-bottom-left-radius: 20px;
+    padding: 1em;
+    margin: 1em;
+    border: 0.2em solid $color-myPurpleDark;
+  }
+
+  /* -------- SELECTFOOD -------------*/
+  #foodCard {
+    background-color: white;
+    border-bottom-right-radius: 20px; 
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px; 
+    border-top-right-radius: 20px; 
+    padding: 0.5em 0 0 0;
+    margin: 1em;
+    text-align:center;
+    padding-top: 1em; 
+    border: 1px solid $color-myBlueDark;
+  }
+
+  #foodHeader {
+    color: white;
+    padding: 0.3em;
+    background-color: $color-myBlueDark;
+    border-bottom-right-radius: 20px; 
+    border-bottom-left-radius: 20px;
+    margin-bottom: 0 !important;
+    text-align:center; 
+    overflow:hidden; 
+    white-space: nowrap;
+  }
+
+  /* ----------- ADMIN --------*/
+  #adminNav {
+    color: $color-myPurpleDark;
+    text-align: center;
+  }
+
+  #adminButton {
+    margin-left: 0.5em;  
+    background-color: $color-myPurpleLight;
+  }
+
+
+  /* ---------- FOOTER ------- */
+
+  #footerView {
+    padding-top: 0.5em; 
+    background-color: #f0f0f0;
+    border-top: 0.1em solid #dbdbdb;
+    bottom: 0;
+    width: 100%;
+    position: absolute;
+  }
+
+  #footerText {
+    color: #a5a5a5;
+    text-decoration: none;
+  }
+
+
+  /* -------- OTHER ---------- */
+
+  #tafla {
+    margin-top: 20px;
+  }
+
+  #tofluHeader {
+    background-color: $color-myPinkDark;
+    color: white;
+  }
+  
+  #karfan {
+    width: 100%;
+    margin-top: 1em;
+    padding: 1em;
+    background-color: white;
+    border-top-left-radius: 20px; 
+    border-top-right-radius: 20px; 
+    border-bottom-right-radius: 20px; 
+    border-bottom-left-radius: 20px;
+    color:$color-myBlueDark;
+  }
+
+  #korfuHeader {
+    background-color: $color-myPinkDark;
+    color: white;
+    font-weight: 200;
+  }
+  
+  #showSidebarButton {
+    top:0px;
+    right:0px;
+    text-align: center;
+    padding: 0.4em;
+    z-index: 1000;
+    background-color: white;
+    margin: 0.5em;
+  }
+
+  #dropDownHeader:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: $color-myPurpleDark;
+}
+
+  @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+  @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");

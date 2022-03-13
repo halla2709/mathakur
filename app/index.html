@@ -5,11 +5,14 @@
   <meta charset="utf-8">
   <title>Mathákur</title>
   <base href="/">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="Vefsvæði fyrir kaffistofur eða starfsmannafélag">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
   <script src="https://rawgit.com/tinusn/cloudinary-angular/master/dist/cloudinary-angular.min.js"></script>
+  <script src="node_modules/angular-md5/angular-md5.js"></script>
+
   <script src="scripts/app.js"></script>
   <script src="scripts/controllers/login.js"></script>
   <script src="scripts/controllers/dashboard.js"></script>
@@ -18,20 +21,24 @@
   <script src="scripts/controllers/userlogin.js"></script>
   <script src="scripts/controllers/signup.js"></script>
   <script src="scripts/services/session.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="styles/main.css?version=1">
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-  <script src="node_modules/angular-md5/angular-md5.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="styles/scss/custom.css">
 </head>
 
 <body ng-app="mathakur">
-  <div class="container" id="myDIV">
-    <div ui-view></div>
-    
-  </div>
+
+  <header>
+    <div ng-include src="'views/modules/header.html'"></div>
+  </header>
+
+  <div ui-view></div>
+
+  <footer>
+    <div ng-include src="'views/modules/footer.html'"></div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

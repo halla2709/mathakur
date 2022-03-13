@@ -1,0 +1,39 @@
+<div ng-include src="'views/modules/adminTabs.html'"></div>
+
+<div class="container">
+    <div class="row">
+      <div class="col col-10" style="width: 100%; padding: 0;">
+        <ul class="nav nav-tabs nav-fill">
+          <li class="nav-item">
+            <h5><a class="nav-link" ng-click="goToStaff()" id="adminNav">
+                <i class="bi bi-people" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Starfsmenn</a></h5>
+          </li>
+          <li class="nav-item">
+            <h5><a class="nav-link" ng-click="goToFood()" id="adminNav">
+                <i class="bi bi-basket" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Vörur</a></h5>
+          </li>
+          <li class="nav-item">
+            <h5><a class="nav-link active" aria-current="page" ng-click="goToSettings()" id="adminNav">
+                <i class="bi bi-gear" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Stillingar</a></h5>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+<div class="container">
+    <div class="alert alert-success" role="alert" ng-show="mytext3">
+        <p>Breytingin tókst, eigðu góðan dag <i class="bi bi-emoji-smile" style="font-size: 1rem;"></i></p>
+    </div>
+    <div ng-show="!editing">
+
+        <div class="container">
+            <div class="row">
+                <p>Stillingar</p>
+            </div>
+        </div>
+    </div>
+</div>
+               

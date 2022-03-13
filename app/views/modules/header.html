@@ -1,0 +1,37 @@
+<div class="header-page">
+  <nav class="navbar fixed-top bg-primary">
+    <div class="container align-center">
+      <!--<button type="button" class="btn btn-primary"><i class="bi bi-three-dots" style="font-size: 1.5rem;"></i></button>-->
+      <a class="navbar-brand"><img src="../../images/logo1.png" class="img-fluid rounded float-end" alt="Logo"
+          style="max-height: 3.5em;"></a>
+        
+      <ul class="nav nav-tabs">    
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" style="color:#FFE3FE; font-size: 1.2em;">
+          <i class="bi bi-house" style="font-size: 1.5rem; padding-right: 0.3em;"></i>{{session.getSchool()}}
+        </a>
+        <ul class="dropdown-menu">
+          <li><a id="dropDownHeader" class="dropdown-item" ui-sref="userlogin" href="#"><i class="bi bi-person-badge" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Stjórnandasíða</a></li>
+          <li><a id="dropDownHeader" class="dropdown-item" href="#"><i class="bi bi-people" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Starfsmenn</a></li>
+          <li><a id="dropDownHeader" class="dropdown-item" href="#"><i class="bi bi-basket" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Vörur</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a id="dropDownHeader" class="dropdown-item" id="logoutlook" href ng-click="logOut()"><i class="bi bi-box-arrow-in-right" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Skrá út vinnnustað</a></li>
+        </ul>
+      </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container align-center">
+
+  </div>
+
+</div>
+
+
+<!--script>
+  var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
+  var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+  return new bootstrap.Dropdown(dropdownToggleEl)})
+</script-->
+

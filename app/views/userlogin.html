@@ -1,34 +1,34 @@
-<div class="login-page">
-	<header class="headeronlogin">
-		<img cl-src="Mathakur_bxldup" class="headericon-mathakur" />
-	</header>
-	<div class="login-page2">
-		<div class="row">
-			<div class="col-md-offset-3 col-sm-6 col-md-offset-3">
-				<br>
-				<h1>Velkomin! </h1>
-				<br>
-				<h4>Vinsamlega skráðu þig inn á stjórnandasíðuna,</h4>
-				<h4>athugaðu að einungis yfirmenn hafa aðgang hér inn.</h4>
-				<form role="form" ng-submit="submit()">
+<div class="position-absolute top-30 start-50 translate-middle" id="login-div">
 
-					<div class="form-content">
-						<div class="form-group">
-							<input type="text" ng-model="username" class="form-control input-underline input-lg" placeholder="Notandanafn" required>
-						</div>
-
-						<div class="form-group">
-							<input type="password" ng-model="password" class="form-control input-underline input-lg" id="passwordplaceholder" placeholder="Lykilorð" required>
-						</div>
-						<p ng-show="wrongpassword">Eitthvað fór úrskeiðis, sláðu inn rétt lykilorð og reyndu aftur.</p>
-					</div>
-
-					<button type="submit" class="btn btn-white btn-outline btn-lg btn-rounded">Skrá inn</button>
-
-				</form>
-
-			</div>
+	<h2><small>Vinsamlega skráðu inn stjórnanda:</small></h2>
+	<br>
+	<form role="form" ng-submit="submit()">
+		<div class="input-group input-group-lg">
+			<span class="input-group-text" id="loginInputs">
+				<i class="bi bi-person" style="font-size: 2rem;"></i>
+			</span>
+			<input type="text" ng-model="username" class="form-control form-control-lg" placeholder="Notandanafn"
+				required>
 		</div>
-	</div>
+		<br>
 
+		<div class="input-group input-group-lg">
+			<span class="input-group-text" id="loginInputs">
+				<i class="bi bi-lock" style="font-size: 2rem;"></i>
+			</span>
+			<input ng-model="password" type="password" class="form-control form-control-lg" id="passwordplaceholder"
+				placeholder="Lykilorð">
+		</div>
+
+		<br>
+		<div class="alert alert-danger" role="alert" ng-show="wrongpassword">
+			<p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>Rangt notandanafn
+				eða lykilorð, vinsamlega reyndu aftur</p>
+		</div>
+		<br>
+
+		<button type="submit" class="btn btn-primary btn-lg btn-rounded">Skrá inn</button>
+	</form>
 </div>
+<br>
+<div ng-include src="'views/modules/jumbotron.html'"></div>

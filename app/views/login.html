@@ -1,37 +1,39 @@
-<div class="login-page">
-	<header class="headeronlogin">
-		<img cl-src="Mathakur_bxldup" class="headericon-mathakur" />
-	</header>
-	<div class="login-page2">
-		<div class="row">
-			<div class="col-md-offset-3 col-sm-6 col-md-offset-3">
-				<br>
-				
+<div class="position-absolute top-30 start-50 translate-middle" id="login-div">
 
-				<h1>Velkomin! </h1>
-				<h1><small>Vinsamlega skráðu skólann þinn inn:</small></h1>
-				<form role="form" ng-submit="submit()">
+	<h2><small>Vinsamlega skráðu inn fyrirtæki:</small></h2>
+	<br>
+	<form role="form" ng-submit="submit()">
 
-					<div class="form-content">
-						<div class="form-group">
-							<select ng-model="school" class="form-control input-underline input-lg">
-								<option value="{{}}" disabled selected>Veldu skóla</option>
-								<option value="{{x}}" ng-repeat="x in myData">{{x.name}}</option>
-							</select>
-						</div>
-
-						<div class="form-group">
-							<input ng-model="password" type="password" class="form-control input-underline input-lg" id="passwordplaceholder" placeholder="Lykilorð">
-						</div>
-						<p ng-show="wrongpassword">Eitthvað fór úrskeiðis, sláðu inn rétt lykilorð og reyndu aftur.</p>
-					</div>
-
-					<button type="submit" class="btn btn-white btn-outline btn-lg btn-rounded">Skrá inn</button>
-
-				</form>
-
-			</div>
+		<div class="input-group input-group-lg">
+			<span class="input-group-text" id="loginInputs">
+				<i class="bi bi-house" style="font-size: 2rem;"></i>
+			</span>
+			<select class="form-select form-select-lg" ng-model="school">
+				<option value="{{}}" disabled selected>Veldu Fyrirtæki</option>
+				<option value="{{x}}" ng-repeat="x in myData">{{x.name}}</option>
+			</select>
 		</div>
-	</div>
+		<br>
+
+		<div class="input-group input-group-lg">
+			<span class="input-group-text" id="loginInputs">
+				<i class="bi bi-lock" style="font-size: 2rem;"></i>
+			</span>
+			<input ng-model="password" type="password" class="form-control form-control-lg" id="passwordplaceholder"
+				placeholder="Lykilorð">
+		</div>
+
+		<br>
+		<div class="alert alert-danger" role="alert" ng-show="wrongpassword">
+			<p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>Rangt notandanafn eða lykilorð, vinsamlega reyndu aftur</p>
+		</div>
+		<br>
+
+		<button type="submit" class="btn btn-primary btn-lg btn-rounded">Skrá inn</button>
+	</form>
 
 </div>
+
+<br>
+
+<div ng-include src="'views/modules/jumbotron.html'"></div>

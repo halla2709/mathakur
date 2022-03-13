@@ -4,8 +4,8 @@ const pgp = require('pg-promise')({
     }
 });
 
-const connString = process.env.DATABASE_URL || 'postgres://mathakur_user:mat@localhost:5433/mathakur';
-console.log("Using database connection " + connString);
+const connString = process.env.DATABASE_URL || 'postgres://usermathakur:admin@localhost:5432/mathakur';
+console.log("Using:" + connString);
 const db = pgp({
     connectionString: connString
     // ssl: {

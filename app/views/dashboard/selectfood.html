@@ -1,75 +1,99 @@
-<div class="row">
-    <div class="col-sm-12">
-        <h2>Velkomin {{employee.nickname}}, þú átt {{employee.credit}}kr</h2>
-        <p class="bg-danger" ng-show="myText2" style="text-align:center">Þú átt ekki nægan pening fyrir matnum. Fjarlægðu úr körfunni og reyndu aftur eða leggðu pening inn hjá þér.</p>
+<div class="row justify-content-md-center">
+    <div class="col col-4" style="text-align: center;">
+        <h4>{{employee.name}}</h4>
+        <h4>Þín inneign: <strong>{{employee.credit}} kr</strong></h4>
+    </div>
+    
+    <div class="col">
+        <div class="input-group input-group-lg col-sm-6 justify-content-md-center">
+            <span class="input-group-text" id="loginInputs">
+                <i class="bi bi-search" style="font-size: 2rem;"></i>
+            </span>
+            <input ng-model="searchBox" type="text" class="form-control form-control-lg" placeholder="Leita..."
+                placeholder="Lykilorð" style="max-width: 20em;">
+        </div>
     </div>
 
-    <div class = "col-sm-8 cool">
-        <h3>Veldu í körfuna þína:</h3>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div id="imaginary_container">
-                        <div class="input-group stylish-input-group">
-                            <input type="text" ng-model="searchBox" class="form-control ng-valid" placeholder="Leita..." ng-model="searchKeyword">
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-search"></span>
-                            </span>
-                        </div>
-                    </div>
+</div>
+
+<br>
+
+<div class="align-central" >
+    <div class="row justify-content-md-center">
+
+            <div class="col col-sm-4" style="width: 30%;">
+            <div id="karfan">
+                <h3 style="text-align: center; padding-bottom: 0.5em;"><i class="bi bi-cart4"
+                        style="font-size: 2rem; padding-right: 0.5em;"></i>Innkaupakarfa</h3>
+                <table class="table table-condensed table-hover align-left" id="shoppingbag">
+                    <thead id="korfuHeader">
+                        <tr>
+                            <th>Vörur</th>
+                            <th>Fjöldi</th>
+                            <th>Verð</th>
+                            <th style="width: 10%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="x in receipt" type="remove" ng-click="removeFood(x)" data-bs-toggle="tooltip"
+                            data-bs-placement="bottom" title="Fjarlægja">
+                            <td style="padding-top: 1em;">{{x.name}}</td>
+                            <td style="padding-top: 1em;">{{x.quantity}}</td>
+                            <td style="padding-top: 1em;">{{x.price}} kr</td>
+                            <td><i class="bi bi-dash" style="font-size: 1.5rem; color: #dc3545;"></i></td>
+
+                        </tr>
+                        <tr style="border-top: 0.2em double black">
+                            <th>Samtals:</th>
+                            <th></th>
+                            <th>{{total}} kr</th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th>Inneign eftir kaup:</th>
+                            <th></th>
+                            <th>{{newCredit}} kr</th>
+                            <th></th>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="btn-toolbar justify-content-between">
+                    <button class="btn btn-lg btn-secondary" ng-model="myText2" ng-model="myText3"
+                        ng-click="buyFood(x)">
+                        <i class="bi bi-check-circle"
+                            style="font-size: 1.2rem; padding-right: 0.4em;"></i>Kaupa</button>
+                    <button class="btn btn-lg btn-outline-secondary" ng-click="removeAllFood()"><i
+                            class="bi bi-x-circle" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Tæma</button>
                 </div>
             </div>
+
+
+            <br>
+            <div class="alert alert-danger" role="alert" ng-show="myText2">
+                <p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>Þú átt ekki
+                    næga inneign, fjarlægðu úr körfunni eða uppfærðu innistæðuna þína</p>
+            </div>
+            <br>
+
         </div>
 
-        <div ng-repeat="x in myDataFood | filter:searchBox" ng-click="selectFood(x)">
-            <div class="containers staffname col-sm-3" type="add" ng-click="addFood(x)">
-                <img cl-src="{{x.photourl}}"></img>
-                </img>
+
+        <div ng-repeat="x in myDataFood | filter:searchBox" ng-click="selectFood(x)" id="foodCard" class="col col-sm-2">
+            <div class="staffname" type="add" ng-click="addFood(x)">
+                <img cl-src="{{x.photourl}}" class="card-img-top"></img>
+                <br>
                 <div class="foodname">
-                    <p class="onlyonerow">{{x.name}}</p>
+                    <p class="onlyonerow">Flokkur: {{x.category}}</p>
                     <p>Verð: {{x.price}} kr</p>
-
+                    <h4 id="foodHeader">{{x.name}}
+                    </h4>
                 </div>
-
             </div>
         </div>
-    </div>
-
-
-    <div class="col-sm-4">
-        <div id="karfan">
-        <h3>Karfan þín:</h3>
-        <table class="table table-condensed table-hover" id="shoppingbag">
-            <thead>
-                <tr>
-                    <th>Matur</th>
-                    <th>Verð</th>
-                    <th>Fjöldi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="x in receipt" type="remove" ng-click="removeFood(x)">
-                    <td>{{x.name}}
-                    </td>
-                    <td>{{x.price}}
-                    </td>
-                    <td>{{x.quantity}}
-                </tr>
-                <tr>
-                    <th>Samtals:</th>
-                    <th>{{total}}kr</th>
-                    <th></th>
-                </tr>
-            </tbody>
-        </table>
-        <button class="btn btn-success" ng-model="myText2" ng-model="myText3" ng-click="buyFood(x)">Kaupa</button>
-        <button class="btn btn-danger" ng-click="removeAllFood()">Tæma</button>
 
     </div>
 </div>
-</div>
-</div>
 
-
-
-
+<script>
+    var newCredit = employee.credit - total;
+</script>

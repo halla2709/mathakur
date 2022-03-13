@@ -1,27 +1,28 @@
-<a ui-sref="food" class="pull-right btn-primary2 btn-outline"><span class="glyphicon glyphicon-apple"></span> Skoða Mat</a>
-<div class="row">
-	<div class="col-sm-12">
-			<p class="bg-success" ng-show="myText3">Þér hefur tekist að kaupa allt í körfunni! Eigðu góðan dag.</p>
-		<h2>Hér eru allir starfsmenn, Veldu þig til að versla:</h2>
+<div class="container">
+
+	<div class="alert alert-success" role="alert" ng-show="myText3">
+		<p>Innkaupin tókust, eigðu góðan dag <i class="bi bi-emoji-smile" style="font-size: 1rem;"></i></p>
 	</div>
-	<div class="col-sm-offset-3 col-sm-6 col-sm-offset-3">
-				<div id="imaginary_container">
-					<div class="input-group stylish-input-group">
-						<input type="text" ng-model="searchBox" class="form-control" placeholder="Leita...">
-						<span class="input-group-addon">
-                            <span class="glyphicon glyphicon-search"></span>
-						</span>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div ng-repeat="x in myDataEmployee | filter:searchBox" ng-click="selectStaff(x)">
-		<div class="col-sm-3 containers staffname">
-			<img cl-src="{{x.photourl}}" class="staffphoto">
-			</img>
-			<p class = "onlyonerow">{{x.name}}</p>
-		</div>
-	</div>
+	<h2><small>Starfsmannalisti</small></h2>
+	<h4>veldu þig til að byrja að versla</h4>
+	<br>
+
 </div>
+
+<div class="container input-group input-group-lg col-sm-6 justify-content-md-center">
+	<span class="input-group-text" id="loginInputs">
+		<i class="bi bi-search" style="font-size: 2rem;"></i>
+	</span>
+	<input ng-model="searchBox" type="text" class="form-control form-control-lg" placeholder="Leita..." style="max-width: 20em;">
+</div>
+<br>
+<div class="container align-central">
+	<div class="row justify-content-md-center">
+		<div ng-repeat="x in myDataEmployee | filter:searchBox" ng-click="selectStaff(x)" class="col-sm-3"
+			id="employeeCard">
+			<img cl-src="{{x.photourl}}" class="card-img-top"></img>
+			<br>
+			<h4 style="text-align:center; overflow:hidden; padding-top: 1em; white-space: nowrap; ">{{x.name}}</h4>
+		</div>
+	</div>
 </div>

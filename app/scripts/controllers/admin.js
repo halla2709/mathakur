@@ -59,6 +59,12 @@ angular.module('mathakur')
             $scope.updating = false;
         }
 
+        $scope.goToSettings = function () {
+            $state.go('settings');
+            $scope.editing = false;
+            $scope.updating = false;
+        }
+
         $scope.uploadFile = function (event) {
             var newFile = event.target.files[0];
             var reader = new FileReader();

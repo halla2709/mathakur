@@ -1,28 +1,29 @@
 <div class="dashboard-page">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-3 col-md-2 sidebar" ng-show="sidebar">
+      <!--div class="col-sm-3 col-md-2 sidebar" ng-show="sidebar">
         <img cl-src="Mathakur_bxldup" class="icon-mathakur" />
         <div class="text-center">
           <h3 class="brand">Innskráður yfirmaður:</h3>
 
           <br>
           <h4>{{session.getUser()}}</h4>
-        </div>
+        </div-->
 
-        <div class="adminview">
+        <!--div class="adminview">
           <ul class="nav nav-sidebar">
             <li><a ng-click="goToStaff()"><span class="glyphicon glyphicon-user"></span> Skoða starfsmenn<span class="sr-only">(current)</span></a></li>
             <li><a ng-click="goToFood()"><span class="glyphicon glyphicon-apple"></span> Skoða mat<span class="sr-only">(current)</span></a></li>
             
             <li><a id="logoutlook" href ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span> Skrá yfirmann út</a></li>
           </ul>
-        </div>
+        </div-->
 
       </div>
-      <button class="pull-left btn-lg glyphicon glyphicon-option-horizontal" id="showSidebarButton" ng-click = "showSidebar()"></button>  
-      <div ng-class="sidebar ? 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main' : 'col-sm-12 col-md-12 main'" ui-view>
-      </div>
+      <!--button class="pull-left btn-lg glyphicon glyphicon-option-horizontal" id="showSidebarButton" ng-click = "showSidebar()"></button-->  
+      <!--div ng-class="sidebar ? 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main' : 'col-sm-12 col-md-12 main'" ui-view>
+      </div-->
+      <div ui-view></div>
     </div>
   </div>
 </div>
