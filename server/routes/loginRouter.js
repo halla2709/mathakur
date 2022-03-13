@@ -6,99 +6,122 @@ const md5 = require('md5');
 const database = require('../services/databaseCreator').db;
 const dbHelper = require('../services/databaseHelper');
 
-let currentPassword = '';
-let waitingPassword = '';
-let currentRandomString = '';
+const masterKeyHash = md5(process.env.MASTER_SIGNUP_KEY || 'rubyhallaunnur');
+let companyAuth = {};
+let adminAuth = {};
 
-router.post('/requestConnection', function (req, res, next) {
-    currentRandomString = randomString({ length: 10 });
-    waitingPassword = req.body.passwordHash;
-    currentPassword = req.body.passwordHash + currentRandomString;
-    res.json({ randomString: currentRandomString });
+router.post('/requestSignupConnection', function(req, res, next) {
+    if (req.body.masterKeyHash === masterKeyHash)
+    {
+        companyAuth.randomString = randomString({ length: 10 });
+        companyAuth.hashedPassword = req.body.companyPassHash;
+        adminAuth.randomString = randomString({ length: 10 });
+        adminAuth.hashedPassword = req.body.adminPassHash;
+        res.json({ companyRandomString: companyAuth.randomString, adminRandomString: adminAuth.randomString });
+    }
+    else
+    {
+        res.statusCode = 401;
+        return res.json({ errors: ["Master key not correct"]});
+    }
 });
 
-router.post('/loginSchool', authenticateConnection, checkSchoolAuthorization, function (req, res, next) {
-    currentPassword = '';
-    waitingPassword = '';
-    currentRandomString = '';
+router.post('/requestCompanyConnection', function (req, res, next) {
+    companyAuth.randomString = randomString({ length: 10 });
+    companyAuth.hashedPassword = req.body.passwordHash;
+    res.json({ companyRandomString: companyAuth.randomString });
+});
+
+router.post('/requestAdminConnection', function (req, res, next) {
+    adminAuth.randomString = randomString({ length: 10 });
+    adminAuth.hashedPassword = req.body.adminPassHash;
+    res.json({ adminRandomString: adminAuth.randomString });
+});
+
+router.post('/signupCompany', authenticateCompanyConnection, authenticateAdminConnection, addCompany, addAdmin, function (req, res, next) {
+    companyAuth = {};
+    adminAuth = {};
+    res.json({ school: req.body.companyName });
+});
+
+router.post('/loginCompany', authenticateCompanyConnection, checkCompanyCredientials, function (req, res, next) {
+    companyAuth = {};
     res.json({ loggedIn: res.loggedIn });
 });
 
-router.post('/signupSchool', authenticateConnection, addSchool, function (req, res, next) {
-    currentPassword = '';
-    waitingPassword = '';
-    currentRandomString = '';
-    res.json({ school: req.body.name });
-});
-
-router.post('/signupAdmin', authenticateConnection, addAdmin, function (req, res, next) {
-    currentPassword = '';
-    waitingPassword = '';
-    currentRandomString = '';
+router.post('/signupAdmin', authenticateAdminConnection, addAdmin, function (req, res, next) {
+    adminAuth = {};
     res.json({ schoolName: req.body.schoolName, name: req.body.name });
 });
 
-router.post('/loginUser', authenticateConnection, checkUserCredientials, function (req, res, next) {
-    currentPassword = '';
-    waitingPassword = '';
-    currentRandomString = '';
+router.post('/loginUser', authenticateAdminConnection, checkUserCredientials, function (req, res, next) {
+    adminAuth = {};
     res.json({ loggedIn: res.loggedIn });
 });
 
-function authenticateConnection(req, res, next) {
-    const passwordHash = req.body.passwordHash;
-    const myPasswordHash = md5(currentPassword);
+function authenticateCompanyConnection(req, res, next) {
+    const passwordHash = req.body.companyPassHash;
+    const myPasswordHash = md5(companyAuth.hashedPassword + companyAuth.randomString);
     if (passwordHash === myPasswordHash) {
+        companyAuth.finalPassword = myPasswordHash;
         next();
     }
     else {
-        currentPassword = '';
-        waitingPassword = '';
-        currentRandomString = '';
+        companyAuth = {};
         res.statusCode = 401;
-        return res.json({ errors: ['Authentication error'] });
+        return res.json({ errors: ['Company authentication error'] });
     }
 }
 
-function addSchool(req, res, next) {
+function authenticateAdminConnection(req, res, next) {
+    const passwordHash = req.body.adminPassHash;
+    const myPasswordHash = md5(adminAuth.hashedPassword + adminAuth.randomString);
+    if (passwordHash === myPasswordHash) {
+        adminAuth.finalPassword = myPasswordHash;
+        next();
+    }
+    else {
+        adminAuth = {};
+        res.statusCode = 401;
+        return res.json({ errors: ['Admin authentication error'] });
+    }
+}
+
+function addCompany(req, res, next) {
     dbHelper.insertIntoTable(database, 'school',
-        ['name', 'password', 'rand'], [req.body.name, req.body.passwordHash, currentRandomString])
+        ['name', 'password', 'rand'], [req.body.companyName, companyAuth.finalPassword, companyAuth.randomString])
         .then(function () {
             next();
         })
         .catch(function (error) {
             console.error(error);
-            currentPassword = '';
-            waitingPassword = '';
-            currentRandomString = '';
+            companyAuth = {};
             res.statusCode = 500;
-            return res.json({ errors: ['Could not create school'] });
+            return res.json({ errors: ['Could not create company'] });
         });
 }
 
 function addAdmin(req, res, next) {
     dbHelper.insertIntoTable(database, 'administrator',
         ['name', 'password', 'rand', 'username', 'schoolName'],
-        [req.body.name, req.body.passwordHash, currentRandomString, req.body.username, req.body.schoolName])
+        [req.body.adminName, adminAuth.finalPassword, adminAuth.randomString, req.body.adminUser, req.body.companyName])
         .then(function () {
             next();
         })
         .catch(function (error) {
             console.error(error);
-            currentPassword = '';
-            waitingPassword = '';
-            currentRandomString = '';
+            adminAuth = {};
             res.statusCode = 500;
             return res.json({ errors: ['Could not create admin'] });
         });
 }
 
-function checkSchoolAuthorization(req, res, next) {
-    const schoolName = req.body.name;
-    dbHelper.getFromTable(database, 'school', ['name = \'' + schoolName + '\''])
+function checkCompanyCredientials(req, res, next) {
+    const companyName = req.body.companyName;
+    dbHelper.getFromTable(database, 'school', ['name = \'' + companyName + '\''])
         .then(function (results) {
             const randomString = results[0].rand;
-            const rehashed = md5(waitingPassword + randomString);
+            const rehashed = md5(companyAuth.hashedPassword + randomString);
             if (results[0].password === rehashed) {
                 res.loggedIn = results[0].name;
             }
@@ -109,21 +132,19 @@ function checkSchoolAuthorization(req, res, next) {
         })
         .catch(function (error) {
             console.error(error);
-            currentPassword = '';
-            waitingPassword = '';
-            currentRandomString = '';
+            companyAuth = {};
             res.statusCode = 500;
             return res.json({ errors: ['Could not find school'] });
         });
 }
 
 function checkUserCredientials(req, res, next) {
-    dbHelper.getFromTable(database, 'administrator', ['username = \'' + req.body.username + '\''])
+    dbHelper.getFromTable(database, 'administrator', ['username = \'' + req.body.adminUser + '\''])
         .then(function (results) {
             const randomString = results[0].rand;
-            const rehashed = md5(waitingPassword + randomString);
+            const rehashed = md5(adminAuth.hashedPassword + randomString);
             if (results[0].password === rehashed) {
-                if (results[0].schoolname === req.body.schoolName) {
+                if (results[0].schoolname === req.body.companyName) {
                     res.loggedIn = results[0].name;
                 }
                 else {
@@ -133,18 +154,16 @@ function checkUserCredientials(req, res, next) {
             }
             else {
                 res.loggedIn = null;
-                currentPassword = '';
-                waitingPassword = '';
-                currentRandomString = '';
+                hashedCompanyPassword = '';
+                companyAuth.randomString = '';
             }
             next();
 
         })
         .catch(function (error) {
             console.error(error);
-            currentPassword = '';
-            waitingPassword = '';
-            currentRandomString = '';
+            hashedCompanyPassword = '';
+            companyAuth.randomString = '';
             res.statusCode = 500;
             return res.json({ errors: ['Could not find administrator'] });
         });
