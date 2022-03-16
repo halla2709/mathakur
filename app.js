@@ -9,6 +9,7 @@ const schoolRouter = require('./server/routes/schoolRouter');
 const employeeRouter = require('./server/routes/employeeRouter');
 const foodRouter = require('./server/routes/foodRouter');
 const loginRouter = require('./server/routes/loginRouter');
+const adminRouter = require('./server/routes/adminRouter');
 
 app.use(bodyParser.json({ type: 'application/json', limit: "20mb" }));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -16,5 +17,6 @@ app.use('/school', schoolRouter);
 app.use('/employee', employeeRouter);
 app.use('/food', foodRouter);
 app.use('/login', loginRouter);
+app.use('/admin', adminRouter);
 app.use(express.static('./app'));
 app.listen(Number(process.env.PORT || 3000));

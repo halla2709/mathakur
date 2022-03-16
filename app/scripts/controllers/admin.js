@@ -1,5 +1,5 @@
 angular.module('mathakur')
-    .controller('AdminPanelCtrl', ['$scope', '$state', '$http', '$rootScope', '$location', function ($scope, $state, $http, $rootScope, $location) {
+    .controller('AdminPanelCtrl', ['$scope', '$state', '$http', '$rootScope', '$location', 'md5', function ($scope, $state, $http, $rootScope, $location, md5) {
 
         if ($rootScope.session.getLevel() < 1) {
             console.log("admin is not logged in");
@@ -19,7 +19,6 @@ angular.module('mathakur')
         $scope.defaultFoodPhotoUrl = 'bazcykvn86tp963v8ocn';
         $scope.class = 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main';
 
-
         $scope.showSidebar = function (sidebar) {
             $scope.sidebar = !$scope.sidebar;
 
@@ -36,7 +35,7 @@ angular.module('mathakur')
         })
             .catch(function (response) {
                 //Error handle
-                $scope.content = "Something went wrong";
+                $scope.content = "Something went wrong while getting employees";
             });
 
         $http.get("food/" + $scope.currentSchoolLoggedIn).then(function (response) {
@@ -44,7 +43,15 @@ angular.module('mathakur')
         })
             .catch(function (response) {
                 //Error handle
-                $scope.content = "Something went wrong";
+                $scope.content = "Something went wrong while getting products";
+            });
+
+        $http.get("admin/" + $scope.currentSchoolLoggedIn).then(function (response) {
+            $scope.adminData = response.data;
+        })
+            .catch(function (response) {
+                //Error handle
+                $scope.content = "Something went wrong while getting admins";
             });
 
         $scope.goToStaff = function () {
@@ -87,6 +94,11 @@ angular.module('mathakur')
             }
             $scope.editing = true;
         };
+
+        $scope.createAdmin = function () {
+            $scope.editing = true;
+            $scope.newAdmin = {};
+        }
 
         $scope.submitEmployee = function (employee) {
             if ($scope.updating) {
@@ -158,20 +170,20 @@ angular.module('mathakur')
                 });
         }
 
-        $scope.deleteEmployee = function() {
-            if (confirm('Ertu viss um að þú viljir eyða þessum starfsmanni?')) {                    
+        $scope.deleteEmployee = function () {
+            if (confirm('Ertu viss um að þú viljir eyða þessum starfsmanni?')) {
                 $http({
                     method: 'DELETE',
                     url: '/employee/' + $scope.currentEmployee.id
                 })
-                .then(function() {
-                    const index = $scope.employeeData.indexOf($scope.currentEmployee);
-                    $scope.employeeData.splice(index, 1);
-                    console.log($scope.employeeData);
-                })
-                .catch(function(error){
-                    console.error(error);
-                });                
+                    .then(function () {
+                        const index = $scope.employeeData.indexOf($scope.currentEmployee);
+                        $scope.employeeData.splice(index, 1);
+                        console.log($scope.employeeData);
+                    })
+                    .catch(function (error) {
+                        console.error(error);
+                    });
                 $scope.editing = false;
                 $scope.updating = false;
                 $scope.image = '';
@@ -235,7 +247,7 @@ angular.module('mathakur')
                 }
                 else {
                     submitFoodPriceChange(foodID);
-                }                
+                }
             } else {
                 $http({
                     method: 'POST',
@@ -256,7 +268,7 @@ angular.module('mathakur')
                     })
                     .catch(function (error) {
                         console.error(error);
-                        
+
                     });
             }
             $scope.editing = false;
@@ -266,24 +278,62 @@ angular.module('mathakur')
             console.log(food.id);
         }
 
-        $scope.deleteFood = function() {
-            if (confirm('Ertu viss um að þú viljir eyða þessum mat?')) {                    
+        $scope.deleteFood = function () {
+            if (confirm('Ertu viss um að þú viljir eyða þessum mat?')) {
                 $http({
                     method: 'DELETE',
                     url: '/food/' + $scope.currentFood.id + '/' + $scope.currentSchoolLoggedIn
                 })
-                .then(function() {
-                    const index = $scope.foodData.indexOf($scope.currentFood);
-                    $scope.foodData.splice(index, 1);
-                    console.log($scope.foodData);
-                })
-                .catch(function(error){
-                    console.error(error);
-                });                
+                    .then(function () {
+                        const index = $scope.foodData.indexOf($scope.currentFood);
+                        $scope.foodData.splice(index, 1);
+                        console.log($scope.foodData);
+                    })
+                    .catch(function (error) {
+                        console.error(error);
+                    });
                 $scope.editing = false;
                 $scope.updating = false;
                 $scope.image = '';
                 $scope.currentPhoto = {};
+            }
+        }
+
+        $scope.submitAdmin = function (formAdmin) {
+            if (formAdmin.password !== formAdmin.passwordConfirm) {
+                $scope.wrongpassword = true;
+            }
+            else {
+                $scope.wrongpassword = false;
+                var pass = md5.createHash(formAdmin.password);
+                $http({
+                    method: 'POST',
+                    url: '/login/requestAdminConnection',
+                    data: JSON.stringify({
+                        adminPassHash: pass
+                    })
+                })
+                    .then(function (response) {
+                        $http({
+                            method: 'POST',
+                            url: '/login/signupAdmin',
+                            data: JSON.stringify({
+                                adminPassHash: md5.createHash(pass + response.data.adminRandomString),
+                                adminName: formAdmin.name,
+                                adminUser: formAdmin.username,
+                                companyName: $scope.currentSchoolLoggedIn
+                            })
+                        })
+                            .then(function () {
+                                $scope.editing = false;
+                            })
+                            .catch(function (error) {
+                                console.error(error);
+                            });
+                    })
+                    .catch(function (error) {
+                        console.error(error);
+                    });
             }
         }
 

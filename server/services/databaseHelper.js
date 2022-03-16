@@ -81,22 +81,16 @@ function replaceTableName(tableName) {
     switch (tableName) {
         case "administrator":
             return 'administrator';
-            break;
         case "employee":
             return 'employee';
-            break;
         case "recentfood":
             return 'recentfood';
-            break;
         case "food":
             return 'food';
-            break;
         case "foodprice":
             return 'foodprice';
-            break;
         case "school":
             return 'school';
-            break;    
         default:
             console.error("no such table " + tableName);
             break;

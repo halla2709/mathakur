@@ -18,11 +18,6 @@ angular
     $urlRouterProvider.otherwise('/login');
 
     $stateProvider
-    .state('signup', {
-      url: '/signup',
-      templateUrl: 'views/signup.html',
-      controller: 'SignupCtrl'
-    })
     .state('selectfood', {
       url: '/staff/selectfood',
       parent: 'dashboard',
@@ -84,7 +79,7 @@ angular
   .config(function (CloudinaryProvider) {
     CloudinaryProvider.configure({
       cloud_name: 'rubyhallaunnur',
-      api_key: '623827191818171'
+      api_key: '585248786435391'
     })
   })
   .run(['$rootScope', 'session', '$location', assignServicesToRootScope]);
