@@ -1,13 +1,11 @@
 angular.module('mathakur')
-    .controller('AdminPanelCtrl', ['$scope', '$state', '$http', '$rootScope', '$location', 'md5', function ($scope, $state, $http, $rootScope, $location, md5) {
-
+    .controller('AdminPanelCtrl', ['$scope', '$state', 'server', '$rootScope', '$location', 'md5', function ($scope, $state, server, $rootScope, $location, md5) {
         if ($rootScope.session.getLevel() < 1) {
             console.log("admin is not logged in");
             $location.path('/userlogin');
         }
 
         $scope.$state = $state;
-        $scope.currentPhoto = {};
         $scope.currentEmployee = {};
         $scope.currentFood = {};
         $scope.editing = false;
@@ -30,29 +28,7 @@ angular.module('mathakur')
             }
         }
 
-        $http.get("employee/" + $scope.currentSchoolLoggedIn).then(function (response) {
-            $scope.employeeData = response.data;
-        })
-            .catch(function (response) {
-                //Error handle
-                $scope.content = "Something went wrong while getting employees";
-            });
-
-        $http.get("food/" + $scope.currentSchoolLoggedIn).then(function (response) {
-            $scope.foodData = response.data;
-        })
-            .catch(function (response) {
-                //Error handle
-                $scope.content = "Something went wrong while getting products";
-            });
-
-        $http.get("admin/" + $scope.currentSchoolLoggedIn).then(function (response) {
-            $scope.adminData = response.data;
-        })
-            .catch(function (response) {
-                //Error handle
-                $scope.content = "Something went wrong while getting admins";
-            });
+        reloadData(true, true, true);
 
         $scope.goToStaff = function () {
             $state.go('staffTable');
@@ -81,7 +57,6 @@ angular.module('mathakur')
 
             if (newFile.size > 0) {
                 reader.readAsDataURL(newFile);
-                $scope.currentPhoto = newFile;
             }
         };
 
@@ -100,7 +75,39 @@ angular.module('mathakur')
             $scope.newAdmin = {};
         }
 
-        $scope.submitEmployee = function (employee) {
+        function reloadData(employee, food, admin) {
+            if (employee) {
+                server.get("employee/" + $scope.currentSchoolLoggedIn).then(function (response) {
+                    $scope.employeeData = response.data;
+                })
+                    .catch(function (response) {
+                        //Error handle
+                        $scope.content = "Something went wrong while getting employees";
+                    });
+            }
+
+            if (food) {
+                server.get("food/" + $scope.currentSchoolLoggedIn).then(function (response) {
+                    $scope.foodData = response.data;
+                })
+                    .catch(function (response) {
+                        //Error handle
+                        $scope.content = "Something went wrong while getting products";
+                    });
+            }
+
+            if (admin) {
+                server.get("admin/" + $scope.currentSchoolLoggedIn).then(function (response) {
+                    $scope.adminData = response.data;
+                })
+                    .catch(function (response) {
+                        //Error handle
+                        $scope.content = "Something went wrong while getting admins";
+                    });
+            }
+        }
+
+        $scope.submitEmployee = function () {
             if ($scope.updating) {
                 var employeeID = $scope.currentEmployee.id;
                 if ($scope.image) {
@@ -110,84 +117,69 @@ angular.module('mathakur')
                     submitEmployeeCredit(employeeID);
                 }
             } else {
-                $http({
-                    method: 'POST',
-                    url: '/employee',
-                    data: JSON.stringify({
-                        photo: $scope.image,
-                        name: $scope.currentEmployee.name,
-                        nickname: $scope.currentEmployee.nickname,
-                        credit: $scope.currentEmployee.credit,
-                        schoolName: $scope.currentSchoolLoggedIn
-                    })
+                server.post('/employee', {
+                    photo: $scope.image,
+                    name: $scope.currentEmployee.name,
+                    nickname: $scope.currentEmployee.nickname,
+                    credit: $scope.currentEmployee.credit,
+                    schoolName: $scope.currentSchoolLoggedIn
                 })
-                    .then(function (newPhotoUrlJson) {
-                        $scope.currentEmployee.photourl = newPhotoUrlJson.data.photoUrl;
-                        $scope.employeeData.push($scope.currentEmployee);
-                        $scope.currentEmployee = {};
+                    .then(function () {
+                        reloadData(true);
                     })
                     .catch(function (error) {
                         console.error(error)
+                    })
+                    .finally(function () {
+                        $scope.back();
                     });
             }
-            $scope.editing = false;
-            $scope.updating = false;
-            $scope.image = '';
-            $scope.currentPhoto = {};
         }
 
         function submitEmployeeCredit(employeeID) {
-            $http({
-                method: 'PATCH',
-                url: 'employee/updatecredit/' + employeeID,
-                data: JSON.stringify({
+            server.patch('/employee/updatecredit/' + employeeID,
+                {
                     newCredit: $scope.currentEmployee.credit
-                })
-            })
-                .then(function () {
-                    updateInformation($scope.employeeData, employeeID, $scope.currentEmployee);
                 })
                 .catch(function (error) {
                     console.error(error);
+                })
+                .finally(function () {
+                    $scope.back();
                 });
         }
 
         function submitEmployeeUpdate(employeeID) {
-            $http({
-                method: 'PATCH',
-                url: '/employee/' + employeeID,
-                data: JSON.stringify({
-                    newCredit: $scope.currentEmployee.credit,
-                    photo: $scope.image
-                })
+            server.patch('/employee/' + employeeID, {
+                newCredit: $scope.currentEmployee.credit,
+                photo: $scope.image
             })
-                .then(function (newPhotoUrlJson) {
-                    $scope.currentEmployee.photourl = newPhotoUrlJson.data.photoUrl;
-                    updateInformation($scope.employeeData, employeeID, $scope.currentEmployee);
+                .then(function() {
+                    reloadData(true);
                 })
                 .catch(function (error) {
                     console.error(error);
+                })
+                .finally(function () {
+                    $scope.back();
                 });
         }
 
         $scope.deleteEmployee = function () {
             if (confirm('Ertu viss um að þú viljir eyða þessum starfsmanni?')) {
-                $http({
-                    method: 'DELETE',
-                    url: '/employee/' + $scope.currentEmployee.id
-                })
+                server.delete('/employee/' + $scope.currentEmployee.id)
                     .then(function () {
                         const index = $scope.employeeData.indexOf($scope.currentEmployee);
-                        $scope.employeeData.splice(index, 1);
-                        console.log($scope.employeeData);
+                        if (index != -1) {
+                            $scope.employeeData.splice(index, 1);
+                        }
                     })
                     .catch(function (error) {
                         console.error(error);
+                    })
+                    .finally(function () {
+                        $scope.back();
                     });
-                $scope.editing = false;
-                $scope.updating = false;
-                $scope.image = '';
-                $scope.currentPhoto = {};
             }
         }
 
@@ -203,39 +195,30 @@ angular.module('mathakur')
         }
 
         function submitFoodUpdate(foodID) {
-            $http({
-                method: 'PATCH',
-                url: '/food/' + $scope.currentSchoolLoggedIn + '/' + foodID,
-                data: JSON.stringify({
-                    newPrice: $scope.currentFood.price,
-                    photo: $scope.image
-                })
+            server.patch('/food/' + $scope.currentSchoolLoggedIn + '/' + foodID, {
+                newPrice: $scope.currentFood.price,
+                photo: $scope.image
             })
-                .then(function (newPhotoUrlJson) {
-                    $scope.currentFood.photourl = newPhotoUrlJson.data.photoUrl;
-                    updateInformation($scope.foodData, foodID, $scope.currentFood);
-                    $scope.editing = false;
+                .then(function() {
+                    reloadData(false, true);
                 })
                 .catch(function (error) {
                     console.error(error)
+                })
+                .finally(function () {
+                    $scope.back();
                 });
-
         }
 
         function submitFoodPriceChange(foodID) {
-            $http({
-                method: 'PATCH',
-                url: '/food/price/' + $scope.currentSchoolLoggedIn + '/' + foodID,
-                data: JSON.stringify({
-                    newPrice: $scope.currentFood.price
-                })
+            server.patch('/food/price/' + $scope.currentSchoolLoggedIn + '/' + foodID, {
+                newPrice: $scope.currentFood.price
             })
-                .then(function (newPhotoUrlJson) {
-                    updateInformation($scope.foodData, foodID, $scope.currentFood);
-                    $scope.editing = false;
-                })
                 .catch(function (error) {
                     console.error(error)
+                })
+                .finally(function () {
+                    $scope.back();
                 });
         }
 
@@ -249,53 +232,41 @@ angular.module('mathakur')
                     submitFoodPriceChange(foodID);
                 }
             } else {
-                $http({
-                    method: 'POST',
-                    url: '/food',
-                    data: JSON.stringify({
-                        photo: $scope.image,
-                        name: $scope.currentFood.name,
-                        category: $scope.currentFood.category,
-                        price: $scope.currentFood.price,
-                        school: $scope.currentSchoolLoggedIn
-                    })
+                server.post('/food', {
+                    photo: $scope.image,
+                    name: $scope.currentFood.name,
+                    category: $scope.currentFood.category,
+                    price: $scope.currentFood.price,
+                    school: $scope.currentSchoolLoggedIn
                 })
-                    .then(function (newPhotoUrlJson) {
-                        $scope.currentFood.photourl = newPhotoUrlJson.data.photoUrl;
-                        $scope.foodData.push($scope.currentFood);
-                        console.log($scope.foodData);
-                        console.log($scope.currentFood.hasOwnProperty("id"));
+                    .then(function () {
+                        reloadData(false, true);
                     })
                     .catch(function (error) {
                         console.error(error);
-
+                    })
+                    .finally(function () {
+                        $scope.back();
                     });
             }
-            $scope.editing = false;
-            $scope.updating = false;
-            $scope.image = '';
-            $scope.currentPhoto = {};
-            console.log(food.id);
         }
 
         $scope.deleteFood = function () {
             if (confirm('Ertu viss um að þú viljir eyða þessum mat?')) {
-                $http({
-                    method: 'DELETE',
-                    url: '/food/' + $scope.currentFood.id + '/' + $scope.currentSchoolLoggedIn
-                })
+                server.delete('/food/' + $scope.currentFood.id + '/' + $scope.currentSchoolLoggedIn)
                     .then(function () {
                         const index = $scope.foodData.indexOf($scope.currentFood);
-                        $scope.foodData.splice(index, 1);
-                        console.log($scope.foodData);
+                        if (index !== -1)
+                        {
+                            $scope.foodData.splice(index, 1);                            
+                        }
                     })
                     .catch(function (error) {
                         console.error(error);
+                    })
+                    .finally(function () {
+                        $scope.back();
                     });
-                $scope.editing = false;
-                $scope.updating = false;
-                $scope.image = '';
-                $scope.currentPhoto = {};
             }
         }
 
@@ -306,29 +277,28 @@ angular.module('mathakur')
             else {
                 $scope.wrongpassword = false;
                 var pass = md5.createHash(formAdmin.password);
-                $http({
-                    method: 'POST',
-                    url: '/login/requestAdminConnection',
-                    data: JSON.stringify({
+                server.post('/login/requestAdminConnection', {
                         adminPassHash: pass
                     })
-                })
                     .then(function (response) {
-                        $http({
-                            method: 'POST',
-                            url: '/login/signupAdmin',
-                            data: JSON.stringify({
+                        server.post('/login/signupAdmin', {
                                 adminPassHash: md5.createHash(pass + response.data.adminRandomString),
                                 adminName: formAdmin.name,
                                 adminUser: formAdmin.username,
                                 companyName: $scope.currentSchoolLoggedIn
                             })
-                        })
-                            .then(function () {
-                                $scope.editing = false;
+                            .then(function() {
+                                $scope.adminData.push({
+                                    name: formAdmin.name,
+                                    username: formAdmin.username,
+                                    schoolName: $scope.currentSchoolLoggedIn
+                                });
                             })
                             .catch(function (error) {
                                 console.error(error);
+                            })
+                            .finally(function () {
+                                $scope.back();
                             });
                     })
                     .catch(function (error) {
@@ -340,25 +310,15 @@ angular.module('mathakur')
         $scope.back = function () {
             $scope.editing = false;
             $scope.updating = false;
+            $scope.image = '';
             $scope.currentEmployee = {};
-        }
-
-        function updateInformation(table, id, updated) {
-            for (var i = 0; i < table.size; i++) {
-                var current = table[i];
-                if (current.id === id) {
-                    table[i] = updated;
-                    break;
-                }
-            }
+            $scope.currentFood = {};
         }
 
         $scope.logOut = function () {
             $rootScope.session.destroy();
             $location.path('/dashboard/staff');
         }
-
-
     }])
     .directive('customOnChange', function () {
         return {

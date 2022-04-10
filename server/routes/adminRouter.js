@@ -6,6 +6,10 @@ const dbHelper = require('../services/databaseHelper');
 router.get('/:schoolName', function(req, res, next) {
   dbHelper.getFromTable(database, 'administrator', ['schoolname = \'' + req.params.schoolName + '\' '])
   .then(function (data) {
+      data.forEach(admin => {
+        delete admin['rand'];
+        delete admin['password'];
+      });
       res.json(data);
   })
   .catch(function (error) {
