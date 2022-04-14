@@ -141,6 +141,15 @@ function checkCompanyCredientials(req, res, next) {
 function checkUserCredientials(req, res, next) {
     dbHelper.getFromTable(database, 'administrator', ['username = \'' + req.body.adminUser + '\''])
         .then(function (results) {
+            if (results.length == 0)
+            {
+                console.error(error);
+                hashedCompanyPassword = '';
+                companyAuth.randomString = '';
+                res.statusCode = 500;
+                return res.json({ errors: ['Could not find administrator'] });                
+            }
+            
             const randomString = results[0].rand;
             const rehashed = md5(adminAuth.hashedPassword + randomString);
             if (results[0].password === rehashed) {

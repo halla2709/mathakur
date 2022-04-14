@@ -1,31 +1,21 @@
 describe('Admin Controller', function () {
   const companyName = "TestingComp";
-  var AdminPanelCtrl, scope, mockServer, rootScope, q, hashfunc;
-  var response;
+  var AdminPanelCtrl, scope, mockServer, rootScope, hashfunc;
+  var getSpy;
   var sessionMock = {
     getSchool: function () { return companyName; },
     getLevel: function () { return 1; },
   }
 
-  function fakeGet(url) {
-    return Promise.resolve({ data: [] });
-  }
-
-  function fakePost(url, data) {
-    return response;
-  }
-
-
   beforeEach(module('mathakur'));
 
-  beforeEach(inject(function ($controller, $rootScope, server, $q, md5) {
-    q = $q;
+  beforeEach(inject(function ($controller, $rootScope, server, md5) {
     hashfunc = md5.createHash;
     scope = $rootScope.$new();
     rootScope = scope;
     rootScope.session = sessionMock;
     mockServer = server;
-    spyOn(mockServer, 'get').and.callFake(fakeGet);
+    getSpy = spyOn(mockServer, 'get').and.returnValue(Promise.resolve({ data: [] }));
     AdminPanelCtrl = $controller("AdminPanelCtrl", { $scope: scope, server: mockServer, $rootScope: rootScope });
   }));
 
@@ -40,16 +30,13 @@ describe('Admin Controller', function () {
     expect(mockServer.get).toHaveBeenCalledWith('admin/' + companyName);
   });
 
-  describe('submit employee', function() {
-    it('should create a new employee and reload', function () {
+  describe('submit employee', function () {
+    it('should create a new employee and reload', function (done) {
       mockServer.get.calls.reset();
       scope.employeeData = [];
-      spyOn(mockServer, 'post').and.callFake(function (url, data) {
-        var deferred = q.defer();
-        deferred.resolve({ data: { photoUrl: 'aababab' } });
-        return deferred.promise;
-      });
-  
+      var spy = spyOn(mockServer, 'post').and
+        .returnValue(Promise.resolve({ data: { photoUrl: 'aababab' } }));
+
       scope.currentEmployee = {
         name: "Halla",
         nickname: "Holly",
@@ -63,21 +50,19 @@ describe('Admin Controller', function () {
           credit: 5000,
           schoolName: companyName
         }));
-  
-      scope.$digest();
-      expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyName);
-      expect(mockServer.get).not.toHaveBeenCalledWith('food/' + companyName);
-      expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyName);
-    });
-  
-    it('should update employee image when it has been uploaded and reload', function () {
-      mockServer.get.calls.reset();
-      spyOn(mockServer, 'patch').and.callFake(function (url, data) {
-        var deferred = q.defer();
-        deferred.resolve();
-        return deferred.promise;
+
+      spy.calls.mostRecent().returnValue.then(function () {
+        expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyName);
+        expect(mockServer.get).not.toHaveBeenCalledWith('food/' + companyName);
+        expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyName);
+        done();
       });
-  
+    });
+
+    it('should update employee image when it has been uploaded and reload', function (done) {
+      mockServer.get.calls.reset();
+      var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
+
       scope.updating = true;
       scope.currentEmployee = {
         id: "id",
@@ -92,21 +77,19 @@ describe('Admin Controller', function () {
           newCredit: 5000,
           photo: scope.image
         }));
-  
-      scope.$digest();
-      expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyName);
-      expect(mockServer.get).not.toHaveBeenCalledWith('food/' + companyName);
-      expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyName);
-    });
-  
-    it('should only update employee credit when no image has been uploaded and not reload', function () {
-      mockServer.get.calls.reset();
-      spyOn(mockServer, 'patch').and.callFake(function (url, data) {
-        var deferred = q.defer();
-        deferred.resolve();
-        return deferred.promise;
+
+      spy.calls.mostRecent().returnValue.then(function () {
+        expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyName);
+        expect(mockServer.get).not.toHaveBeenCalledWith('food/' + companyName);
+        expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyName);
+        done();
       });
-  
+    });
+
+    it('should only update employee credit when no image has been uploaded and not reload', function (done) {
+      mockServer.get.calls.reset();
+      var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
+
       scope.updating = true;
       scope.currentEmployee = {
         id: "id",
@@ -114,20 +97,22 @@ describe('Admin Controller', function () {
         nickname: "Holly",
         credit: 5000
       };
-  
+
       scope.submitEmployee();
       expect(mockServer.patch).toHaveBeenCalledOnceWith('/employee/updatecredit/id',
         jasmine.objectContaining({
           newCredit: 5000
         }));
-  
-      scope.$digest();
-      expect(mockServer.get).not.toHaveBeenCalled();
+
+
+      spy.calls.mostRecent().returnValue.then(function () {
+        expect(mockServer.get).not.toHaveBeenCalled();
+        done();
+      });
     });
-  
-    it('should remove employee and automatically remove it from the list and not reload', function () {
-      mockServer.get.calls.reset();
-      scope.employeeData = [ {
+
+    it('should remove employee and automatically remove it from the list and not reload', function (done) {
+      var data = [{
         id: "id1",
         name: "Halla1",
         nickname: "Holly1",
@@ -145,45 +130,50 @@ describe('Admin Controller', function () {
         nickname: "Holly3",
         credit: 5003
       }];
-      spyOn(mockServer, 'delete').and.callFake(function (url, data) {
-        var deferred = q.defer();
-        deferred.resolve();
-        return deferred.promise;
+      getSpy.calls.all().forEach(c => {
+        c.returnValue.then(function () {
+          // hack to make sure correct data is in place when original get is processed
+          scope.employeeData = data;
+        })
       });
+      mockServer.get.calls.reset();
+
       spyOn(window, 'confirm').and.returnValue(true);
-  
-      scope.currentEmployee = scope.employeeData[1];
-  
+      var spy = spyOn(mockServer, 'delete').and.returnValue(Promise.resolve());
+
+      scope.currentEmployee = data[1];
+
       scope.deleteEmployee();
-      scope.$digest();
       expect(mockServer.delete).toHaveBeenCalledOnceWith('/employee/id2');
-      expect(scope.employeeData).toHaveSize(2);
-      expect(scope.employeeData).not.toContain({
-        id: "id2",
-        name: "Halla2",
-        nickname: "Holly2",
-        credit: 5002
+
+      spy.calls.mostRecent().returnValue.then(function () {
+        expect(scope.employeeData).toHaveSize(2);
+        expect(scope.employeeData).not.toContain({
+          id: "id2",
+          name: "Halla2",
+          nickname: "Holly2",
+          credit: 5002
+        });
+        expect(mockServer.get).not.toHaveBeenCalled();
+        done();
       });
-      expect(mockServer.get).not.toHaveBeenCalled();
     });
   });
 
-  describe('submit product', function() {
-    it('should create a new product and reload', function () {
+  describe('submit product', function () {
+    it('should create a new product and reload', function (done) {
       mockServer.get.calls.reset();
       scope.foodData = [];
-      spyOn(mockServer, 'post').and.callFake(function (url, data) {
-        var deferred = q.defer();
-        deferred.resolve({ data: { photoUrl: 'aababab' } });
-        return deferred.promise;
-      });
-  
+      var spy = spyOn(mockServer, 'post').and
+        .returnValue(Promise.resolve({ data: { photoUrl: 'aababab' } }));
+
       scope.currentFood = {
         name: "Halla",
         category: "Holly",
         price: 5000
       };
       scope.submitFood();
+
       expect(mockServer.post).toHaveBeenCalledOnceWith('/food',
         jasmine.objectContaining({
           name: "Halla",
@@ -191,21 +181,19 @@ describe('Admin Controller', function () {
           price: 5000,
           school: companyName
         }));
-  
-      scope.$digest();
-      expect(mockServer.get).not.toHaveBeenCalledWith('employee/' + companyName);
-      expect(mockServer.get).toHaveBeenCalledWith('food/' + companyName);
-      expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyName);
-    });
-  
-    it('should update product image when it has been uploaded and reload', function () {
-      mockServer.get.calls.reset();
-      spyOn(mockServer, 'patch').and.callFake(function (url, data) {
-        var deferred = q.defer();
-        deferred.resolve();
-        return deferred.promise;
+
+      spy.calls.mostRecent().returnValue.then(function () {
+        expect(mockServer.get).not.toHaveBeenCalledWith('employee/' + companyName);
+        expect(mockServer.get).toHaveBeenCalledWith('food/' + companyName);
+        expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyName);
+        done();
       });
-  
+    });
+
+    it('should update product image when it has been uploaded and reload', function (done) {
+      mockServer.get.calls.reset();
+      var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
+
       scope.updating = true;
       scope.currentFood = {
         id: 'id',
@@ -215,26 +203,24 @@ describe('Admin Controller', function () {
       };
       scope.image = "animagebinaryrep";
       scope.submitFood();
-      expect(mockServer.patch).toHaveBeenCalledOnceWith('/food/'+companyName+'/id',
+      expect(mockServer.patch).toHaveBeenCalledOnceWith('/food/' + companyName + '/id',
         jasmine.objectContaining({
           newPrice: 5000,
           photo: scope.image
         }));
-  
-      scope.$digest();
-      expect(mockServer.get).not.toHaveBeenCalledWith('employee/' + companyName);
-      expect(mockServer.get).toHaveBeenCalledWith('food/' + companyName);
-      expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyName);
-    });
-  
-    it('should only update food price when no image has been uploaded and not reload', function () {
-      mockServer.get.calls.reset();
-      spyOn(mockServer, 'patch').and.callFake(function (url, data) {
-        var deferred = q.defer();
-        deferred.resolve();
-        return deferred.promise;
+
+      spy.calls.mostRecent().returnValue.then(function () {
+        expect(mockServer.get).not.toHaveBeenCalledWith('employee/' + companyName);
+        expect(mockServer.get).toHaveBeenCalledWith('food/' + companyName);
+        expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyName);
+        done();
       });
-  
+    });
+
+    it('should only update food price when no image has been uploaded and not reload', function (done) {
+      mockServer.get.calls.reset();
+      var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve())
+
       scope.updating = true;
       scope.currentFood = {
         id: 'id',
@@ -242,20 +228,21 @@ describe('Admin Controller', function () {
         category: "Holly",
         price: 5000
       };
-  
+
       scope.submitFood();
-      expect(mockServer.patch).toHaveBeenCalledOnceWith('/food/price/'+companyName+'/id',
+      expect(mockServer.patch).toHaveBeenCalledOnceWith('/food/price/' + companyName + '/id',
         jasmine.objectContaining({
           newPrice: 5000
         }));
-  
-      scope.$digest();
-      expect(mockServer.get).not.toHaveBeenCalled();
+
+      spy.calls.mostRecent().returnValue.then(function () {
+        expect(mockServer.get).not.toHaveBeenCalled();
+        done();
+      });
     });
-  
-    it('should delete product and automatically remove it from the list and not reload', function () {
-      mockServer.get.calls.reset();
-      scope.foodData = [ {
+
+    it('should delete product and automatically remove it from the list and not reload', function (done) {
+      var data = [{
         id: "id1",
         name: "Halla1",
         category: "Holly1",
@@ -273,31 +260,40 @@ describe('Admin Controller', function () {
         category: "Holly3",
         price: 5003
       }];
-      spyOn(mockServer, 'delete').and.callFake(function (url, data) {
-        var deferred = q.defer();
-        deferred.resolve();
-        return deferred.promise;
+
+
+      getSpy.calls.all().forEach(c => {
+        c.returnValue.then(function () {
+          // hack to make sure correct data is in place when original get is processed
+          scope.foodData = data;
+        })
       });
+      mockServer.get.calls.reset();
+
+      var spy = spyOn(mockServer, 'delete').and.returnValue(Promise.resolve());
       spyOn(window, 'confirm').and.returnValue(true);
-  
-      scope.currentFood = scope.foodData[1];
-  
+
+      scope.currentFood = data[1];
+
       scope.deleteFood();
-      scope.$digest();
-      expect(mockServer.delete).toHaveBeenCalledOnceWith('/food/id2/'+companyName);
-      expect(scope.foodData).toHaveSize(2);
-      expect(scope.foodData).not.toContain({
+      expect(mockServer.delete).toHaveBeenCalledOnceWith('/food/id2/' + companyName);
+
+      spy.calls.mostRecent().returnValue.then(function () {
+        expect(scope.foodData).toHaveSize(2);
+        expect(scope.foodData).not.toContain({
           id: "id2",
           name: "Halla2",
           category: "Holly2",
           price: 5002
         });
-      expect(mockServer.get).not.toHaveBeenCalled();
+        expect(mockServer.get).not.toHaveBeenCalled();
+        done();
+      });
     });
   });
 
-  describe('admin signup', function() {
-    it('should not add admin if passwords do not match', function() {
+  describe('admin signup', function () {
+    it('should not add admin if passwords do not match', function () {
       var newAdmin = {
         password: 'a',
         passwordConfirm: 'b'
@@ -305,14 +301,12 @@ describe('Admin Controller', function () {
 
       spyOn(mockServer, 'post');
       scope.submitAdmin(newAdmin);
-      
+
       expect(mockServer.post).not.toHaveBeenCalled();
       expect(scope.wrongpassword).toBeTrue();
     });
 
-    it('should add new admin in two post requests', function() {
-      mockServer.get.calls.reset();
-      scope.adminData = [];
+    it('should add new admin in two post requests', function (done) {
       var newAdmin = {
         password: 'a',
         passwordConfirm: 'a',
@@ -320,36 +314,39 @@ describe('Admin Controller', function () {
         username: 'holly'
       };
 
+      mockServer.get.calls.reset();
+
       var firstCall = true;
-      spyOn(mockServer, 'post').and.callFake(function (url, data) {
-        var deferred = q.defer();
+      var spy = spyOn(mockServer, 'post').and.callFake(function (url, data) {
         if (firstCall) {
-          deferred.resolve( { data: { adminRandomString: 'abcdef' }} );
           firstCall = false;
+          return Promise.resolve({ data: { adminRandomString: 'abcdef' } });
         }
         else {
-          deferred.resolve();
+          return Promise.resolve();
         }
-        return deferred.promise;
       });
       scope.submitAdmin(newAdmin);
 
       expect(mockServer.post).toHaveBeenCalledWith('/login/requestAdminConnection',
-      jasmine.objectContaining({
-        adminPassHash: hashfunc(newAdmin.password)
-      }));
+        jasmine.objectContaining({
+          adminPassHash: hashfunc(newAdmin.password)
+        }));
 
-      scope.$digest();
-      expect(mockServer.post).toHaveBeenCalledWith('/login/signupAdmin',
-      jasmine.objectContaining({
-        adminPassHash: hashfunc(hashfunc(newAdmin.password) + 'abcdef'),
-        adminName: newAdmin.name,
-        adminUser: newAdmin.username,
-        companyName: companyName
-      }));
-
-      expect(mockServer.get).not.toHaveBeenCalled();
-      expect(scope.adminData).toHaveSize(1);
+      spy.calls.mostRecent().returnValue.then(function () {
+        expect(mockServer.post).toHaveBeenCalledWith('/login/signupAdmin',
+          jasmine.objectContaining({
+            adminPassHash: hashfunc(hashfunc(newAdmin.password) + 'abcdef'),
+            adminName: newAdmin.name,
+            adminUser: newAdmin.username,
+            companyName: companyName
+          }));
+        spy.calls.mostRecent().returnValue.then(function () {
+          expect(mockServer.get).not.toHaveBeenCalled();
+          expect(scope.adminData).toHaveSize(1);
+          done();
+        });
+      });
     });
   });
 });

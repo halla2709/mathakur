@@ -97,13 +97,13 @@ angular.module('mathakur')
           $scope.receipt = [];
           $scope.total = 0;
             if(confirm('Til hamingju! þér hefur tekist að versla allt í körfunni, eigðu góðann dag!')) {
-              $window.location.href = '/#/dashboard/staff';
+              $window.location.href = '/#!/dashboard/staff';
             }
             else {
-              $window.location.href = '/#/dashboard/staff';
+              $window.location.href = '/#!/dashboard/staff';
               $scope.myText3 = "Þér hefur tekist að kaupa allt í körfunni! Eigðu góðan dag.";
             }
-          $window.location.href = '/#/dashboard/staff';
+          $window.location.href = '/#!/dashboard/staff';
           $scope.myText3 = "Hæ";
         }
         else {
