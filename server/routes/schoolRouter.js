@@ -14,7 +14,6 @@ router.get('/:id', getSchools, function(req, res, next) {
 
 function getSchools(req, res, next) {
     const id = req.params.id;
-    console.log(id);
     if(typeof id === 'undefined') {
         dbHelper.getFromTable(database, 'school', [])
         .then(function(data) {

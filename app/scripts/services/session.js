@@ -9,7 +9,7 @@ angular.module('mathakur')
         this._lastselecteduser = localStorage.getItem('session.lastselecteduser')
 
         this.getSchool = function () {
-            return this._school;
+            return this._school.name;
         }
 
         this.getUser = function () {
@@ -43,6 +43,11 @@ angular.module('mathakur')
         this.isLoggedIn = function() {
             return this._school !== null;
         }
+
+        this.isBelowZeroAllowed = function() {
+            return this._school.allowFundsBelowZero;
+        }
+
         /**
          * Destroy session
          */

@@ -148,4 +148,6 @@ angular.module('mathakur')
         $location.path('/login');
       }
 
+      console.log("Can you go below zero? " + ($rootScope.session.isBelowZeroAllowed() ? "Yes" : "No"));
+
   }]);

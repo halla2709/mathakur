@@ -123,7 +123,11 @@ function checkCompanyCredientials(req, res, next) {
             const randomString = results[0].rand;
             const rehashed = md5(companyAuth.hashedPassword + randomString);
             if (results[0].password === rehashed) {
-                res.loggedIn = results[0].name;
+                res.loggedIn = {
+                    name: results[0].name,
+                    id: results[0].id,
+                    allowFundsBelowZero: results[0].allowfundsbelowzero == true // gæti verið undefined
+                }
             }
             else {
                 res.loggedIn = null;
