@@ -11,8 +11,10 @@ module.exports = function(config) {
       "./app/scripts/app.js",
       "./app/scripts/services/serverCommunication.js",
       "./app/scripts/controllers/admin.js",
+      "./app/scripts/controllers/dashboard.js",
       "./app/scripts/services/session.js",
-      "./spec/adminSpec.js"
+      "./spec/adminSpec.js",
+      "./spec/dashboardSpec.js"
     ]
   })
 }
