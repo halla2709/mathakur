@@ -1,99 +1,98 @@
-<div class="row justify-content-md-center">
-    <div class="col col-4" style="text-align: center;">
-        <h4>{{employee.name}}</h4>
-        <h4>Þín inneign: <strong>{{employee.credit}} kr</strong></h4>
-    </div>
-    
+<div class="row">
     <div class="col">
-        <div class="input-group input-group-lg col-sm-6 justify-content-md-center">
-            <span class="input-group-text" id="loginInputs">
-                <i class="bi bi-search" style="font-size: 2rem;"></i>
-            </span>
-            <input ng-model="searchBox" type="text" class="form-control form-control-lg" placeholder="Leita..."
-                placeholder="Lykilorð" style="max-width: 20em;">
-        </div>
-    </div>
-
-</div>
-
-<br>
-
-<div class="align-central" >
-    <div class="row justify-content-md-center">
-
-            <div class="col col-sm-4" style="width: 30%;">
-            <div id="karfan">
-                <h3 style="text-align: center; padding-bottom: 0.5em;"><i class="bi bi-cart4"
-                        style="font-size: 2rem; padding-right: 0.5em;"></i>Innkaupakarfa</h3>
-                <table class="table table-condensed table-hover align-left" id="shoppingbag">
-                    <thead id="korfuHeader">
-                        <tr>
-                            <th>Vörur</th>
-                            <th>Fjöldi</th>
-                            <th>Verð</th>
-                            <th style="width: 10%"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="x in receipt" type="remove" ng-click="removeFood(x)" data-bs-toggle="tooltip"
-                            data-bs-placement="bottom" title="Fjarlægja">
-                            <td style="padding-top: 1em;">{{x.name}}</td>
-                            <td style="padding-top: 1em;">{{x.quantity}}</td>
-                            <td style="padding-top: 1em;">{{x.price}} kr</td>
-                            <td><i class="bi bi-dash" style="font-size: 1.5rem; color: #dc3545;"></i></td>
-
-                        </tr>
-                        <tr style="border-top: 0.2em double black">
-                            <th>Samtals:</th>
-                            <th></th>
-                            <th>{{total}} kr</th>
-                            <th></th>
-                        </tr>
-                        <tr>
-                            <th>Inneign eftir kaup:</th>
-                            <th></th>
-                            <th>{{newCredit}} kr</th>
-                            <th></th>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="btn-toolbar justify-content-between">
-                    <button class="btn btn-lg btn-secondary" ng-model="myText2" ng-model="myText3"
-                        ng-click="buyFood(x)">
-                        <i class="bi bi-check-circle"
-                            style="font-size: 1.2rem; padding-right: 0.4em;"></i>Kaupa</button>
-                    <button class="btn btn-lg btn-outline-secondary" ng-click="removeAllFood()"><i
-                            class="bi bi-x-circle" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Tæma</button>
+        <div class="row">
+            <div class="col col-8">
+                <div class="input-group input-group-lg col-sm-6 justify-content-md-center">
+                    <span class="input-group-text" id="loginInputs">
+                        <i class="bi bi-search" style="font-size: 2rem;"></i>
+                    </span>
+                    <input ng-model="searchBox" type="text" class="form-control form-control-lg" placeholder="Leita..."
+                        placeholder="Lykilorð" style="max-width: 20em;">
                 </div>
             </div>
 
-
-            <br>
-            <div class="alert alert-danger" role="alert" ng-show="myText2">
-                <p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>Þú átt ekki
-                    næga inneign, fjarlægðu úr körfunni eða uppfærðu innistæðuna þína</p>
-            </div>
-            <br>
-
-        </div>
-
-
-        <div ng-repeat="x in myDataFood | filter:searchBox" ng-click="selectFood(x)" id="foodCard" class="col col-sm-2">
-            <div class="staffname" type="add" ng-click="addFood(x)">
-                <img cl-src="{{x.photourl}}" class="card-img-top"></img>
-                <br>
-                <div class="foodname">
-                    <p class="onlyonerow">Flokkur: {{x.category}}</p>
-                    <p>Verð: {{x.price}} kr</p>
-                    <h4 id="foodHeader">{{x.name}}
-                    </h4>
+                <div class="col col-8">
+                    <div class="row">
+                    <div ng-repeat="x in myDataFood | filter:searchBox" ng-click="selectFood(x)" id="foodCard" class="col col-2">
+                        <div class="staffname" type="add" ng-click="addFood(x)">
+                            <img cl-src="{{x.photourl}}" class="card-img-top"></img>
+                            <br>
+                            <div class="foodname">
+                                <p class="onlyonerow">Flokkur: {{x.category}}</p>
+                                <p>Verð: {{x.price}} kr</p>
+                                <h4 id="foodHeader">{{x.name}}
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
+        </div>
+    </div>
+
+    <div class="col col-4 position-fixed" id="staffInfo">
+        <h3 style="text-align: center; padding-top: 0.5em; border-top: 0.1em solid #dbdbdb;">
+            <i class="bi bi-person-fill" style="font-size: 2rem; padding-right: 0.5em;"></i>Starfsmaður
+        </h3>
+        <div class="row align-central align-items-center" style="padding: 0px 3em 0px 3em">
+            <div class="col col-6" style="text-align: right;">
+                <img cl-src="{{employee.photourl}}" class="p-2" style="max-width: 10em;"></img>
+            </div>
+            <div class="col col-6" style="color: black;">
+                <h4>{{employee.name}}</h4>
+                <h5>Inneign: <strong>{{employee.credit}} kr</strong></h5>
+            </div>
+        </div>
+        <div class="align-central" id="karfan">
+            <h3 style="text-align: center; padding-bottom: 0.5em; padding-top: 0.5em; border-top: 1px solid #dbdbdb;">
+                <i class="bi bi-cart4" style="font-size: 2rem; padding-right: 0.5em;"></i>Innkaupakarfa
+            </h3>
+            <table class="table table-condensed table-hover align-left" id="shoppingbag">
+                <thead id="korfuHeader">
+                    <tr>
+                        <th>Vörur</th>
+                        <th>Fjöldi</th>
+                        <th>Verð</th>
+                        <th style="width: 10%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in receipt" type="remove" ng-click="removeFood(x)" data-bs-toggle="tooltip"
+                        data-bs-placement="bottom" title="Fjarlægja">
+                        <td style="padding-top: 1em;">{{x.name}}</td>
+                        <td style="padding-top: 1em;">{{x.quantity}}</td>
+                        <td style="padding-top: 1em;">{{x.price}} kr</td>
+                        <td><i class="bi bi-dash" style="font-size: 1.5rem; color: #dc3545;"></i></td>
+
+                    </tr>
+                    <tr style="border-top: 0.2em double black">
+                        <th>Samtals:</th>
+                        <th></th>
+                        <th>{{total}} kr</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>Inneign eftir kaup:</th>
+                        <th></th>
+                        <th>{{creditAfter}} kr</th>
+                        <th></th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="alert alert-danger" role="alert" ng-show="myText2">
+            <p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>Ekki er hægt að versla fyrir meira en inneignin þín leyfir</p>
+        </div>
+        <div class="btn-toolbar justify-content-between align-text-bottom" style="padding: 0px 20px 0px 20px;">
+            <button class="btn btn-lg btn-secondary" ng-model="myText2" ng-model="myText3" ng-click="buyFood(x)">
+                <i class="bi bi-check-circle" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Kaupa</button>
+            <button class="btn btn-lg btn-outline-secondary" ng-click="removeAllFood()"><i class="bi bi-x-circle"
+                    style="font-size: 1.2rem; padding-right: 0.4em;"></i>Tæma</button>
+        </div>
+        <br>
+        <br>
+
+        </div>
     </div>
 </div>
-
-<script>
-    var newCredit = employee.credit - total;
-</script>

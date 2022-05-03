@@ -117,6 +117,21 @@ html {
     white-space: nowrap;
   }
 
+  #staffInfo {
+    border-top-left-radius: 20px; 
+    border-top-right-radius: 20px; 
+    border-bottom-right-radius: 20px; 
+    border-bottom-left-radius: 20px;
+    border: 1px solid #440A67;
+    background-color: #ffffff;
+    right: 12px;
+    color:$color-myBlueDark;
+
+    top: 12em;
+    overflow-y:scroll;
+    overflow-x:hidden;
+  }
+
   /* ----------- ADMIN --------*/
   #adminNav {
     color: $color-myPurpleDark;
@@ -158,7 +173,7 @@ html {
   }
   
   #karfan {
-    width: 100%;
+    min-height: 30%;
     margin-top: 1em;
     padding: 1em;
     background-color: white;

@@ -26,10 +26,13 @@ angular.module('mathakur')
     $scope.class = 'col-sm-12 col-md-12 main';
     $scope.class2 = 'col-sm-8 cool';
     $scope.myText3 = '';
+    $scope.creditAfter = 0;
+  
 
     $scope.selectStaff = function(employee) {
       $scope.employee = employee;
       $state.go("selectfood", {param:employee});
+      $scope.creditAfter = employee.credit;
     }
 
 
@@ -37,12 +40,12 @@ angular.module('mathakur')
       $scope.sidebar = !$scope.sidebar;    
     }
 
-    $scope.addFood = function (food) {
-
+    $scope.addFood = function (food) {   
       var index = -1;
       var quantity = 0;
       var ordertotal = 0;
       $scope.total += food.price;
+      $scope.creditAfter -= food.price;
 
       for (var i = 0; i < $scope.receipt.length; i++) {
         if ($scope.receipt[i].name === food.name) {
@@ -55,12 +58,14 @@ angular.module('mathakur')
       if (index == -1) {
         food.quantity = 1;
         food.ordertotal = food.price;
+        
         $scope.receipt.push(food);
       }
     };
 
     $scope.removeFood = function (food) {
       $scope.total -= food.price;
+      $scope.creditAfter +=  food.price;
       for (var i = 0; i < $scope.receipt.length; i++) {
         if ($scope.receipt[i].name === food.name) {
           $scope.receipt[i].quantity--;
@@ -74,11 +79,13 @@ angular.module('mathakur')
 
     $scope.removeAllFood = function (food) {
       $scope.total = 0;
+      $scope.creditAfter = $scope.employee.credit;
       $scope.receipt = [];
     }
 
     $scope.buyFood = function (food) {
       var credit = $scope.employee.credit;
+      $scope.creditAfter = $scope.employee.credit;
 
       if (confirm('Ertu viss um að þú viljir kaupa allt í körfunni?')) {
         

@@ -1,29 +1,28 @@
-<a ui-sref="staff" class="pull-right btn-primary2 btn-outline"><span class="glyphicon glyphicon-user"></span> Skoða Starfsfólk</a>
-<div class="row">
-	<div class="col-sm-12">
-		
-
-		<h2>Hér er allur maturinn sem er í boði:</h2>
-	</div>
-			<div class="col-sm-offset-3 col-sm-6 col-sm-offset-3">
-				<div id="imaginary_container">
-					<div class="input-group stylish-input-group">
-						<input type="text" ng-model="searchBox" class="form-control" placeholder="Leita...">
-						<span class="input-group-addon">
-											<span class="glyphicon glyphicon-search"></span>
-						</span>
-					</div>
+<div class="container">
+	<h2><small>Vörulisti</small></h2>
+	<br>
+</div>
+<div class="container input-group input-group-lg col-sm-6 justify-content-md-center">
+	<span class="input-group-text" id="loginInputs">
+		<i class="bi bi-search" style="font-size: 2rem;"></i>
+	</span>
+	<input ng-model="searchBox" type="text" class="form-control form-control-lg" placeholder="Leita..."
+		style="max-width: 20em;">
+</div>
+<br>
+<div class="container align-central">
+	<div class="row justify-content-md-center">
+		<div ng-repeat="x in myDataFood | filter:searchBox" id="foodCard" class="col col-2">
+			<div class="staffname">
+				<img cl-src="{{x.photourl}}" class="card-img-top"></img>
+				<br>
+				<div class="foodname">
+					<p class="onlyonerow">Flokkur: {{x.category}}</p>
+					<p>Verð: {{x.price}} kr</p>
+					<h4 id="foodHeader">{{x.name}}
+					</h4>
 				</div>
 			</div>
 		</div>
 	</div>
-<div ng-repeat="x in myDataFood | filter:searchBox">
-	<div class="col-sm-3 containers staffname">
-		<img cl-src="{{x.photourl}}" class="staffphoto">
-	</img>
-
-		<p class = "onlyonerow">{{x.name}}</p>
-		<p class = "onlyonerow">Verð: {{x.price}} kr</p>
-	</div>
-</div>
 </div>

@@ -252,7 +252,7 @@ angular.module('mathakur')
         }
 
         $scope.deleteFood = function () {
-            if (confirm('Ertu viss um að þú viljir eyða þessum mat?')) {
+            if (confirm('Ertu viss um að þú viljir eyða þessari vöru?')) {
                 server.delete('/food/' + $scope.currentFood.id + '/' + $scope.currentSchoolLoggedIn)
                     .then(function () {
                         const index = $scope.foodData.indexOf($scope.currentFood);
