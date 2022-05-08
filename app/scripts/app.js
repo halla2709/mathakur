@@ -51,7 +51,7 @@ angular
       })
       .state('header', {
         templateUrl: 'views/modules/header.html',
-        controller: 'DashboardCtrl'
+        controller: 'HeaderCtrl'
       })
       .state('intro', {
         url: '/intro',
