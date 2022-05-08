@@ -35,36 +35,47 @@ angular.module('mathakur')
 
     $scope.addFood = function (food) {
       var index = -1;
-      $scope.total += food.price;
-      $scope.creditAfter -= food.price;
+      var total = 0;
 
       for (var i = 0; i < $scope.receipt.length; i++) {
-        if ($scope.receipt[i].name === food.name) {
-          $scope.receipt[i].quantity++;
+        var item = $scope.receipt[i];
+        if (item.name === food.name) {
+          item.quantity++;
           index = i;
-          $scope.receipt[i].ordertotal = $scope.receipt[i].price * $scope.receipt[i].quantity;
-          break;
+          item.ordertotal = item.price * item.quantity;
         }
+        total += item.ordertotal;
       }
       if (index == -1) {
         food.quantity = 1;
         food.ordertotal = food.price;
         $scope.receipt.push(food);
+        total += food.ordertotal;
       }
+
+      $scope.total = total;
+      $scope.creditAfter = $scope.employee.credit - $scope.total;
     };
 
     $scope.removeFood = function (food) {
-      $scope.total -= food.price;
-      $scope.creditAfter += food.price;
+      var total = 0;
+      var index = -1;
       for (var i = 0; i < $scope.receipt.length; i++) {
-        if ($scope.receipt[i].name === food.name) {
-          $scope.receipt[i].quantity--;
-          if ($scope.receipt[i].quantity == 0) {
-            $scope.receipt.splice(i, 1);
+        var item = $scope.receipt[i];
+        if (item.name === food.name) {
+          item.quantity--;
+          if (item.quantity == 0) {
+            index = i;
           }
-          break;
         }
+        item.ordertotal = item.price * item.quantity;
+        total += item.ordertotal;
       }
+      if (index !== -1) {
+        $scope.receipt.splice(index, 1);
+      }
+      $scope.total = total;
+      $scope.creditAfter = $scope.employee.credit - $scope.total;
     }
 
     $scope.removeAllFood = function (food) {
@@ -77,9 +88,8 @@ angular.module('mathakur')
       var credit = $scope.employee.credit;
       $scope.creditAfter = $scope.employee.credit;
 
-      if (confirm('Ertu viss um að þú viljir kaupa allt í körfunni?')) {
-
-        if (credit >= $scope.total) {
+      if (credit >= $scope.total || $rootScope.session.isBelowZeroAllowed()) {
+        if (confirm('Ertu viss um að þú viljir kaupa allt í körfunni?')) {
           credit -= $scope.total;
           $scope.employee.credit = credit;
 
@@ -88,14 +98,13 @@ angular.module('mathakur')
           });
           $scope.receipt = [];
           $scope.total = 0;
+          $scope.employee = null;
+          $scope.creditAfter = 0;
           $scope.showSuccessMessage = true;
-          $window.location.href = '/#!/dashboard/staff';
-        }
-        else {
-          $scope.notEnoughCredit = true;
+          $state.go("dashboard");
         }
       } else {
-        // Do nothing!
+        $scope.notEnoughCredit = true;
       }
     }
 
