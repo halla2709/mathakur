@@ -8,18 +8,10 @@
  * Controller of yapp
  */
 angular.module('mathakur')
-  .controller('DashboardCtrl', ['$scope', '$rootScope', '$state', '$stateParams', 'server', '$location', '$window', function ($scope, $rootScope, $state, $stateParams, server, $location, $window) {
-
-    if ($rootScope.session.getLevel() < 0) {
-      console.log("no one is logged in");
-      $location.path('/login');
-    }
-
+  .controller('DashboardCtrl', ['$scope', '$rootScope', '$state', '$stateParams', 'server', function ($scope, $rootScope, $state, $stateParams, server) {
     $scope.employee = $stateParams.param;
     $scope.receipt = [];
     $scope.sidebar = false;
-    var foodPath = 'food/' + $rootScope.session.getSchool();
-    var employeePath = 'employee/' + $rootScope.session.getSchool();
     $scope.total = 0;
     $scope.creditAfter = 0;
 
@@ -108,29 +100,34 @@ angular.module('mathakur')
       }
     }
 
-    server.get(employeePath).then(function (response) {
-      response.data.sort(function (a, b) {
-        if (a.name < b.name) return -1;
-        if (a.name > b.name) return 1;
-        return 0;
-      });
-      $scope.myDataEmployee = response.data;
-    })
-      .catch(function (response) {
-        //Error handle
-        $scope.content = "Something went wrong";
-      });
+    $rootScope.session.load().then(function() {
+      if (!$rootScope.session.isLoggedIn()) {
+        console.log("no one is logged in");
+        $state.go('login');
+      }
 
-    server.get(foodPath).then(function (response) {
-      $scope.myDataFood = response.data;
-    })
-      .catch(function (response) {
-        //Error handle
-        $scope.content = "Something went wrong";
-      });
-
-    $scope.logOut = function () {
-      $rootScope.session.destroy();
-      $location.path('/login');
-    }
+      var foodPath = 'food/' + $rootScope.session.getSchoolName();
+      var employeePath = 'employee/' + $rootScope.session.getSchoolName();
+  
+      server.get(employeePath).then(function (response) {
+        response.data.sort(function (a, b) {
+          if (a.name < b.name) return -1;
+          if (a.name > b.name) return 1;
+          return 0;
+        });
+        $scope.myDataEmployee = response.data;
+      })
+        .catch(function (response) {
+          //Error handle
+          $scope.content = "Something went wrong";
+        });
+  
+      server.get(foodPath).then(function (response) {
+        $scope.myDataFood = response.data;
+      })
+        .catch(function (response) {
+          //Error handle
+          $scope.content = "Something went wrong";
+        });
+    });
   }]);

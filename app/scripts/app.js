@@ -21,8 +21,7 @@ angular
     .state('selectfood', {
       url: '/staff/selectfood',
       parent: 'dashboard',
-      templateUrl: 'views/dashboard/selectfood.html',
-      params: {param:null}
+      templateUrl: 'views/dashboard/selectfood.html'
     })
       .state('login', {
         url: '/login',
@@ -48,10 +47,6 @@ angular
         url: '/foodTable',
         templateUrl: 'views/admin/foodTable.html',
         parent: 'adminpanel'
-      })
-      .state('header', {
-        templateUrl: 'views/modules/header.html',
-        controller: 'HeaderCtrl'
       })
       .state('intro', {
         url: '/intro',
@@ -80,7 +75,6 @@ angular
       })
       .state('about', {
         url: '/about',
-        parent: 'dashboard',
         templateUrl: 'views/modules/about.html',
       })
 
@@ -91,8 +85,8 @@ angular
       api_key: '585248786435391'
     })
   })
-  .run(['$rootScope', 'session', '$location', assignServicesToRootScope]);
+  .run(['$rootScope', 'session', assignServicesToRootScope]);
 
-function assignServicesToRootScope($rootScope, session, $location) {
+function assignServicesToRootScope($rootScope, session) {
   $rootScope.session = session;
 }

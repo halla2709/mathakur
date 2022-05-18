@@ -8,7 +8,7 @@
  * Controller of yapp
  */
 angular.module('mathakur')
-  .controller('LoginCtrl', ['$scope', '$rootScope', '$state', '$location', '$http', 'md5', function ($scope, $rootScope, $state, $location, $http, md5) {
+  .controller('LoginCtrl', ['$scope', '$rootScope', '$state', 'server', 'md5', function ($scope, $rootScope, $state, server, md5) {
 
     $scope.school = '';
     $scope.password = '';
@@ -18,26 +18,18 @@ angular.module('mathakur')
       $scope.school = JSON.parse($scope.school);
       var passwordHash = md5.createHash($scope.password || '');
       var schoolName = $scope.school.name;
-      $http({
-        method: 'POST',
-        url: '/login/requestCompanyConnection',
-        data: JSON.stringify({
+      server.post('/login/requestCompanyConnection', {
           passwordHash: passwordHash
         })
-      })
         .then(function (responseJson) {
-          $http({
-            method: 'POST',
-            url: '/login/loginCompany',
-            data: JSON.stringify({
+          server.post('/login/loginCompany', {
               companyName: schoolName,
               companyPassHash: md5.createHash(passwordHash + responseJson.data.companyRandomString)
             })
-          })
             .then(function (responseJson2) {
               if (responseJson2.data.loggedIn) {
                 $rootScope.session.setSchool(responseJson2.data.loggedIn, 0);
-                $location.path('dashboard');
+                $state.go('dashboard');
               }
               else {
                 $scope.school = '';
@@ -52,13 +44,22 @@ angular.module('mathakur')
       return false;
     }
 
-    $http.get("school")
-      .then(function (response) {
-        $scope.myData = response.data;
-      })
-      .catch(function (response) {
-        //Error handle
-        $scope.content = "Something went wrong";
-      });
+    $rootScope.session.load().then(function() {
+      if (!$rootScope.session.isLoggedIn())
+      {
+        server.get("school")
+          .then(function (response) {
+            $scope.myData = response.data;
+          })
+          .catch(function (response) {
+            //Error handle
+            $scope.content = "Something went wrong";
+          });
+      }
+      else
+      {
+        $state.go('staff');
+      }
+    });
 
   }]);

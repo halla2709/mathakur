@@ -4,11 +4,11 @@ const path = require('path');
 const database = require('../services/databaseCreator').db;
 const dbHelper = require('../services/databaseHelper');
 
-router.get('/', getSchools, function (req, res, next) {
+router.get('/', getSchools, cleanData, function (req, res, next) {
     res.json(req.schools);
 });
 
-router.get('/:id', getSchools, function(req, res, next) {
+router.get('/:id', getSchools, cleanData, function(req, res, next) {
     res.json(req.schools);
 });
 
@@ -38,6 +38,16 @@ function getSchools(req, res, next) {
             return res.json({ errors: ['Could not retrieve school'] });
         });
     }
+}
+
+function cleanData(req, res, next)
+{
+    for (var i = 0; i < req.schools.length; i++)
+    {
+        req.schools[i].rand = undefined;
+        req.schools[i].password = undefined;
+    }
+    next();
 }
 
 module.exports = router;

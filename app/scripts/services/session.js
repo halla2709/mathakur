@@ -1,14 +1,28 @@
 angular.module('mathakur')
-    .service('session', ['localStorage', function (localStorage) {
+    .service('session', ['localStorage', 'server', function (localStorage, server) {
         // Instantiate data when service
         // is loaded
-        var levels = {noOne: -1, school: 0, admin: 1, superAdmin: 2};
-        this._school = localStorage.getItem('session.school');
-        this._user = localStorage.getItem('session.user');
-        this._level = localStorage.getItem('session.level') || -1;
-        this._lastselecteduser = localStorage.getItem('session.lastselecteduser')
 
-        this.getSchool = function () {
+        // todo vera viss um að þessi loadi fyrst
+        var levels = { noOne: -1, school: 0, admin: 1, superAdmin: 2 };
+        var schoolId = localStorage.getItem('session.school');
+        this._user = localStorage.getItem('session.user');
+        this._level = parseInt(localStorage.getItem('session.level') || -1);
+        this._lastselecteduser = localStorage.getItem('session.lastselecteduser');
+        this.loading;
+
+        if (schoolId) {
+            this._school = { id: schoolId };
+        }
+        else {
+            this._school = {};
+        }
+
+        this.getSchoolId = function () {
+            return this._school.id;
+        }
+
+        this.getSchoolName = function () {
             return this._school.name;
         }
 
@@ -16,11 +30,11 @@ angular.module('mathakur')
             return this._user;
         };
 
-        this.getLevel = function() {
+        this.getLevel = function () {
             return this._level;
         }
 
-        this.getLastSelectedUser = function() {
+        this.getLastSelectedUser = function () {
             return this._lastselecteduser;
         }
 
@@ -32,38 +46,74 @@ angular.module('mathakur')
             return this;
         };
 
-        this.setSchool = function (school, level) {
+        setSchool = function (school, level) {
             this._school = school;
             this._level = level;
-            localStorage.setItem('session.school', school);
+            localStorage.setItem('session.school', school.id);
             localStorage.setItem('session.level', level);
             return this;
         }
 
-        this.isLoggedIn = function() {
-            return this._school !== null;
+        this.setSchool = setSchool;
+
+        this.isLoggedIn = function () {
+            return this._level >= 0;
         }
 
-        this.isBelowZeroAllowed = function() {
+        this.isBelowZeroAllowed = function () {
             return this._school.allowFundsBelowZero;
         }
 
         /**
          * Destroy session
          */
-        this.destroy = function destroy() {
-            if(this._level > 0) {
+        this.destroy = function () {
+            if (this._level > 0) {
                 this.setUser(null, 0)
             }
             else {
                 this.setUser(null, -1);
-            }            
+                this.setSchool({}, -1);
+            }
         };
+
+        this.loaded = function()
+        {
+            return this.getSchoolName() !== undefined;
+        }
+
+        this.load = function() {
+            if (this.loading)
+            {
+                return this.loading;
+            }
+            else if (this.isLoggedIn() && !this.loaded()) {
+                var me = this;
+                this.loading = server.get("school/" + this.getSchoolId())
+                    .then(function (response) {
+                        if (response.data.length === 1) {
+                            me.setSchool(response.data[0], 0);
+                        }
+                        this.loading = new Promise((res, err) => {
+                            res();
+                        });
+                    })
+                    .catch(function (response) {
+                        console.error("Could not fetch school " + response)
+                    });
+                return this.loading;
+            }
+            else {
+                this.loading = new Promise((res, err) => {
+                    res();
+                });
+                return this.loading;
+            }
+        }
     }])
-    .factory('localStorage', ['$window', function($window) {
-        if($window.localStorage){
+    .factory('localStorage', ['$window', function ($window) {
+        if ($window.localStorage) {
             return $window.localStorage;
-          }
-          throw new Error('Local storage support is needed');
+        }
+        throw new Error('Local storage support is needed');
     }]);
-    

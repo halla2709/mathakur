@@ -8,37 +8,39 @@
  * Controller of yapp
  */
 angular.module('mathakur')
-  .controller('HeaderCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$location', '$window', function ($scope, $rootScope, $state,  $location) {
+  .directive('mathakurheader', ['$rootScope', '$state', '$transitions', function ($rootScope, $state, $transitions) {
+    return {
+      templateUrl: '../../views/modules/header.html',
+      restrict: 'E',
+      link: function (scope) {
+        scope.goToStaff = function () {
+          $state.go('staff');
+        }
 
-    if ($rootScope.session.getLevel() >= 0) 
-    {
-      console.log(vont);
-      $location.path('/login');
-      $scope.isSchoolLoggedIn = true;
-    }
-    
-    else
-    {
-      $scope.isSchoolLoggedIn = false;
-      console.log(gott);
-    }
+        scope.goToFood = function () {
+          $state.go('food');
+        }
 
+        scope.logOutSchool = function () {
+          $rootScope.session.destroy();
+          $state.go('login');
+        }
 
-    $scope.goToStaff = function () {
-      $state.go('staffTable');
-      $scope.editing = false;
-      $scope.updating = false;
-    }
-
-    $scope.goToFood = function () {
-      $state.go('foodTable');
-      $scope.editing = false;
-      $scope.updating = false;
-    }
-
-    $scope.logOutSchool = function () {
-      $rootScope.session.destroy();
-      $location.path('/login');
+        $rootScope.session.load().then(function() {
+          $transitions.onSuccess({}, function() {
+            if ($rootScope.session.isLoggedIn()) {
+              scope.school = $rootScope.session.getSchoolName();
+            }
+          });
+  
+          if ($rootScope.session.isLoggedIn()) {
+            scope.school = $rootScope.session.getSchoolName();
+          }
+          else {
+            scope.school = false;
+          }
+        });
+      }
     }
 
   }]);
