@@ -22,6 +22,14 @@ html {
     -webkit-text-size-adjust: 100%;
   }
 
+  .btn-outline-secondary.dropdown-toggle.show {
+    color:$color-myPurpleDark !important;
+  }
+
+  .btn-outline-secondary:hover { 
+    color:$color-myPurpleDark !important;
+  }
+
   body {
     margin: 7em 0.8em 6em 0.8em !important;
     background-color: $color-myGreyLight !important;
@@ -86,8 +94,8 @@ html {
     border-top-right-radius: 20px; 
     border-bottom-right-radius: 20px; 
     border-bottom-left-radius: 20px;
-    padding: 1em;
-    margin: 1em;
+    padding: 0.2em;
+    margin: 0.5em;
     border: 0.2em solid $color-myPurpleDark;
   }
 
@@ -98,20 +106,21 @@ html {
     border-bottom-left-radius: 20px;
     border-top-left-radius: 20px; 
     border-top-right-radius: 20px; 
-    padding: 0.5em 0 0 0;
+    padding: 0 0 0 0;
     margin: 1em;
     text-align:center;
-    padding-top: 1em; 
     border: 1px solid $color-myBlueDark;
+    min-width: 10em;
   }
 
   #foodHeader {
     color: white;
     padding: 0.3em;
     background-color: $color-myBlueDark;
-    border-bottom-right-radius: 20px; 
-    border-bottom-left-radius: 20px;
-    margin-bottom: 0 !important;
+    border-top-right-radius: 18px; 
+    border-top-left-radius: 18px;
+    margin-top: 0 !important;
+    margin-bottom: 0;
     text-align:center; 
     overflow:hidden; 
     white-space: nowrap;
@@ -126,10 +135,8 @@ html {
     background-color: #ffffff;
     right: 12px;
     color:$color-myBlueDark;
-
     top: 12em;
-    overflow-y:scroll;
-    overflow-x:hidden;
+ 
   }
 
   /* ----------- ADMIN --------*/
@@ -174,7 +181,6 @@ html {
   
   #karfan {
     min-height: 30%;
-    margin-top: 1em;
     padding: 1em;
     background-color: white;
     border-top-left-radius: 20px; 
@@ -182,6 +188,8 @@ html {
     border-bottom-right-radius: 20px; 
     border-bottom-left-radius: 20px;
     color:$color-myBlueDark;
+    height: 433px;
+    overflow: scroll;
   }
 
   #korfuHeader {
