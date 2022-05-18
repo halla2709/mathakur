@@ -3,11 +3,11 @@
     <div class="container align-center">
       <a class="navbar-brand"><img src="../../images/logo1.png" class="img-fluid rounded float-end" alt="Logo"
           style="max-height: 3.5em;"></a>
-      <ul class="nav nav-tabs" ng-show="isSchoolLoggedIn">
+      <ul class="nav nav-tabs" ng-show="school">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"
             style="color:#FFE3FE; font-size: 1.2em;">
-            <i class="bi bi-house" style="font-size: 1.5rem; padding-right: 0.3em;"></i>{{session.getSchool()}}
+            <i class="bi bi-house" style="font-size: 1.5rem; padding-right: 0.3em;"></i>{{school}}
           </a>
           <ul class="dropdown-menu">
             <li><a id="dropDownHeader" class="dropdown-item" ng-click="goToStaff()"><i class="bi bi-people"
@@ -19,7 +19,7 @@
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><a id="dropDownHeader" class="dropdown-item" id="logoutlook" href ng-click="logOut()"><i
+            <li><a id="dropDownHeader" class="dropdown-item" id="logoutlook" href ng-click="logOutSchool()"><i
                   class="bi bi-box-arrow-in-right" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Skrá út
                 vinnnustað</a></li>
           </ul>

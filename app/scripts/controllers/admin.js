@@ -1,9 +1,6 @@
 angular.module('mathakur')
-    .controller('AdminPanelCtrl', ['$scope', '$state', 'server', '$rootScope', '$location', 'md5', function ($scope, $state, server, $rootScope, $location, md5) {
-        if ($rootScope.session.getLevel() < 1) {
-            console.log("admin is not logged in");
-            $location.path('/userlogin');
-        }
+    .controller('AdminPanelCtrl', ['$scope', '$state', 'server', '$rootScope', 'md5', function ($scope, $state, server, $rootScope, md5) {
+        
 
         $scope.$state = $state;
         $scope.currentEmployee = {};
@@ -12,7 +9,6 @@ angular.module('mathakur')
         $scope.updating = false;
         $scope.sidebar = true;
         $scope.image = '';
-        $scope.currentSchoolLoggedIn = $rootScope.session.getSchool();
         $scope.defaultEmployeePhotoUrl = 'tzeqj4l6kjyq0jptankn';
         $scope.defaultFoodPhotoUrl = 'bazcykvn86tp963v8ocn';
         $scope.class = 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main';
@@ -27,8 +23,6 @@ angular.module('mathakur')
                 $scope.class = 'col-sm-12 col-md-12 main';
             }
         }
-
-        reloadData(true, true, true);
 
         $scope.goToStaff = function () {
             $state.go('staffTable');
@@ -315,10 +309,20 @@ angular.module('mathakur')
             $scope.currentFood = {};
         }
 
-        $scope.logOut = function () {
+        $scope.logOutAdmin = function () {
             $rootScope.session.destroy();
-            $location.path('/dashboard/staff');
+            $state.go('staff');
         }
+        
+        $rootScope.session.load().then(function() {
+            if ($rootScope.session.getLevel() < 1) {
+                console.log("admin is not logged in");
+                $state.go('userlogin');
+            }
+            $scope.currentSchoolLoggedIn = $rootScope.session.getSchoolName();
+    
+            reloadData(true, true, true);
+        });
     }])
     .directive('customOnChange', function () {
         return {
