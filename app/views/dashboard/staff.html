@@ -18,11 +18,11 @@
 <br>
 <div class="container align-central">
 	<div class="row justify-content-md-center">
-		<div ng-repeat="x in myDataEmployee | filter:searchBox" ng-click="selectStaff(x)" class="col-sm-3"
+		<div ng-repeat="x in myDataEmployee | filter:searchBox" ng-click="selectStaff(x)" class="col-sm-2"
 			id="employeeCard">
 			<img cl-src="{{x.photourl}}" class="card-img-top"></img>
 			<br>
-			<h4 style="text-align:center; overflow:hidden; padding-top: 1em; white-space: nowrap; ">{{x.name}}</h4>
+			<h4 style="text-align:center; overflow:hidden; padding-top: 0.4em; white-space: nowrap; ">{{x.name}}</h4>
 		</div>
 	</div>
 </div>

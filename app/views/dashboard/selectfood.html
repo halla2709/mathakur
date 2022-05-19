@@ -15,13 +15,14 @@
                     <div class="row">
                     <div ng-repeat="x in myDataFood | filter:searchBox" ng-click="selectFood(x)" id="foodCard" class="col col-2">
                         <div class="staffname" type="add" ng-click="addFood(x)">
+                            <h4 id="foodHeader">{{x.name}}
+                            </h4>
+                            
                             <img cl-src="{{x.photourl}}" class="card-img-top"></img>
                             <br>
                             <div class="foodname">
-                                <p class="onlyonerow">Flokkur: {{x.category}}</p>
-                                <p>Verð: {{x.price}} kr</p>
-                                <h4 id="foodHeader">{{x.name}}
-                                </h4>
+                                <h5>{{x.price}} kr</h5>
+                                <!--p class="onlyonerow">Flokkur: {{x.category}}</p-->
                             </div>
                         </div>
                     </div>
@@ -31,24 +32,21 @@
         </div>
     </div>
 
-    <div class="col col-4 position-fixed" id="staffInfo">
-        <h3 style="text-align: center; padding-top: 0.5em; border-top: 0.1em solid #dbdbdb;">
-            <i class="bi bi-person-fill" style="font-size: 2rem; padding-right: 0.5em;"></i>Starfsmaður
-        </h3>
-        <div class="row align-central align-items-center" style="padding: 0px 3em 0px 3em">
+    <div class="col col-5 position-fixed" id="staffInfo">
+        <!--div class="row align-central align-items-center" style="padding: 0px 3em 0px 3em">
             <div class="col col-6" style="text-align: right;">
                 <img cl-src="{{employee.photourl}}" class="p-2" style="max-width: 10em;"></img>
             </div>
             <div class="col col-6" style="color: black;">
-                <h4>{{employee.name}}</h4>
+                <h4></h4>
                 <h5>Inneign: <strong>{{employee.credit}} kr</strong></h5>
             </div>
-        </div>
+        </div-->
         <div class="align-central" id="karfan">
-            <h3 style="text-align: center; padding-bottom: 0.5em; padding-top: 0.5em; border-top: 1px solid #dbdbdb;">
-                <i class="bi bi-cart4" style="font-size: 2rem; padding-right: 0.5em;"></i>Innkaupakarfa
+            <h3 style="text-align: center;">
+                <i class="bi bi-cart4" style="font-size: 2rem; padding-right: 0.5em;"></i>Innkaupakarfa - {{employee.name}}
             </h3>
-            <table class="table table-condensed table-hover align-left" id="shoppingbag">
+            <table class="table table-condensed table-hover align-left" style="overflow-y: scroll; ">
                 <thead id="korfuHeader">
                     <tr>
                         <th>Vörur</th>
@@ -67,18 +65,17 @@
 
                     </tr>
                     <tr style="border-top: 0.2em double black">
-                        <th>Samtals:</th>
-                        <th></th>
-                        <th>{{total}} kr</th>
-                        <th></th>
+                        <th style="border:none;">Samtals:</th>
+                        <th style="border:none;"></th>
+                        <th style="border:none;">{{total}} kr</th>
+                        <th style="border:none;"></th>
                     </tr>
                     <tr>
-                        <th>Inneign eftir kaup:</th>
-                        <th></th>
-                        <th>{{creditAfter}} kr</th>
-                        <th></th>
+                        <th style="font-weight:400; border:none;">Inneign eftir kaup:</th>
+                        <th style="border:none;"></th>
+                        <th style="font-weight:400; border:none;">{{creditAfter}} kr</th>
+                        <th style="border:none;"></th>
                     </tr>
-                </tbody>
             </table>
         </div>
         <div class="alert alert-danger" role="alert" ng-show="notEnoughCredit">
