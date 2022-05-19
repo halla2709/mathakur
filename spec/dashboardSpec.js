@@ -1,11 +1,16 @@
 describe('Main workflow Controller', function () {
   const companyName = "TestingComp";
   var DashboardCtrl, scope, mockServer, rootScope;
-  var getSpy;
   var sessionMock = {
-    getSchool: function () { return companyName; },
-    getLevel: function () { return 1; },
-    isBelowZeroAllowed: function () { return false; }
+    getSchoolName: function () { return companyName; },
+    getLevel: function () { return 0; },
+    isBelowZeroAllowed: function () { return false; },
+    isLoggedIn: function () { return true; },
+    load: function() {
+      return { then: function(cb) {
+        cb();
+      }};
+    }
   }
 
   beforeEach(module('mathakur'));

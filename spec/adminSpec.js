@@ -3,8 +3,13 @@ describe('Admin Controller', function () {
   var AdminPanelCtrl, scope, mockServer, rootScope, hashfunc;
   var getSpy;
   var sessionMock = {
-    getSchool: function () { return companyName; },
+    getSchoolName: function () { return companyName; },
     getLevel: function () { return 1; },
+    load: function() {
+      return { then: function(cb) {
+        cb();
+      }};
+    }
   }
 
   beforeEach(module('mathakur'));
