@@ -22,7 +22,7 @@ angular.module('mathakur')
         .then(function (responseJson) {
           server.post('/login/loginUser', {
               adminUser: $scope.username,
-              companyName: $rootScope.session.getSchoolName(),
+              companyId: $rootScope.session.getSchoolId(),
               adminPassHash: md5.createHash(passwordHash + responseJson.data.adminRandomString)
             })
             .then(function (responseJson2) {

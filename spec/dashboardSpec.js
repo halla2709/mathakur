@@ -1,8 +1,8 @@
 describe('Main workflow Controller', function () {
-  const companyName = "TestingComp";
+  const companyId = "abcd-1234-7894-6549-efgd";
   var DashboardCtrl, scope, mockServer, rootScope;
   var sessionMock = {
-    getSchoolName: function () { return companyName; },
+    getSchoolId: function () { return companyId; },
     getLevel: function () { return 0; },
     isBelowZeroAllowed: function () { return false; },
     isLoggedIn: function () { return true; },
@@ -30,8 +30,8 @@ describe('Main workflow Controller', function () {
   });
 
   it('should get all data on startup', function () {
-    expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyName);
-    expect(mockServer.get).toHaveBeenCalledWith('food/' + companyName);
+    expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyId);
+    expect(mockServer.get).toHaveBeenCalledWith('food/' + companyId);
   });
 
   it('can add up the order', function() {

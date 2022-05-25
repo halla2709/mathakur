@@ -2,8 +2,6 @@ angular.module('mathakur')
     .service('session', ['localStorage', 'server', function (localStorage, server) {
         // Instantiate data when service
         // is loaded
-
-        // todo vera viss um að þessi loadi fyrst
         var levels = { noOne: -1, school: 0, admin: 1, superAdmin: 2 };
         var schoolId = localStorage.getItem('session.school');
         this._user = localStorage.getItem('session.user');

@@ -27,7 +27,7 @@ function getSchools(req, res, next) {
         });
     }
     else {
-        dbHelper.getFromTable(database, 'school', ['id = ' + id])
+        dbHelper.getFromTable(database, 'school', ['id = \'' + id + '\''])
         .then(function(data) {
             req.schools = data;
             next();

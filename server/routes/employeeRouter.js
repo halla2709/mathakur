@@ -18,8 +18,8 @@ router.get('/', function (req, res, next) {
         });
 });
 
-router.get('/:schoolName', function(req, res, next) {
-    dbHelper.getFromTable(database, 'employee', ['schoolName = \'' + req.params.schoolName + '\' '])
+router.get('/:schoolId', function(req, res, next) {
+    dbHelper.getFromTable(database, 'employee', ['schoolid = \'' + req.params.schoolId + '\' '])
     .then(function (data) {
         req.employees = data;
         res.json(req.employees);
@@ -27,7 +27,7 @@ router.get('/:schoolName', function(req, res, next) {
     .catch(function (error) {
         console.error(error)
         res.statusCode = 500;
-        return res.json({ errors: ['Could not get employees for school ' + req.params.schoolName] });
+        return res.json({ errors: ['Could not get employees for school ' + req.params.schoolId] });
     });
 });
 
@@ -70,7 +70,7 @@ router.post('/', savePhotoToCloudinary, addNicknameIfNotExists, function (req, r
     }
 
     dbHelper.insertIntoTable(database, 'employee',
-        ['name', 'nickname', 'credit', 'photoUrl', 'schoolname'], [req.body.name, req.body.nickname, req.body.credit, res.photoUrl, req.body.schoolName])
+        ['name', 'nickname', 'credit', 'photoUrl', 'schoolid'], [req.body.name, req.body.nickname, req.body.credit, res.photoUrl, req.body.schoolId])
         .then(function () {
             res.statusCode = 200;
             res.json({photoUrl: res.photoUrl});
@@ -83,7 +83,7 @@ router.post('/', savePhotoToCloudinary, addNicknameIfNotExists, function (req, r
 });
 
 router.delete('/:id', function(req, res, next) {
-    dbHelper.deleteFromTable(database, 'employee', ['id =' + req.params.id])
+    dbHelper.deleteFromTable(database, 'employee', ['id = \'' + req.params.id + '\''])
     .then(function() {
         res.statusCode = 200;
         res.end();

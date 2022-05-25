@@ -1,9 +1,9 @@
 describe('Admin Controller', function () {
-  const companyName = "TestingComp";
+  const companyId = "abcd-1234-7894-6549-efgd";
   var AdminPanelCtrl, scope, mockServer, rootScope, hashfunc;
   var getSpy;
   var sessionMock = {
-    getSchoolName: function () { return companyName; },
+    getSchoolId: function () { return companyId; },
     getLevel: function () { return 1; },
     load: function() {
       return { then: function(cb) {
@@ -30,9 +30,9 @@ describe('Admin Controller', function () {
   });
 
   it('should get all data on startup', function () {
-    expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyName);
-    expect(mockServer.get).toHaveBeenCalledWith('food/' + companyName);
-    expect(mockServer.get).toHaveBeenCalledWith('admin/' + companyName);
+    expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyId);
+    expect(mockServer.get).toHaveBeenCalledWith('food/' + companyId);
+    expect(mockServer.get).toHaveBeenCalledWith('admin/' + companyId);
   });
 
   describe('submit employee', function () {
@@ -53,13 +53,13 @@ describe('Admin Controller', function () {
           name: "Halla",
           nickname: "Holly",
           credit: 5000,
-          schoolName: companyName
+          schoolId: companyId
         }));
 
       spy.calls.mostRecent().returnValue.then(function () {
-        expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyName);
-        expect(mockServer.get).not.toHaveBeenCalledWith('food/' + companyName);
-        expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyName);
+        expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyId);
+        expect(mockServer.get).not.toHaveBeenCalledWith('food/' + companyId);
+        expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyId);
         done();
       });
     });
@@ -84,9 +84,9 @@ describe('Admin Controller', function () {
         }));
 
       spy.calls.mostRecent().returnValue.then(function () {
-        expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyName);
-        expect(mockServer.get).not.toHaveBeenCalledWith('food/' + companyName);
-        expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyName);
+        expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyId);
+        expect(mockServer.get).not.toHaveBeenCalledWith('food/' + companyId);
+        expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyId);
         done();
       });
     });
@@ -184,13 +184,13 @@ describe('Admin Controller', function () {
           name: "Halla",
           category: "Holly",
           price: 5000,
-          school: companyName
+          schoolId: companyId
         }));
 
       spy.calls.mostRecent().returnValue.then(function () {
-        expect(mockServer.get).not.toHaveBeenCalledWith('employee/' + companyName);
-        expect(mockServer.get).toHaveBeenCalledWith('food/' + companyName);
-        expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyName);
+        expect(mockServer.get).not.toHaveBeenCalledWith('employee/' + companyId);
+        expect(mockServer.get).toHaveBeenCalledWith('food/' + companyId);
+        expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyId);
         done();
       });
     });
@@ -208,16 +208,16 @@ describe('Admin Controller', function () {
       };
       scope.image = "animagebinaryrep";
       scope.submitFood();
-      expect(mockServer.patch).toHaveBeenCalledOnceWith('/food/' + companyName + '/id',
+      expect(mockServer.patch).toHaveBeenCalledOnceWith('/food/' + companyId + '/id',
         jasmine.objectContaining({
           newPrice: 5000,
           photo: scope.image
         }));
 
       spy.calls.mostRecent().returnValue.then(function () {
-        expect(mockServer.get).not.toHaveBeenCalledWith('employee/' + companyName);
-        expect(mockServer.get).toHaveBeenCalledWith('food/' + companyName);
-        expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyName);
+        expect(mockServer.get).not.toHaveBeenCalledWith('employee/' + companyId);
+        expect(mockServer.get).toHaveBeenCalledWith('food/' + companyId);
+        expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyId);
         done();
       });
     });
@@ -235,7 +235,7 @@ describe('Admin Controller', function () {
       };
 
       scope.submitFood();
-      expect(mockServer.patch).toHaveBeenCalledOnceWith('/food/price/' + companyName + '/id',
+      expect(mockServer.patch).toHaveBeenCalledOnceWith('/food/price/' + companyId + '/id',
         jasmine.objectContaining({
           newPrice: 5000
         }));
@@ -281,7 +281,7 @@ describe('Admin Controller', function () {
       scope.currentFood = data[1];
 
       scope.deleteFood();
-      expect(mockServer.delete).toHaveBeenCalledOnceWith('/food/id2/' + companyName);
+      expect(mockServer.delete).toHaveBeenCalledOnceWith('/food/id2/' + companyId);
 
       spy.calls.mostRecent().returnValue.then(function () {
         expect(scope.foodData).toHaveSize(2);
@@ -344,7 +344,7 @@ describe('Admin Controller', function () {
             adminPassHash: hashfunc(hashfunc(newAdmin.password) + 'abcdef'),
             adminName: newAdmin.name,
             adminUser: newAdmin.username,
-            companyName: companyName
+            companyId: companyId
           }));
         spy.calls.mostRecent().returnValue.then(function () {
           expect(mockServer.get).not.toHaveBeenCalled();

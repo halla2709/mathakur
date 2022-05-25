@@ -10,7 +10,7 @@ router.get('/', getAllFood, function (req, res, next) {
     res.json(res.food);
 });
 
-router.get('/:schoolName', getAllFood, getPricesForSchool, function (req, res, next) {
+router.get('/:schoolId', getAllFood, getPricesForSchool, function (req, res, next) {
     let resultTable = [];
     res.prices.forEach(function (price) {
         res.food.forEach(function (food) {
@@ -25,13 +25,13 @@ router.post('/', savePhotoToCloudinary, validateColumns, insertIntoTables, funct
     res.json({ photoUrl: res.photoUrl });
 });
 
-router.patch('/:schoolName/:id', savePhotoToCloudinary, function (req, res, next) {
-    const schoolName = req.params.schoolName;
+router.patch('/:schoolId/:id', savePhotoToCloudinary, function (req, res, next) {
+    const schoolId = req.params.schoolId;
     const id = req.params.id;
     const newPrice = req.body.newPrice;
     const newPhotoUrl = res.photoUrl;
 
-    dbHelper.updateFoodPrice(database, schoolName, id, newPrice)
+    dbHelper.updateFoodPrice(database, schoolId, id, newPrice)
         .then(function () {
             dbHelper.updateFoodImage(database, id, newPhotoUrl)
                 .then(function () {
@@ -51,12 +51,12 @@ router.patch('/:schoolName/:id', savePhotoToCloudinary, function (req, res, next
         });
 });
 
-router.patch('/price/:schoolName/:id', function(req, res, next) {
-    const schoolName = req.params.schoolName;
+router.patch('/price/:schoolId/:id', function(req, res, next) {
+    const schoolId = req.params.schoolId;
     const id = req.params.id;
     const newPrice = req.body.newPrice;
 
-    dbHelper.updateFoodPrice(database, schoolName, id, newPrice)
+    dbHelper.updateFoodPrice(database, schoolId, id, newPrice)
         .then(function () {
             res.statusCode = 200;
             res.end();
@@ -68,12 +68,12 @@ router.patch('/price/:schoolName/:id', function(req, res, next) {
         });
 });
 
-router.get('/foodprice/:schoolName', getPricesForSchool, function (req, res, next) {
+router.get('/foodprice/:schoolId', getPricesForSchool, function (req, res, next) {
     res.json(res.prices);
 });
 
-router.delete('/:food/:school', function(req, res, next) {
-    dbHelper.deleteFromTable(database, 'foodprice', ['foodid =' + req.params.food + ' AND schoolname = \'' + req.params.school + '\''])
+router.delete('/:food/:schoolId', function(req, res, next) {
+    dbHelper.deleteFromTable(database, 'foodprice', ['foodid = \'' + req.params.food + '\' AND schoolid = \'' + req.params.schoolId + '\''])
     .then(function() {
         res.statusCode = 200;
         res.end();
@@ -114,7 +114,7 @@ function getAllFood(req, res, next) {
 }
 
 function getPricesForSchool(req, res, next) {
-    dbHelper.getFromTable(database, 'foodprice', ['schoolName = \'' + req.params.schoolName + '\' '])
+    dbHelper.getFromTable(database, 'foodprice', ['schoolid = \'' + req.params.schoolId + '\' '])
         .then(function (data) {
             res.prices = data;
             next();
@@ -131,7 +131,7 @@ function insertIntoTables(req, res, next) {
     ['name', 'category', 'photoUrl'], [req.body.name, req.body.category, res.photoUrl])
     .then(function (id) {
         dbHelper.insertIntoTable(database, 'foodprice', 
-        ['schoolname', 'foodid', 'price'], [req.body.school, id.id, req.body.price])
+        ['schoolid', 'foodid', 'price'], [req.body.schoolId, id.id, req.body.price])
             .then(function() {
             })
             .catch(function(error){

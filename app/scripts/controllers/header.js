@@ -31,6 +31,9 @@ angular.module('mathakur')
             if ($rootScope.session.isLoggedIn()) {
               scope.school = $rootScope.session.getSchoolName();
             }
+            else {
+              scope.school = false;
+            }
           });
   
           if ($rootScope.session.isLoggedIn()) {

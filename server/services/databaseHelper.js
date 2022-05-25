@@ -9,7 +9,7 @@ function getFromTable(db, tableName, conditions) {
 }
 
 function insertIntoTableReturningID(db, tableName, columns, values) {
-    if(tableName == 'school' || tableName == 'foodprice') {
+    if(tableName == 'foodprice') {
         console.error(tableName + " does not have id");
         return;
     }
@@ -57,9 +57,9 @@ function updateEmployee(db, employeeId, newPhotoUrl, newCredit) {
     return db.none(queryString, [newPhotoUrl, newCredit, employeeId]);
 }
 
-function updateFoodPrice(db, schoolName, foodId, newPrice) {
-    let queryString = 'UPDATE foodprice SET price = $1 WHERE schoolName = $2 and foodid = $3';
-    return db.none(queryString, [newPrice, schoolName, foodId]);
+function updateFoodPrice(db, schoolId, foodId, newPrice) {
+    let queryString = 'UPDATE foodprice SET price = $1 WHERE schoolid = $2 and foodid = $3';
+    return db.none(queryString, [newPrice, schoolId, foodId]);
 }
 
 function updateFoodImage(db, foodId, url) {

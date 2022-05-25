@@ -51,7 +51,7 @@ router.post('/loginCompany', authenticateCompanyConnection, checkCompanyCredient
 
 router.post('/signupAdmin', authenticateAdminConnection, addAdmin, function (req, res, next) {
     adminAuth = {};
-    res.json({ schoolName: req.body.schoolName, name: req.body.name });
+    res.json({ name: req.body.name });
 });
 
 router.post('/loginUser', authenticateAdminConnection, checkUserCredientials, function (req, res, next) {
@@ -88,9 +88,10 @@ function authenticateAdminConnection(req, res, next) {
 }
 
 function addCompany(req, res, next) {
-    dbHelper.insertIntoTable(database, 'school',
+    dbHelper.insertIntoTableReturningID(database, 'school',
         ['name', 'password', 'rand'], [req.body.companyName, companyAuth.finalPassword, companyAuth.randomString])
-        .then(function () {
+        .then(function (id) {
+            res.schoolId = id.id;
             next();
         })
         .catch(function (error) {
@@ -103,8 +104,8 @@ function addCompany(req, res, next) {
 
 function addAdmin(req, res, next) {
     dbHelper.insertIntoTable(database, 'administrator',
-        ['name', 'password', 'rand', 'username', 'schoolName'],
-        [req.body.adminName, adminAuth.finalPassword, adminAuth.randomString, req.body.adminUser, req.body.companyName])
+        ['name', 'password', 'rand', 'username', 'schoolid'],
+        [req.body.adminName, adminAuth.finalPassword, adminAuth.randomString, req.body.adminUser, res.schoolId])
         .then(function () {
             next();
         })
@@ -157,7 +158,7 @@ function checkUserCredientials(req, res, next) {
             const randomString = results[0].rand;
             const rehashed = md5(adminAuth.hashedPassword + randomString);
             if (results[0].password === rehashed) {
-                if (results[0].schoolname === req.body.companyName) {
+                if (results[0].schoolid === req.body.companyId) {
                     res.loggedIn = results[0].name;
                 }
                 else {

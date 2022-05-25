@@ -116,7 +116,7 @@ angular.module('mathakur')
                     name: $scope.currentEmployee.name,
                     nickname: $scope.currentEmployee.nickname,
                     credit: $scope.currentEmployee.credit,
-                    schoolName: $scope.currentSchoolLoggedIn
+                    schoolId: $scope.currentSchoolLoggedIn
                 })
                     .then(function () {
                         reloadData(true);
@@ -231,7 +231,7 @@ angular.module('mathakur')
                     name: $scope.currentFood.name,
                     category: $scope.currentFood.category,
                     price: $scope.currentFood.price,
-                    school: $scope.currentSchoolLoggedIn
+                    schoolId: $scope.currentSchoolLoggedIn
                 })
                     .then(function () {
                         reloadData(false, true);
@@ -279,13 +279,12 @@ angular.module('mathakur')
                                 adminPassHash: md5.createHash(pass + response.data.adminRandomString),
                                 adminName: formAdmin.name,
                                 adminUser: formAdmin.username,
-                                companyName: $scope.currentSchoolLoggedIn
+                                companyId: $scope.currentSchoolLoggedIn
                             })
                             .then(function() {
                                 $scope.adminData.push({
                                     name: formAdmin.name,
-                                    username: formAdmin.username,
-                                    schoolName: $scope.currentSchoolLoggedIn
+                                    username: formAdmin.username
                                 });
                             })
                             .catch(function (error) {
@@ -319,7 +318,7 @@ angular.module('mathakur')
                 console.log("admin is not logged in");
                 $state.go('userlogin');
             }
-            $scope.currentSchoolLoggedIn = $rootScope.session.getSchoolName();
+            $scope.currentSchoolLoggedIn = $rootScope.session.getSchoolId();
     
             reloadData(true, true, true);
         });

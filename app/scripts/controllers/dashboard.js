@@ -106,8 +106,8 @@ angular.module('mathakur')
         $state.go('login');
       }
 
-      var foodPath = 'food/' + $rootScope.session.getSchoolName();
-      var employeePath = 'employee/' + $rootScope.session.getSchoolName();
+      var foodPath = 'food/' + $rootScope.session.getSchoolId();
+      var employeePath = 'employee/' + $rootScope.session.getSchoolId();
   
       server.get(employeePath).then(function (response) {
         response.data.sort(function (a, b) {
