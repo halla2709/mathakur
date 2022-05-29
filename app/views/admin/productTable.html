@@ -9,7 +9,7 @@
                 <i class="bi bi-people" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Starfsmenn</a></h5>
           </li>
           <li class="nav-item">
-            <h5><a class="nav-link active" aria-current="page" ng-click="goToFood()" id="adminNav">
+            <h5><a class="nav-link active" aria-current="page" ng-click="goToProduct()" id="adminNav">
                 <i class="bi bi-basket" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Vörur</a></h5>
           </li>
           <li class="nav-item">
@@ -32,7 +32,7 @@
         <div class="container">
             <div class="row">
                 <div class="col" style="padding: 0;">
-                    <button class="btn btn-lg btn-secondary" ng-show="!editing" ng-click="editFood()">
+                    <button class="btn btn-lg btn-secondary" ng-show="!editing" ng-click="editProduct()">
                         <i class="bi bi-plus-circle" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Ný
                         vara</button>
                 </div>
@@ -61,21 +61,21 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="food in foodData | filter:searchBox"
-                    ng-click="!food.hasOwnProperty('id') || editFood(food)" style="height: 3em;">
-                    <td>{{food.name}}</td>
-                    <td>{{food.category}}</td>
-                    <td>{{food.price}} kr</td>
+                <tr ng-repeat="product in productData | filter:searchBox"
+                    ng-click="!product.hasOwnProperty('id') || editProduct(product)" style="height: 3em;">
+                    <td>{{product.name}}</td>
+                    <td>{{product.category}}</td>
+                    <td>{{product.price}} kr</td>
                     <td><span
-                            ng-show="{{food.photourl && food.photourl !== '' && food.photourl !== defaultFoodPhotoUrl}}">
+                            ng-show="{{product.photourl && product.photourl !== '' && product.photourl !== defaultProductPhotoUrl}}">
                             <i class="bi bi-check-circle" style="color: green; font-size: 1.2rem; padding-right: 0.4em;"></i></span>
                         </span>
                         <span
-                            ng-show="{{!food.photourl || food.photourl === '' || food.photourl === defaultFoodPhotoUrl}}">
+                            ng-show="{{!product.photourl || product.photourl === '' || product.photourl === defaultProductPhotoUrl}}">
                             <i class="bi bi-x-circle" style="color: red; font-size: 1.2rem; padding-right: 0.4em;"></i></span>
                         </span>
                     </td>
-                    <td><i class="bi bi-pencil" ng-style="food.hasOwnProperty('id') ? {} : {opacity: .20}"
+                    <td><i class="bi bi-pencil" ng-style="product.hasOwnProperty('id') ? {} : {opacity: .20}"
                             style="font-size: 1.2rem; color:#440A67"></i></td>
                 </tr>
             </tbody>
@@ -84,7 +84,7 @@
 
     <!-------- EDIT ----------->
 
-    <form id="form" role="form" ng-show="editing" ng-submit="submitFood(currentFood)">
+    <form id="form" role="form" ng-show="editing" ng-submit="submitProduct(currentProduct)">
 
         <div class="container">
             <div class="row">
@@ -93,8 +93,8 @@
                     <br>
                 </div>
                 <div class="col">
-                    <button class="btn btn-lg btn-danger" type="button" ng-show="updating" id="deleteFoodAndStaff"
-                        style="float: right;" ng-click="deleteFood()"><i class="bi bi-trash"
+                    <button class="btn btn-lg btn-danger" type="button" ng-show="updating" id="deleteProductAndStaff"
+                        style="float: right;" ng-click="deleteProduct()"><i class="bi bi-trash"
                             style="font-size: 1.2rem; padding-right: 0.4em;"></i>Eyða vöru</button>
                 </div>
             </div>
@@ -104,16 +104,16 @@
             <div class="row">
                 <div class="col">
                     <label for="name">Vara</label>
-                    <input id="name" maxlength="40" required ng-model="currentFood.name" type="text" placeholder="Epli"
+                    <input id="name" maxlength="40" required ng-model="currentProduct.name" type="text" placeholder="Epli"
                         class="form-control form-control-lg" />
 
                     <br><label for="category">Flokkur</label>
-                    <input id="category" maxlength="40" ng-model="currentFood.category" type="text"
+                    <input id="category" maxlength="40" ng-model="currentProduct.category" type="text"
                         placeholder="Ávöxtur" class="form-control form-control-lg" />
 
                     <br><label for=" name">Verð</label>
                     <div class="input-group input-group-lg" style="width: 40%;">
-                        <input id="price" required ng-model="currentFood.price" type="number" placeholder="100"
+                        <input id="price" required ng-model="currentProduct.price" type="number" placeholder="100"
                             class="form-control form-control-lg" />
                         <span class="input-group-text">
                             kr
@@ -124,7 +124,7 @@
                 <div class="col" style="text-align: center;">
                     <label for="fileInput">Mynd</label>
                     <div ng-show="updating">
-                        <img cl-src="{{currentFood.photourl}}" class="staffphoto"></img>
+                        <img cl-src="{{currentProduct.photourl}}" class="staffphoto"></img>
                     </div>
                     <br>
                     <input id="fileInput" type="file" custom-on-change="uploadFile" accept="image/*" capture="user"

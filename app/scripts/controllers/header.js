@@ -17,30 +17,31 @@ angular.module('mathakur')
           $state.go('staff');
         }
 
-        scope.goToFood = function () {
-          $state.go('food');
+        scope.goToProduct = function () {
+          $state.go('product');
         }
 
-        scope.logOutSchool = function () {
+        scope.logOutCompany = function () {
           $rootScope.session.destroy();
           $state.go('login');
+          return;
         }
 
         $rootScope.session.load().then(function() {
           $transitions.onSuccess({}, function() {
             if ($rootScope.session.isLoggedIn()) {
-              scope.school = $rootScope.session.getSchoolName();
+              scope.company = $rootScope.session.getCompanyName();
             }
             else {
-              scope.school = false;
+              scope.company = false;
             }
           });
   
           if ($rootScope.session.isLoggedIn()) {
-            scope.school = $rootScope.session.getSchoolName();
+            scope.company = $rootScope.session.getCompanyName();
           }
           else {
-            scope.school = false;
+            scope.company = false;
           }
         });
       }

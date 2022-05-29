@@ -5,17 +5,17 @@ const bodyParser = require('body-parser');
 const database = require('./server/services/databaseCreator').db;
 const dbHelper = require('./server/services/databaseHelper');
 
-const schoolRouter = require('./server/routes/schoolRouter');
+const companyRouter = require('./server/routes/companyRouter');
 const employeeRouter = require('./server/routes/employeeRouter');
-const foodRouter = require('./server/routes/foodRouter');
+const productRouter = require('./server/routes/productRouter');
 const loginRouter = require('./server/routes/loginRouter');
 const adminRouter = require('./server/routes/adminRouter');
 
 app.use(bodyParser.json({ type: 'application/json', limit: "20mb" }));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/school', schoolRouter);
+app.use('/company', companyRouter);
 app.use('/employee', employeeRouter);
-app.use('/food', foodRouter);
+app.use('/product', productRouter);
 app.use('/login', loginRouter);
 app.use('/admin', adminRouter);
 app.use(express.static('./app'));

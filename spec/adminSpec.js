@@ -3,7 +3,7 @@ describe('Admin Controller', function () {
   var AdminPanelCtrl, scope, mockServer, rootScope, hashfunc;
   var getSpy;
   var sessionMock = {
-    getSchoolId: function () { return companyId; },
+    getCompanyId: function () { return companyId; },
     getLevel: function () { return 1; },
     load: function() {
       return { then: function(cb) {
@@ -31,7 +31,7 @@ describe('Admin Controller', function () {
 
   it('should get all data on startup', function () {
     expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyId);
-    expect(mockServer.get).toHaveBeenCalledWith('food/' + companyId);
+    expect(mockServer.get).toHaveBeenCalledWith('product/' + companyId);
     expect(mockServer.get).toHaveBeenCalledWith('admin/' + companyId);
   });
 
@@ -53,12 +53,12 @@ describe('Admin Controller', function () {
           name: "Halla",
           nickname: "Holly",
           credit: 5000,
-          schoolId: companyId
+          companyId: companyId
         }));
 
       spy.calls.mostRecent().returnValue.then(function () {
         expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyId);
-        expect(mockServer.get).not.toHaveBeenCalledWith('food/' + companyId);
+        expect(mockServer.get).not.toHaveBeenCalledWith('product/' + companyId);
         expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyId);
         done();
       });
@@ -85,7 +85,7 @@ describe('Admin Controller', function () {
 
       spy.calls.mostRecent().returnValue.then(function () {
         expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyId);
-        expect(mockServer.get).not.toHaveBeenCalledWith('food/' + companyId);
+        expect(mockServer.get).not.toHaveBeenCalledWith('product/' + companyId);
         expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyId);
         done();
       });
@@ -168,28 +168,28 @@ describe('Admin Controller', function () {
   describe('submit product', function () {
     it('should create a new product and reload', function (done) {
       mockServer.get.calls.reset();
-      scope.foodData = [];
+      scope.productData = [];
       var spy = spyOn(mockServer, 'post').and
         .returnValue(Promise.resolve({ data: { photoUrl: 'aababab' } }));
 
-      scope.currentFood = {
+      scope.currentProduct = {
         name: "Halla",
         category: "Holly",
         price: 5000
       };
-      scope.submitFood();
+      scope.submitProduct();
 
-      expect(mockServer.post).toHaveBeenCalledOnceWith('/food',
+      expect(mockServer.post).toHaveBeenCalledOnceWith('/product',
         jasmine.objectContaining({
           name: "Halla",
           category: "Holly",
           price: 5000,
-          schoolId: companyId
+          companyId: companyId
         }));
 
       spy.calls.mostRecent().returnValue.then(function () {
         expect(mockServer.get).not.toHaveBeenCalledWith('employee/' + companyId);
-        expect(mockServer.get).toHaveBeenCalledWith('food/' + companyId);
+        expect(mockServer.get).toHaveBeenCalledWith('product/' + companyId);
         expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyId);
         done();
       });
@@ -200,15 +200,15 @@ describe('Admin Controller', function () {
       var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
 
       scope.updating = true;
-      scope.currentFood = {
+      scope.currentProduct = {
         id: 'id',
         name: "Halla",
         category: "Holly",
         price: 5000
       };
       scope.image = "animagebinaryrep";
-      scope.submitFood();
-      expect(mockServer.patch).toHaveBeenCalledOnceWith('/food/' + companyId + '/id',
+      scope.submitProduct();
+      expect(mockServer.patch).toHaveBeenCalledOnceWith('/product/' + companyId + '/id',
         jasmine.objectContaining({
           newPrice: 5000,
           photo: scope.image
@@ -216,26 +216,26 @@ describe('Admin Controller', function () {
 
       spy.calls.mostRecent().returnValue.then(function () {
         expect(mockServer.get).not.toHaveBeenCalledWith('employee/' + companyId);
-        expect(mockServer.get).toHaveBeenCalledWith('food/' + companyId);
+        expect(mockServer.get).toHaveBeenCalledWith('product/' + companyId);
         expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyId);
         done();
       });
     });
 
-    it('should only update food price when no image has been uploaded and not reload', function (done) {
+    it('should only update product price when no image has been uploaded and not reload', function (done) {
       mockServer.get.calls.reset();
       var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve())
 
       scope.updating = true;
-      scope.currentFood = {
+      scope.currentProduct = {
         id: 'id',
         name: "Halla",
         category: "Holly",
         price: 5000
       };
 
-      scope.submitFood();
-      expect(mockServer.patch).toHaveBeenCalledOnceWith('/food/price/' + companyId + '/id',
+      scope.submitProduct();
+      expect(mockServer.patch).toHaveBeenCalledOnceWith('/product/price/' + companyId + '/id',
         jasmine.objectContaining({
           newPrice: 5000
         }));
@@ -270,7 +270,7 @@ describe('Admin Controller', function () {
       getSpy.calls.all().forEach(c => {
         c.returnValue.then(function () {
           // hack to make sure correct data is in place when original get is processed
-          scope.foodData = data;
+          scope.productData = data;
         })
       });
       mockServer.get.calls.reset();
@@ -278,14 +278,14 @@ describe('Admin Controller', function () {
       var spy = spyOn(mockServer, 'delete').and.returnValue(Promise.resolve());
       spyOn(window, 'confirm').and.returnValue(true);
 
-      scope.currentFood = data[1];
+      scope.currentProduct = data[1];
 
-      scope.deleteFood();
-      expect(mockServer.delete).toHaveBeenCalledOnceWith('/food/id2/' + companyId);
+      scope.deleteProduct();
+      expect(mockServer.delete).toHaveBeenCalledOnceWith('/product/id2/' + companyId);
 
       spy.calls.mostRecent().returnValue.then(function () {
-        expect(scope.foodData).toHaveSize(2);
-        expect(scope.foodData).not.toContain({
+        expect(scope.productData).toHaveSize(2);
+        expect(scope.productData).not.toContain({
           id: "id2",
           name: "Halla2",
           category: "Holly2",

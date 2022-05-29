@@ -6,15 +6,15 @@ const dbHelper = require('../services/databaseHelper');
 const cloudinary = require("cloudinary");
 const savePhotoToCloudinary = require("../services/cloudinaryHelper").savePhotoToCloudinary;
 
-router.get('/', getAllFood, function (req, res, next) {
-    res.json(res.food);
+router.get('/', getAllProducts, function (req, res, next) {
+    res.json(res.product);
 });
 
-router.get('/:schoolId', getAllFood, getPricesForSchool, function (req, res, next) {
+router.get('/:companyId', getAllProducts, getPricesForCompany, function (req, res, next) {
     let resultTable = [];
     res.prices.forEach(function (price) {
-        res.food.forEach(function (food) {
-            if (price.foodid === food.id) resultTable.push({ id: food.id, name: food.name, category: food.category, photourl: food.photourl, price: price.price });
+        res.product.forEach(function (product) {
+            if (price.productid === product.id) resultTable.push({ id: product.id, name: product.name, category: product.category, photourl: product.photourl, price: price.price });
         });
     });
     res.json(resultTable);
@@ -25,15 +25,15 @@ router.post('/', savePhotoToCloudinary, validateColumns, insertIntoTables, funct
     res.json({ photoUrl: res.photoUrl });
 });
 
-router.patch('/:schoolId/:id', savePhotoToCloudinary, function (req, res, next) {
-    const schoolId = req.params.schoolId;
+router.patch('/:companyId/:id', savePhotoToCloudinary, function (req, res, next) {
+    const companyId = req.params.companyId;
     const id = req.params.id;
     const newPrice = req.body.newPrice;
     const newPhotoUrl = res.photoUrl;
 
-    dbHelper.updateFoodPrice(database, schoolId, id, newPrice)
+    dbHelper.updateProductPrice(database, companyId, id, newPrice)
         .then(function () {
-            dbHelper.updateFoodImage(database, id, newPhotoUrl)
+            dbHelper.updateProductImage(database, id, newPhotoUrl)
                 .then(function () {
                     res.statusCode = 200;
                     res.json({ photoUrl: newPhotoUrl });
@@ -41,22 +41,22 @@ router.patch('/:schoolId/:id', savePhotoToCloudinary, function (req, res, next) 
                 .catch(function (error) {
                     console.error(error)
                     res.statusCode = 500;
-                    return res.json({ errors: ['Could not update food image'] });
+                    return res.json({ errors: ['Could not update product image'] });
                 });
         })
         .catch(function (error) {
             console.error(error)
             res.statusCode = 500;
-            return res.json({ errors: ['Could not update food price'] });
+            return res.json({ errors: ['Could not update product price'] });
         });
 });
 
-router.patch('/price/:schoolId/:id', function(req, res, next) {
-    const schoolId = req.params.schoolId;
+router.patch('/price/:companyId/:id', function(req, res, next) {
+    const companyId = req.params.companyId;
     const id = req.params.id;
     const newPrice = req.body.newPrice;
 
-    dbHelper.updateFoodPrice(database, schoolId, id, newPrice)
+    dbHelper.updateProductPrice(database, companyId, id, newPrice)
         .then(function () {
             res.statusCode = 200;
             res.end();
@@ -64,16 +64,16 @@ router.patch('/price/:schoolId/:id', function(req, res, next) {
         .catch(function (error) {
             console.error(error)
             res.statusCode = 500;
-            return res.json({ errors: ['Could not update food price'] });
+            return res.json({ errors: ['Could not update product price'] });
         });
 });
 
-router.get('/foodprice/:schoolId', getPricesForSchool, function (req, res, next) {
+router.get('/productprice/:companyId', getPricesForCompany, function (req, res, next) {
     res.json(res.prices);
 });
 
-router.delete('/:food/:schoolId', function(req, res, next) {
-    dbHelper.deleteFromTable(database, 'foodprice', ['foodid = \'' + req.params.food + '\' AND schoolid = \'' + req.params.schoolId + '\''])
+router.delete('/:product/:companyId', function(req, res, next) {
+    dbHelper.deleteFromTable(database, 'productprice', ['productid = \'' + req.params.product + '\' AND companyid = \'' + req.params.companyId + '\''])
     .then(function() {
         res.statusCode = 200;
         res.end();
@@ -81,7 +81,7 @@ router.delete('/:food/:schoolId', function(req, res, next) {
     .catch(function(error) {
         console.error(error);
         res.statusCode = 500;
-        return res.json({ errors: ['Could not delete food'] });
+        return res.json({ errors: ['Could not delete product'] });
     })
 });
 
@@ -92,7 +92,7 @@ router.post('/photo', savePhotoToCloudinary, function (req, res, next) {
 function validateColumns(req, res, next) {
     if (typeof req.body.name === 'undefined') {
         res.statusCode = 500;
-        return res.json({ errors: ['Could not create food without name'] });
+        return res.json({ errors: ['Could not create product without name'] });
     }
     if (typeof req.body.category === 'undefined') {
         req.body.category = '';
@@ -100,21 +100,21 @@ function validateColumns(req, res, next) {
     next();
 }
 
-function getAllFood(req, res, next) {
-    dbHelper.getFromTable(database, 'food', [])
+function getAllProducts(req, res, next) {
+    dbHelper.getFromTable(database, 'product', [])
         .then(function (data) {
-            res.food = data;
+            res.product = data;
             next();
         })
         .catch(function (error) {
             console.error(error)
             res.statusCode = 500;
-            return res.json({ errors: ['Could not get food'] });
+            return res.json({ errors: ['Could not get product'] });
         });
 }
 
-function getPricesForSchool(req, res, next) {
-    dbHelper.getFromTable(database, 'foodprice', ['schoolid = \'' + req.params.schoolId + '\' '])
+function getPricesForCompany(req, res, next) {
+    dbHelper.getFromTable(database, 'productprice', ['companyid = \'' + req.params.companyId + '\' '])
         .then(function (data) {
             res.prices = data;
             next();
@@ -122,29 +122,29 @@ function getPricesForSchool(req, res, next) {
         .catch(function (error) {
             console.error(error)
             res.statusCode = 500;
-            return res.json({ errors: ['Could not get food prices'] });
+            return res.json({ errors: ['Could not get product prices'] });
         });
 }
 
 function insertIntoTables(req, res, next) {
-    dbHelper.insertIntoTableReturningID(database, 'food',
+    dbHelper.insertIntoTableReturningID(database, 'product',
     ['name', 'category', 'photoUrl'], [req.body.name, req.body.category, res.photoUrl])
     .then(function (id) {
-        dbHelper.insertIntoTable(database, 'foodprice', 
-        ['schoolid', 'foodid', 'price'], [req.body.schoolId, id.id, req.body.price])
+        dbHelper.insertIntoTable(database, 'productprice', 
+        ['companyid', 'productid', 'price'], [req.body.companyId, id.id, req.body.price])
             .then(function() {
             })
             .catch(function(error){
                 console.error(error);
                 res.statusCode = 500;
-                return res.json({ errors: ['Could not add food price'] });
+                return res.json({ errors: ['Could not add product price'] });
             })
         next();
     })
     .catch(function (error) {
         console.error(error)
         res.statusCode = 500;
-        return res.json({ errors: ['Could not create food'] });
+        return res.json({ errors: ['Could not create product'] });
     });
 }
 

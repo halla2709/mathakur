@@ -18,10 +18,10 @@ angular
     $urlRouterProvider.otherwise('/login');
 
     $stateProvider
-    .state('selectfood', {
-      url: '/staff/selectfood',
+    .state('selectproduct', {
+      url: '/staff/selectproduct',
       parent: 'dashboard',
-      templateUrl: 'views/dashboard/selectfood.html'
+      templateUrl: 'views/dashboard/selectproduct.html'
     })
       .state('login', {
         url: '/login',
@@ -43,9 +43,9 @@ angular
         templateUrl: 'views/admin/staffTable.html',
         parent: 'adminpanel'
       })
-      .state('foodTable', {
-        url: '/foodTable',
-        templateUrl: 'views/admin/foodTable.html',
+      .state('productTable', {
+        url: '/productTable',
+        templateUrl: 'views/admin/productTable.html',
         parent: 'adminpanel'
       })
       .state('intro', {
@@ -63,10 +63,10 @@ angular
         templateUrl: 'views/dashboard.html',
         controller: 'DashboardCtrl'
       })
-      .state('food', {
-        url: '/food',
+      .state('product', {
+        url: '/product',
         parent: 'dashboard',
-        templateUrl: 'views/dashboard/food.html',
+        templateUrl: 'views/dashboard/product.html',
       })
       .state('staff', {
         url: '/staff',

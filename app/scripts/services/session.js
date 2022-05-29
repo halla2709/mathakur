@@ -2,26 +2,26 @@ angular.module('mathakur')
     .service('session', ['localStorage', 'server', function (localStorage, server) {
         // Instantiate data when service
         // is loaded
-        var levels = { noOne: -1, school: 0, admin: 1, superAdmin: 2 };
-        var schoolId = localStorage.getItem('session.school');
+        var levels = { noOne: -1, company: 0, admin: 1, superAdmin: 2 };
+        var companyId = localStorage.getItem('session.company');
         this._user = localStorage.getItem('session.user');
         this._level = parseInt(localStorage.getItem('session.level') || -1);
         this._lastselecteduser = localStorage.getItem('session.lastselecteduser');
         this.loading;
 
-        if (schoolId) {
-            this._school = { id: schoolId };
+        if (companyId) {
+            this._company = { id: companyId };
         }
         else {
-            this._school = {};
+            this._company = {};
         }
 
-        this.getSchoolId = function () {
-            return this._school.id;
+        this.getCompanyId = function () {
+            return this._company.id;
         }
 
-        this.getSchoolName = function () {
-            return this._school.name;
+        this.getCompanyName = function () {
+            return this._company.name;
         }
 
         this.getUser = function () {
@@ -44,22 +44,22 @@ angular.module('mathakur')
             return this;
         };
 
-        setSchool = function (school, level) {
-            this._school = school;
+        setCompany = function (company, level) {
+            this._company = company;
             this._level = level;
-            localStorage.setItem('session.school', school.id);
+            localStorage.setItem('session.company', company.id);
             localStorage.setItem('session.level', level);
             return this;
         }
 
-        this.setSchool = setSchool;
+        this.setCompany = setCompany;
 
         this.isLoggedIn = function () {
             return this._level >= 0;
         }
 
         this.isBelowZeroAllowed = function () {
-            return this._school.allowFundsBelowZero;
+            return this._company.allowFundsBelowZero;
         }
 
         /**
@@ -71,13 +71,13 @@ angular.module('mathakur')
             }
             else {
                 this.setUser(null, -1);
-                this.setSchool({}, -1);
+                this.setCompany({}, -1);
             }
         };
 
         this.loaded = function()
         {
-            return this.getSchoolName() !== undefined;
+            return this.getCompanyName() !== undefined;
         }
 
         this.load = function() {
@@ -87,17 +87,17 @@ angular.module('mathakur')
             }
             else if (this.isLoggedIn() && !this.loaded()) {
                 var me = this;
-                this.loading = server.get("school/" + this.getSchoolId())
+                this.loading = server.get("company/" + this.getCompanyId())
                     .then(function (response) {
                         if (response.data.length === 1) {
-                            me.setSchool(response.data[0], 0);
+                            me.setCompany(response.data[0], 0);
                         }
                         this.loading = new Promise((res, err) => {
                             res();
                         });
                     })
                     .catch(function (response) {
-                        console.error("Could not fetch school " + response)
+                        console.error("Could not fetch company " + response)
                     });
                 return this.loading;
             }

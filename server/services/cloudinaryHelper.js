@@ -7,13 +7,13 @@ cloudinary.config({
 });
 
 const employeeDefaultUrl = 'tzeqj4l6kjyq0jptankn';
-const foodPhotoDefaultUrl = 'bazcykvn86tp963v8ocn';
+const productPhotoDefaultUrl = 'bazcykvn86tp963v8ocn';
 const employeePreset = 'j8gkhubq';
-const foodPreset = 'ojh21hnm';
+const productPreset = 'ojh21hnm';
 
 function savePhotoToCloudinary(req, res, next) {
-    let currentPreset = foodPreset;
-    let currentDefaultUrl = foodPhotoDefaultUrl;
+    let currentPreset = productPreset;
+    let currentDefaultUrl = productPhotoDefaultUrl;
     if (req.baseUrl.includes('employee')) {
         currentDefaultUrl = employeeDefaultUrl;
         currentPreset = employeePreset;

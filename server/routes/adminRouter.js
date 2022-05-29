@@ -3,8 +3,8 @@ const router = express.Router();
 const database = require('../services/databaseCreator').db;
 const dbHelper = require('../services/databaseHelper');
 
-router.get('/:schoolId', function(req, res, next) {
-  dbHelper.getFromTable(database, 'administrator', ['schoolid = \'' + req.params.schoolId + '\' '])
+router.get('/:companyId', function(req, res, next) {
+  dbHelper.getFromTable(database, 'administrator', ['companyid = \'' + req.params.companyId + '\' '])
   .then(function (data) {
       data.forEach(admin => {
         delete admin['rand'];
@@ -15,7 +15,7 @@ router.get('/:schoolId', function(req, res, next) {
   .catch(function (error) {
       console.error(error)
       res.statusCode = 500;
-      return res.json({ errors: ['Could not get admins for school ' + req.params.schoolId] });
+      return res.json({ errors: ['Could not get admins for company ' + req.params.companyId] });
   });
 });
 

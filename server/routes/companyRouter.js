@@ -4,48 +4,48 @@ const path = require('path');
 const database = require('../services/databaseCreator').db;
 const dbHelper = require('../services/databaseHelper');
 
-router.get('/', getSchools, cleanData, function (req, res, next) {
-    res.json(req.schools);
+router.get('/', getCompanies, cleanData, function (req, res, next) {
+    res.json(req.companies);
 });
 
-router.get('/:id', getSchools, cleanData, function(req, res, next) {
-    res.json(req.schools);
+router.get('/:id', getCompanies, cleanData, function(req, res, next) {
+    res.json(req.companies);
 });
 
-function getSchools(req, res, next) {
+function getCompanies(req, res, next) {
     const id = req.params.id;
     if(typeof id === 'undefined') {
-        dbHelper.getFromTable(database, 'school', [])
+        dbHelper.getFromTable(database, 'company', [])
         .then(function(data) {
-            req.schools = data;
+            req.companies = data;
             next();
         })
         .catch(function(error) {
             console.error(error)
             res.statusCode = 500;
-            return res.json({ errors: ['Could not retrieve school'] });
+            return res.json({ errors: ['Could not retrieve company'] });
         });
     }
     else {
-        dbHelper.getFromTable(database, 'school', ['id = \'' + id + '\''])
+        dbHelper.getFromTable(database, 'company', ['id = \'' + id + '\''])
         .then(function(data) {
-            req.schools = data;
+            req.companies = data;
             next();
         })
         .catch(function(error) {
             console.error(error)            
             res.statusCode = 500;
-            return res.json({ errors: ['Could not retrieve school'] });
+            return res.json({ errors: ['Could not retrieve company'] });
         });
     }
 }
 
 function cleanData(req, res, next)
 {
-    for (var i = 0; i < req.schools.length; i++)
+    for (var i = 0; i < req.companies.length; i++)
     {
-        req.schools[i].rand = undefined;
-        req.schools[i].password = undefined;
+        req.companies[i].rand = undefined;
+        req.companies[i].password = undefined;
     }
     next();
 }

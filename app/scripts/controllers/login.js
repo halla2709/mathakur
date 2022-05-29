@@ -10,29 +10,29 @@
 angular.module('mathakur')
   .controller('LoginCtrl', ['$scope', '$rootScope', '$state', 'server', 'md5', function ($scope, $rootScope, $state, server, md5) {
 
-    $scope.school = '';
+    $scope.company = '';
     $scope.password = '';
     $scope.wrongpassword = '';
 
     $scope.submit = function () {
-      $scope.school = JSON.parse($scope.school);
+      $scope.company = JSON.parse($scope.company);
       var passwordHash = md5.createHash($scope.password || '');
-      var schoolName = $scope.school.name;
+      var companyName = $scope.company.name;
       server.post('/login/requestCompanyConnection', {
           passwordHash: passwordHash
         })
         .then(function (responseJson) {
           server.post('/login/loginCompany', {
-              companyName: schoolName,
+              companyName: companyName,
               companyPassHash: md5.createHash(passwordHash + responseJson.data.companyRandomString)
             })
             .then(function (responseJson2) {
               if (responseJson2.data.loggedIn) {
-                $rootScope.session.setSchool(responseJson2.data.loggedIn, 0);
+                $rootScope.session.setCompany(responseJson2.data.loggedIn, 0);
                 $state.go('dashboard');
               }
               else {
-                $scope.school = '';
+                $scope.company = '';
                 $scope.password = '';
                 $scope.wrongpassword = 'Eitthvað fór úrskeiðis, sláðu inn rétt lykilorð og reyndu aftur.';
               }
@@ -47,7 +47,7 @@ angular.module('mathakur')
     $rootScope.session.load().then(function() {
       if (!$rootScope.session.isLoggedIn())
       {
-        server.get("school")
+        server.get("company")
           .then(function (response) {
             $scope.myData = response.data;
           })

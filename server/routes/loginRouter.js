@@ -41,7 +41,7 @@ router.post('/requestAdminConnection', function (req, res, next) {
 router.post('/signupCompany', authenticateCompanyConnection, authenticateAdminConnection, addCompany, addAdmin, function (req, res, next) {
     companyAuth = {};
     adminAuth = {};
-    res.json({ school: req.body.companyName });
+    res.json({ company: req.body.companyName });
 });
 
 router.post('/loginCompany', authenticateCompanyConnection, checkCompanyCredientials, function (req, res, next) {
@@ -88,10 +88,10 @@ function authenticateAdminConnection(req, res, next) {
 }
 
 function addCompany(req, res, next) {
-    dbHelper.insertIntoTableReturningID(database, 'school',
+    dbHelper.insertIntoTableReturningID(database, 'company',
         ['name', 'password', 'rand'], [req.body.companyName, companyAuth.finalPassword, companyAuth.randomString])
         .then(function (id) {
-            res.schoolId = id.id;
+            req.body.companyId = id.id;
             next();
         })
         .catch(function (error) {
@@ -104,8 +104,8 @@ function addCompany(req, res, next) {
 
 function addAdmin(req, res, next) {
     dbHelper.insertIntoTable(database, 'administrator',
-        ['name', 'password', 'rand', 'username', 'schoolid'],
-        [req.body.adminName, adminAuth.finalPassword, adminAuth.randomString, req.body.adminUser, res.schoolId])
+        ['name', 'password', 'rand', 'username', 'companyid'],
+        [req.body.adminName, adminAuth.finalPassword, adminAuth.randomString, req.body.adminUser, req.body.companyId])
         .then(function () {
             next();
         })
@@ -119,7 +119,7 @@ function addAdmin(req, res, next) {
 
 function checkCompanyCredientials(req, res, next) {
     const companyName = req.body.companyName;
-    dbHelper.getFromTable(database, 'school', ['name = \'' + companyName + '\''])
+    dbHelper.getFromTable(database, 'company', ['name = \'' + companyName + '\''])
         .then(function (results) {
             const randomString = results[0].rand;
             const rehashed = md5(companyAuth.hashedPassword + randomString);
@@ -139,7 +139,7 @@ function checkCompanyCredientials(req, res, next) {
             console.error(error);
             companyAuth = {};
             res.statusCode = 500;
-            return res.json({ errors: ['Could not find school'] });
+            return res.json({ errors: ['Could not find company'] });
         });
 }
 
@@ -148,7 +148,6 @@ function checkUserCredientials(req, res, next) {
         .then(function (results) {
             if (results.length == 0)
             {
-                console.error(error);
                 hashedCompanyPassword = '';
                 companyAuth.randomString = '';
                 res.statusCode = 500;
@@ -158,7 +157,7 @@ function checkUserCredientials(req, res, next) {
             const randomString = results[0].rand;
             const rehashed = md5(adminAuth.hashedPassword + randomString);
             if (results[0].password === rehashed) {
-                if (results[0].schoolid === req.body.companyId) {
+                if (results[0].companyid === req.body.companyId) {
                     res.loggedIn = results[0].name;
                 }
                 else {

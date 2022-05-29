@@ -9,7 +9,7 @@ function getFromTable(db, tableName, conditions) {
 }
 
 function insertIntoTableReturningID(db, tableName, columns, values) {
-    if(tableName == 'foodprice') {
+    if(tableName == 'productprice') {
         console.error(tableName + " does not have id");
         return;
     }
@@ -57,14 +57,14 @@ function updateEmployee(db, employeeId, newPhotoUrl, newCredit) {
     return db.none(queryString, [newPhotoUrl, newCredit, employeeId]);
 }
 
-function updateFoodPrice(db, schoolId, foodId, newPrice) {
-    let queryString = 'UPDATE foodprice SET price = $1 WHERE schoolid = $2 and foodid = $3';
-    return db.none(queryString, [newPrice, schoolId, foodId]);
+function updateProductPrice(db, companyId, productId, newPrice) {
+    let queryString = 'UPDATE productprice SET price = $1 WHERE companyid = $2 and productid = $3';
+    return db.none(queryString, [newPrice, companyId, productId]);
 }
 
-function updateFoodImage(db, foodId, url) {
-    let queryString = 'UPDATE food SET photourl = $1 WHERE id = $2';
-    return db.none(queryString, [url, foodId]);
+function updateProductImage(db, productId, url) {
+    let queryString = 'UPDATE product SET photourl = $1 WHERE id = $2';
+    return db.none(queryString, [url, productId]);
 }
 
 function deleteFromTable(db, tableName, conditions) {
@@ -83,14 +83,12 @@ function replaceTableName(tableName) {
             return 'administrator';
         case "employee":
             return 'employee';
-        case "recentfood":
-            return 'recentfood';
-        case "food":
-            return 'food';
-        case "foodprice":
-            return 'foodprice';
-        case "school":
-            return 'school';
+        case "product":
+            return 'product';
+        case "productprice":
+            return 'productprice';
+        case "company":
+            return 'company';
         default:
             console.error("no such table " + tableName);
             break;
@@ -104,7 +102,7 @@ module.exports = {
     updateCreditOfEmployee,
     deleteFromTable,
     updateEmployeeImage,
-    updateFoodImage,
+    updateProductImage,
     updateEmployee,
-    updateFoodPrice
+    updateProductPrice
 }

@@ -4,13 +4,13 @@ angular.module('mathakur')
 
         $scope.$state = $state;
         $scope.currentEmployee = {};
-        $scope.currentFood = {};
+        $scope.currentProduct = {};
         $scope.editing = false;
         $scope.updating = false;
         $scope.sidebar = true;
         $scope.image = '';
         $scope.defaultEmployeePhotoUrl = 'tzeqj4l6kjyq0jptankn';
-        $scope.defaultFoodPhotoUrl = 'bazcykvn86tp963v8ocn';
+        $scope.defaultProductPhotoUrl = 'bazcykvn86tp963v8ocn';
         $scope.class = 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main';
 
         $scope.showSidebar = function (sidebar) {
@@ -30,8 +30,8 @@ angular.module('mathakur')
             $scope.updating = false;
         }
 
-        $scope.goToFood = function () {
-            $state.go('foodTable');
+        $scope.goToProduct = function () {
+            $state.go('productTable');
             $scope.editing = false;
             $scope.updating = false;
         }
@@ -69,9 +69,9 @@ angular.module('mathakur')
             $scope.newAdmin = {};
         }
 
-        function reloadData(employee, food, admin) {
+        function reloadData(employee, product, admin) {
             if (employee) {
-                server.get("employee/" + $scope.currentSchoolLoggedIn).then(function (response) {
+                server.get("employee/" + $scope.currentCompanyLoggedIn).then(function (response) {
                     $scope.employeeData = response.data;
                 })
                     .catch(function (response) {
@@ -80,9 +80,9 @@ angular.module('mathakur')
                     });
             }
 
-            if (food) {
-                server.get("food/" + $scope.currentSchoolLoggedIn).then(function (response) {
-                    $scope.foodData = response.data;
+            if (product) {
+                server.get("product/" + $scope.currentCompanyLoggedIn).then(function (response) {
+                    $scope.productData = response.data;
                 })
                     .catch(function (response) {
                         //Error handle
@@ -91,7 +91,7 @@ angular.module('mathakur')
             }
 
             if (admin) {
-                server.get("admin/" + $scope.currentSchoolLoggedIn).then(function (response) {
+                server.get("admin/" + $scope.currentCompanyLoggedIn).then(function (response) {
                     $scope.adminData = response.data;
                 })
                     .catch(function (response) {
@@ -116,7 +116,7 @@ angular.module('mathakur')
                     name: $scope.currentEmployee.name,
                     nickname: $scope.currentEmployee.nickname,
                     credit: $scope.currentEmployee.credit,
-                    schoolId: $scope.currentSchoolLoggedIn
+                    companyId: $scope.currentCompanyLoggedIn
                 })
                     .then(function () {
                         reloadData(true);
@@ -177,20 +177,20 @@ angular.module('mathakur')
             }
         }
 
-        $scope.editFood = function (food) {
-            if (food) {
+        $scope.editProduct = function (product) {
+            if (product) {
                 $scope.updating = true;
-                $scope.currentFood = food;
+                $scope.currentProduct = product;
             }
             else {
-                $scope.currentFood = {};
+                $scope.currentProduct = {};
             }
             $scope.editing = true;
         }
 
-        function submitFoodUpdate(foodID) {
-            server.patch('/food/' + $scope.currentSchoolLoggedIn + '/' + foodID, {
-                newPrice: $scope.currentFood.price,
+        function submitProductUpdate(productID) {
+            server.patch('/product/' + $scope.currentCompanyLoggedIn + '/' + productID, {
+                newPrice: $scope.currentProduct.price,
                 photo: $scope.image
             })
                 .then(function() {
@@ -204,9 +204,9 @@ angular.module('mathakur')
                 });
         }
 
-        function submitFoodPriceChange(foodID) {
-            server.patch('/food/price/' + $scope.currentSchoolLoggedIn + '/' + foodID, {
-                newPrice: $scope.currentFood.price
+        function submitProductPriceChange(productID) {
+            server.patch('/product/price/' + $scope.currentCompanyLoggedIn + '/' + productID, {
+                newPrice: $scope.currentProduct.price
             })
                 .catch(function (error) {
                     console.error(error)
@@ -216,22 +216,22 @@ angular.module('mathakur')
                 });
         }
 
-        $scope.submitFood = function (food) {
+        $scope.submitProduct = function (product) {
             if ($scope.updating) {
-                var foodID = $scope.currentFood.id;
+                var productID = $scope.currentProduct.id;
                 if ($scope.image) {
-                    submitFoodUpdate(foodID);
+                    submitProductUpdate(productID);
                 }
                 else {
-                    submitFoodPriceChange(foodID);
+                    submitProductPriceChange(productID);
                 }
             } else {
-                server.post('/food', {
+                server.post('/product', {
                     photo: $scope.image,
-                    name: $scope.currentFood.name,
-                    category: $scope.currentFood.category,
-                    price: $scope.currentFood.price,
-                    schoolId: $scope.currentSchoolLoggedIn
+                    name: $scope.currentProduct.name,
+                    category: $scope.currentProduct.category,
+                    price: $scope.currentProduct.price,
+                    companyId: $scope.currentCompanyLoggedIn
                 })
                     .then(function () {
                         reloadData(false, true);
@@ -245,14 +245,14 @@ angular.module('mathakur')
             }
         }
 
-        $scope.deleteFood = function () {
+        $scope.deleteProduct = function () {
             if (confirm('Ertu viss um að þú viljir eyða þessari vöru?')) {
-                server.delete('/food/' + $scope.currentFood.id + '/' + $scope.currentSchoolLoggedIn)
+                server.delete('/product/' + $scope.currentProduct.id + '/' + $scope.currentCompanyLoggedIn)
                     .then(function () {
-                        const index = $scope.foodData.indexOf($scope.currentFood);
+                        const index = $scope.productData.indexOf($scope.currentProduct);
                         if (index !== -1)
                         {
-                            $scope.foodData.splice(index, 1);                            
+                            $scope.productData.splice(index, 1);                            
                         }
                     })
                     .catch(function (error) {
@@ -279,7 +279,7 @@ angular.module('mathakur')
                                 adminPassHash: md5.createHash(pass + response.data.adminRandomString),
                                 adminName: formAdmin.name,
                                 adminUser: formAdmin.username,
-                                companyId: $scope.currentSchoolLoggedIn
+                                companyId: $scope.currentCompanyLoggedIn
                             })
                             .then(function() {
                                 $scope.adminData.push({
@@ -305,7 +305,7 @@ angular.module('mathakur')
             $scope.updating = false;
             $scope.image = '';
             $scope.currentEmployee = {};
-            $scope.currentFood = {};
+            $scope.currentProduct = {};
         }
 
         $scope.logOutAdmin = function () {
@@ -317,8 +317,9 @@ angular.module('mathakur')
             if ($rootScope.session.getLevel() < 1) {
                 console.log("admin is not logged in");
                 $state.go('userlogin');
+                return;
             }
-            $scope.currentSchoolLoggedIn = $rootScope.session.getSchoolId();
+            $scope.currentCompanyLoggedIn = $rootScope.session.getCompanyId();
     
             reloadData(true, true, true);
         });

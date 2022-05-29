@@ -12,14 +12,14 @@
 <br>
 <div class="container align-central">
 	<div class="row justify-content-md-center">
-		<div ng-repeat="x in myDataFood | filter:searchBox" id="foodCard" class="col col-2">
+		<div ng-repeat="x in myDataProduct | filter:searchBox" id="productCard" class="col col-2">
 			<div class="staffname">
 				<img cl-src="{{x.photourl}}" class="card-img-top"></img>
 				<br>
-				<div class="foodname">
+				<div class="productname">
 					<p class="onlyonerow">Flokkur: {{x.category}}</p>
 					<p>Verð: {{x.price}} kr</p>
-					<h4 id="foodHeader">{{x.name}}
+					<h4 id="productHeader">{{x.name}}
 					</h4>
 				</div>
 			</div>

@@ -22,7 +22,7 @@ angular.module('mathakur')
         .then(function (responseJson) {
           server.post('/login/loginUser', {
               adminUser: $scope.username,
-              companyId: $rootScope.session.getSchoolId(),
+              companyId: $rootScope.session.getCompanyId(),
               adminPassHash: md5.createHash(passwordHash + responseJson.data.adminRandomString)
             })
             .then(function (responseJson2) {
@@ -45,8 +45,9 @@ angular.module('mathakur')
 
     $rootScope.session.load().then(function() {
       if(!$rootScope.session.isLoggedIn()) {
-        console.log("no school is logged in");
+        console.log("no company is logged in");
         $state.go('login');
+        return;
       }
     });
 

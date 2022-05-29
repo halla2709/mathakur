@@ -13,14 +13,14 @@
 
                 <div class="col col-8">
                     <div class="row">
-                    <div ng-repeat="x in myDataFood | filter:searchBox" ng-click="selectFood(x)" id="foodCard" class="col col-2">
-                        <div class="staffname" type="add" ng-click="addFood(x)">
-                            <h4 id="foodHeader">{{x.name}}
+                    <div ng-repeat="x in myDataProduct | filter:searchBox" ng-click="selectProduct(x)" id="productCard" class="col col-2">
+                        <div class="staffname" type="add" ng-click="addProduct(x)">
+                            <h4 id="productHeader">{{x.name}}
                             </h4>
                             
                             <img cl-src="{{x.photourl}}" class="card-img-top"></img>
                             <br>
-                            <div class="foodname">
+                            <div class="productname">
                                 <h5>{{x.price}} kr</h5>
                                 <!--p class="onlyonerow">Flokkur: {{x.category}}</p-->
                             </div>
@@ -56,7 +56,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="x in receipt" type="remove" ng-click="removeFood(x)" data-bs-toggle="tooltip"
+                    <tr ng-repeat="x in receipt" type="remove" ng-click="removeProduct(x)" data-bs-toggle="tooltip"
                         data-bs-placement="bottom" title="Fjarlægja">
                         <td style="padding-top: 1em;">{{x.name}}</td>
                         <td style="padding-top: 1em;">{{x.quantity}}</td>
@@ -82,9 +82,9 @@
             <p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>Ekki er hægt að versla fyrir meira en inneignin þín leyfir</p>
         </div>
         <div class="btn-toolbar justify-content-between align-text-bottom" style="padding: 0px 20px 0px 20px;">
-            <button class="btn btn-lg btn-secondary" ng-click="buyFood(x)">
+            <button class="btn btn-lg btn-secondary" ng-click="buyProduct(x)">
                 <i class="bi bi-check-circle" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Kaupa</button>
-            <button class="btn btn-lg btn-outline-secondary" ng-click="removeAllFood()"><i class="bi bi-x-circle"
+            <button class="btn btn-lg btn-outline-secondary" ng-click="removeAllProduct()"><i class="bi bi-x-circle"
                     style="font-size: 1.2rem; padding-right: 0.4em;"></i>Tæma</button>
         </div>
         <br>

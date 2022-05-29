@@ -2,7 +2,7 @@ describe('Main workflow Controller', function () {
   const companyId = "abcd-1234-7894-6549-efgd";
   var DashboardCtrl, scope, mockServer, rootScope;
   var sessionMock = {
-    getSchoolId: function () { return companyId; },
+    getCompanyId: function () { return companyId; },
     getLevel: function () { return 0; },
     isBelowZeroAllowed: function () { return false; },
     isLoggedIn: function () { return true; },
@@ -31,7 +31,7 @@ describe('Main workflow Controller', function () {
 
   it('should get all data on startup', function () {
     expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyId);
-    expect(mockServer.get).toHaveBeenCalledWith('food/' + companyId);
+    expect(mockServer.get).toHaveBeenCalledWith('product/' + companyId);
   });
 
   it('can add up the order', function() {
@@ -43,15 +43,15 @@ describe('Main workflow Controller', function () {
     expect(scope.total).toBe(0);
     expect(scope.creditAfter).toBe(1000);
 
-    scope.addFood({ price: 10, name: 'food1' });
+    scope.addProduct({ price: 10, name: 'product1' });
     expect(scope.total).toBe(10);
     expect(scope.creditAfter).toBe(990);
 
-    scope.addFood({ price: 10, name: 'food1' });
+    scope.addProduct({ price: 10, name: 'product1' });
     expect(scope.total).toBe(20);
     expect(scope.creditAfter).toBe(980);
 
-    scope.addFood({ price: 100, name: 'food2' });
+    scope.addProduct({ price: 100, name: 'product2' });
     expect(scope.total).toBe(120);
     expect(scope.creditAfter).toBe(880);
   });
@@ -62,19 +62,19 @@ describe('Main workflow Controller', function () {
       id: 11111
     };
     scope.creditAfter = scope.employee.credit;
-    scope.addFood({ price: 10, name: 'food1' });
-    scope.addFood({ price: 10, name: 'food1' });
-    scope.addFood({ price: 100, name: 'food2' });
+    scope.addProduct({ price: 10, name: 'product1' });
+    scope.addProduct({ price: 10, name: 'product1' });
+    scope.addProduct({ price: 100, name: 'product2' });
 
-    scope.removeFood({ price: 10, name: 'food1' });
+    scope.removeProduct({ price: 10, name: 'product1' });
     expect(scope.total).toBe(110);
     expect(scope.creditAfter).toBe(890);
 
-    scope.removeFood({ price: 100, name: 'food2' });
+    scope.removeProduct({ price: 100, name: 'product2' });
     expect(scope.total).toBe(10);
     expect(scope.creditAfter).toBe(990);
 
-    scope.removeFood({ price: 10, name: 'food1' });
+    scope.removeProduct({ price: 10, name: 'product1' });
     expect(scope.total).toBe(0);
     expect(scope.creditAfter).toBe(1000);
   });
@@ -85,11 +85,11 @@ describe('Main workflow Controller', function () {
       id: 11111
     };
     scope.creditAfter = scope.employee.credit;
-    scope.addFood({ price: 10, name: 'food1' });
-    scope.addFood({ price: 10, name: 'food1' });
-    scope.addFood({ price: 100, name: 'food2' });
+    scope.addProduct({ price: 10, name: 'product1' });
+    scope.addProduct({ price: 10, name: 'product1' });
+    scope.addProduct({ price: 100, name: 'product2' });
 
-    scope.removeAllFood();
+    scope.removeAllProduct();
     expect(scope.total).toBe(0);
     expect(scope.creditAfter).toBe(1000);
   });
@@ -101,12 +101,12 @@ describe('Main workflow Controller', function () {
       id: 11111
     };
     scope.creditAfter = scope.employee.credit;
-    scope.addFood({ price: 10, name: 'food1' });
-    scope.addFood({ price: 10, name: 'food1' });
-    scope.addFood({ price: 100, name: 'food2' });
+    scope.addProduct({ price: 10, name: 'product1' });
+    scope.addProduct({ price: 10, name: 'product1' });
+    scope.addProduct({ price: 100, name: 'product2' });
 
     spyOn(window, 'confirm').and.returnValue(true);
-    scope.buyFood();
+    scope.buyProduct();
     expect(mockServer.patch).toHaveBeenCalledOnceWith('employee/updatecredit/11111', jasmine.objectContaining({
       newCredit: 880
     }));
@@ -122,12 +122,12 @@ describe('Main workflow Controller', function () {
       id: 11111
     };
     scope.creditAfter = scope.employee.credit;
-    scope.addFood({ price: 10, name: 'food1' });
-    scope.addFood({ price: 10, name: 'food1' });
-    scope.addFood({ price: 100, name: 'food2' });
+    scope.addProduct({ price: 10, name: 'product1' });
+    scope.addProduct({ price: 10, name: 'product1' });
+    scope.addProduct({ price: 100, name: 'product2' });
 
     spyOn(window, 'confirm').and.returnValue(true);
-    scope.buyFood();
+    scope.buyProduct();
     expect(window.confirm).not.toHaveBeenCalled();
     expect(mockServer.patch).not.toHaveBeenCalled();
     expect(scope.employee).not.toBeNull();
@@ -144,12 +144,12 @@ describe('Main workflow Controller', function () {
       id: 11111
     };
     scope.creditAfter = scope.employee.credit;
-    scope.addFood({ price: 10, name: 'food1' });
-    scope.addFood({ price: 10, name: 'food1' });
-    scope.addFood({ price: 100, name: 'food2' });
+    scope.addProduct({ price: 10, name: 'product1' });
+    scope.addProduct({ price: 10, name: 'product1' });
+    scope.addProduct({ price: 100, name: 'product2' });
 
     spyOn(window, 'confirm').and.returnValue(true);
-    scope.buyFood();
+    scope.buyProduct();
     expect(mockServer.patch).toHaveBeenCalledOnceWith('employee/updatecredit/11111', jasmine.objectContaining({
       newCredit: -110
     }));
