@@ -89,7 +89,7 @@ function authenticateAdminConnection(req, res, next) {
 
 function addCompany(req, res, next) {
     dbHelper.insertIntoTableReturningID(database, 'company',
-        ['name', 'password', 'rand'], [req.body.companyName, companyAuth.finalPassword, companyAuth.randomString])
+        ['name', 'password', 'rand', 'allowfundsbelowzero'], [req.body.companyName, companyAuth.finalPassword, companyAuth.randomString, req.body.allowFundsBelowZero])
         .then(function (id) {
             req.body.companyId = id.id;
             next();
