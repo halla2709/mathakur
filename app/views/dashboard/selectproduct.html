@@ -2,6 +2,9 @@
     <div class="col">
         <div class="row">
             <div class="col col-8">
+                <div class="alert alert-danger" role="alert" ng-show="notEnoughCredit">
+                    <p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>Þú ert ekki með næga inneign til að bæta vörunni í körfuna.</p>
+                </div>
                 <div class="input-group input-group-lg col-sm-6 justify-content-md-center">
                     <span class="input-group-text" id="loginInputs">
                         <i class="bi bi-search" style="font-size: 2rem;"></i>
@@ -31,8 +34,9 @@
 
         </div>
     </div>
+    
 
-    <div class="col col-5 position-fixed" id="staffInfo">
+    <div class="col col-4 position-fixed" id="staffInfo">
         <!--div class="row align-central align-items-center" style="padding: 0px 3em 0px 3em">
             <div class="col col-6" style="text-align: right;">
                 <img cl-src="{{employee.photourl}}" class="p-2" style="max-width: 10em;"></img>
@@ -44,7 +48,7 @@
         </div-->
         <div class="align-central" id="karfan">
             <h3 style="text-align: center;">
-                <i class="bi bi-cart4" style="font-size: 2rem; padding-right: 0.5em;"></i>Innkaupakarfa - {{employee.name}}
+                <i class="bi bi-cart4" style="font-size: 2rem; padding-right: 0.2em;"></i>{{employee.nickname}}
             </h3>
             <table class="table table-condensed table-hover align-left" style="overflow-y: scroll; ">
                 <thead id="korfuHeader">
@@ -71,15 +75,10 @@
                         <th style="border:none;"></th>
                     </tr>
                     <tr>
-                        <th style="font-weight:400; border:none;">Inneign eftir kaup:</th>
-                        <th style="border:none;"></th>
-                        <th style="font-weight:400; border:none;">{{creditAfter}} kr</th>
-                        <th style="border:none;"></th>
+                        <th colspan="2" style="font-weight:400; border:none;">Inneign eftir kaup:</th>
+                        <th colspan="2" style="font-weight:400; border:none;">{{creditAfter}} kr</th>
                     </tr>
             </table>
-        </div>
-        <div class="alert alert-danger" role="alert" ng-show="notEnoughCredit">
-            <p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>Ekki er hægt að versla fyrir meira en inneignin þín leyfir</p>
         </div>
         <div class="btn-toolbar justify-content-between align-text-bottom" style="padding: 0px 20px 0px 20px;">
             <button class="btn btn-lg btn-secondary" ng-click="buyProduct(x)">

@@ -157,7 +157,7 @@ p {
   border-bottom-left-radius: 20px;
   color: #160075;
   height: 433px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 #korfuHeader {
