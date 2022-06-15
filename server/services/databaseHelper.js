@@ -67,6 +67,11 @@ function updateProductImage(db, productId, url) {
     return db.none(queryString, [url, productId]);
 }
 
+function updateAllowFundsBelowZero(db, companyId, newValue) {
+    let queryString = 'UPDATE company SET allowFundsBelowZero = $1 WHERE id = $2';
+    return db.none(queryString, [newValue, companyId]);
+}
+
 function deleteFromTable(db, tableName, conditions) {
     let queryString = 'DELETE FROM ' + replaceTableName(tableName);
     if (conditions.length > 0) queryString += ' WHERE';
@@ -104,5 +109,6 @@ module.exports = {
     updateEmployeeImage,
     updateProductImage,
     updateEmployee,
-    updateProductPrice
+    updateProductPrice,
+    updateAllowFundsBelowZero
 }

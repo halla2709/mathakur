@@ -2,6 +2,7 @@ describe('Admin Controller', function () {
   const companyId = "abcd-1234-7894-6549-efgd";
   var AdminPanelCtrl, scope, mockServer, rootScope, hashfunc;
   var getSpy;
+  var isBelowZeroAllowed = false;
   var sessionMock = {
     getCompanyId: function () { return companyId; },
     getLevel: function () { return 1; },
@@ -9,7 +10,8 @@ describe('Admin Controller', function () {
       return { then: function(cb) {
         cb();
       }};
-    }
+    },
+    isBelowZeroAllowed: function() { return isBelowZeroAllowed; }
   }
 
   beforeEach(module('mathakur'));
@@ -351,6 +353,52 @@ describe('Admin Controller', function () {
           expect(scope.adminData).toHaveSize(1);
           done();
         });
+      });
+    });
+  });
+
+  describe("Update settings", function() {
+    it("will not send update if no change", function() {
+      scope.newSettings.allowFundsBelowZero = isBelowZeroAllowed;
+      mockServer.get.calls.reset();
+      var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
+
+      scope.saveSettings();
+      
+      expect(mockServer.patch).not.toHaveBeenCalled();
+      expect(mockServer.get).not.toHaveBeenCalled();
+    });
+
+    it("will send update for allow funds below zero if changed and show alert on success", function() {
+      scope.newSettings.allowFundsBelowZero = !isBelowZeroAllowed;
+      mockServer.get.calls.reset();
+      var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
+
+      scope.saveSettings();
+      
+      expect(mockServer.patch).toHaveBeenCalledWith("/company/"+companyId, 
+      jasmine.objectContaining({
+        allowFundsBelowZero: !isBelowZeroAllowed
+      }));
+      spy.calls.mostRecent().returnValue.then(function () {
+        expect(mockServer.get).not.toHaveBeenCalled();
+        expect(scope.successAlert).toBeTruthy();
+      });
+    });
+
+    it("will show warning alert if update fails", function() {
+      scope.newSettings.allowFundsBelowZero = !isBelowZeroAllowed;
+      mockServer.get.calls.reset();
+      var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
+
+      scope.saveSettings();
+      
+      expect(mockServer.patch).toHaveBeenCalledWith("/company/"+companyId, 
+      jasmine.objectContaining({
+        allowFundsBelowZero: !isBelowZeroAllowed
+      }));
+      spy.calls.mostRecent().returnValue.catch(function () {
+        expect(scope.errorAlert).toBeTruthy();
       });
     });
   });

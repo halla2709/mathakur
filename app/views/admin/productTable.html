@@ -13,6 +13,10 @@
                 <i class="bi bi-basket" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Vörur</a></h5>
           </li>
           <li class="nav-item">
+            <h5><a class="nav-link" ng-click="goToAdminList()" id="adminNav">
+                <i class="bi bi-person-badge" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Stjórnendur</a></h5>
+          </li>
+          <li class="nav-item">
             <h5><a class="nav-link" ng-click="goToSettings()" id="adminNav">
                 <i class="bi bi-gear" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Stillingar</a></h5>
           </li>
@@ -24,7 +28,7 @@
   <br>
 
 <div class="container">
-    <div class="alert alert-success" role="alert" ng-show="mytext3">
+    <div class="alert alert-success" role="alert" ng-show="successAlert">
         <p>Breytingin tókst, eigðu góðan dag <i class="bi bi-emoji-smile" style="font-size: 1rem;"></i></p>
     </div>
     <div ng-show="!editing">

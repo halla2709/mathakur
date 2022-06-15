@@ -1,7 +1,6 @@
 angular.module('mathakur')
     .controller('AdminPanelCtrl', ['$scope', '$state', 'server', '$rootScope', 'md5', function ($scope, $state, server, $rootScope, md5) {
-        
-
+    
         $scope.$state = $state;
         $scope.currentEmployee = {};
         $scope.currentProduct = {};
@@ -12,6 +11,7 @@ angular.module('mathakur')
         $scope.defaultEmployeePhotoUrl = 'tzeqj4l6kjyq0jptankn';
         $scope.defaultProductPhotoUrl = 'bazcykvn86tp963v8ocn';
         $scope.class = 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main';
+        $scope.newSettings = {};
 
         $scope.showSidebar = function (sidebar) {
             $scope.sidebar = !$scope.sidebar;
@@ -28,20 +28,39 @@ angular.module('mathakur')
             $state.go('staffTable');
             $scope.editing = false;
             $scope.updating = false;
+            
+            $scope.successAlert = false;
+            $scope.errorAlert = false;
         }
 
         $scope.goToProduct = function () {
             $state.go('productTable');
             $scope.editing = false;
             $scope.updating = false;
+            
+            $scope.successAlert = false;
+            $scope.errorAlert = false;
         }
 
         $scope.goToSettings = function () {
             $state.go('settings');
             $scope.editing = false;
             $scope.updating = false;
+            
+            $scope.successAlert = false;
+            $scope.errorAlert = false;
         }
 
+        $scope.goToAdminList = function () {
+            $state.go('adminsTable');
+            $scope.editing = false;
+            $scope.updating = false;
+            
+            $scope.successAlert = false;
+            $scope.errorAlert = false;
+        }
+
+        
         $scope.uploadFile = function (event) {
             var newFile = event.target.files[0];
             var reader = new FileReader();
@@ -300,12 +319,43 @@ angular.module('mathakur')
             }
         }
 
+        $scope.saveSettings = function() {
+            if ($rootScope.session.isBelowZeroAllowed() != $scope.newSettings.allowFundsBelowZero)
+            {
+                server.patch('/company/' + $scope.currentCompanyLoggedIn, {
+                    allowFundsBelowZero: $scope.newSettings.allowFundsBelowZero
+                })
+                .then(function() {
+                    $scope.successAlert = true;
+                })
+                    .catch(function (error) {
+                        $scope.errorAlert = true;
+                        console.error(error);
+                    });
+            }
+        }
+
+        $scope.deleteAdmin = function(toDelete) {
+            server.delete('/admin/'+toDelete.id)
+            .then(function() {
+                const index = $scope.adminData.indexOf(toDelete);
+                $scope.adminData.splice(index, 1);
+            })
+            .catch(function(error) {
+                console.error(error);
+                $scope.errorAlert = true;
+            })
+        }
+
         $scope.back = function () {
             $scope.editing = false;
             $scope.updating = false;
             $scope.image = '';
             $scope.currentEmployee = {};
             $scope.currentProduct = {};
+            $scope.newSettings = {
+                allowFundsBelowZero: $rootScope.session.isBelowZeroAllowed();
+            };
         }
 
         $scope.logOutAdmin = function () {
@@ -320,7 +370,7 @@ angular.module('mathakur')
                 return;
             }
             $scope.currentCompanyLoggedIn = $rootScope.session.getCompanyId();
-    
+            $scope.newSettings.allowFundsBelowZero = $rootScope.session.isBelowZeroAllowed();
             reloadData(true, true, true);
         });
     }])

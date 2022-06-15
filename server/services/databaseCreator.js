@@ -4,14 +4,20 @@ const pgp = require('pg-promise')({
     }
 });
 
-const connString = process.env.DATABASE_URL || 'postgres://usermathakur:admin@localhost:5432/mathakur';
-console.log("Using:" + connString);
-const db = pgp({
-    connectionString: connString,
-    ssl: {
-      rejectUnauthorized: false
+const conn = process.env.DATABASE_URL ?
+    {
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false
+        }
     }
-});
+    :
+    {
+        connectionString: 'postgres://usermathakur:admin@localhost:5432/mathakur'
+    };
+
+console.log("Using: " + conn.connectionString);
+const db = pgp(conn);
 
 
 db.none("CREATE TABLE IF NOT EXISTS company(id uuid DEFAULT gen_random_uuid() PRIMARY KEY, \

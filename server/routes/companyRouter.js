@@ -12,6 +12,17 @@ router.get('/:id', getCompanies, cleanData, function(req, res, next) {
     res.json(req.companies);
 });
 
+router.patch('/:id', function(req, res, next) {
+    dbHelper.updateAllowFundsBelowZero(database, req.params.id, req.body.allowFundsBelowZero)
+    .then(function() {
+        res.end();
+    })
+    .catch(function(error) {
+        res.statusCode = 500;
+        return res.json({ errors: ['Could not update settings'] });
+    });
+});
+
 function getCompanies(req, res, next) {
     const id = req.params.id;
     if(typeof id === 'undefined') {

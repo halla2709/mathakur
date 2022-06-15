@@ -46,9 +46,12 @@ angular.module('mathakur')
 
         setCompany = function (company, level) {
             this._company = company;
-            this._level = level;
+            if (this._level < level)
+            {
+                this._level = level;
+                localStorage.setItem('session.level', level);
+            };
             localStorage.setItem('session.company', company.id);
-            localStorage.setItem('session.level', level);
             return this;
         }
 
@@ -59,7 +62,7 @@ angular.module('mathakur')
         }
 
         this.isBelowZeroAllowed = function () {
-            return this._company.allowFundsBelowZero;
+            return this._company.allowfundsbelowzero;
         }
 
         /**

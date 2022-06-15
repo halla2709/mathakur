@@ -1,0 +1,123 @@
+<div ng-include src="'views/modules/adminTabs.html'"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="col col-10" style="width: 100%; padding: 0;">
+      <ul class="nav nav-tabs nav-fill">
+        <li class="nav-item">
+          <h5><a class="nav-link" ng-click="goToStaff()" id="adminNav">
+              <i class="bi bi-people" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Starfsmenn</a></h5>
+        </li>
+        <li class="nav-item">
+          <h5><a class="nav-link" ng-click="goToProduct()" id="adminNav">
+              <i class="bi bi-basket" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Vörur</a></h5>
+        </li>
+        <li class="nav-item">
+          <h5><a class="nav-link active" aria-current="page" ng-click="goToAdminList()" id="adminNav">
+              <i class="bi bi-person-badge" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Stjórnendur</a></h5>
+        </li>
+        <li class="nav-item">
+          <h5><a class="nav-link" ng-click="goToSettings()" id="adminNav">
+              <i class="bi bi-gear" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Stillingar</a></h5>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div class="container">
+  <div class="alert alert-success" role="alert" ng-show="successAlert">
+    <p>Breytingin tókst, eigðu góðan dag <i class="bi bi-emoji-smile" style="font-size: 1rem;"></i></p>
+  </div>
+  <div class="alert alert-danger" role="alert" ng-show="errorAlert">
+    <p>Ekki tókst að vista breytingar</p>
+  </div>
+  <div ng-show="!editing">
+    <div class="container">
+      <h2><small>Stjórnendur</small></h2>
+      <br>
+      <div class="row">
+        <div class="col" style="padding: 0;">
+          <button class="btn btn-lg btn-secondary" ng-show="!editing" ng-click="createAdmin()">
+            <i class="bi bi-plus-circle" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Nýr
+            stjórnandi</button>
+        </div>
+      </div>
+    </div>
+    <table id="tafla" class="table table-responsive table-striped table-hover">
+      <thead>
+        <tr id="tofluHeader" style="height: 3em;">
+          <th>Fullt Nafn</th>
+          <th>Notandanafn</th>
+          <th ng-show="adminData.length > 1"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="admin in adminData" style="height: 3em;">
+          <td>{{admin.name}}</td>
+          <td>{{admin.username}}</td>
+          <td ng-show="adminData.length > 1"><i class="bi bi-x-lg" ng-click="deleteAdmin(admin)"
+                  style="font-size: 1.2rem; color:#440A67"></i></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+<!-------- EDIT ----------->
+
+<form id="form" role="form" ng-show="editing" ng-submit="submitAdmin(formAdmin)" novalidate>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h2><small>Stjórnandi</small></h2>
+        <br>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+
+        <label for="name">Fullt nafn</label>
+        <input id="name" maxlength="100" required ng-model="formAdmin.name" type="text"
+          placeholder="Sigríður Jónsdóttir" class="form-control form-control-lg" />
+
+        <br> <label for="username">Notandanafn</label>
+        <input id="username" maxlength="40" ng-model="formAdmin.username" type="text" placeholder="sigga"
+          class="form-control form-control-lg" required />
+
+        <br><label for="password">Lykilorð</label>
+        <div class="input-group input-group-lg" style="width: 40%;">
+          <input id="password" required ng-model="formAdmin.password" type="password" placeholder="*****"
+            class="form-control form-control-lg" />
+        </div>
+
+        <br><label for="passwordConfirm">Staðfesta lykilorð</label>
+        <div class="input-group input-group-lg" style="width: 40%;">
+          <input id="passwordConfirm" required ng-model="formAdmin.passwordConfirm" type="password" placeholder="*****"
+            class="form-control form-control-lg" />
+        </div>
+        
+        <div class="alert alert-danger" role="alert" ng-show="wrongpassword">
+          <p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>Lykilorð passa ekki, vinsamlega reyndu aftur</p>
+        </div>
+      </div>
+
+
+      <div class="btn-toolbar justify-content-between" style="padding-top:4em;">
+        <button class="btn btn-lg btn-secondary" type="submit">
+          <i class="bi bi-check-circle" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Vista</button>
+        <button class="btn btn-lg btn-outline-secondary" type="button" ng-click="back()"><i class="bi bi-x-circle"
+            style="font-size: 1.2rem; padding-right: 0.4em;"></i>Hætta</button>
+      </div>
+
+    </div>
+  </div>
+</form>
+</div>

@@ -19,4 +19,16 @@ router.get('/:companyId', function(req, res, next) {
   });
 });
 
+router.delete('/:id', function(req, res, next) {
+  dbHelper.deleteFromTable(database, 'administrator', ['id = \'' + req.params.id + '\' '])
+  .then(function() {
+    res.end();
+  })
+  .catch(function(error) {
+    console.error(error)
+    res.statusCode = 500;
+    return res.json({ errors: ['Could not remove admin ' + req.params.id] });
+  });
+});
+
 module.exports = router;

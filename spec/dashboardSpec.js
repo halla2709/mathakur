@@ -156,5 +156,6 @@ describe('Main workflow Controller', function () {
     expect(scope.employee).toBeNull();
     expect(scope.total).toBe(0);
     expect(scope.creditAfter).toBe(0);
+    sessionMock.isBelowZeroAllowed = function () { return false; }
   });
 });
