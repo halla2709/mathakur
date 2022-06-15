@@ -354,7 +354,7 @@ angular.module('mathakur')
             $scope.currentEmployee = {};
             $scope.currentProduct = {};
             $scope.newSettings = {
-                allowFundsBelowZero: $rootScope.session.isBelowZeroAllowed();
+                allowFundsBelowZero: $rootScope.session.isBelowZeroAllowed()
             };
         }
 
