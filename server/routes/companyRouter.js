@@ -26,7 +26,7 @@ router.patch('/:id', function(req, res, next) {
 function getCompanies(req, res, next) {
     const id = req.params.id;
     if(typeof id === 'undefined') {
-        dbHelper.getFromTable(database, 'company', [])
+        dbHelper.getFromTable(database, 'company')
         .then(function(data) {
             req.companies = data;
             next();
@@ -38,7 +38,7 @@ function getCompanies(req, res, next) {
         });
     }
     else {
-        dbHelper.getFromTable(database, 'company', ['id = \'' + id + '\''])
+        dbHelper.getFromTable(database, 'company', 'id = \'' + id + '\'')
         .then(function(data) {
             req.companies = data;
             next();

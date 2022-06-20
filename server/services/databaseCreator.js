@@ -37,10 +37,11 @@ db.none("CREATE TABLE IF NOT EXISTS company(id uuid DEFAULT gen_random_uuid() PR
             });
         db.none("CREATE TABLE IF NOT EXISTS administrator(id uuid DEFAULT gen_random_uuid() PRIMARY KEY, \
                 name varchar(40) NOT NULL, \
-                username varchar(40) UNIQUE NOT NULL, \
+                username varchar(40) NOT NULL, \
                 password varchar(40) NOT NULL, \
                 rand varchar(10) NOT NULL, \
-                companyid uuid REFERENCES company(id))")
+                companyid uuid REFERENCES company(id), \
+                UNIQUE (companyid, username))")
             .catch(error => {
                 console.log('ERROR:', error);
             });

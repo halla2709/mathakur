@@ -12,7 +12,7 @@ angular.module('mathakur')
 
     $scope.company = '';
     $scope.password = '';
-    $scope.wrongpassword = '';
+    $scope.wrongpassword = false;
 
     $scope.submit = function () {
       $scope.company = JSON.parse($scope.company);
@@ -34,7 +34,7 @@ angular.module('mathakur')
               else {
                 $scope.company = '';
                 $scope.password = '';
-                $scope.wrongpassword = 'Eitthvað fór úrskeiðis, sláðu inn rétt lykilorð og reyndu aftur.';
+                $scope.wrongpassword = true;
               }
             })
             .catch(function (error) { console.error(error) })

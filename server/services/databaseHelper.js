@@ -1,9 +1,8 @@
-function getFromTable(db, tableName, conditions) {
+function getFromTable(db, tableName, condition) {
     let queryString = 'SELECT * FROM ' + replaceTableName(tableName);
-    if (conditions.length > 0) queryString += ' WHERE';
-    conditions.forEach(function (condition) {
-        queryString += " " + condition;
-    });
+    if (condition) {
+        queryString += ' WHERE ' + condition;
+    }
     queryString += ";";
     return db.any(queryString, tableName);
 }
@@ -72,12 +71,11 @@ function updateAllowFundsBelowZero(db, companyId, newValue) {
     return db.none(queryString, [newValue, companyId]);
 }
 
-function deleteFromTable(db, tableName, conditions) {
+function deleteFromTable(db, tableName, condition) {
     let queryString = 'DELETE FROM ' + replaceTableName(tableName);
-    if (conditions.length > 0) queryString += ' WHERE';
-    conditions.forEach(function (condition) {
-        queryString += " " + condition;
-    });
+    if (condition) {
+        queryString += ' WHERE ' + condition;
+    };
     queryString += ";";
     return db.any(queryString, tableName);
 }

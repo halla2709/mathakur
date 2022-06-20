@@ -51,7 +51,7 @@ router.post('/loginCompany', authenticateCompanyConnection, checkCompanyCredient
 
 router.post('/signupAdmin', authenticateAdminConnection, addAdmin, function (req, res, next) {
     adminAuth = {};
-    res.json({ name: req.body.name });
+    res.json({ name: req.body.name, adminId: res.adminId });
 });
 
 router.post('/loginUser', authenticateAdminConnection, checkUserCredientials, function (req, res, next) {
@@ -103,10 +103,11 @@ function addCompany(req, res, next) {
 }
 
 function addAdmin(req, res, next) {
-    dbHelper.insertIntoTable(database, 'administrator',
+    dbHelper.insertIntoTableReturningID(database, 'administrator',
         ['name', 'password', 'rand', 'username', 'companyid'],
-        [req.body.adminName, adminAuth.finalPassword, adminAuth.randomString, req.body.adminUser, req.body.companyId])
-        .then(function () {
+        [req.body.adminName, adminAuth.finalPassword, adminAuth.randomString, req.body.adminUser.toLowerCase(), req.body.companyId])
+        .then(function (idobj) {
+            res.adminId = idobj.id;
             next();
         })
         .catch(function (error) {
@@ -119,7 +120,7 @@ function addAdmin(req, res, next) {
 
 function checkCompanyCredientials(req, res, next) {
     const companyName = req.body.companyName;
-    dbHelper.getFromTable(database, 'company', ['name = \'' + companyName + '\''])
+    dbHelper.getFromTable(database, 'company', 'name = \'' + companyName + '\'')
         .then(function (results) {
             const randomString = results[0].rand;
             const rehashed = md5(companyAuth.hashedPassword + randomString);
@@ -144,7 +145,8 @@ function checkCompanyCredientials(req, res, next) {
 }
 
 function checkUserCredientials(req, res, next) {
-    dbHelper.getFromTable(database, 'administrator', ['username = \'' + req.body.adminUser + '\''])
+    var filter = 'username = \'' + req.body.adminUser.toLowerCase() + '\' AND companyid = \'' + req.body.companyId + '\''
+    dbHelper.getFromTable(database, 'administrator', filter)
         .then(function (results) {
             if (results.length == 0)
             {

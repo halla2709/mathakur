@@ -4,7 +4,7 @@ const database = require('../services/databaseCreator').db;
 const dbHelper = require('../services/databaseHelper');
 
 router.get('/:companyId', function(req, res, next) {
-  dbHelper.getFromTable(database, 'administrator', ['companyid = \'' + req.params.companyId + '\' '])
+  dbHelper.getFromTable(database, 'administrator', 'companyid = \'' + req.params.companyId + '\' ')
   .then(function (data) {
       data.forEach(admin => {
         delete admin['rand'];
@@ -20,7 +20,7 @@ router.get('/:companyId', function(req, res, next) {
 });
 
 router.delete('/:id', function(req, res, next) {
-  dbHelper.deleteFromTable(database, 'administrator', ['id = \'' + req.params.id + '\' '])
+  dbHelper.deleteFromTable(database, 'administrator', 'id = \'' + req.params.id + '\' ')
   .then(function() {
     res.end();
   })

@@ -12,7 +12,7 @@ angular.module('mathakur')
 
     $scope.username = '';
     $scope.password = '';
-    $scope.wrongpassword = '';
+    $scope.wrongpassword = false;
 
     $scope.submit = function () {
       var passwordHash = md5.createHash($scope.password || '');
@@ -33,10 +33,13 @@ angular.module('mathakur')
               else {
                 $scope.username = '';
                 $scope.password = '';
-                $scope.wrongpassword = 'Eitthvað fór úrskeiðis, sláðu inn rétt lykilorð og reyndu aftur.';
+                $scope.wrongpassword = true;
               }
             })
-            .catch(function (error) { console.error(error) })
+            .catch(function (error) {
+               console.error(error);
+               $scope.wrongpassword = true;
+              })
         })
         .catch(function (error) { console.error(error) });
 

@@ -6,7 +6,7 @@ const dbHelper = require('../services/databaseHelper');
 const savePhotoToCloudinary = require("../services/cloudinaryHelper").savePhotoToCloudinary;
 
 router.get('/', function (req, res, next) {
-    dbHelper.getFromTable(database, 'employee', [])
+    dbHelper.getFromTable(database, 'employee')
         .then(function (data) {
             req.employees = data;
             res.json(req.employees);
@@ -19,7 +19,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/:companyId', function(req, res, next) {
-    dbHelper.getFromTable(database, 'employee', ['companyid = \'' + req.params.companyId + '\' '])
+    dbHelper.getFromTable(database, 'employee', 'companyid = \'' + req.params.companyId + '\'')
     .then(function (data) {
         req.employees = data;
         res.json(req.employees);
@@ -83,7 +83,7 @@ router.post('/', savePhotoToCloudinary, addNicknameIfNotExists, function (req, r
 });
 
 router.delete('/:id', function(req, res, next) {
-    dbHelper.deleteFromTable(database, 'employee', ['id = \'' + req.params.id + '\''])
+    dbHelper.deleteFromTable(database, 'employee', 'id = \'' + req.params.id + '\'')
     .then(function() {
         res.statusCode = 200;
         res.end();

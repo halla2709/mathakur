@@ -73,7 +73,7 @@ router.get('/productprice/:companyId', getPricesForCompany, function (req, res, 
 });
 
 router.delete('/:product/:companyId', function(req, res, next) {
-    dbHelper.deleteFromTable(database, 'productprice', ['productid = \'' + req.params.product + '\' AND companyid = \'' + req.params.companyId + '\''])
+    dbHelper.deleteFromTable(database, 'productprice', 'productid = \'' + req.params.product + '\' AND companyid = \'' + req.params.companyId + '\'')
     .then(function() {
         res.statusCode = 200;
         res.end();
@@ -101,7 +101,7 @@ function validateColumns(req, res, next) {
 }
 
 function getAllProducts(req, res, next) {
-    dbHelper.getFromTable(database, 'product', [])
+    dbHelper.getFromTable(database, 'product')
         .then(function (data) {
             res.product = data;
             next();
@@ -114,7 +114,7 @@ function getAllProducts(req, res, next) {
 }
 
 function getPricesForCompany(req, res, next) {
-    dbHelper.getFromTable(database, 'productprice', ['companyid = \'' + req.params.companyId + '\' '])
+    dbHelper.getFromTable(database, 'productprice', 'companyid = \'' + req.params.companyId + '\' ')
         .then(function (data) {
             res.prices = data;
             next();

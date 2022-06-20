@@ -85,6 +85,7 @@ angular.module('mathakur')
 
         $scope.createAdmin = function () {
             $scope.editing = true;
+            $scope.errorAlert = false;
             $scope.newAdmin = {};
         }
 
@@ -300,13 +301,15 @@ angular.module('mathakur')
                                 adminUser: formAdmin.username,
                                 companyId: $scope.currentCompanyLoggedIn
                             })
-                            .then(function() {
+                            .then(function(response) {
                                 $scope.adminData.push({
                                     name: formAdmin.name,
-                                    username: formAdmin.username
+                                    username: formAdmin.username,
+                                    id: response.data.adminId
                                 });
                             })
                             .catch(function (error) {
+                                $scope.errorAlert = true;
                                 console.error(error);
                             })
                             .finally(function () {

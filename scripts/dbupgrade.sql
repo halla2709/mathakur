@@ -49,11 +49,13 @@ ADD COLUMN IF NOT EXISTS companyid uuid REFERENCES company(id);
 
 ALTER TABLE administrator
 DROP CONSTRAINT IF EXISTS administrator_schoolname_fkey,
+DROP CONSTRAINT IF EXISTS administrator_username_key,
 ADD COLUMN IF NOT EXISTS companyid uuid REFERENCES company(id),
 DROP CONSTRAINT IF EXISTS administrator_pkey,
 DROP COLUMN IF EXISTS id,
 ADD COLUMN id uuid DEFAULT gen_random_uuid(),
-ADD CONSTRAINT administrator_pkey PRIMARY KEY (id);
+ADD CONSTRAINT administrator_pkey PRIMARY KEY (id),
+ADD UNIQUE (companyid, username);
 
 ALTER TABLE productprice
 DROP COLUMN IF EXISTS foodid,
