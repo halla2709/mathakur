@@ -68,27 +68,27 @@
                         <th>Vara</th>
                         <!--th>Flokkur</th-->
                         <th>Verð</th>
-                        <th>Mynd</th>
+                        <th style="text-align: center">Mynd</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="product in productData | filter:searchBox"
-                        ng-click="!product.hasOwnProperty('id') || editProduct(product)" style="height: 3em;">
+                        ng-click="!product.hasOwnProperty('id') || editProduct(product)">
                         <td>{{product.name}}</td>
                         <!--td>{{product.category}}</td-->
                         <td>{{product.price}} kr</td>
-                        <td><span
+                        <td style="text-align: center"><span
                                 ng-show="{{product.photourl && product.photourl !== '' && product.photourl !== defaultProductPhotoUrl}}">
-                                <i class="bi bi-check-circle" style="color: green; font-size: 1.2rem; padding-right: 0.4em;"></i></span>
+                                <i class="bi bi-check-circle" style="color: green; font-size: 1.4rem; padding-right: 0.4em;"></i></span>
                             </span>
                             <span
                                 ng-show="{{!product.photourl || product.photourl === '' || product.photourl === defaultProductPhotoUrl}}">
-                                <i class="bi bi-x-circle" style="color: red; font-size: 1.2rem; padding-right: 0.4em;"></i></span>
+                                <i class="bi bi-x-circle" style="color: red; font-size: 1.4rem; padding-right: 0.4em;"></i></span>
                             </span>
                         </td>
-                        <td><i class="bi bi-pencil" ng-style="product.hasOwnProperty('id') ? {} : {opacity: .20}"
-                                style="font-size: 1.2rem; color:#440A67"></i></td>
+                        <td style="text-align: center"><i class="bi bi-pencil" ng-style="product.hasOwnProperty('id') ? {} : {opacity: .20}"
+                                style="font-size: 1.4rem; color:#440A67" title="Breyta"></i></td>
                     </tr>
                 </tbody>
             </table>

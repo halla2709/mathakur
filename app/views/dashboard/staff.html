@@ -4,9 +4,9 @@
 		<div style="width:50px"></div>
 
 	<div class="alert alert-success" role="alert" ng-show="showSuccessMessage">
-		<p>Innkaupin tókust, eigðu góðan dag <i class="bi bi-emoji-smile" style="font-size: 1rem;"></i></p>
+		<p>{{message}}<i class="bi bi-emoji-smile" style="font-size: 1rem;"></i></p>
 	</div>
-	<h2><small>Starfsmannalisti</small></h2>
+	<h2>Starfsmannalisti</h2>
 	</div>
 
 	<div ng-if="!myDataEmployee.length">
@@ -33,7 +33,7 @@
 			id="employeeCard">
 			<img cl-src="{{x.photourl}}" class="card-img-top"></img>
 			<br>
-			<h4 style="text-align:center; overflow:hidden; padding-top: 0.4em; white-space: nowrap; ">{{x.nickname}}</h4>
+			<h4 style="font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; text-align:center; overflow:hidden; padding-top: 0.2em; white-space: nowrap; margin-bottom: 0px; ">{{x.nickname}}</h4>
 		</div>
 	</div>
 </div>

@@ -8,12 +8,14 @@
  * Controller of yapp
  */
 angular.module('mathakur')
-  .controller('DashboardCtrl', ['$scope', '$rootScope', '$state', '$stateParams', 'server', function ($scope, $rootScope, $state, $stateParams, server) {
+  .controller('DashboardCtrl', ['$scope', '$rootScope', '$state', '$stateParams', 'server', '$timeout', function ($scope, $rootScope, $state, $stateParams, server, $timeout) {
     $scope.employee = $stateParams.param;
     $scope.receipt = [];
     $scope.sidebar = false;
     $scope.total = 0;
+    $scope.total_count = 0;
     $scope.creditAfter = 0;
+    $scope.showSuccessMessage = false;
 
     $scope.selectStaff = function (employee) {
       $scope.employee = employee;
@@ -54,6 +56,7 @@ angular.module('mathakur')
         total += product.ordertotal;
       }
       $scope.total = total;
+      $scope.total_count = $scope.total_count+1;
       $scope.creditAfter = $scope.employee.credit - $scope.total;
     };
 
@@ -76,11 +79,13 @@ angular.module('mathakur')
         $scope.receipt.splice(index, 1);
       }
       $scope.total = total;
+      $scope.total_count = $scope.total_count-1;
       $scope.creditAfter = $scope.employee.credit - $scope.total;
     }
 
     $scope.removeAllProduct = function (product) {
       $scope.total = 0;
+      $scope.total_count = 0;
       $scope.creditAfter = $scope.employee.credit;
       $scope.receipt = [];
       $scope.notEnoughCredit = false;
@@ -102,9 +107,15 @@ angular.module('mathakur')
           $scope.total = 0;
           $scope.employee = null;
           $scope.creditAfter = 0;
-          $scope.showSuccessMessage = true;
           $state.go("dashboard");
+
+          $scope.showSuccessMessage = true; 
+          $scope.message = "Innkaupin tókust, eigðu góðan dag ";
+          $timeout( function(){
+            $scope.showSuccessMessage = false;
+          }, 5000);  
         }
+
       } else {
         $scope.notEnoughCredit = true;
       }

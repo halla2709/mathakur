@@ -66,23 +66,23 @@
                     <th>Fullt nafn</th>
                     <th>Gælunafn</th>
                     <th>Inneign</th>
-                    <th>Mynd</th>
+                    <th style="text-align: center">Mynd</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
                 <tbody>
                     <tr ng-repeat="employee in employeeData | filter:searchBox"
-                        ng-click="!employee.hasOwnProperty('id') || editEmployee(employee)" style="height: 3em;">
+                        ng-click="!employee.hasOwnProperty('id') || editEmployee(employee)">
                         <td>{{employee.name}}</td>
                         <td>{{employee.nickname}}</td>
                         <td>{{employee.credit}} kr</td>
-                        <td><span ng-show="{{employee.photourl !== '' && employee.photourl !== defaultEmployeePhotoUrl}}">
-                                <i class="bi bi-check-circle" style="color: green; font-size: 1.2rem; padding-right: 0.4em;"></i></span>
+                        <td style="text-align: center"><span ng-show="{{employee.photourl !== '' && employee.photourl !== defaultEmployeePhotoUrl}}">
+                                <i class="bi bi-check-circle" style="color: green; font-size: 1.4rem; padding-right: 0.4em;"></i></span>
                             <span ng-show="{{employee.photourl === '' || employee.photourl === defaultEmployeePhotoUrl}}">
-                                <i class="bi bi-x-circle" style="color: red; font-size: 1.2rem; padding-right: 0.4em;"></i></span>
+                                <i class="bi bi-x-circle" style="color: red; font-size: 1.4rem; padding-right: 0.4em;"></i></span>
                         </td>
-                        <td><i class="bi bi-pencil" ng-style="employee.hasOwnProperty('id') ? {} : {opacity: .20}"
-                                style="font-size: 1.2rem; color:#440A67"></i></td>
+                        <td style="text-align: center"><i class="bi bi-pencil" ng-style="employee.hasOwnProperty('id') ? {} : {opacity: .20}"
+                                style="font-size: 1.4rem; color:#440A67" title="Breyta"></i></td>
                     </tr>
                 </tbody>
         </table>

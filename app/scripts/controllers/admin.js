@@ -337,8 +337,9 @@ angular.module('mathakur')
                     });
             }
         }
-
+        
         $scope.deleteAdmin = function(toDelete) {
+            if (confirm('Ertu viss um að þú viljir eyða þessum stjórnanda?')) {
             server.delete('/admin/'+toDelete.id)
             .then(function() {
                 const index = $scope.adminData.indexOf(toDelete);
@@ -348,6 +349,7 @@ angular.module('mathakur')
                 console.error(error);
                 $scope.errorAlert = true;
             })
+        }
         }
 
         $scope.back = function () {

@@ -54,30 +54,32 @@
                 <thead id="korfuHeader">
                     <tr>
                         <th>Vörur</th>
-                        <th>Fjöldi</th>
-                        <th>Verð</th>
-                        <th style="width: 10%"></th>
+                        <th style="text-align: center">Fjöldi</th>
+                        <th style="text-align: center">Verð</th>
+                        <th style="text-align: center; width: 10%;"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="x in receipt" type="remove" ng-click="removeProduct(x)" data-bs-toggle="tooltip"
                         data-bs-placement="bottom" title="Fjarlægja">
-                        <td style="padding-top: 1em;">{{x.name}}</td>
-                        <td style="padding-top: 1em;">{{x.quantity}}</td>
-                        <td style="padding-top: 1em;">{{x.price}} kr</td>
-                        <td><i class="bi bi-dash" style="font-size: 1.5rem; color: #dc3545;"></i></td>
+                        <td style="vertical-align: middle;">{{x.name}}</td>
+                        <td style="text-align: center; vertical-align: middle;">{{x.quantity}}</td>
+                        <td style="text-align: center; vertical-align: middle;">{{x.price}} kr</td>
+                        <td style="text-align: center; vertical-align: middle;" ><i class="bi bi-dash" style="font-size: 1.5rem; color: #dc3545;"></i></td>
 
                     </tr>
                     <tr style="border-top: 0.2em double black">
-                        <th style="border:none;">Samtals:</th>
-                        <th style="border:none;"></th>
-                        <th style="border:none;">{{total}} kr</th>
-                        <th style="border:none;"></th>
+                        <th style="border:none; vertical-align: middle;">Samtals:</th>
+                        <th style="border:none; vertical-align: middle; text-align: center;">{{total_count}}</th>
+                        <th style="border:none; vertical-align: middle; text-align: center;">{{total}} kr</th>
+                        <th style="border:none; vertical-align: middle;"></th>
                     </tr>
                     <tr>
-                        <th colspan="2" style="font-weight:400; border:none;">Inneign eftir kaup:</th>
-                        <th colspan="2" style="font-weight:400; border:none;">{{creditAfter}} kr</th>
+                        <th colspan="2" style="font-weight:400; border:none; vertical-align: middle;">Inneign:</th>
+                        <th style="font-weight:400; border:none; vertical-align: middle; text-align: center;">{{creditAfter}} kr</th>
+                        <th style="border:none; vertical-align: middle;"></th>
                     </tr>
+                </tbody>
             </table>
         </div>
         <div class="btn-toolbar justify-content-between align-text-bottom" style="padding: 0px 20px 0px 20px;">
