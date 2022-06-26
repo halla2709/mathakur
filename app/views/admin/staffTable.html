@@ -25,9 +25,7 @@
     </div>
   </div>
 
-  <br>
-
-<div class="container">
+  <div class="container" id="fancycontainer">
     <div class="alert alert-success" role="alert" ng-show="successAlert">
         <p>Breytingin tókst, eigðu góðan dag <i class="bi bi-emoji-smile" style="font-size: 1rem;"></i></p>
     </div>
@@ -36,27 +34,35 @@
         <div class="container">
             <div class="row">
                 <div class="col" style="padding: 0;">
-                    <button class="btn btn-lg btn-secondary" ng-show="!editing" ng-click="editEmployee()">
-                        <i class="bi bi-plus-circle" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Nýr
-                        starfsmaður</button>
+                    <h2><small>Starfsmenn</small></h2>
+                    <br>
                 </div>
                 <div class="col" style="padding: 0;">
                     <div class="input-group">
-                        <span class="input-group-text" id="loginInputs">
-                            <i class="bi bi-search" style="font-size: 2rem;"></i>
+                        <span class="input-group-text" id="loginInputs" style="height: 50px;">
+                            <i class="bi bi-search" style="font-size: 1.2rem;"></i>
                         </span>
                         <input ng-model="searchBox" type="text" class="form-control ng-valid"
                             placeholder="Leita..." style="max-width: 20em;">
                     </div>
                 </div>
-                <div class="col">
+                <div class="col" style="padding: 0;">
+                    <button class="btn btn-lg btn-secondary" ng-show="!editing" ng-click="editEmployee()" style="float:right;">
+                        <i class="bi bi-plus-circle" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Bæta við
+                        </button>
                 </div>
             </div>
         </div>
 
+        <div ng-if="!employeeData.length">
+            <br>
+            <p>Engir starfsmenn skráðir, smelltu á "Bæta við" hér að ofan</p>
+            <br>
+        </div>
+        <div ng-if="employeeData.length">
         <table id="tafla" class="table table-responsive table-striped table-hover">
             <thead>
-                <tr id="tofluHeader" style="height: 3em;">
+                <tr id="tofluHeader">
                     <th>Fullt nafn</th>
                     <th>Gælunafn</th>
                     <th>Inneign</th>
@@ -64,22 +70,23 @@
                     <th>&nbsp;</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr ng-repeat="employee in employeeData | filter:searchBox"
-                    ng-click="!employee.hasOwnProperty('id') || editEmployee(employee)" style="height: 3em;">
-                    <td>{{employee.name}}</td>
-                    <td>{{employee.nickname}}</td>
-                    <td>{{employee.credit}} kr</td>
-                    <td><span ng-show="{{employee.photourl !== '' && employee.photourl !== defaultEmployeePhotoUrl}}">
-                            <i class="bi bi-check-circle" style="color: green; font-size: 1.2rem; padding-right: 0.4em;"></i></span>
-                        <span ng-show="{{employee.photourl === '' || employee.photourl === defaultEmployeePhotoUrl}}">
-                            <i class="bi bi-x-circle" style="color: red; font-size: 1.2rem; padding-right: 0.4em;"></i></span>
-                    </td>
-                    <td><i class="bi bi-pencil" ng-style="employee.hasOwnProperty('id') ? {} : {opacity: .20}"
-                            style="font-size: 1.2rem; color:#440A67"></i></td>
-                </tr>
-            </tbody>
+                <tbody>
+                    <tr ng-repeat="employee in employeeData | filter:searchBox"
+                        ng-click="!employee.hasOwnProperty('id') || editEmployee(employee)" style="height: 3em;">
+                        <td>{{employee.name}}</td>
+                        <td>{{employee.nickname}}</td>
+                        <td>{{employee.credit}} kr</td>
+                        <td><span ng-show="{{employee.photourl !== '' && employee.photourl !== defaultEmployeePhotoUrl}}">
+                                <i class="bi bi-check-circle" style="color: green; font-size: 1.2rem; padding-right: 0.4em;"></i></span>
+                            <span ng-show="{{employee.photourl === '' || employee.photourl === defaultEmployeePhotoUrl}}">
+                                <i class="bi bi-x-circle" style="color: red; font-size: 1.2rem; padding-right: 0.4em;"></i></span>
+                        </td>
+                        <td><i class="bi bi-pencil" ng-style="employee.hasOwnProperty('id') ? {} : {opacity: .20}"
+                                style="font-size: 1.2rem; color:#440A67"></i></td>
+                    </tr>
+                </tbody>
         </table>
+        </div>
     </div>
 
     <!-------- EDIT ----------->

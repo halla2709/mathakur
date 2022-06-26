@@ -25,65 +25,74 @@
     </div>
   </div>
 
-  <br>
-
-<div class="container">
+  <div class="container"  id="fancycontainer">
     <div class="alert alert-success" role="alert" ng-show="successAlert">
-        <p>Breytingin tókst, eigðu góðan dag <i class="bi bi-emoji-smile" style="font-size: 1rem;"></i></p>
+      <p>Breytingin tókst, eigðu góðan dag <i class="bi bi-emoji-smile" style="font-size: 1rem;"></i></p>
+    </div>
+    <div class="alert alert-danger" role="alert" ng-show="errorAlert">
+      <p>Ekki tókst að vista breytingar</p>
     </div>
     <div ng-show="!editing">
-
         <div class="container">
             <div class="row">
                 <div class="col" style="padding: 0;">
-                    <button class="btn btn-lg btn-secondary" ng-show="!editing" ng-click="editProduct()">
-                        <i class="bi bi-plus-circle" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Ný
-                        vara</button>
+                    <h2><small>Vörur</small></h2>
+                    <br>
                 </div>
                 <div class="col" style="padding: 0;">
                     <div class="input-group">
-                        <span class="input-group-text" id="loginInputs">
-                            <i class="bi bi-search" style="font-size: 2rem;"></i>
+                        <span class="input-group-text" id="loginInputs" style="height: 50px;">
+                            <i class="bi bi-search" style="font-size: 1.2rem;"></i>
                         </span>
                         <input ng-model="searchBox" type="text" class="form-control ng-valid"
-                            placeholder="Leita..." style="max-width: 20em;">
+                            placeholder="Leita...">
                     </div>
                 </div>
-                <div class="col">
+                <div class="col" style="padding: 0;">
+                    <button class="btn btn-lg btn-secondary" ng-show="!editing" ng-click="editProduct()" style="float: right;">
+                        <i class="bi bi-plus-circle" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Bæta við
+                        </button>
                 </div>
             </div>
         </div>
 
-        <table id="tafla" class="table table-responsive table-striped table-hover">
-            <thead>
-                <tr id="tofluHeader" style="height: 3em;">
-                    <th>Vara</th>
-                    <th>Flokkur</th>
-                    <th>Verð</th>
-                    <th>Mynd</th>
-                    <th>&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="product in productData | filter:searchBox"
-                    ng-click="!product.hasOwnProperty('id') || editProduct(product)" style="height: 3em;">
-                    <td>{{product.name}}</td>
-                    <td>{{product.category}}</td>
-                    <td>{{product.price}} kr</td>
-                    <td><span
-                            ng-show="{{product.photourl && product.photourl !== '' && product.photourl !== defaultProductPhotoUrl}}">
-                            <i class="bi bi-check-circle" style="color: green; font-size: 1.2rem; padding-right: 0.4em;"></i></span>
-                        </span>
-                        <span
-                            ng-show="{{!product.photourl || product.photourl === '' || product.photourl === defaultProductPhotoUrl}}">
-                            <i class="bi bi-x-circle" style="color: red; font-size: 1.2rem; padding-right: 0.4em;"></i></span>
-                        </span>
-                    </td>
-                    <td><i class="bi bi-pencil" ng-style="product.hasOwnProperty('id') ? {} : {opacity: .20}"
-                            style="font-size: 1.2rem; color:#440A67"></i></td>
-                </tr>
-            </tbody>
-        </table>
+        <div ng-if="!productData.length">
+            <br>
+            <p>Engar vörur skráðar, smelltu á "Bæta við" hér að ofan</p>
+            <br>
+        </div>
+        <div ng-if="productData.length">
+            <table id="tafla" class="table table-responsive table-striped table-hover">
+                <thead>
+                    <tr id="tofluHeader">
+                        <th>Vara</th>
+                        <!--th>Flokkur</th-->
+                        <th>Verð</th>
+                        <th>Mynd</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="product in productData | filter:searchBox"
+                        ng-click="!product.hasOwnProperty('id') || editProduct(product)" style="height: 3em;">
+                        <td>{{product.name}}</td>
+                        <!--td>{{product.category}}</td-->
+                        <td>{{product.price}} kr</td>
+                        <td><span
+                                ng-show="{{product.photourl && product.photourl !== '' && product.photourl !== defaultProductPhotoUrl}}">
+                                <i class="bi bi-check-circle" style="color: green; font-size: 1.2rem; padding-right: 0.4em;"></i></span>
+                            </span>
+                            <span
+                                ng-show="{{!product.photourl || product.photourl === '' || product.photourl === defaultProductPhotoUrl}}">
+                                <i class="bi bi-x-circle" style="color: red; font-size: 1.2rem; padding-right: 0.4em;"></i></span>
+                            </span>
+                        </td>
+                        <td><i class="bi bi-pencil" ng-style="product.hasOwnProperty('id') ? {} : {opacity: .20}"
+                                style="font-size: 1.2rem; color:#440A67"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-------- EDIT ----------->
@@ -111,9 +120,9 @@
                     <input id="name" maxlength="40" required ng-model="currentProduct.name" type="text" placeholder="Epli"
                         class="form-control form-control-lg" />
 
-                    <br><label for="category">Flokkur</label>
+                    <!--br><label for="category">Flokkur</label>
                     <input id="category" maxlength="40" ng-model="currentProduct.category" type="text"
-                        placeholder="Ávöxtur" class="form-control form-control-lg" />
+                        placeholder="Ávöxtur" class="form-control form-control-lg" /-->
 
                     <br><label for=" name">Verð</label>
                     <div class="input-group input-group-lg" style="width: 40%;">

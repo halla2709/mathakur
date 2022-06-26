@@ -25,9 +25,7 @@
   </div>
 </div>
 
-<br>
-
-<div class="container">
+<div class="container" id="fancycontainer">
   <div class="alert alert-success" role="alert" ng-show="successAlert">
     <p>Breytingin tókst, eigðu góðan dag <i class="bi bi-emoji-smile" style="font-size: 1rem;"></i></p>
   </div>
@@ -45,19 +43,17 @@
     </div>
   
     <div class="container">
-      <div class="row">
-        <div class="col">
-  
-        <label for="allowFundsBelowZero">Leyfa neikvæða innistæðu</label>
-        <br>
-        <input type="checkbox" ng-model="newSettings.allowFundsBelowZero"
-        id="allowFundsBelowZero">
 
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" ng-model="newSettings.allowFundsBelowZero"
+        id="allowFundsBelowZero">
+        <label class="form-check-label" for="allowFundsBelowZero">Neikvæð innistæða <span style="font-style: italic;">(leyfir starfsmönnum að fara í mínus)</span></label>
+      </div>
+  <br>
         <div class="btn-toolbar justify-content-between" style="padding-top:4em;">
           <button class="btn btn-lg btn-secondary" type="submit" ng-disabled="changes">
             <i class="bi bi-check-circle" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Vista</button>
         </div>
-      </div>
-    </div>
+
   </form>
 </div>

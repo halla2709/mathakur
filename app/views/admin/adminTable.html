@@ -25,9 +25,7 @@
   </div>
 </div>
 
-<br>
-
-<div class="container">
+<div class="container"  id="fancycontainer">
   <div class="alert alert-success" role="alert" ng-show="successAlert">
     <p>Breytingin tókst, eigðu góðan dag <i class="bi bi-emoji-smile" style="font-size: 1rem;"></i></p>
   </div>
@@ -36,20 +34,24 @@
   </div>
   <div ng-show="!editing">
     <div class="container">
-      <h2><small>Stjórnendur</small></h2>
-      <br>
       <div class="row">
         <div class="col" style="padding: 0;">
-          <button class="btn btn-lg btn-secondary" ng-show="!editing" ng-click="createAdmin()">
-            <i class="bi bi-plus-circle" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Nýr
-            stjórnandi</button>
+          <h2><small>Stjórnendur</small></h2>
+          <br>
+        </div>
+        <div class="col" style="padding: 0;">
+          <button class="btn btn-lg btn-secondary" ng-show="!editing" ng-click="createAdmin()" style="float: right;">
+            <i class="bi bi-plus-circle" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Bæta við
+          </button>
+        </div>
         </div>
       </div>
-    </div>
+
+    <br>
     <table id="tafla" class="table table-responsive table-striped table-hover">
       <thead>
-        <tr id="tofluHeader" style="height: 3em;">
-          <th>Fullt Nafn</th>
+        <tr id="tofluHeader">
+          <th>Fullt nafn</th>
           <th>Notandanafn</th>
           <th ng-show="adminData.length > 1"></th>
         </tr>
@@ -64,7 +66,7 @@
       </tbody>
     </table>
   </div>
-</div>
+
 
 
 
@@ -120,4 +122,5 @@
     </div>
   </div>
 </form>
+</div>
 </div>

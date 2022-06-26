@@ -19,6 +19,7 @@ angular.module('mathakur')
       $scope.employee = employee;
       $state.go("selectproduct", { param: employee });
       $scope.creditAfter = employee.credit;
+      $scope.removeAllFood();
     }
 
     $scope.showSidebar = function (sidebar) {
@@ -28,7 +29,14 @@ angular.module('mathakur')
     $scope.addProduct = function (product) {
       var index = -1;
       var total = 0;
-
+      
+      if(($rootScope.session.isBelowZeroAllowed() == null || false) && $scope.creditAfter<food.price)
+      {
+        $scope.notEnoughCredit = true;
+      }
+      else
+      {
+        $scope.notEnoughCredit = false;
       for (var i = 0; i < $scope.receipt.length; i++) {
         var item = $scope.receipt[i];
         if (item.name === product.name) {
@@ -38,19 +46,20 @@ angular.module('mathakur')
         }
         total += item.ordertotal;
       }
+    }
       if (index == -1) {
         product.quantity = 1;
         product.ordertotal = product.price;
         $scope.receipt.push(product);
         total += product.ordertotal;
       }
-
       $scope.total = total;
       $scope.creditAfter = $scope.employee.credit - $scope.total;
     };
 
     $scope.removeProduct = function (product) {
       var total = 0;
+      $scope.notEnoughCredit = false;
       var index = -1;
       for (var i = 0; i < $scope.receipt.length; i++) {
         var item = $scope.receipt[i];
@@ -74,6 +83,7 @@ angular.module('mathakur')
       $scope.total = 0;
       $scope.creditAfter = $scope.employee.credit;
       $scope.receipt = [];
+      $scope.notEnoughCredit = false;
     }
 
     $scope.buyProduct = function (product) {
@@ -105,6 +115,11 @@ angular.module('mathakur')
         console.log("no one is logged in");
         $state.go('login');
         return;
+      }
+
+      if (!$scope.employee)
+      {
+        $state.go("dashboard");
       }
 
       var productPath = 'product/' + $rootScope.session.getCompanyId();

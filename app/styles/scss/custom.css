@@ -113,13 +113,28 @@ p {
 
 /* ----------- ADMIN --------*/
 #adminNav {
-  color: #440A67;
   text-align: center;
+  color: #440A67;
+}
+
+.nav-tabs .nav-link.active {
+  color: #495057 !important;
 }
 
 #adminButton {
   margin-left: 0.5em;
   background-color: #ffffff;
+}
+
+.form-check-input:checked {
+  background-color: #93329E !important;
+  border-color: #93329E !important;
+}
+
+#fancycontainer {
+  padding: 1em;
+  font-size: larger;
+  background-color: white;
 }
 
 /* ---------- FOOTER ------- */

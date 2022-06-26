@@ -141,13 +141,28 @@ html {
 
   /* ----------- ADMIN --------*/
   #adminNav {
-    color: $color-myPurpleDark;
     text-align: center;
+    color: $color-myPurpleDark;
+  }
+
+  .nav-tabs .nav-link.active {
+    color: #495057 !important;
   }
 
   #adminButton {
     margin-left: 0.5em;  
     background-color: $color-myPurpleLight;
+  }
+
+  .form-check-input:checked {
+    background-color: $color-myPinkDark !important;
+    border-color: $color-myPinkDark !important;
+  }
+
+  #fancycontainer {
+    padding: 1em;
+    font-size: larger;
+    background-color: white;    
   }
 
 
