@@ -4,6 +4,7 @@ angular.module('mathakur')
         $scope.$state = $state;
         $scope.currentEmployee = {};
         $scope.currentProduct = {};
+        $scope.formAdmin = {};
         $scope.editing = false;
         $scope.updating = false;
         $scope.sidebar = true;
@@ -358,6 +359,7 @@ angular.module('mathakur')
             $scope.image = '';
             $scope.currentEmployee = {};
             $scope.currentProduct = {};
+            $scope.formAdmin = {};
             $scope.newSettings = {
                 allowFundsBelowZero: $rootScope.session.isBelowZeroAllowed()
             };
