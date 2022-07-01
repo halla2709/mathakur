@@ -91,7 +91,6 @@ h6, .h6 {
   padding: 0 0 0 0;
   margin: 1em;
   text-align: center;
-  border: 1px solid #160075;
   min-width: 10em;
   -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -99,7 +98,7 @@ h6, .h6 {
 
 #productHeader {
   color: white;
-  padding: 0.3em;
+  padding: 0.2em;
   background-color: #160075;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;

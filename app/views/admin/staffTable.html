@@ -111,11 +111,11 @@
                 <div class="col">
 
                     <label for="name">Full nafn</label>
-                    <input id="name" maxlength="40" required ng-model="currentEmployee.name" type="text"
+                    <input id="name" maxlength="40" required ng-model="currentEmployee.name" type="text" ng-disabled="updating"
                         placeholder="Sigríður Jónsdóttir" class="form-control form-control-lg" />
 
                     <br> <label for="name">Stutt nafn / Gælunafn</label>
-                    <input id="nickname" maxlength="40" ng-model="currentEmployee.nickname" type="text"
+                    <input id="nickname" maxlength="40" ng-model="currentEmployee.nickname" type="text" ng-disabled="updating"
                         placeholder="Sigga" class="form-control form-control-lg" />
 
                     <br><label for="name">Innistæða</label>

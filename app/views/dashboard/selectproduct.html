@@ -2,9 +2,6 @@
     <div class="col">
         <div class="row">
             <div class="col col-8">
-                <div class="alert alert-danger" role="alert" ng-show="notEnoughCredit">
-                    <p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>Þú ert ekki með næga inneign til að bæta vörunni í körfuna.</p>
-                </div>
                 <div class="input-group input-group-lg col-sm-6 justify-content-md-center">
                     <span class="input-group-text" id="loginInputs">
                         <i class="bi bi-search" style="font-size: 2rem;"></i>
@@ -24,7 +21,7 @@
                             <img cl-src="{{x.photourl}}" class="card-img-top"></img>
                             <br>
                             <div class="productname">
-                                <h5>{{x.price}} kr</h5>
+                                <h5 style="font-weight: 600;">{{x.price}} kr</h5>
                                 <!--p class="onlyonerow">Flokkur: {{x.category}}</p-->
                             </div>
                         </div>
@@ -81,6 +78,9 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="alert alert-danger" role="alert" ng-show="notEnoughCredit">
+            <p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>{{message2}}</p>
         </div>
         <div class="btn-toolbar justify-content-between align-text-bottom" style="padding: 0px 20px 0px 20px;">
             <button class="btn btn-lg btn-secondary" ng-click="buyProduct(x)">
