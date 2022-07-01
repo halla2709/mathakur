@@ -82,7 +82,6 @@ angular
         url: '/about',
         templateUrl: 'views/modules/about.html',
       })
-
   })
   .config(function (CloudinaryProvider) {
     CloudinaryProvider.configure({
