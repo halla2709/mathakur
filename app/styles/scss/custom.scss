@@ -162,6 +162,12 @@ html {
     background-color: $color-myPurpleLight;
   }
 
+  #inputHeaders {
+    font-weight: 500; 
+    padding-left: 0.2em;
+    text-align: left;
+  }
+
   .form-check-input:checked {
     background-color: $color-myPinkDark !important;
     border-color: $color-myPinkDark !important;

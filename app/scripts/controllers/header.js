@@ -35,12 +35,21 @@ angular.module('mathakur')
             else {
               scope.company = false;
             }
+            if($rootScope.session.adminIsLoggedIn())
+            {
+              scope.company = false;
+            } 
           });
   
           if ($rootScope.session.isLoggedIn()) {
             scope.company = $rootScope.session.getCompanyName();
           }
           else {
+            scope.company = false;
+          }
+
+          if($rootScope.session.adminIsLoggedIn())
+          {
             scope.company = false;
           }
         });

@@ -21,7 +21,6 @@ angular.module('mathakur')
       $scope.employee = employee;
       $state.go("selectproduct", { param: employee });
       $scope.creditAfter = employee.credit;
-      $scope.removeAllFood();
     }
 
     $scope.showSidebar = function (sidebar) {
@@ -32,32 +31,34 @@ angular.module('mathakur')
       var index = -1;
       var total = 0;
       
-      if(($rootScope.session.isBelowZeroAllowed() == null || false) && $scope.creditAfter<food.price)
+      if(($rootScope.session.isBelowZeroAllowed() != true) && (product.price > $scope.creditAfter))
       {
-        $scope.notEnoughCredit = true;
+          $scope.notEnoughCredit = true;
+          $scope.message2 = "Vöruverð er hærra en inneign"
       }
       else
       {
-        $scope.notEnoughCredit = false;
-      for (var i = 0; i < $scope.receipt.length; i++) {
-        var item = $scope.receipt[i];
-        if (item.name === product.name) {
-          item.quantity++;
-          index = i;
-          item.ordertotal = item.price * item.quantity;
+          $scope.notEnoughCredit = false;
+          for (var i = 0; i < $scope.receipt.length; i++) {
+            var item = $scope.receipt[i];
+            if (item.name === product.name) {
+              item.quantity++;
+              index = i;
+              item.ordertotal = item.price * item.quantity;
+            }
+            total += item.ordertotal;
+          }
+        
+        if (index == -1) {
+          product.quantity = 1;
+          product.ordertotal = product.price;
+          $scope.receipt.push(product);
+          total += product.ordertotal;
         }
-        total += item.ordertotal;
+        $scope.total = total;
+        $scope.total_count = $scope.total_count+1;
+        $scope.creditAfter = $scope.employee.credit - $scope.total;
       }
-    }
-      if (index == -1) {
-        product.quantity = 1;
-        product.ordertotal = product.price;
-        $scope.receipt.push(product);
-        total += product.ordertotal;
-      }
-      $scope.total = total;
-      $scope.total_count = $scope.total_count+1;
-      $scope.creditAfter = $scope.employee.credit - $scope.total;
     };
 
     $scope.removeProduct = function (product) {
@@ -104,13 +105,13 @@ angular.module('mathakur')
             newCredit: credit
           });
           $scope.receipt = [];
+          $scope.message = "Innkaupin tókust " + $scope.employee.nickname + ", inneignin þín er nú: " + $scope.employee.credit + " kr";
           $scope.total = 0;
           $scope.employee = null;
           $scope.creditAfter = 0;
           $state.go("dashboard");
-
+          
           $scope.showSuccessMessage = true; 
-          $scope.message = "Innkaupin tókust, eigðu góðan dag ";
           $timeout( function(){
             $scope.showSuccessMessage = false;
           }, 5000);  
@@ -118,6 +119,7 @@ angular.module('mathakur')
 
       } else {
         $scope.notEnoughCredit = true;
+        $scope.message2 = "Ekki næg inneign fyrir kaupunum";
       }
     }
 

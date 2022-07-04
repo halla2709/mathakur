@@ -71,7 +71,7 @@
 
 <!-------- EDIT ----------->
 
-<form id="form" role="form" ng-show="editing" ng-submit="submitAdmin(formAdmin)" novalidate>
+<form id="form" role="form" ng-show="editing" ng-submit="submitAdmin(formAdmin)">
   <div class="container">
     <div class="row">
       <div class="col">
@@ -85,33 +85,33 @@
     <div class="row">
       <div class="col">
 
-        <label for="name">Fullt nafn</label>
-        <input id="name" maxlength="100" required ng-model="formAdmin.name" type="text"
-          placeholder="Sigríður Jónsdóttir" class="form-control form-control-lg" />
+        <label for="name" id="inputHeaders">Fullt nafn</label>
+        <input id="name" maxlength="100" ng-model="formAdmin.name" type="text"
+          placeholder="Sigríður Jónsdóttir" class="form-control form-control-lg" required/>
 
-        <br> <label for="username">Notandanafn</label>
+        <br> <label for="username" id="inputHeaders">Notandanafn</label>
         <input id="username" maxlength="40" ng-model="formAdmin.username" type="text" placeholder="sigga"
           class="form-control form-control-lg" required />
 
-        <br><label for="password">Lykilorð</label>
+        <br><label for="password" id="inputHeaders">Lykilorð</label>
         <div class="input-group input-group-lg" style="width: 40%;">
           <input id="password" required ng-model="formAdmin.password" type="password" placeholder="*****"
             class="form-control form-control-lg" />
         </div>
 
-        <br><label for="passwordConfirm">Staðfesta lykilorð</label>
+        <br><label for="passwordConfirm" id="inputHeaders">Staðfesta lykilorð</label>
         <div class="input-group input-group-lg" style="width: 40%;">
           <input id="passwordConfirm" required ng-model="formAdmin.passwordConfirm" type="password" placeholder="*****"
             class="form-control form-control-lg" />
         </div>
         
-        <div class="alert alert-danger" role="alert" ng-show="wrongpassword">
+        <br><div class="alert alert-danger" role="alert" ng-show="wrongpassword">
           <p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>Lykilorð passa ekki, vinsamlega reyndu aftur</p>
         </div>
       </div>
 
 
-      <div class="btn-toolbar justify-content-between" style="padding-top:4em;">
+      <div class="btn-toolbar justify-content-between" style="padding-top:1em;">
         <button class="btn btn-lg btn-secondary" type="submit">
           <i class="bi bi-check-circle" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Vista</button>
         <button class="btn btn-lg btn-outline-secondary" type="button" ng-click="back()"><i class="bi bi-x-circle"

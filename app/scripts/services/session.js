@@ -61,6 +61,10 @@ angular.module('mathakur')
             return this._level >= 0;
         }
 
+        this.adminIsLoggedIn = function () {
+            return this._level == 1;
+        }
+
         this.isBelowZeroAllowed = function () {
             return this._company.allowfundsbelowzero;
         }

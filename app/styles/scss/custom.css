@@ -136,6 +136,12 @@ h6, .h6 {
   background-color: #ffffff;
 }
 
+#inputHeaders {
+  font-weight: 500;
+  padding-left: 0.2em;
+  text-align: left;
+}
+
 .form-check-input:checked {
   background-color: #93329E !important;
   border-color: #93329E !important;

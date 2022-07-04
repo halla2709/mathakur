@@ -27,7 +27,10 @@
 
   <div class="container" id="fancycontainer">
     <div class="alert alert-success" role="alert" ng-show="successAlert">
-        <p>Breytingin tókst, eigðu góðan dag <i class="bi bi-emoji-smile" style="font-size: 1rem;"></i></p>
+      <p>Breytingin tókst, eigðu góðan dag <i class="bi bi-emoji-smile" style="font-size: 1rem;"></i></p>
+    </div>
+    <div class="alert alert-danger" role="alert" ng-show="errorAlert">
+      <p>Ekki tókst að vista breytingarnar</p>
     </div>
     <div ng-show="!editing">
 
@@ -110,18 +113,18 @@
             <div class="row">
                 <div class="col">
 
-                    <label for="name">Full nafn</label>
+                    <label for="name" id="inputHeaders">Fullt nafn</label>
                     <input id="name" maxlength="40" required ng-model="currentEmployee.name" type="text" ng-disabled="updating"
                         placeholder="Sigríður Jónsdóttir" class="form-control form-control-lg" />
 
-                    <br> <label for="name">Stutt nafn / Gælunafn</label>
+                    <br> <label for="name" id="inputHeaders">Gælunafn</label>
                     <input id="nickname" maxlength="40" ng-model="currentEmployee.nickname" type="text" ng-disabled="updating"
-                        placeholder="Sigga" class="form-control form-control-lg" />
+                        placeholder="Sigga" class="form-control form-control-lg"/>
 
-                    <br><label for="name">Innistæða</label>
+                    <br><label for="name" id="inputHeaders">Innistæða</label>
                     <div class="input-group input-group-lg" style="width: 40%;">
                         <input id="credit" required ng-model="currentEmployee.credit" type="number" placeholder="5000"
-                            class="form-control form-control-lg" />
+                            class="form-control form-control-lg"/>
                         <span class="input-group-text">
                             kr
                         </span>
@@ -130,20 +133,17 @@
                 </div>
 
                 <div class="col" style="text-align: center;">
-                    <label for="fileInput">Mynd</label>
-                    <div ng-show="updating">
-                        <img cl-src="{{currentEmployee.photourl}}" class="staffphoto"></img>
-                    </div>
-
-                    <br>
+                    <label for="fileInput" id="inputHeaders">Mynd</label>
                     <input id="fileInput" type="file" custom-on-change="uploadFile" accept="image/*" capture="user"
-                        class="form-control form-control-lg" style="width: 100%;" />
-                    <br>
-
+                        class="form-control form-control-lg" style="width: 80%;" />
+                        <br>
+                    <div ng-show="updating">
+                        <img cl-src="{{currentEmployee.photourl}}" class="staffphoto" style="max-height: 10em;"></img>
+                    </div>
                 </div>
 
 
-                <div class="btn-toolbar justify-content-between" style="padding-top:4em;">
+                <div class="btn-toolbar justify-content-between" style="padding-top:2em;">
                     <button class="btn btn-lg btn-secondary" type="submit">
                         <i class="bi bi-check-circle"
                             style="font-size: 1.2rem; padding-right: 0.4em;"></i>Vista</button>
