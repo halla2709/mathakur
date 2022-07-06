@@ -96,31 +96,41 @@ angular.module('mathakur')
       var credit = $scope.employee.credit;
       $scope.creditAfter = $scope.employee.credit;
 
-      if (credit >= $scope.total || $rootScope.session.isBelowZeroAllowed()) {
-        if (confirm('Ertu viss um að þú viljir kaupa allt í körfunni?')) {
-          credit -= $scope.total;
-          $scope.employee.credit = credit;
-
-          server.patch('employee/updatecredit/' + $scope.employee.id, {
-            newCredit: credit
-          });
-          $scope.receipt = [];
-          $scope.message = "Innkaupin tókust " + $scope.employee.nickname + ", inneignin þín er nú: " + $scope.employee.credit + " kr";
-          $scope.total = 0;
-          $scope.employee = null;
-          $scope.creditAfter = 0;
-          $state.go("dashboard");
-          
-          $scope.showSuccessMessage = true; 
-          $timeout( function(){
-            $scope.showSuccessMessage = false;
-          }, 5000);  
-        }
-
-      } else {
+      if($scope.total_count == 0)
+       {
         $scope.notEnoughCredit = true;
-        $scope.message2 = "Ekki næg inneign fyrir kaupunum";
-      }
+        $scope.message2 = "Karfan er tóm";
+       }
+       else
+       {
+        if (credit >= $scope.total || $rootScope.session.isBelowZeroAllowed()) {
+          if (confirm('Ertu viss um að þú viljir kaupa allt í körfunni?')) {
+            credit -= $scope.total;
+            $scope.employee.credit = credit;
+  
+            server.patch('employee/updatecredit/' + $scope.employee.id, {
+              newCredit: credit
+            });
+            $scope.receipt = [];
+            $scope.message = "Innkaupin tókust " + $scope.employee.nickname + ", inneignin þín er nú: " + $scope.employee.credit + " kr";
+            $scope.total = 0;
+            $scope.employee = null;
+            $scope.creditAfter = 0;
+            $state.go("dashboard");
+            
+            $scope.showSuccessMessage = true; 
+            $timeout( function(){
+              $scope.showSuccessMessage = false;
+            }, 5000);  
+          }
+  
+        } else {
+          $scope.notEnoughCredit = true;
+          $scope.message2 = "Ekki næg inneign fyrir kaupunum";
+        }
+       }
+
+     
     }
 
     $rootScope.session.load().then(function() {
