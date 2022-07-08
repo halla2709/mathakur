@@ -23,6 +23,18 @@ router.patch('/:id', function(req, res, next) {
     });
 });
 
+router.delete('/:id', function(req, res, next) {
+    dbHelper.deleteCompany(database, req.params.id)
+    .then(function() {
+        res.end();
+    })
+    .catch(function(error) {
+        res.statusCode = 500;
+        console.error(error);
+        return res.json({ errors: ['Could not delete company'] });
+    })
+})
+
 function getCompanies(req, res, next) {
     const id = req.params.id;
     if(typeof id === 'undefined') {

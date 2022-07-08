@@ -122,6 +122,12 @@ function checkCompanyCredientials(req, res, next) {
     const companyName = req.body.companyName;
     dbHelper.getFromTable(database, 'company', 'name = \'' + companyName + '\'')
         .then(function (results) {
+            if (results.length != 1) 
+            {
+                companyAuth = {};
+                res.statusCode = 500;
+                return res.json({ errors: ['Could not find company'] });
+            }
             const randomString = results[0].rand;
             const rehashed = md5(companyAuth.hashedPassword + randomString);
             if (results[0].password === rehashed) {

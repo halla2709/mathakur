@@ -77,7 +77,31 @@ function deleteFromTable(db, tableName, condition) {
         queryString += ' WHERE ' + condition;
     };
     queryString += ";";
-    return db.any(queryString, tableName);
+    return db.none(queryString);
+}
+
+function deleteCompany(db, companyId) {
+    return deleteFromTable(db, 'administrator', 'companyid = \'' + companyId + '\'')
+    .then(function() {
+        return deleteFromTable(db, 'employee', 'companyid = \'' + companyId + '\'');
+    })
+    .then(function() {
+        return deleteFromTable(db, 'productprice', 'companyid = \'' + companyId + '\'');
+    })
+    .then(function() {
+        queryString = 'DELETE FROM product p WHERE NOT EXISTS (SELECT FROM productprice WHERE productid = p.id)';
+        return db.none(queryString);
+    })
+    .then(function() {
+        return deleteFromTable(db, 'company', 'id = \'' + companyId + '\'');
+    })
+    .then(function() {
+        console.log("Successfully deleted company " + companyId);
+    })
+    .catch(function(error) {
+        console.error(error);
+        throw error;
+    });
 }
 
 function replaceTableName(tableName) {
@@ -108,5 +132,6 @@ module.exports = {
     updateProductImage,
     updateEmployee,
     updateProductPrice,
-    updateAllowFundsBelowZero
+    updateAllowFundsBelowZero,
+    deleteCompany
 }
