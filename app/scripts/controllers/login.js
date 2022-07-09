@@ -37,9 +37,9 @@ angular.module('mathakur')
                 $scope.wrongpassword = true;
               }
             })
-            .catch(function (error) { console.error(error) })
+            .catch(function (error) { console.warn(error) })
         })
-        .catch(function (error) { console.error(error) });
+        .catch(function (error) { console.warn(error) });
 
       return false;
     }

@@ -37,11 +37,11 @@ angular.module('mathakur')
               }
             })
             .catch(function (error) {
-               console.error(error);
+               console.warn(error);
                $scope.wrongpassword = true;
               })
         })
-        .catch(function (error) { console.error(error) });
+        .catch(function (error) { console.warn(error) });
 
       return false;
     }

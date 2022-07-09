@@ -1,6 +1,6 @@
 angular.module('mathakur')
-    .controller('AdminPanelCtrl', ['$scope', '$state', 'server', '$rootScope', 'md5', function ($scope, $state, server, $rootScope, md5) {
-    
+    .controller('AdminPanelCtrl', ['$scope', '$state', 'server', '$rootScope', 'md5', '$timeout', function ($scope, $state, server, $rootScope, md5, $timeout) {
+
         $scope.$state = $state;
         $scope.currentEmployee = {};
         $scope.currentProduct = {};
@@ -15,6 +15,7 @@ angular.module('mathakur')
         $scope.newSettings = {};
         $scope.successAlert = false;
         $scope.errorAlert = false;
+        var messageTimeout;
 
         $scope.showSidebar = function (sidebar) {
             $scope.sidebar = !$scope.sidebar;
@@ -31,7 +32,7 @@ angular.module('mathakur')
             $state.go('staffTable');
             $scope.editing = false;
             $scope.updating = false;
-            
+
             $scope.successAlert = false;
             $scope.errorAlert = false;
         }
@@ -40,7 +41,7 @@ angular.module('mathakur')
             $state.go('productTable');
             $scope.editing = false;
             $scope.updating = false;
-            
+
             $scope.successAlert = false;
             $scope.errorAlert = false;
         }
@@ -49,7 +50,7 @@ angular.module('mathakur')
             $state.go('settings');
             $scope.editing = false;
             $scope.updating = false;
-            
+
             $scope.successAlert = false;
             $scope.errorAlert = false;
         }
@@ -58,12 +59,12 @@ angular.module('mathakur')
             $state.go('adminsTable');
             $scope.editing = false;
             $scope.updating = false;
-            
+
             $scope.successAlert = false;
             $scope.errorAlert = false;
         }
 
-        
+
         $scope.uploadFile = function (event) {
             var newFile = event.target.files[0];
             var reader = new FileReader();
@@ -124,6 +125,28 @@ angular.module('mathakur')
             }
         }
 
+        function showSuccessMessage() {
+            if (messageTimeout) {
+                $timeout.cancel(messageTimeout);
+            }
+            $scope.successAlert = true;
+            messageTimeout = $timeout(function () {
+                $scope.successAlert = false;
+                messageTimeout = null;
+            }, 5000);
+        }
+
+        function showErrorMessage() {
+            if (messageTimeout) {
+                $timeout.cancel(messageTimeout);
+            }
+            $scope.errorAlert = true;
+            messageTimeout = $timeout(function () {
+                $scope.errorAlert = false;
+                messageTimeout = null;
+            }, 5000);
+        }
+
         $scope.submitEmployee = function () {
             if ($scope.updating) {
                 var employeeID = $scope.currentEmployee.id;
@@ -145,6 +168,7 @@ angular.module('mathakur')
                         reloadData(true);
                     })
                     .catch(function (error) {
+                        showErrorMessage();
                         console.error(error)
                     })
                     .finally(function () {
@@ -158,7 +182,11 @@ angular.module('mathakur')
                 {
                     newCredit: $scope.currentEmployee.credit
                 })
+                .then(function () {
+                    showSuccessMessage();
+                })
                 .catch(function (error) {
+                    showErrorMessage();
                     console.error(error);
                 })
                 .finally(function () {
@@ -171,10 +199,12 @@ angular.module('mathakur')
                 newCredit: $scope.currentEmployee.credit,
                 photo: $scope.image
             })
-                .then(function() {
+                .then(function () {
+                    showSuccessMessage();
                     reloadData(true);
                 })
                 .catch(function (error) {
+                    showErrorMessage();
                     console.error(error);
                 })
                 .finally(function () {
@@ -192,6 +222,7 @@ angular.module('mathakur')
                         }
                     })
                     .catch(function (error) {
+                        showErrorMessage();
                         console.error(error);
                     })
                     .finally(function () {
@@ -216,10 +247,12 @@ angular.module('mathakur')
                 newPrice: $scope.currentProduct.price,
                 photo: $scope.image
             })
-                .then(function() {
+                .then(function () {
+                    showSuccessMessage();
                     reloadData(false, true);
                 })
                 .catch(function (error) {
+                    showErrorMessage();
                     console.error(error)
                 })
                 .finally(function () {
@@ -231,7 +264,11 @@ angular.module('mathakur')
             server.patch('/product/price/' + $scope.currentCompanyLoggedIn + '/' + productID, {
                 newPrice: $scope.currentProduct.price
             })
+                .then(function () {
+                    showSuccessMessage();
+                })
                 .catch(function (error) {
+                    showErrorMessage();
                     console.error(error)
                 })
                 .finally(function () {
@@ -260,6 +297,7 @@ angular.module('mathakur')
                         reloadData(false, true);
                     })
                     .catch(function (error) {
+                        showErrorMessage();
                         console.error(error);
                     })
                     .finally(function () {
@@ -273,12 +311,12 @@ angular.module('mathakur')
                 server.delete('/product/' + $scope.currentProduct.id + '/' + $scope.currentCompanyLoggedIn)
                     .then(function () {
                         const index = $scope.productData.indexOf($scope.currentProduct);
-                        if (index !== -1)
-                        {
-                            $scope.productData.splice(index, 1);                            
+                        if (index !== -1) {
+                            $scope.productData.splice(index, 1);
                         }
                     })
                     .catch(function (error) {
+                        showErrorMessage();
                         console.error(error);
                     })
                     .finally(function () {
@@ -295,16 +333,16 @@ angular.module('mathakur')
                 $scope.wrongpassword = false;
                 var pass = md5.createHash(formAdmin.password);
                 server.post('/login/requestAdminConnection', {
-                        adminPassHash: pass
-                    })
+                    adminPassHash: pass
+                })
                     .then(function (response) {
                         server.post('/login/signupAdmin', {
-                                adminPassHash: md5.createHash(pass + response.data.adminRandomString),
-                                adminName: formAdmin.name,
-                                adminUser: formAdmin.username,
-                                companyId: $scope.currentCompanyLoggedIn
-                            })
-                            .then(function(response) {
+                            adminPassHash: md5.createHash(pass + response.data.adminRandomString),
+                            adminName: formAdmin.name,
+                            adminUser: formAdmin.username,
+                            companyId: $scope.currentCompanyLoggedIn
+                        })
+                            .then(function (response) {
                                 $scope.adminData.push({
                                     name: formAdmin.name,
                                     username: formAdmin.username,
@@ -312,7 +350,7 @@ angular.module('mathakur')
                                 });
                             })
                             .catch(function (error) {
-                                $scope.errorAlert = true;
+                                showErrorMessage();
                                 console.error(error);
                             })
                             .finally(function () {
@@ -320,39 +358,39 @@ angular.module('mathakur')
                             });
                     })
                     .catch(function (error) {
+                        showErrorMessage();
                         console.error(error);
                     });
             }
         }
 
-        $scope.saveSettings = function() {
-            if ($rootScope.session.isBelowZeroAllowed() != $scope.newSettings.allowFundsBelowZero)
-            {
+        $scope.saveSettings = function () {
+            if ($rootScope.session.isBelowZeroAllowed() != $scope.newSettings.allowFundsBelowZero) {
                 server.patch('/company/' + $scope.currentCompanyLoggedIn, {
                     allowFundsBelowZero: $scope.newSettings.allowFundsBelowZero
                 })
-                .then(function() {
-                    $scope.successAlert = true;
-                })
+                    .then(function () {
+                        showSuccessMessage();
+                    })
                     .catch(function (error) {
-                        $scope.errorAlert = true;
+                        showErrorMessage();
                         console.error(error);
                     });
             }
         }
-        
-        $scope.deleteAdmin = function(toDelete) {
+
+        $scope.deleteAdmin = function (toDelete) {
             if (confirm('Ertu viss um að þú viljir eyða þessum stjórnanda?')) {
-            server.delete('/admin/'+toDelete.id)
-            .then(function() {
-                const index = $scope.adminData.indexOf(toDelete);
-                $scope.adminData.splice(index, 1);
-            })
-            .catch(function(error) {
-                console.error(error);
-                $scope.errorAlert = true;
-            })
-        }
+                server.delete('/admin/' + toDelete.id)
+                    .then(function () {
+                        const index = $scope.adminData.indexOf(toDelete);
+                        $scope.adminData.splice(index, 1);
+                    })
+                    .catch(function (error) {
+                        showErrorMessage();
+                        console.error(error);
+                    })
+            }
         }
 
         $scope.back = function () {
@@ -371,8 +409,8 @@ angular.module('mathakur')
             $rootScope.session.destroy();
             $state.go('staff');
         }
-        
-        $rootScope.session.load().then(function() {
+
+        $rootScope.session.load().then(function () {
             if ($rootScope.session.getLevel() < 1) {
                 console.log("admin is not logged in");
                 $state.go('userlogin');
