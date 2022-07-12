@@ -15,13 +15,12 @@
                     <div class="row">
                     <div ng-repeat="x in myDataProduct | filter:searchBox" ng-click="selectProduct(x)" id="productCard" class="col col-2">
                         <div class="staffname" type="add" ng-click="addProduct(x)">
-                            <h4 id="productHeader">{{x.name}}
-                            </h4>
-                            
-                            <img cl-src="{{x.photourl}}" class="card-img-top" err-src="../../images/no_photo.jpg"></img>
+                            <img cl-src="{{x.photourl}}" class="card-img-top" style="padding: 0.6em; max-width: 8em;" err-src="../../images/no_photo.jpg"></img>
                             <br>
+                            <h6 style="font-weight: 600; color:#160075; margin-bottom: 0.2em !important;">{{x.name}}
+                            </h6>
                             <div class="productname">
-                                <h5 style="font-weight: 600;">{{x.price}} kr</h5>
+                                <h4 id="productHeader">{{x.price}}<span style="font-size: 90%;">kr</span></h4>
                                 <!--p class="onlyonerow">Flokkur: {{x.category}}</p-->
                             </div>
                         </div>
@@ -61,19 +60,19 @@
                         data-bs-placement="bottom" title="Fjarlægja">
                         <td style="vertical-align: middle;">{{x.name}}</td>
                         <td style="text-align: center; vertical-align: middle;">{{x.quantity}}</td>
-                        <td style="text-align: center; vertical-align: middle;">{{x.price}} kr</td>
+                        <td style="text-align: center; vertical-align: middle;">{{x.price}}kr</td>
                         <td style="text-align: center; vertical-align: middle;" ><i class="bi bi-dash" style="font-size: 1.5rem; color: #dc3545;"></i></td>
 
                     </tr>
                     <tr style="border-top: 0.2em double black">
                         <th style="border:none; vertical-align: middle;">Samtals:</th>
                         <th style="border:none; vertical-align: middle; text-align: center;">{{total_count}}</th>
-                        <th style="border:none; vertical-align: middle; text-align: center;">{{total}} kr</th>
+                        <th style="border:none; vertical-align: middle; text-align: center;">{{total}}kr</th>
                         <th style="border:none; vertical-align: middle;"></th>
                     </tr>
                     <tr>
                         <th colspan="2" style="font-weight:400; border:none; vertical-align: middle;">Inneign:</th>
-                        <th style="font-weight:400; border:none; vertical-align: middle; text-align: center;">{{creditAfter}} kr</th>
+                        <th style="font-weight:400; border:none; vertical-align: middle; text-align: center;">{{creditAfter}}kr</th>
                         <th style="border:none; vertical-align: middle;"></th>
                     </tr>
                 </tbody>

@@ -72,7 +72,7 @@
                         ng-click="!employee.hasOwnProperty('id') || editEmployee(employee)">
                         <td>{{employee.name}}</td>
                         <td>{{employee.nickname}}</td>
-                        <td>{{employee.credit}} kr</td>
+                        <td>{{employee.credit}}kr</td>
                         <td style="text-align: center"><span ng-show="{{employee.photourl !== '' && employee.photourl !== defaultEmployeePhotoUrl}}">
                                 <i class="bi bi-check-circle" style="color: green; font-size: 1.4rem; padding-right: 0.4em;"></i></span>
                             <span ng-show="{{employee.photourl === '' || employee.photourl === defaultEmployeePhotoUrl}}">
