@@ -69,19 +69,14 @@ angular.module('mathakur')
             return this._company.allowfundsbelowzero;
         }
 
-        /**
-         * Destroy session
-         */
-        this.destroy = function () {
-            if (this._level > 0) {
-                this.setUser(null, 0)
-            }
-            else {
-                this.setUser(null, -1);
-                this.setCompany({}, -1);
-            }
+        this.logoutCompany = function () {
+            this.setUser(null, levels.noOne);
+            this.setCompany({}, levels.noOne);
         };
 
+        this.logoutAdmin = function () {
+            this.setUser(null, levels.company);
+        }
         this.loaded = function()
         {
             return this.getCompanyName() !== undefined;
@@ -97,7 +92,7 @@ angular.module('mathakur')
                 this.loading = server.get("company/" + this.getCompanyId())
                     .then(function (response) {
                         if (response.data.length === 1) {
-                            me.setCompany(response.data[0], 0);
+                            me.setCompany(response.data[0], levels.company);
                         }
                         this.loading = new Promise((res, err) => {
                             res();

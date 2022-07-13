@@ -22,34 +22,33 @@ angular.module('mathakur')
         }
 
         scope.logOutCompany = function () {
-          $rootScope.session.destroy();
+          $rootScope.session.logOutCompany();
           $state.go('login');
           return;
         }
 
         $rootScope.session.load().then(function() {
           $transitions.onSuccess({}, function() {
-            if ($rootScope.session.isLoggedIn()) {
+            if ($state.includes('adminpanel')) 
+            {
+              scope.company = false;
+            }
+            else if ($rootScope.session.isLoggedIn()) {
               scope.company = $rootScope.session.getCompanyName();
             }
             else {
               scope.company = false;
             }
-            if($rootScope.session.adminIsLoggedIn())
-            {
-              scope.company = false;
-            } 
           });
-  
-          if ($rootScope.session.isLoggedIn()) {
+
+          if ($state.includes('adminpanel')) 
+          {
+            scope.company = false;
+          }
+          else if ($rootScope.session.isLoggedIn()) {
             scope.company = $rootScope.session.getCompanyName();
           }
           else {
-            scope.company = false;
-          }
-
-          if($rootScope.session.adminIsLoggedIn())
-          {
             scope.company = false;
           }
         });

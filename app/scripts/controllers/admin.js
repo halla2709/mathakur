@@ -406,7 +406,7 @@ angular.module('mathakur')
         }
 
         $scope.logOutAdmin = function () {
-            $rootScope.session.destroy();
+            $rootScope.session.logoutAdmin();
             $state.go('staff');
         }
 
