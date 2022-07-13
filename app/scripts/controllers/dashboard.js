@@ -119,7 +119,7 @@ angular.module('mathakur')
             $state.go("dashboard");
             
             $scope.showSuccessMessage = true; 
-            $timeout( function(){
+            $timeout( function() {
               $scope.showSuccessMessage = false;
             }, 5000);  
           }

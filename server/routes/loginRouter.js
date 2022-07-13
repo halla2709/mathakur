@@ -10,19 +10,29 @@ const masterKeyHash = md5(process.env.MASTER_SIGNUP_KEY || 'rubyhallaunnur');
 let companyAuth = {};
 let adminAuth = {};
 
-router.post('/requestSignupConnection', function(req, res, next) {
-    if (req.body.masterKeyHash === masterKeyHash)
-    {
+router.post('/requestSignupConnection', function (req, res, next) {
+    if (req.body.masterKeyHash === masterKeyHash) {
         companyAuth.randomString = randomString({ length: 10 });
         companyAuth.hashedPassword = req.body.companyPassHash;
         adminAuth.randomString = randomString({ length: 10 });
         adminAuth.hashedPassword = req.body.adminPassHash;
         res.json({ companyRandomString: companyAuth.randomString, adminRandomString: adminAuth.randomString });
     }
-    else
-    {
+    else {
         res.statusCode = 401;
-        return res.json({ errors: ["Master key not correct"]});
+        return res.json({ errors: ["Master key not correct"] });
+    }
+});
+
+router.post('/requestPasswordChangeConnection', function (req, res, next) {
+    if (req.body.masterKeyHash === masterKeyHash) {
+        companyAuth.randomString = randomString({ length: 10 });
+        companyAuth.hashedPassword = req.body.companyPassHash;
+        res.json({ companyRandomString: companyAuth.randomString });
+    }
+    else {
+        res.statusCode = 401;
+        return res.json({ errors: ["Master key not correct"] });
     }
 });
 
@@ -56,6 +66,11 @@ router.post('/signupAdmin', authenticateAdminConnection, addAdmin, function (req
 
 router.post('/loginUser', authenticateAdminConnection, checkUserCredientials, function (req, res, next) {
     adminAuth = {};
+    res.json({ loggedIn: res.loggedIn });
+});
+
+router.post('/changeCompanyPassword', authenticateCompanyConnection, changePassword, function (req, res, next) {
+    companyAuth = {};
     res.json({ loggedIn: res.loggedIn });
 });
 
@@ -122,8 +137,7 @@ function checkCompanyCredientials(req, res, next) {
     const companyName = req.body.companyName;
     dbHelper.getFromTable(database, 'company', 'name = \'' + companyName + '\'')
         .then(function (results) {
-            if (results.length != 1) 
-            {
+            if (results.length != 1) {
                 companyAuth = {};
                 res.statusCode = 500;
                 return res.json({ errors: ['Could not find company'] });
@@ -154,14 +168,13 @@ function checkUserCredientials(req, res, next) {
     var filter = 'username = \'' + req.body.adminUser.toLowerCase() + '\' AND companyid = \'' + req.body.companyId + '\''
     dbHelper.getFromTable(database, 'administrator', filter)
         .then(function (results) {
-            if (results.length == 0)
-            {
+            if (results.length == 0) {
                 hashedCompanyPassword = '';
                 companyAuth.randomString = '';
                 res.statusCode = 500;
-                return res.json({ errors: ['Could not find administrator'] });                
+                return res.json({ errors: ['Could not find administrator'] });
             }
-            
+
             const randomString = results[0].rand;
             const rehashed = md5(adminAuth.hashedPassword + randomString);
             if (results[0].password === rehashed) {
@@ -171,7 +184,7 @@ function checkUserCredientials(req, res, next) {
                 else {
                     res.loggedIn = null;
                 }
-               
+
             }
             else {
                 res.loggedIn = null;
@@ -187,6 +200,28 @@ function checkUserCredientials(req, res, next) {
             companyAuth.randomString = '';
             res.statusCode = 500;
             return res.json({ errors: ['Could not find administrator'] });
+        });
+}
+
+function changePassword(req, res, next) {
+    dbHelper.getFromTable(database, 'company', 'name = \'' + req.body.companyName + '\'')
+        .then(function (results) {
+            if (results.length != 1) {
+                companyAuth = {};
+                res.statusCode = 500;
+                return res.json({ errors: ['Could not find company'] });
+            }
+
+            dbHelper.updateCompanyPassword(database, req.body.companyName, companyAuth.finalPassword, companyAuth.randomString)
+                .then(function () {
+                    next();
+                })
+                .catch(function (error) {
+                    console.error(error);
+                    companyAuth = {};
+                    res.statusCode = 500;
+                    return res.json({ errors: ['Could not update password'] });
+                });
         });
 }
 

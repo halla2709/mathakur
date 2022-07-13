@@ -71,6 +71,12 @@ function updateAllowFundsBelowZero(db, companyId, newValue) {
     return db.none(queryString, [newValue, companyId]);
 }
 
+function updateCompanyPassword(db, companyName, passwordHash, randomString)
+{
+    let queryString = 'UPDATE company SET password = $1, rand = $2 WHERE name = $3';
+    return db.none(queryString, [passwordHash, randomString, companyName]);
+}
+
 function deleteFromTable(db, tableName, condition) {
     let queryString = 'DELETE FROM ' + replaceTableName(tableName);
     if (condition) {
@@ -133,5 +139,6 @@ module.exports = {
     updateEmployee,
     updateProductPrice,
     updateAllowFundsBelowZero,
-    deleteCompany
+    deleteCompany,
+    updateCompanyPassword
 }
