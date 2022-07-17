@@ -69,7 +69,7 @@ angular.module('mathakur')
             return this._company.allowfundsbelowzero;
         }
 
-        this.logoutCompany = function () {
+        this.logOutCompany = function () {
             this.setUser(null, levels.noOne);
             this.setCompany({}, levels.noOne);
         };

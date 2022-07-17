@@ -8,7 +8,6 @@ angular.module('mathakur')
         $scope.editing = false;
         $scope.updating = false;
         $scope.sidebar = true;
-        $scope.image = '';
         $scope.defaultEmployeePhotoUrl = 'tzeqj4l6kjyq0jptankn';
         $scope.defaultProductPhotoUrl = 'bazcykvn86tp963v8ocn';
         $scope.class = 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main';
@@ -63,19 +62,6 @@ angular.module('mathakur')
             $scope.successAlert = false;
             $scope.errorAlert = false;
         }
-
-
-        $scope.uploadFile = function (event) {
-            var newFile = event.target.files[0];
-            var reader = new FileReader();
-            reader.addEventListener("load", function () {
-                $scope.image = reader.result;
-            }, false);
-
-            if (newFile.size > 0) {
-                reader.readAsDataURL(newFile);
-            }
-        };
 
         $scope.editEmployee = function (employee) {
             if (employee) {
@@ -150,7 +136,7 @@ angular.module('mathakur')
         $scope.submitEmployee = function () {
             if ($scope.updating) {
                 var employeeID = $scope.currentEmployee.id;
-                if ($scope.image) {
+                if ($scope.currentEmployee.newImage) {
                     submitEmployeeUpdate(employeeID);
                 }
                 else {
@@ -158,7 +144,7 @@ angular.module('mathakur')
                 }
             } else {
                 server.post('/employee', {
-                    photo: $scope.image,
+                    photo: $scope.currentEmployee.newImage,
                     name: $scope.currentEmployee.name,
                     nickname: $scope.currentEmployee.nickname,
                     credit: $scope.currentEmployee.credit,
@@ -197,7 +183,7 @@ angular.module('mathakur')
         function submitEmployeeUpdate(employeeID) {
             server.patch('/employee/' + employeeID, {
                 newCredit: $scope.currentEmployee.credit,
-                photo: $scope.image
+                photo: $scope.currentEmployee.newImage
             })
                 .then(function () {
                     showSuccessMessage();
@@ -245,7 +231,7 @@ angular.module('mathakur')
         function submitProductUpdate(productID) {
             server.patch('/product/' + $scope.currentCompanyLoggedIn + '/' + productID, {
                 newPrice: $scope.currentProduct.price,
-                photo: $scope.image
+                photo: $scope.currentProduct.newImage
             })
                 .then(function () {
                     showSuccessMessage();
@@ -279,7 +265,7 @@ angular.module('mathakur')
         $scope.submitProduct = function (product) {
             if ($scope.updating) {
                 var productID = $scope.currentProduct.id;
-                if ($scope.image) {
+                if ($scope.currentProduct.newImage) {
                     submitProductUpdate(productID);
                 }
                 else {
@@ -287,7 +273,7 @@ angular.module('mathakur')
                 }
             } else {
                 server.post('/product', {
-                    photo: $scope.image,
+                    photo: $scope.currentProduct.newImage,
                     name: $scope.currentProduct.name,
                     category: $scope.currentProduct.category,
                     price: $scope.currentProduct.price,
@@ -396,7 +382,6 @@ angular.module('mathakur')
         $scope.back = function () {
             $scope.editing = false;
             $scope.updating = false;
-            $scope.image = '';
             $scope.currentEmployee = {};
             $scope.currentProduct = {};
             $scope.formAdmin = {};
@@ -420,13 +405,4 @@ angular.module('mathakur')
             $scope.newSettings.allowFundsBelowZero = $rootScope.session.isBelowZeroAllowed();
             reloadData(true, true, true);
         });
-    }])
-    .directive('customOnChange', function () {
-        return {
-            restrict: 'A',
-            link: function (scope, element, attrs) {
-                var onChangeHandler = scope.$eval(attrs.customOnChange);
-                element.bind('change', onChangeHandler);
-            }
-        };
-    });
+    }]);

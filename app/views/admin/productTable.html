@@ -129,13 +129,7 @@
                 </div>
 
                 <div class="col" style="text-align: center;">
-                    <label for="fileInput" id="inputHeaders">Mynd</label>
-                    <input id="fileInput" type="file" custom-on-change="uploadFile" accept="image/*" capture="user"
-                        class="form-control form-control-lg" style="width: 100%;" />
-                    <br>
-                    <div ng-show="updating">
-                        <img cl-src="{{currentProduct.photourl}}" class="staffphoto" style="max-height: 10em;"></img>
-                    </div>
+                    <imagedisplay container="currentProduct" editing-watch="editing" />
                 </div>
 
                 <div class="btn-toolbar justify-content-between" style="padding-top:2em;">
