@@ -41,19 +41,19 @@ function insertIntoTable(db, tableName, columns, values) {
     return db.none(queryString, values);
 }
 
-function updateCreditOfEmployee(db, employeeId, newCredit) {
-    let queryString = 'UPDATE employee SET credit = $1 WHERE id = $2';
-    return db.none(queryString, [newCredit, employeeId]);
-}
-
 function updateEmployeeImage(db, employeeId, url) {
     let queryString = 'UPDATE employee SET photourl = $1 WHERE id = $2';
     return db.none(queryString, [url, employeeId]);
 }
 
-function updateEmployee(db, employeeId, newPhotoUrl, newCredit) {
-    let queryString = 'UPDATE employee SET photourl = $1, credit = $2 WHERE id = $3';
-    return db.none(queryString, [newPhotoUrl, newCredit, employeeId]);
+function updateEmployeeCredit(db, employeeId, newCredit) {
+    let queryString = 'UPDATE employee SET credit = $1 WHERE id = $2';
+    return db.none(queryString, [newCredit, employeeId]);
+}
+
+function updateEmployeeNames(db, employeeId, newName, newNickname) {
+    let queryString = 'UPDATE employee SET name = $1, nickname = $2 WHERE id = $3';
+    return db.none(queryString, [newName, newNickname, employeeId]);
 }
 
 function updateProductPrice(db, companyId, productId, newPrice) {
@@ -64,6 +64,11 @@ function updateProductPrice(db, companyId, productId, newPrice) {
 function updateProductImage(db, productId, url) {
     let queryString = 'UPDATE product SET photourl = $1 WHERE id = $2';
     return db.none(queryString, [url, productId]);
+}
+
+function updateProductName(db, productId, newName) {
+    let queryString = 'UPDATE product SET name = $1 WHERE id = $2';
+    return db.none(queryString, [newName, productId]);
 }
 
 function updateAllowFundsBelowZero(db, companyId, newValue) {
@@ -131,13 +136,14 @@ module.exports = {
     getFromTable,
     insertIntoTable,
     insertIntoTableReturningID,
-    updateCreditOfEmployee,
     deleteFromTable,
     updateEmployeeImage,
     updateProductImage,
-    updateEmployee,
+    updateEmployeeCredit,
     updateProductPrice,
     updateAllowFundsBelowZero,
     deleteCompany,
-    updateCompanyPassword
+    updateCompanyPassword,
+    updateProductName,
+    updateEmployeeNames,
 }

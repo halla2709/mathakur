@@ -184,7 +184,7 @@ h6, .h6 {
   color: #160075;
   min-height: 17.3em;
   max-height: 34.3em;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 #korfuHeader {

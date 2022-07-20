@@ -150,12 +150,7 @@ angular.module('mathakur')
         $scope.submitEmployee = function () {
             if ($scope.updating) {
                 var employeeID = $scope.currentEmployee.id;
-                if ($scope.image) {
-                    submitEmployeeUpdate(employeeID);
-                }
-                else {
-                    submitEmployeeCredit(employeeID);
-                }
+                submitEmployeeUpdate(employeeID);
             } else {
                 server.post('/employee', {
                     photo: $scope.image,
@@ -197,7 +192,9 @@ angular.module('mathakur')
         function submitEmployeeUpdate(employeeID) {
             server.patch('/employee/' + employeeID, {
                 newCredit: $scope.currentEmployee.credit,
-                photo: $scope.image
+                photo: $scope.image,
+                newName: $scope.currentEmployee.name,
+                newNickname: $scope.currentEmployee.nickname,
             })
                 .then(function () {
                     showSuccessMessage();
@@ -245,7 +242,8 @@ angular.module('mathakur')
         function submitProductUpdate(productID) {
             server.patch('/product/' + $scope.currentCompanyLoggedIn + '/' + productID, {
                 newPrice: $scope.currentProduct.price,
-                photo: $scope.image
+                photo: $scope.image,
+                newName: $scope.currentProduct.name
             })
                 .then(function () {
                     showSuccessMessage();
@@ -279,12 +277,7 @@ angular.module('mathakur')
         $scope.submitProduct = function (product) {
             if ($scope.updating) {
                 var productID = $scope.currentProduct.id;
-                if ($scope.image) {
                     submitProductUpdate(productID);
-                }
-                else {
-                    submitProductPriceChange(productID);
-                }
             } else {
                 server.post('/product', {
                     photo: $scope.image,
