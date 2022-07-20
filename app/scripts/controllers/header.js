@@ -1,12 +1,5 @@
 'use strict';
 
-/**
- * @ngdoc functions
- * @name yapp.controller:MainCtrl
- * @description
- * # HeaderController
- * Controller of yapp
- */
 angular.module('mathakur')
   .directive('mathakurheader', ['$rootScope', '$state', '$transitions', function ($rootScope, $state, $transitions) {
     return {

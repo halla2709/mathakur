@@ -116,7 +116,8 @@ angular.module('mathakur')
             $scope.total = 0;
             $scope.employee = null;
             $scope.creditAfter = 0;
-            $state.go("dashboard");
+            $scope.total_count = 0;
+             $state.go("dashboard");
             
             $scope.showSuccessMessage = true; 
             $timeout( function() {
