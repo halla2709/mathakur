@@ -68,7 +68,7 @@
                 </tr>
             </thead>
                 <tbody>
-                    <tr ng-repeat="employee in employeeData | filter:searchBox"
+                    <tr ng-repeat="employee in employeeData | filter:searchBox | orderBy:'name'"
                         ng-click="!employee.hasOwnProperty('id') || editEmployee(employee)">
                         <td>{{employee.name}}</td>
                         <td>{{employee.nickname}}</td>

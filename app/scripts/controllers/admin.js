@@ -284,6 +284,7 @@ angular.module('mathakur')
                     });
             }
         }
+    }
 
         $scope.deleteProduct = function () {
             if (confirm('Ertu viss um að þú viljir eyða þessari vöru?')) {
@@ -398,3 +399,5 @@ angular.module('mathakur')
             $scope.newSettings.allowFundsBelowZero = $rootScope.session.isBelowZeroAllowed();
             reloadData(true, true, true);
         });
+
+    }]);

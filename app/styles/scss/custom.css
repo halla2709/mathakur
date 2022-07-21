@@ -104,6 +104,15 @@ h6, .h6 {
   white-space: nowrap;
 }
 
+#productHeaderName {
+  font-weight: 600;
+  color: #160075;
+  margin-bottom: 0.2em;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 #staffInfo {
   -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);

@@ -12,7 +12,7 @@
 <br>
 <div class="container align-central">
 	<div class="row justify-content-md-center">
-		<div ng-repeat="x in myDataProduct | filter:searchBox" id="productCard" class="col col-2">
+		<div ng-repeat="x in myDataProduct | filter:searchBox | orderBy:'name'" id="productCard" class="col col-2">
 			<div class="staffname">
 				<img cl-src="{{x.photourl}}" class="card-img-top" err-src="../../images/no_photo.png"/>
 				<br>

@@ -13,11 +13,11 @@
 
                 <div class="col col-8">
                     <div class="row">
-                    <div ng-repeat="x in myDataProduct | filter:searchBox" ng-click="selectProduct(x)" id="productCard" class="col col-2">
+                    <div ng-repeat="x in myDataProduct | filter:searchBox | orderBy:'name'" ng-click="selectProduct(x)" id="productCard" class="col col-2">
                         <div class="staffname" type="add" ng-click="addProduct(x)">
                             <img cl-src="{{x.photourl}}" class="card-img-top" style="padding: 0.6em; max-width: 8em;" err-src="../../images/no_photo.jpg"></img>
                             <br>
-                            <h6 style="font-weight: 600; color:#160075; margin-bottom: 0.2em !important;">{{x.name}}
+                            <h6 id="productHeaderName">{{x.name}}
                             </h6>
                             <div class="productname">
                                 <h4 id="productHeader">{{x.price}}<span style="font-size: 90%;">kr</span></h4>
