@@ -95,10 +95,6 @@ router.delete('/:id', function(req, res, next) {
     })
 });
 
-router.post('/photo', savePhotoToCloudinary, function (req, res, next) {
-    res.end();
-});
-
 function addNicknameIfNotExists(req, res, next) {
     if (typeof req.body.nickname === 'undefined') {
         req.body.nickname = req.body.name.split(" ")[0];

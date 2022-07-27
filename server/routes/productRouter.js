@@ -85,10 +85,6 @@ router.delete('/:product/:companyId', function(req, res, next) {
     })
 });
 
-router.post('/photo', savePhotoToCloudinary, function (req, res, next) {
-    res.end();
-});
-
 function validateColumns(req, res, next) {
     if (typeof req.body.name === 'undefined') {
         res.statusCode = 500;

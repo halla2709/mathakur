@@ -5,3 +5,6 @@ bower_components/
 gen/
 docs/
 dnc/
+scripts/akurskoli.sql
+scripts/createemptyv1db.sql
+scripts/tmp.sql

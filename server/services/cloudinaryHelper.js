@@ -14,17 +14,27 @@ const productPreset = 'ojh21hnm';
 function savePhotoToCloudinary(req, res, next) {
     let currentPreset = productPreset;
     let currentDefaultUrl = productPhotoDefaultUrl;
+    let subfolder = '/products';
     if (req.baseUrl.includes('employee')) {
         currentDefaultUrl = employeeDefaultUrl;
         currentPreset = employeePreset;
+        subfolder = '/employees';
     }
-    if (typeof req.body.photo !== 'undefined' && req.body.photo !== '') {
-        cloudinary.v2.uploader.upload(req.body.photo, {upload_preset: currentPreset}, function (error, result) {
-           res.photoUrl = result.public_id;
-           next();
-        });
+    if (req.body.companyId) {
+        let folder = req.body.companyId + subfolder;
+        if (typeof req.body.photo !== 'undefined' && req.body.photo !== '') {
+            cloudinary.v2.uploader.upload(req.body.photo, {upload_preset: currentPreset, folder: folder}, function (error, result) {
+               res.photoUrl = result.public_id;
+               next();
+            });
+        }
+        else {
+            res.photoUrl = currentDefaultUrl;
+            next();
+        }
     }
     else {
+        console.error("Company ID missing when trying to save photo to cloudinary!! Will not save.");
         res.photoUrl = currentDefaultUrl;
         next();
     }

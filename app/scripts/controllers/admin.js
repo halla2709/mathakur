@@ -183,7 +183,8 @@ angular.module('mathakur')
         function submitEmployeeUpdate(employeeID) {
             server.patch('/employee/' + employeeID, {
                 newCredit: $scope.currentEmployee.credit,
-                photo: $scope.currentEmployee.newImage
+                photo: $scope.currentEmployee.newImage,
+                companyId: $scope.currentCompanyLoggedIn
             })
                 .then(function () {
                     showSuccessMessage();
@@ -231,7 +232,8 @@ angular.module('mathakur')
         function submitProductUpdate(productID) {
             server.patch('/product/' + $scope.currentCompanyLoggedIn + '/' + productID, {
                 newPrice: $scope.currentProduct.price,
-                photo: $scope.currentProduct.newImage
+                photo: $scope.currentProduct.newImage,
+                companyId: $scope.currentCompanyLoggedIn
             })
                 .then(function () {
                     showSuccessMessage();
