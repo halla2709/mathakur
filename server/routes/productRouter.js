@@ -30,13 +30,23 @@ router.patch('/:companyId/:id', savePhotoToCloudinary, function (req, res, next)
     const id = req.params.id;
     const newPrice = req.body.newPrice;
     const newPhotoUrl = res.photoUrl;
+    const newName = req.body.newName;
 
     dbHelper.updateProductPrice(database, companyId, id, newPrice)
         .then(function () {
             dbHelper.updateProductImage(database, id, newPhotoUrl)
                 .then(function () {
-                    res.statusCode = 200;
-                    res.json({ photoUrl: newPhotoUrl });
+                    dbHelper.updateProductName(database, id, newName)
+                    .then(function () {
+                        res.statusCode = 200;
+                        res.json({ photoUrl: newPhotoUrl });
+                    })
+                    .catch(function (error) {
+                        console.error(error)
+                        res.statusCode = 500;
+                        return res.json({ errors: ['Could not update product name'] });
+                    });
+                    
                 })
                 .catch(function (error) {
                     console.error(error)

@@ -1,4 +1,4 @@
-<div class="position-absolute top-30 start-50 translate-middle" id="login-div">
+<div class="position-absolute top-50 start-50 translate-middle" id="login-div">
 
 	<h2><small>Vinsamlega skráðu inn fyrirtæki:</small></h2>
 	<br>
@@ -25,15 +25,24 @@
 
 		<br>
 		<div class="alert alert-danger" role="alert" ng-show="wrongpassword">
-			<p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>Rangt lykilorð, vinsamlega reyndu aftur</p>
+			<p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>Rangt lykilorð,
+				vinsamlega reyndu aftur</p>
 		</div>
-		<br>
 
 		<button type="submit" class="btn btn-primary btn-lg btn-rounded">Skrá inn</button>
 	</form>
-
+	<br>
+	<a class="btn" ng-click="forgotpassword = !forgotpassword" style="color: #4b4b4b">
+		<p>Gleymt lykilorð?</p>
+	</a>
+	<div style="float:b" ng-show="forgotpassword">
+		<p style="padding-top: 0.1em;">Vinsamlegast sendu tölvupóst á <strong>mathakurhlu@gmail.com</strong><br>til að endurheimta lykilorð fyrir
+			vinnustað</p>
+	</div>
 </div>
 
 <br>
 
-<div ng-include src="'views/modules/jumbotron.html'"></div>
+<div ng-include src="'views/modules/jumbotron.html'">
+	
+</div>

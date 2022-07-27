@@ -1,18 +1,19 @@
 <div>
   <div ng-show="!container.photourl || uploadImage">
     <label for="fileInput" id="inputHeaders">Mynd</label>
-    <input id="fileInput" type="file" accept="image/*" capture="user" class="form-control form-control-lg"
-      style="width: 80%;" />
+    <input id="fileInput" type="file" accept="image/*" capture="user" class="form-control form-control-lg" style="width: 80%;" />
     <br>
     <img ng-show="container && container.newImage" ng-src="{{container.newImage}}" class="staffphoto" style="max-height: 10em;"></img>
   </div>
 
   <div ng-hide="!container.photourl || uploadImage">
+    <label for="fileInput" id="inputHeaders">Mynd</label><br>
+    <button type="button" class="btn btn-lg btn-primary" ng-click="startImageUpload()">
+      <i class="bi bi-card-image" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Uppfæra mynd</button>
     <br>
     <img cl-src="{{container.photourl}}" class="staffphoto" style="max-height: 10em;"></img>
     <br><br>
-    <button type="button" class="btn btn-lg btn-secondary" ng-click="startImageUpload()">
-      <i class="bi bi-card-image" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Finna nýja mynd</button>
+
   </div>
 
 </div>

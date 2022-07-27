@@ -136,12 +136,7 @@ angular.module('mathakur')
         $scope.submitEmployee = function () {
             if ($scope.updating) {
                 var employeeID = $scope.currentEmployee.id;
-                if ($scope.currentEmployee.newImage) {
-                    submitEmployeeUpdate(employeeID);
-                }
-                else {
-                    submitEmployeeCredit(employeeID);
-                }
+                submitEmployeeUpdate(employeeID);
             } else {
                 server.post('/employee', {
                     photo: $scope.currentEmployee.newImage,
@@ -184,7 +179,9 @@ angular.module('mathakur')
             server.patch('/employee/' + employeeID, {
                 newCredit: $scope.currentEmployee.credit,
                 photo: $scope.currentEmployee.newImage,
-                companyId: $scope.currentCompanyLoggedIn
+                companyId: $scope.currentCompanyLoggedIn,
+                newName: $scope.currentEmployee.name,
+                newNickname: $scope.currentEmployee.nickname
             })
                 .then(function () {
                     showSuccessMessage();
@@ -269,10 +266,6 @@ angular.module('mathakur')
                 var productID = $scope.currentProduct.id;
                 if ($scope.currentProduct.newImage) {
                     submitProductUpdate(productID);
-                }
-                else {
-                    submitProductPriceChange(productID);
-                }
             } else {
                 server.post('/product', {
                     photo: $scope.currentProduct.newImage,
@@ -293,6 +286,7 @@ angular.module('mathakur')
                     });
             }
         }
+    }
 
         $scope.deleteProduct = function () {
             if (confirm('Ertu viss um að þú viljir eyða þessari vöru?')) {
@@ -407,4 +401,5 @@ angular.module('mathakur')
             $scope.newSettings.allowFundsBelowZero = $rootScope.session.isBelowZeroAllowed();
             reloadData(true, true, true);
         });
+
     }]);

@@ -68,7 +68,7 @@
                 </tr>
             </thead>
                 <tbody>
-                    <tr ng-repeat="employee in employeeData | filter:searchBox"
+                    <tr ng-repeat="employee in employeeData | filter:searchBox | orderBy:'name'"
                         ng-click="!employee.hasOwnProperty('id') || editEmployee(employee)">
                         <td>{{employee.name}}</td>
                         <td>{{employee.nickname}}</td>
@@ -108,11 +108,11 @@
                 <div class="col">
 
                     <label for="name" id="inputHeaders">Fullt nafn</label>
-                    <input id="name" maxlength="40" required ng-model="currentEmployee.name" type="text" ng-disabled="updating"
+                    <input id="name" maxlength="40" required ng-model="currentEmployee.name" type="text"
                         placeholder="Sigríður Jónsdóttir" class="form-control form-control-lg" />
 
                     <br> <label for="name" id="inputHeaders">Gælunafn</label>
-                    <input id="nickname" maxlength="40" ng-model="currentEmployee.nickname" type="text" ng-disabled="updating"
+                    <input id="nickname" maxlength="40" ng-model="currentEmployee.nickname" type="text"
                         placeholder="Sigga" class="form-control form-control-lg"/>
 
                     <br><label for="name" id="inputHeaders">Innistæða</label>
