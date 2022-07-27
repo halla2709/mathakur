@@ -46,14 +46,16 @@ function updateEmployeeImage(db, employeeId, url) {
     return db.none(queryString, [url, employeeId]);
 }
 
-function updateEmployeeCredit(db, employeeId, newCredit) {
-    let queryString = 'UPDATE employee SET credit = $1 WHERE id = $2';
-    return db.none(queryString, [newCredit, employeeId]);
-}
-
-function updateEmployeeNames(db, employeeId, newName, newNickname) {
-    let queryString = 'UPDATE employee SET name = $1, nickname = $2 WHERE id = $3';
-    return db.none(queryString, [newName, newNickname, employeeId]);
+function updateEmployee(db, employeeId, newCredit, newName, newNickname, newPhotoUrl) {
+    let queryString = 'UPDATE employee SET credit = $1, name = $2, nickname = $3';
+    if (newPhotoUrl) {
+        queryString += ', photourl = $4 WHERE id = $5';
+        return db.none(queryString, [newCredit, newName, newNickname, newPhotoUrl, employeeId])
+    }
+    else {
+        queryString += 'WHERE id = $4';
+        return db.none(queryString, [newCredit, newName, newNickname, employeeId]);
+    }
 }
 
 function updateProductPrice(db, companyId, productId, newPrice) {
@@ -61,14 +63,16 @@ function updateProductPrice(db, companyId, productId, newPrice) {
     return db.none(queryString, [newPrice, companyId, productId]);
 }
 
-function updateProductImage(db, productId, url) {
-    let queryString = 'UPDATE product SET photourl = $1 WHERE id = $2';
-    return db.none(queryString, [url, productId]);
-}
-
-function updateProductName(db, productId, newName) {
-    let queryString = 'UPDATE product SET name = $1 WHERE id = $2';
-    return db.none(queryString, [newName, productId]);
+function updateProduct(db, productId, newName, newPhotoUrl) {
+    let queryString = 'UPDATE product SET name = $1';
+    if (newPhotoUrl) {
+        queryString += ", photourl = $2 WHERE id = $3";
+        return db.none(queryString, [newName, newPhotoUrl, productId]);
+    }
+    else {
+        queryString += " WHERE id = $2";
+        return db.none(queryString, [newName, productId]);
+    }
 }
 
 function updateAllowFundsBelowZero(db, companyId, newValue) {
@@ -138,12 +142,10 @@ module.exports = {
     insertIntoTableReturningID,
     deleteFromTable,
     updateEmployeeImage,
-    updateProductImage,
-    updateEmployeeCredit,
+    updateProduct,
+    updateEmployee,
     updateProductPrice,
     updateAllowFundsBelowZero,
     deleteCompany,
-    updateCompanyPassword,
-    updateProductName,
-    updateEmployeeNames,
+    updateCompanyPassword
 }

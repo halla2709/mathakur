@@ -18,52 +18,39 @@ router.get('/', function (req, res, next) {
         });
 });
 
-router.get('/:companyId', function(req, res, next) {
+router.get('/:companyId', function (req, res, next) {
     dbHelper.getFromTable(database, 'employee', 'companyid = \'' + req.params.companyId + '\'')
-    .then(function (data) {
-        req.employees = data;
-        res.json(req.employees);
-    })
-    .catch(function (error) {
-        console.error(error)
-        res.statusCode = 500;
-        return res.json({ errors: ['Could not get employees for company ' + req.params.companyId] });
-    });
+        .then(function (data) {
+            req.employees = data;
+            res.json(req.employees);
+        })
+        .catch(function (error) {
+            console.error(error)
+            res.statusCode = 500;
+            return res.json({ errors: ['Could not get employees for company ' + req.params.companyId] });
+        });
 });
 
 router.patch('/:id', savePhotoToCloudinary, function (req, res, next) {
     const id = req.params.id;
     const newCredit = req.body.newCredit;
-    const newPhotoUrl = res.photoUrl;
+    let newPhotoUrl = res.photoUrl;
     const newName = req.body.newName;
     const newNickame = req.body.newNickname;
 
-    dbHelper.updateEmployeeCredit(database, id, newCredit)
-        .then(function() {
-            dbHelper.updateEmployeeImage(database, id, newPhotoUrl) 
-            .then(function () {
-                dbHelper.updateEmployeeNames(database, id, newName, newNickame)
-                .then(function () {
-                    res.statusCode = 200;
-                    res.json({photoUrl: newPhotoUrl});
-            })
-            .catch(function(error) {
-                console.error(error)
-                res.statusCode = 500;
-                return res.json({ errors: ['Could not update employee names'] });
-            });
-            })
-        .catch(function(error) {
-            console.error(error)
-            res.statusCode = 500;
-            return res.json({ errors: ['Could not update employee image'] });
-        });
+    if (!(typeof req.body.photo !== 'undefined' && req.body.photo !== '')) {
+        newPhotoUrl = undefined;
+    }
 
+    dbHelper.updateEmployee(database, id, newCredit, newName, newNickame, newPhotoUrl)
+        .then(function () {
+            res.statusCode = 200;
+            res.json({ photoUrl: newPhotoUrl });
         })
-        .catch(function(error) {
+        .catch(function (error) {
             console.error(error)
             res.statusCode = 500;
-            return res.json({ errors: ['Could not update employee credit'] });
+            return res.json({ errors: ['Could not update employee'] });
         });
 });
 
@@ -72,11 +59,11 @@ router.patch('/updatecredit/:id', function (req, res, next) {
     const newCredit = req.body.newCredit;
 
     dbHelper.updateEmployeeCredit(database, id, newCredit)
-        .then(function() {
+        .then(function () {
             res.statusCode = 200;
             res.end();
-           })
-        .catch(function(error) {
+        })
+        .catch(function (error) {
             console.error(error)
             res.statusCode = 500;
             return res.json({ errors: ['Could not update employee'] });
@@ -92,7 +79,7 @@ router.post('/', savePhotoToCloudinary, addNicknameIfNotExists, function (req, r
         ['name', 'nickname', 'credit', 'photoUrl', 'companyid'], [req.body.name, req.body.nickname, req.body.credit, res.photoUrl, req.body.companyId])
         .then(function () {
             res.statusCode = 200;
-            res.json({photoUrl: res.photoUrl});
+            res.json({ photoUrl: res.photoUrl });
         })
         .catch(function (error) {
             console.error(error);
@@ -101,17 +88,17 @@ router.post('/', savePhotoToCloudinary, addNicknameIfNotExists, function (req, r
         });
 });
 
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id', function (req, res, next) {
     dbHelper.deleteFromTable(database, 'employee', 'id = \'' + req.params.id + '\'')
-    .then(function() {
-        res.statusCode = 200;
-        res.end();
-    })
-    .catch(function(error) {
-        console.error(error);
-        res.statusCode = 500;
-        return res.json({ errors: ['Could not delete employee'] });
-    })
+        .then(function () {
+            res.statusCode = 200;
+            res.end();
+        })
+        .catch(function (error) {
+            console.error(error);
+            res.statusCode = 500;
+            return res.json({ errors: ['Could not delete employee'] });
+        })
 });
 
 function addNicknameIfNotExists(req, res, next) {

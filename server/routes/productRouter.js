@@ -29,47 +29,25 @@ router.patch('/:companyId/:id', savePhotoToCloudinary, function (req, res, next)
     const companyId = req.params.companyId;
     const id = req.params.id;
     const newPrice = req.body.newPrice;
-    const newPhotoUrl = res.photoUrl;
+    let newPhotoUrl = res.photoUrl;
     const newName = req.body.newName;
 
     dbHelper.updateProductPrice(database, companyId, id, newPrice)
         .then(function () {
-            dbHelper.updateProductImage(database, id, newPhotoUrl)
+            if (!(typeof req.body.photo !== 'undefined' && req.body.photo !== '')) {
+                newPhotoUrl = undefined;
+            }
+
+            dbHelper.updateProduct(database, id, newName, newPhotoUrl)
                 .then(function () {
-                    dbHelper.updateProductName(database, id, newName)
-                    .then(function () {
-                        res.statusCode = 200;
-                        res.json({ photoUrl: newPhotoUrl });
-                    })
-                    .catch(function (error) {
-                        console.error(error)
-                        res.statusCode = 500;
-                        return res.json({ errors: ['Could not update product name'] });
-                    });
-                    
+                    res.statusCode = 200;
+                    res.json({ photoUrl: newPhotoUrl });
                 })
                 .catch(function (error) {
                     console.error(error)
                     res.statusCode = 500;
-                    return res.json({ errors: ['Could not update product image'] });
+                    return res.json({ errors: ['Could not update product'] });
                 });
-        })
-        .catch(function (error) {
-            console.error(error)
-            res.statusCode = 500;
-            return res.json({ errors: ['Could not update product price'] });
-        });
-});
-
-router.patch('/price/:companyId/:id', function(req, res, next) {
-    const companyId = req.params.companyId;
-    const id = req.params.id;
-    const newPrice = req.body.newPrice;
-
-    dbHelper.updateProductPrice(database, companyId, id, newPrice)
-        .then(function () {
-            res.statusCode = 200;
-            res.end();
         })
         .catch(function (error) {
             console.error(error)
@@ -82,17 +60,17 @@ router.get('/productprice/:companyId', getPricesForCompany, function (req, res, 
     res.json(res.prices);
 });
 
-router.delete('/:product/:companyId', function(req, res, next) {
+router.delete('/:product/:companyId', function (req, res, next) {
     dbHelper.deleteFromTable(database, 'productprice', 'productid = \'' + req.params.product + '\' AND companyid = \'' + req.params.companyId + '\'')
-    .then(function() {
-        res.statusCode = 200;
-        res.end();
-    })
-    .catch(function(error) {
-        console.error(error);
-        res.statusCode = 500;
-        return res.json({ errors: ['Could not delete product'] });
-    })
+        .then(function () {
+            res.statusCode = 200;
+            res.end();
+        })
+        .catch(function (error) {
+            console.error(error);
+            res.statusCode = 500;
+            return res.json({ errors: ['Could not delete product'] });
+        })
 });
 
 function validateColumns(req, res, next) {
@@ -134,24 +112,24 @@ function getPricesForCompany(req, res, next) {
 
 function insertIntoTables(req, res, next) {
     dbHelper.insertIntoTableReturningID(database, 'product',
-    ['name', 'category', 'photoUrl'], [req.body.name, req.body.category, res.photoUrl])
-    .then(function (id) {
-        dbHelper.insertIntoTable(database, 'productprice', 
-        ['companyid', 'productid', 'price'], [req.body.companyId, id.id, req.body.price])
-            .then(function() {
-            })
-            .catch(function(error){
-                console.error(error);
-                res.statusCode = 500;
-                return res.json({ errors: ['Could not add product price'] });
-            })
-        next();
-    })
-    .catch(function (error) {
-        console.error(error)
-        res.statusCode = 500;
-        return res.json({ errors: ['Could not create product'] });
-    });
+        ['name', 'category', 'photoUrl'], [req.body.name, req.body.category, res.photoUrl])
+        .then(function (id) {
+            dbHelper.insertIntoTable(database, 'productprice',
+                ['companyid', 'productid', 'price'], [req.body.companyId, id.id, req.body.price])
+                .then(function () {
+                })
+                .catch(function (error) {
+                    console.error(error);
+                    res.statusCode = 500;
+                    return res.json({ errors: ['Could not add product price'] });
+                })
+            next();
+        })
+        .catch(function (error) {
+            console.error(error)
+            res.statusCode = 500;
+            return res.json({ errors: ['Could not create product'] });
+        });
 }
 
 module.exports = router;

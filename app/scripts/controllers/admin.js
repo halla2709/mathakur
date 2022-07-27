@@ -158,30 +158,14 @@ angular.module('mathakur')
             }
         }
 
-        function submitEmployeeCredit(employeeID) {
-            server.patch('/employee/updatecredit/' + employeeID,
-                {
-                    newCredit: $scope.currentEmployee.credit
-                })
-                .then(function () {
-                    showSuccessMessage();
-                })
-                .catch(function (error) {
-                    showErrorMessage();
-                    console.error(error);
-                })
-                .finally(function () {
-                    $scope.back();
-                });
-        }
-
         function submitEmployeeUpdate(employeeID) {
             server.patch('/employee/' + employeeID, {
                 newCredit: $scope.currentEmployee.credit,
                 photo: $scope.currentEmployee.newImage,
                 companyId: $scope.currentCompanyLoggedIn,
                 newName: $scope.currentEmployee.name,
-                newNickname: $scope.currentEmployee.nickname
+                newNickname: $scope.currentEmployee.nickname,
+                updatePhoto: $scope.currentEmployee.newImage == true
             })
                 .then(function () {
                     showSuccessMessage();
@@ -229,8 +213,10 @@ angular.module('mathakur')
         function submitProductUpdate(productID) {
             server.patch('/product/' + $scope.currentCompanyLoggedIn + '/' + productID, {
                 newPrice: $scope.currentProduct.price,
+                newName: $scope.currentProduct.name,
                 photo: $scope.currentProduct.newImage,
-                companyId: $scope.currentCompanyLoggedIn
+                companyId: $scope.currentCompanyLoggedIn,
+                updatePhoto: $scope.currentProduct.newImage == true
             })
                 .then(function () {
                     showSuccessMessage();
@@ -245,27 +231,10 @@ angular.module('mathakur')
                 });
         }
 
-        function submitProductPriceChange(productID) {
-            server.patch('/product/price/' + $scope.currentCompanyLoggedIn + '/' + productID, {
-                newPrice: $scope.currentProduct.price
-            })
-                .then(function () {
-                    showSuccessMessage();
-                })
-                .catch(function (error) {
-                    showErrorMessage();
-                    console.error(error)
-                })
-                .finally(function () {
-                    $scope.back();
-                });
-        }
-
         $scope.submitProduct = function (product) {
             if ($scope.updating) {
                 var productID = $scope.currentProduct.id;
-                if ($scope.currentProduct.newImage) {
-                    submitProductUpdate(productID);
+                submitProductUpdate(productID);
             } else {
                 server.post('/product', {
                     photo: $scope.currentProduct.newImage,
@@ -286,7 +255,6 @@ angular.module('mathakur')
                     });
             }
         }
-    }
 
         $scope.deleteProduct = function () {
             if (confirm('Ertu viss um að þú viljir eyða þessari vöru?')) {
