@@ -85,8 +85,8 @@ angular
   })
   .config(function (CloudinaryProvider) {
     CloudinaryProvider.configure({
-      cloud_name: 'dk7mpsfkw',
-      api_key: '431766444682953'
+      cloud_name: 'rubyhallaunnur',
+      api_key: '585248786435391'
     })
   })
   .run(['$rootScope', 'session', assignServicesToRootScope]);
