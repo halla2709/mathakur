@@ -82,6 +82,10 @@ angular.module('mathakur')
             return this.getCompanyName() !== undefined;
         }
 
+        this.onNewSettings = function(newSettings) {
+            this._company.allowfundsbelowzero = newSettings.allowFundsBelowZero;
+        }
+
         this.load = function() {
             if (this.loading)
             {

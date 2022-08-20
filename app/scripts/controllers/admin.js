@@ -320,6 +320,7 @@ angular.module('mathakur')
                     allowFundsBelowZero: $scope.newSettings.allowFundsBelowZero
                 })
                     .then(function () {
+                        $rootScope.session.onNewSettings($scope.newSettings);
                         showSuccessMessage();
                     })
                     .catch(function (error) {
