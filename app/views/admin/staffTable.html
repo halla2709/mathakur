@@ -68,8 +68,8 @@
                 </tr>
             </thead>
                 <tbody>
-                    <tr ng-repeat="employee in employeeData | filter:searchBox | orderBy:'name'"
-                        ng-click="!employee.hasOwnProperty('id') || editEmployee(employee)">
+                    <tr ng-repeat="employee in employeeData | filter:searchBox | orderBy:'name':false:localeSensitiveComparator"
+                    ng-click="!employee.hasOwnProperty('id') || editEmployee(employee)">
                         <td>{{employee.name}}</td>
                         <td>{{employee.nickname}}</td>
                         <td>{{employee.credit}}kr</td>
@@ -79,7 +79,7 @@
                                 <i class="bi bi-x-circle" style="color: red; font-size: 1.4rem; padding-right: 0.4em;"></i></span>
                         </td>
                         <td style="text-align: center"><i class="bi bi-pencil" ng-style="employee.hasOwnProperty('id') ? {} : {opacity: .20}"
-                                style="font-size: 1.4rem; color:#440A67" title="Breyta"></i></td>
+                            style="font-size: 1.4rem; color:#440A67" title="Breyta"></i></td>
                     </tr>
                 </tbody>
         </table>

@@ -134,6 +134,14 @@ angular.module('mathakur')
      
     }
 
+    $scope.localeSensitiveComparator = function(v1, v2) {
+      if (v1.type !== 'string' || v2.type !== 'string') {
+        return (v1.index < v2.index) ? -1 : 1;
+      }
+
+      return v1.value.localeCompare(v2.value);
+    };
+
     $rootScope.session.load().then(function() {
       if (!$rootScope.session.isLoggedIn()) {
         console.log("no one is logged in");
@@ -148,13 +156,13 @@ angular.module('mathakur')
 
       var productPath = 'product/' + $rootScope.session.getCompanyId();
       var employeePath = 'employee/' + $rootScope.session.getCompanyId();
-  
+
       server.get(employeePath).then(function (response) {
-        response.data.sort(function (a, b) {
-          if (a.name < b.name) return -1;
-          if (a.name > b.name) return 1;
-          return 0;
-        });
+        //response.data.sort(function (a, b) {
+          //if (a.name < b.name) return -1;
+          //if (a.name > b.name) return 1;
+          //return 0;
+        //});
         $scope.myDataEmployee = response.data;
       })
         .catch(function (response) {

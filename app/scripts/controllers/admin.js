@@ -14,6 +14,7 @@ angular.module('mathakur')
         $scope.newSettings = {};
         $scope.successAlert = false;
         $scope.errorAlert = false;
+        $scope.updatingCredit = false;
         var messageTimeout;
 
         $scope.showSidebar = function (sidebar) {
@@ -26,6 +27,13 @@ angular.module('mathakur')
                 $scope.class = 'col-sm-12 col-md-12 main';
             }
         }
+
+        $scope.localeSensitiveComparator = function(v1, v2) {
+            if (v1.type !== 'string' || v2.type !== 'string') {
+              return (v1.index < v2.index) ? -1 : 1;
+            }
+            return v1.value.localeCompare(v2.value);
+          };
 
         $scope.goToStaff = function () {
             $state.go('staffTable');
@@ -71,6 +79,16 @@ angular.module('mathakur')
                 $scope.currentEmployee = {};
             }
             $scope.editing = true;
+        };
+
+        $scope.editEmployeeCredit = function (employee) {
+            if (employee) {
+                $scope.updatingCredit = true;
+                $scope.currentEmployee = employee;
+            } else {
+                $scope.currentEmployee = {};
+            }
+            $scope.updatingCredit = true;
         };
 
         $scope.createAdmin = function () {
