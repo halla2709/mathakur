@@ -15,6 +15,9 @@ angular.module('mathakur')
         $scope.successAlert = false;
         $scope.errorAlert = false;
         $scope.updatingCredit = false;
+        $scope.quickAddedCredit = 0;
+        $scope.usingQuickAdd = false;
+        //$scope.currentEmployee.credit = $scope.currentEmployee.credit + $scope.quickAddedCredit; ???
         var messageTimeout;
 
         $scope.showSidebar = function (sidebar) {
@@ -26,6 +29,23 @@ angular.module('mathakur')
             else {
                 $scope.class = 'col-sm-12 col-md-12 main';
             }
+        }
+
+        $scope.quickAdd = function (x) {
+            console.log($scope.currentEmployee.credit);
+            $scope.usingQuickAdd = true;
+            $scope.quickAddedCredit = $scope.quickAddedCredit + x;
+            $scope.currentEmployee.credit = $scope.currentEmployee.credit + x;
+            console.log($scope.currentEmployee.credit);
+        }
+
+        $scope.resetQuickAdd = function () {
+            console.log($scope.quickAddedCredit);
+            console.log($scope.currentEmployee.credit);
+            $scope.currentEmployee.credit = $scope.currentEmployee.credit - $scope.quickAddedCredit;
+            $scope.quickAddedCredit = 0;
+            console.log($scope.quickAddedCredit);
+            console.log($scope.currentEmployee.credit);
         }
 
         $scope.localeSensitiveComparator = function(v1, v2) {
@@ -42,6 +62,7 @@ angular.module('mathakur')
 
             $scope.successAlert = false;
             $scope.errorAlert = false;
+            $scope.usingQuickAdd = false;
         }
 
         $scope.goToProduct = function () {
@@ -74,11 +95,13 @@ angular.module('mathakur')
         $scope.editEmployee = function (employee) {
             if (employee) {
                 $scope.updating = true;
+                $scope.quickAddedCredit = 0;
                 $scope.currentEmployee = employee;
             } else {
                 $scope.currentEmployee = {};
             }
             $scope.editing = true;
+            $scope.usingQuickAdd = false;
         };
 
         $scope.editEmployeeCredit = function (employee) {

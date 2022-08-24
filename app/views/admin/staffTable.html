@@ -96,7 +96,7 @@
                     <br>
                 </div>
                 <div class="col">
-                    <button class="btn btn-lg btn-danger" type="button" ng-show="updating" id="deleteProductAndStaff"
+                    <button class="btn btn-danger" type="button" ng-show="updating" id="deleteProductAndStaff"
                         style="float: right;" ng-click="deleteEmployee()">
                         <i class="bi bi-trash" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Eyða starfsmanni</button>
                 </div>
@@ -116,16 +116,30 @@
                         placeholder="Sigga" class="form-control form-control-lg"/>
 
                     <br><label for="name" id="inputHeaders">Innistæða</label>
-                    <div class="input-group input-group-lg" style="width: 40%;">
-                        <input id="credit" required ng-model="currentEmployee.credit" type="number" placeholder="5000"
-                            class="form-control form-control-lg"/>
-                        <span class="input-group-text">
-                            kr
-                        </span>
+                    <div class="row">
+                     <div class="col-5">
+                        <div class="input-group input-group-lg">
+                            <input id="credit" required ng-model="currentEmployee.credit" type="number" placeholder="5000"
+                                class="form-control form-control-lg"/>
+                            <span class="input-group-text">
+                                kr
+                            </span>
+                        </div>
+                    </div>
+
+                        <div class="col" style="margin: auto;">
+                            <button class="btn btn-outline-success" type="button" id="quickAdd" ng-click="quickAdd(500)">+500</button>
+                            <button class="btn btn-outline-success" type="button" id="quickAdd" ng-click="quickAdd(1000)">+1000</button>
+                            <button class="btn btn-outline-success" type="button" id="quickAdd" ng-click="quickAdd(5000)">+5000</button>
+                        </div>
+                    </div>
+                    <br>
+                    <div ng-show="usingQuickAdd">
+                    <p><button class="btn btn-outline-danger btn-sm" type="button" ng-click="resetQuickAdd()"><i class="bi bi-x-lg"></i></button>Bæta við <span style="color:#198754">{{quickAddedCredit}}kr</span> inneign fyrir starfsmann</p>            
                     </div>
 
                 </div>
-                <div class="col" style="text-align: center;">
+                <div class="col-5" style="text-align: center;">
                     <imagedisplay container="currentEmployee" editing-watch="editing" />
                 </div>
 
