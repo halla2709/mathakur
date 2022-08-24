@@ -41,6 +41,11 @@ function insertIntoTable(db, tableName, columns, values) {
     return db.none(queryString, values);
 }
 
+function updateEmployeeCredit(db, employeeId, newCredit) {
+    let queryString = 'UPDATE employee SET credit = $1 WHERE id = $2';
+    return db.none(queryString, [newCredit, employeeId]);
+}
+
 function updateEmployeeImage(db, employeeId, url) {
     let queryString = 'UPDATE employee SET photourl = $1 WHERE id = $2';
     return db.none(queryString, [url, employeeId]);
@@ -147,5 +152,6 @@ module.exports = {
     updateProductPrice,
     updateAllowFundsBelowZero,
     deleteCompany,
-    updateCompanyPassword
+    updateCompanyPassword,
+    updateEmployeeCredit
 }
