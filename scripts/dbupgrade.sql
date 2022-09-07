@@ -1,5 +1,5 @@
 CREATE EXTENSION pgcrypto;
-
+BEGIN;
 ALTER TABLE school
 RENAME TO company;
 
@@ -93,3 +93,4 @@ DROP COLUMN IF EXISTS foodidtmp;
 
 ALTER TABLE product 
 DROP COLUMN IF EXISTS idtmp;
+COMMIT;
