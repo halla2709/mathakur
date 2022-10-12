@@ -17,7 +17,7 @@ angular.module('mathakur')
         $scope.updatingCredit = false;
         $scope.quickAddedCredit = 0;
         $scope.usingQuickAdd = false;
-        //$scope.currentEmployee.credit = $scope.currentEmployee.credit + $scope.quickAddedCredit; ???
+        $scope.copyToClipboardString = "";
         var messageTimeout;
 
         $scope.showSidebar = function (sidebar) {
@@ -29,6 +29,24 @@ angular.module('mathakur')
             else {
                 $scope.class = 'col-sm-12 col-md-12 main';
             }
+        }  
+
+        $scope.arrayToString = function (array) {
+            console.log(array);
+            var json = JSON.stringify(array, null, '\r\n');
+            $scope.copyToClipboard(json);
+        }
+
+        $scope.copyToClipboard = function (name) {
+            var copyElement = document.createElement("textarea");
+            copyElement.style.position = 'fixed';
+            copyElement.style.opacity = '0';
+            copyElement.textContent =  decodeURI(name);
+            var body = document.getElementsByTagName('body')[0];
+            body.appendChild(copyElement);
+            copyElement.select();
+            document.execCommand('copy');
+            body.removeChild(copyElement);
         }
 
         $scope.quickAdd = function (x) {

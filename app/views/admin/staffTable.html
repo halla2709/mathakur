@@ -83,7 +83,8 @@
                     </tr>
                 </tbody>
         </table>
-        </div>
+        <button class="btn btn-sm btn-outline-secondary" type="button" ng-click="arrayToString(employeeData)"></i>Afrita</button>
+        </div>         
     </div>
 
     <!-------- EDIT ----------->
@@ -126,7 +127,6 @@
                             </span>
                         </div>
                     </div>
-
                         <div class="col" style="margin: auto;">
                             <button class="btn btn-outline-success" type="button" id="quickAdd" ng-click="quickAdd(500)">+500</button>
                             <button class="btn btn-outline-success" type="button" id="quickAdd" ng-click="quickAdd(1000)">+1000</button>
@@ -135,8 +135,14 @@
                     </div>
                     <br>
                     <div ng-show="usingQuickAdd">
-                    <p><button class="btn btn-outline-danger btn-sm" type="button" ng-click="resetQuickAdd()"><i class="bi bi-x-lg"></i></button>Bæta við <span style="color:#198754">{{quickAddedCredit}}kr</span> inneign fyrir starfsmann</p>            
+                    <p><button title="Hætta við" class="btn btn-outline-danger btn-sm" type="button" ng-click="resetQuickAdd()"><i class="bi bi-x-lg"></i></button>    Bæta við <span style="color:#198754">{{quickAddedCredit}}kr</span> inneign fyrir starfsmann</p>            
                     </div>
+                    <br>
+
+                    <!--div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" ng-model="currentEmployee.active">
+                        <label class="form-check-label">Sýna í lista (virkur/óvirkur)</label>
+                      </div-->
 
                 </div>
                 <div class="col-5" style="text-align: center;">
