@@ -39,21 +39,16 @@ describe('Main workflow Controller', function () {
       credit: 1000,
       id: 11111
     };
-    scope.creditAfter = scope.employee.credit;
     expect(scope.total).toBe(0);
-    expect(scope.creditAfter).toBe(1000);
 
     scope.addProduct({ price: 10, name: 'product1' });
     expect(scope.total).toBe(10);
-    expect(scope.creditAfter).toBe(990);
 
     scope.addProduct({ price: 10, name: 'product1' });
     expect(scope.total).toBe(20);
-    expect(scope.creditAfter).toBe(980);
 
     scope.addProduct({ price: 100, name: 'product2' });
     expect(scope.total).toBe(120);
-    expect(scope.creditAfter).toBe(880);
   });
 
   it('can remove from the order', function() {
@@ -61,22 +56,18 @@ describe('Main workflow Controller', function () {
       credit: 1000,
       id: 11111
     };
-    scope.creditAfter = scope.employee.credit;
     scope.addProduct({ price: 10, name: 'product1' });
     scope.addProduct({ price: 10, name: 'product1' });
     scope.addProduct({ price: 100, name: 'product2' });
 
     scope.removeProduct({ price: 10, name: 'product1' });
     expect(scope.total).toBe(110);
-    expect(scope.creditAfter).toBe(890);
 
     scope.removeProduct({ price: 100, name: 'product2' });
     expect(scope.total).toBe(10);
-    expect(scope.creditAfter).toBe(990);
 
     scope.removeProduct({ price: 10, name: 'product1' });
     expect(scope.total).toBe(0);
-    expect(scope.creditAfter).toBe(1000);
   });
 
   it('can clear the order', function() {
@@ -84,14 +75,12 @@ describe('Main workflow Controller', function () {
       credit: 1000,
       id: 11111
     };
-    scope.creditAfter = scope.employee.credit;
     scope.addProduct({ price: 10, name: 'product1' });
     scope.addProduct({ price: 10, name: 'product1' });
     scope.addProduct({ price: 100, name: 'product2' });
 
     scope.removeAllProduct();
     expect(scope.total).toBe(0);
-    expect(scope.creditAfter).toBe(1000);
   });
 
   it('can complete the order with enough credit', function() {
@@ -100,40 +89,35 @@ describe('Main workflow Controller', function () {
       credit: 1000,
       id: 11111
     };
-    scope.creditAfter = scope.employee.credit;
     scope.addProduct({ price: 10, name: 'product1' });
     scope.addProduct({ price: 10, name: 'product1' });
     scope.addProduct({ price: 100, name: 'product2' });
 
-    spyOn(window, 'confirm').and.returnValue(true);
     scope.buyProduct();
     expect(mockServer.patch).toHaveBeenCalledOnceWith('employee/updatecredit/11111', jasmine.objectContaining({
       newCredit: 880
     }));
-    expect(scope.employee).toBeNull();
-    expect(scope.total).toBe(0);
-    expect(scope.creditAfter).toBe(0);
   });
 
-  it('will block the order without enough credit', function() {
-    spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
+  it('will not add more to basket without enough credit', function() {
     scope.employee = { 
       credit: 10,
       id: 11111
     };
-    scope.creditAfter = scope.employee.credit;
     scope.addProduct({ price: 10, name: 'product1' });
+    expect(scope.showErrorMessage).toBeFalse();
     scope.addProduct({ price: 10, name: 'product1' });
+    expect(scope.showErrorMessage).toBeTrue();
     scope.addProduct({ price: 100, name: 'product2' });
-
-    spyOn(window, 'confirm').and.returnValue(true);
-    scope.buyProduct();
-    expect(window.confirm).not.toHaveBeenCalled();
-    expect(mockServer.patch).not.toHaveBeenCalled();
+    expect(scope.showErrorMessage).toBeTrue();
     expect(scope.employee).not.toBeNull();
     expect(scope.total).not.toBe(0);
-    expect(scope.creditAfter).not.toBe(0);
-    expect(scope.notEnoughCredit).toBeTrue();
+
+    spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
+    scope.buyProduct();
+    expect(mockServer.patch).toHaveBeenCalledOnceWith('employee/updatecredit/11111', jasmine.objectContaining({
+      newCredit: 0
+    }));
   });
 
   it('will allow the order without enough credit when configured that way', function() {
@@ -143,19 +127,14 @@ describe('Main workflow Controller', function () {
       credit: 10,
       id: 11111
     };
-    scope.creditAfter = scope.employee.credit;
     scope.addProduct({ price: 10, name: 'product1' });
     scope.addProduct({ price: 10, name: 'product1' });
     scope.addProduct({ price: 100, name: 'product2' });
 
-    spyOn(window, 'confirm').and.returnValue(true);
     scope.buyProduct();
     expect(mockServer.patch).toHaveBeenCalledOnceWith('employee/updatecredit/11111', jasmine.objectContaining({
       newCredit: -110
     }));
-    expect(scope.employee).toBeNull();
-    expect(scope.total).toBe(0);
-    expect(scope.creditAfter).toBe(0);
     sessionMock.isBelowZeroAllowed = function () { return false; }
   });
 });

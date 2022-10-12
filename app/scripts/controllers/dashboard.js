@@ -14,13 +14,16 @@ angular.module('mathakur')
     $scope.sidebar = false;
     $scope.total = 0;
     $scope.total_count = 0;
-    $scope.creditAfter = 0;
     $scope.showSuccessMessage = false;
 
     $scope.selectStaff = function (employee) {
       $scope.employee = employee;
+      $scope.receipt = [];
+      $scope.total = 0;
+      $scope.total_count = 0;
+      $scope.showErrorMessage = false;
+      $scope.showSuccessMessage = false;
       $state.go("selectproduct", { param: employee });
-      $scope.creditAfter = employee.credit;
     }
 
     $scope.showSidebar = function (sidebar) {
@@ -30,25 +33,24 @@ angular.module('mathakur')
     $scope.addProduct = function (product) {
       var index = -1;
       var total = 0;
-      
-      if(($rootScope.session.isBelowZeroAllowed() != true) && (product.price > $scope.creditAfter))
-      {
-          $scope.notEnoughCredit = true;
-          $scope.message2 = "Vöruverð er hærra en inneign"
+      var creditAfter = $scope.employee.credit - $scope.total;
+
+      if (($rootScope.session.isBelowZeroAllowed() != true) && (product.price > creditAfter)) {
+        $scope.showErrorMessage = true;
+        $scope.errorMessage = "Vöruverð er hærra en inneign"
       }
-      else
-      {
-          $scope.notEnoughCredit = false;
-          for (var i = 0; i < $scope.receipt.length; i++) {
-            var item = $scope.receipt[i];
-            if (item.name === product.name) {
-              item.quantity++;
-              index = i;
-              item.ordertotal = item.price * item.quantity;
-            }
-            total += item.ordertotal;
+      else {
+        $scope.showErrorMessage = false;
+        for (var i = 0; i < $scope.receipt.length; i++) {
+          var item = $scope.receipt[i];
+          if (item.name === product.name) {
+            item.quantity++;
+            index = i;
+            item.ordertotal = item.price * item.quantity;
           }
-        
+          total += item.ordertotal;
+        }
+
         if (index == -1) {
           product.quantity = 1;
           product.ordertotal = product.price;
@@ -56,14 +58,13 @@ angular.module('mathakur')
           total += product.ordertotal;
         }
         $scope.total = total;
-        $scope.total_count = $scope.total_count+1;
-        $scope.creditAfter = $scope.employee.credit - $scope.total;
+        $scope.total_count = $scope.total_count + 1;
       }
     };
 
     $scope.removeProduct = function (product) {
       var total = 0;
-      $scope.notEnoughCredit = false;
+      $scope.showErrorMessage = false;
       var index = -1;
       for (var i = 0; i < $scope.receipt.length; i++) {
         var item = $scope.receipt[i];
@@ -80,61 +81,60 @@ angular.module('mathakur')
         $scope.receipt.splice(index, 1);
       }
       $scope.total = total;
-      $scope.total_count = $scope.total_count-1;
-      $scope.creditAfter = $scope.employee.credit - $scope.total;
+      $scope.total_count = $scope.total_count - 1;
     }
 
     $scope.removeAllProduct = function (product) {
       $scope.total = 0;
       $scope.total_count = 0;
-      $scope.creditAfter = $scope.employee.credit;
       $scope.receipt = [];
-      $scope.notEnoughCredit = false;
+      $scope.showErrorMessage = false;
     }
 
     $scope.buyProduct = function (product) {
-      var credit = $scope.employee.credit;
-      $scope.creditAfter = $scope.employee.credit;
 
-      if($scope.total_count == 0)
-       {
-        $scope.notEnoughCredit = true;
-        $scope.message2 = "Karfan er tóm";
-       }
-       else
-       {
-        if (credit >= $scope.total || $rootScope.session.isBelowZeroAllowed()) {
-          if (confirm('Ertu viss um að þú viljir kaupa allt í körfunni?')) {
-            credit -= $scope.total;
-            $scope.employee.credit = credit;
-  
-            server.patch('employee/updatecredit/' + $scope.employee.id, {
-              newCredit: credit
-            });
-            $scope.receipt = [];
-            $scope.message = "Innkaupin tókust " + $scope.employee.nickname + ", inneignin þín er nú: " + $scope.employee.credit + " kr";
-            $scope.total = 0;
-            $scope.employee = null;
-            $scope.creditAfter = 0;
-            $scope.total_count = 0;
-             $state.go("dashboard");
-            
-            $scope.showSuccessMessage = true; 
-            $timeout( function() {
-              $scope.showSuccessMessage = false;
-            }, 5000);  
+      if ($scope.total_count == 0) {
+        $scope.showErrorMessage = true;
+        $scope.errorMessage = "Karfan er tóm";
+      }
+      else {
+        if ($scope.employee.credit >= $scope.total || $rootScope.session.isBelowZeroAllowed()) {
+          var newCredit = $scope.employee.credit - $scope.total;
+          $scope.lastTransaction = {
+            creditBefore: $scope.employee.credit,
+            employee: $scope.employee
           }
-  
-        } else {
-          $scope.notEnoughCredit = true;
-          $scope.message2 = "Ekki næg inneign fyrir kaupunum";
-        }
-       }
+          server.patch('employee/updatecredit/' + $scope.employee.id, {
+            newCredit: newCredit
+          })
+            .then(function () {
+              $scope.employee.credit = newCredit;
+              $scope.receipt = [];
+              $scope.message = "Innkaupin tókust " + $scope.employee.nickname + ", inneignin þín er nú: " + $scope.employee.credit + " kr";
+              $state.go("dashboard");
+              $scope.showErrorMessage = false;
+              $scope.undoPossible = true;
+              $scope.showSuccessMessage = true;
+              $timeout(function () {
+                $scope.showSuccessMessage = false;
+              }, 10000);
+            })
+            .catch(function (error) {
+              console.error(error);
+              $scope.showErrorMessage = true;
+              $scope.errorMessage = "Villa átti sér stað við að framkvæma færsluna";
+            });
 
-     
+
+        } else {
+          console.log("not enough credit");
+          $scope.showErrorMessage = true;
+          $scope.errorMessage = "Ekki næg inneign fyrir kaupunum";
+        }
+      }
     }
 
-    $scope.localeSensitiveComparator = function(v1, v2) {
+    $scope.localeSensitiveComparator = function (v1, v2) {
       if (v1.type !== 'string' || v2.type !== 'string') {
         return (v1.index < v2.index) ? -1 : 1;
       }
@@ -142,15 +142,34 @@ angular.module('mathakur')
       return v1.value.localeCompare(v2.value);
     };
 
-    $rootScope.session.load().then(function() {
+    $scope.undoLastTransaction = function () {
+      server.patch('employee/updatecredit/' + $scope.lastTransaction.employee.id, {
+        newCredit: $scope.lastTransaction.creditBefore
+      })
+        .then(function () {
+          $scope.message = "Tókst að bakfæra, inneign breytt til baka í " + $scope.lastTransaction.creditBefore;
+          $scope.lastTransaction.employee.credit = $scope.lastTransaction.creditBefore;
+          $scope.showSuccessMessage = true;
+          $scope.undoPossible = false;
+          $timeout(function () {
+            $scope.showSuccessMessage = false;
+          }, 5000);
+        })
+        .catch(function (error) {
+          console.error(error);
+          $scope.showErrorMessage = true;
+          $scope.errorMessage = "Villa átti sér stað við að bakfæra færsluna";
+        });
+    }
+
+    $rootScope.session.load().then(function () {
       if (!$rootScope.session.isLoggedIn()) {
         console.log("no one is logged in");
         $state.go('login');
         return;
       }
 
-      if (!$scope.employee)
-      {
+      if (!$scope.employee) {
         $state.go("dashboard");
       }
 
@@ -158,18 +177,13 @@ angular.module('mathakur')
       var employeePath = 'employee/' + $rootScope.session.getCompanyId();
 
       server.get(employeePath).then(function (response) {
-        //response.data.sort(function (a, b) {
-          //if (a.name < b.name) return -1;
-          //if (a.name > b.name) return 1;
-          //return 0;
-        //});
         $scope.myDataEmployee = response.data;
       })
         .catch(function (response) {
           //Error handle
           $scope.content = "Something went wrong";
         });
-  
+
       server.get(productPath).then(function (response) {
         $scope.myDataProduct = response.data;
       })
@@ -180,14 +194,14 @@ angular.module('mathakur')
     });
   }]);
 
-  angular.module('mathakur').directive('errSrc', function() {
-    return {
-      link: function(scope, element, attrs) {
-        element.bind('error', function() {
-          if (attrs.src != attrs.errSrc) {
-            attrs.$set('src', attrs.errSrc);
-          }
-        });
-      }
+angular.module('mathakur').directive('errSrc', function () {
+  return {
+    link: function (scope, element, attrs) {
+      element.bind('error', function () {
+        if (attrs.src != attrs.errSrc) {
+          attrs.$set('src', attrs.errSrc);
+        }
+      });
     }
-  });
+  }
+});

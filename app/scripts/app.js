@@ -15,9 +15,14 @@ angular
 
     $urlRouterProvider.when('/dashboard', '/dashboard/staff');
     $urlRouterProvider.when('/adminpanel', '/adminpanel/intro');
-    $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/');
 
     $stateProvider
+    .state('frontpage', {
+      url: '/',
+      templateUrl: 'views/frontpage.html',
+      controller: 'FrontPageCtrl'
+    })
     .state('selectproduct', {
       url: '/staff/selectproduct',
       parent: 'dashboard',
@@ -85,8 +90,7 @@ angular
   })
   .config(function (CloudinaryProvider) {
     CloudinaryProvider.configure({
-      cloud_name: 'dk7mpsfkw',
-      api_key: '431766444682953'
+      cloud_name: 'rubyhallaunnur'
     })
   })
   .run(['$rootScope', 'session', assignServicesToRootScope]);

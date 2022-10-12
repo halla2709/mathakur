@@ -4,7 +4,10 @@
 		<div style="width:50px"></div>
 
 	<div class="alert alert-success" role="alert" ng-show="showSuccessMessage">
-		<p><i class="bi bi-cart-check" style="font-size: 1.2rem; padding-right: 0.5em;"></i>{{message}}</p>
+		<p><i class="bi bi-cart-check" style="font-size: 1.2rem; padding-right: 2em;"></i>{{message}} <strong ng-show="undoPossible" ng-click="undoLastTransaction()">Bakfæra</strong></p>
+	</div>
+	<div class="alert alert-danger" role="alert" ng-show="showErrorMessage">
+			<p><i class="bi bi-exclamation-circle" style="font-size: 1.2rem; padding-right: 2em;"></i>{{errorMessage}}</p>
 	</div>
 	<h2>Starfsmannalisti</h2>
 	</div>

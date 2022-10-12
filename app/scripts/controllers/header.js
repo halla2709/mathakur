@@ -10,8 +10,17 @@ angular.module('mathakur')
           $state.go('staff');
         }
 
-        scope.goToProduct = function () {
-          $state.go('product');
+        scope.goToFrontPage = function () {
+          if ($rootScope.session.isLoggedIn()) {
+            if ($rootScope.session.adminIsLoggedIn())
+              $rootScope.session.logoutAdmin();
+            if ($state.includes('dashboard'))
+              $state.reload();
+            else
+              $state.go('staff');
+          }
+          else
+            $state.go('frontpage');
         }
 
         scope.logOutCompany = function () {
@@ -20,10 +29,9 @@ angular.module('mathakur')
           return;
         }
 
-        $rootScope.session.load().then(function() {
-          $transitions.onSuccess({}, function() {
-            if ($state.includes('adminpanel')) 
-            {
+        $rootScope.session.load().then(function () {
+          $transitions.onSuccess({}, function () {
+            if ($state.includes('adminpanel')) {
               scope.company = false;
             }
             else if ($rootScope.session.isLoggedIn()) {
@@ -34,8 +42,7 @@ angular.module('mathakur')
             }
           });
 
-          if ($state.includes('adminpanel')) 
-          {
+          if ($state.includes('adminpanel')) {
             scope.company = false;
           }
           else if ($rootScope.session.isLoggedIn()) {
