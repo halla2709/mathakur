@@ -15,9 +15,14 @@ angular
 
     $urlRouterProvider.when('/dashboard', '/dashboard/staff');
     $urlRouterProvider.when('/adminpanel', '/adminpanel/intro');
-    $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/');
 
     $stateProvider
+    .state('frontpage', {
+      url: '/',
+      templateUrl: 'views/frontpage.html',
+      controller: 'FrontPageCtrl'
+    })
     .state('selectproduct', {
       url: '/staff/selectproduct',
       parent: 'dashboard',
