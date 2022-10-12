@@ -14,7 +14,10 @@ angular.module('mathakur')
           if ($rootScope.session.isLoggedIn()) {
             if ($rootScope.session.adminIsLoggedIn())
               $rootScope.session.logoutAdmin();
-            $state.go('staff');
+            if ($state.includes('dashboard'))
+              $state.reload();
+            else
+              $state.go('staff');
           }
           else
             $state.go('frontpage');

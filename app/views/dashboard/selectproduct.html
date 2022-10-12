@@ -72,14 +72,14 @@
                     </tr>
                     <tr>
                         <th colspan="2" style="font-weight:400; border:none; vertical-align: middle;">Inneign:</th>
-                        <th style="font-weight:400; border:none; vertical-align: middle; text-align: center;">{{creditAfter}}kr</th>
+                        <th style="font-weight:400; border:none; vertical-align: middle; text-align: center;">{{employee.credit-total}}kr</th>
                         <th style="border:none; vertical-align: middle;"></th>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <div class="alert alert-danger" role="alert" ng-show="notEnoughCredit">
-            <p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>{{message2}}</p>
+        <div class="alert alert-danger" role="alert" ng-show="showErrorMessage">
+            <p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>{{errorMessage}}</p>
         </div>
         <div class="btn-toolbar justify-content-between align-text-bottom" style="padding: 0px 20px 0px 20px;">
             <button class="btn btn-lg btn-secondary" ng-click="buyProduct(x)">
