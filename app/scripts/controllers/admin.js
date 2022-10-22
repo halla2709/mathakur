@@ -31,17 +31,19 @@ angular.module('mathakur')
             }
         }  
 
-        $scope.arrayToString = function (array) {
-            console.log(array);
-            var json = JSON.stringify(array, null, '\r\n');
-            $scope.copyToClipboard(json);
+        $scope.copyEmployeeData = function() {
+            var data = "";
+            for (let i = 0; i < $scope.employeeData.length; i++) {
+                data += $scope.employeeData[i].name + " - " + $scope.employeeData[i].credit + "\n";
+            }
+            copyToClipboard(data);
         }
 
-        $scope.copyToClipboard = function (name) {
+        function copyToClipboard(data) {
             var copyElement = document.createElement("textarea");
             copyElement.style.position = 'fixed';
             copyElement.style.opacity = '0';
-            copyElement.textContent =  decodeURI(name);
+            copyElement.textContent = decodeURI(data);
             var body = document.getElementsByTagName('body')[0];
             body.appendChild(copyElement);
             copyElement.select();
@@ -50,20 +52,14 @@ angular.module('mathakur')
         }
 
         $scope.quickAdd = function (x) {
-            console.log($scope.currentEmployee.credit);
             $scope.usingQuickAdd = true;
             $scope.quickAddedCredit = $scope.quickAddedCredit + x;
             $scope.currentEmployee.credit = $scope.currentEmployee.credit + x;
-            console.log($scope.currentEmployee.credit);
         }
 
         $scope.resetQuickAdd = function () {
-            console.log($scope.quickAddedCredit);
-            console.log($scope.currentEmployee.credit);
             $scope.currentEmployee.credit = $scope.currentEmployee.credit - $scope.quickAddedCredit;
             $scope.quickAddedCredit = 0;
-            console.log($scope.quickAddedCredit);
-            console.log($scope.currentEmployee.credit);
         }
 
         $scope.localeSensitiveComparator = function(v1, v2) {
