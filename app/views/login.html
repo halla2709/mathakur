@@ -8,10 +8,15 @@
 			<span class="input-group-text" id="loginInputs">
 				<i class="bi bi-house" style="font-size: 2rem;"></i>
 			</span>
-			<select class="form-select form-select-lg" ng-model="company">
-				<option value="{{}}" disabled selected>Veldu Fyrirtæki</option>
-				<option value="{{x}}" ng-repeat="x in myData">{{x.name}}</option>
-			</select>
+			<input ng-change="onNewSearch()" ng-model="searchValue" type="text" class="form-control form-control-lg"
+				placeholder="Byrjaðu að skrifa...">
+		</div>
+		<div class="input-group input-group-lg">
+			<div style="width:100%; position: absolute; z-index: 1;">
+				<div ng-repeat="c in filteredCompanies">
+					<p class="form-control form-control-lg" ng-click="selectCompany(c)">{{c.name}}</p>
+				</div>
+			</div>
 		</div>
 		<br>
 
@@ -36,14 +41,15 @@
 		<p>Gleymt lykilorð?</p>
 	</a>
 	<div style="float:b" ng-show="forgotpassword">
-		<p style="padding-top: 0.1em;">Vinsamlegast sendu tölvupóst á 
+		<p style="padding-top: 0.1em;">Vinsamlegast sendu tölvupóst á
 			<br><strong>mathakurhlu@gmail.com</strong>
-			<br>til að endurheimta lykilorð fyrir vinnustað</p>
+			<br>til að endurheimta lykilorð fyrir vinnustað
+		</p>
 	</div>
 </div>
 
 <br>
 
 <!--div ng-include src="'views/modules/jumbotron.html'"-->
-	
+
 </div>
