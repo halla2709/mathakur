@@ -1,7 +1,76 @@
-<div>
+<div id="carouselExampleFade" class="carousel slide" data-bs-ride="carousel" style="text-align: center;">
+  <div class="carousel-inner">
 
-  <h1>Velkomin</h1>
-  <button class="btn btn-primary btn-lg btn-rounded" ng-click="goToLogin()">Innskráning</button>
-  <button class="btn btn-primary btn-lg btn-rounded" ng-click="goToAbout()">Um Mathák</button>
+    <div class="carousel-item active">
+      <img src="https://res.cloudinary.com/dk7mpsfkw/image/upload/v1666639735/Defaults/auglysing.png" style="max-height: 25em;" alt="Auglysing">
+    </div>
+    <div class="carousel-item">
+      <img src="https://res.cloudinary.com/dk7mpsfkw/image/upload/v1666639735/Defaults/auglysing3.png" style="max-height: 25em;" alt="Auglysing">
+    </div>
+    <div class="carousel-item">
+      <img src="https://res.cloudinary.com/dk7mpsfkw/image/upload/v1666641135/Defaults/faceBanner2.png" style="max-height: 25em;" alt="Auglysing">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<br>
+<div style="padding: 3em;">
+  <h1 style="text-align: center;">Velkomin á Mathák</h1>
+
+
+<div class="row" style="text-align: center;">
+  <div class="col" style="background-color:white; padding:2em; margin: 1em;">
+    <h3>Nú þegar með aðgang?</h3>
+    <br>
+    <button class="btn btn-secondary btn-lg btn-rounded" ng-click="goToLogin()"><i class="bi bi-lock" style="font-size: 1.3rem; padding-right:0.5em;"></i>Innskráning</button>
+
+  </div>
+  <div class="col" style="background-color:white; padding:2em; margin: 1em;">
+    <h3>Viltu vita meira?</h3>
+    <br>
+    <button class="btn btn-secondary btn-lg btn-rounded" ng-click="goToAbout()"><i class="bi bi-question-circle" style="font-size: 1.3rem; padding-right:0.5em;"></i>Um Mathák</button>
+  </div>
   
+  <br/>
+  <div style="background-color:white; padding:2em; margin-top: 1em;">
+    <h3>Notkunarleiðbeiningar</h3>
+    <br>
+    <div ng-include src="'views/modules/instructions.html'"></div>
+  </div>
+
+  <div style="background-color:white; padding:2em; margin-top: 2em;">
+    <br>
+    <div ng-include src="'views/modules/about.html'"></div>
+  </div>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+<!--div class="row" style="background-color: white; height: 100%; text-align: center;">
+  <div class="col">
+    <img style="padding:0.6em; max-width:12em;" src="../images/profile.PNG"></img>
+  </div>
+  <div class="col" id="image-font">
+    <p>Litla þæginlega vefsvæðið sem heldur utan um bókhald kaffistofa</p>
+  </div>
+</div-->
+
+
+</div>
 </div>

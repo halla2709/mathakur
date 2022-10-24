@@ -32,7 +32,7 @@ html {
   }
 
   body {
-    margin: 7em 0.8em 6em 0.8em !important;
+    margin: 6em 0.8em 6em 0.8em !important;
     background-color: $color-myGreyLight !important;
   }
 
@@ -186,7 +186,7 @@ html {
   /* ---------- FOOTER ------- */
 
   #footerView {
-    padding-top: 0.5em; 
+    padding: 0.5em; 
     background-color: #f0f0f0;
     border-top: 0.1em solid #dbdbdb;
     bottom: 0;
@@ -195,8 +195,10 @@ html {
   }
 
   #footerText {
-    color: #a5a5a5;
+    color: $color-myPurpleDark;
     text-decoration: none;
+    font-size: medium;
+    font-weight: 500;
   }
 
 
@@ -246,5 +248,34 @@ html {
     background-color: $color-myPurpleDark;
 }
 
+
+  /* -------- FRONT PAGE ---------- */
+
+  .animated {
+    display:none
+ } /* by default animated pic is hidden */
+.img-container:hover .animated {
+    display:block;
+}
+.img-container:hover .simple {
+    display: none;
+} /* hide simple image and display animated on mouseover */
+
+
+.carousel .item {
+  height: 300px;
+}
+
+#image-font {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.5em;
+  padding: 1em;
+}
+
+
+
+
+
   @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
   @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
+  @import url('http://fonts.cdnfonts.com/css/bebas-neue');
