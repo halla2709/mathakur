@@ -16,5 +16,9 @@ angular.module('mathakur')
     $scope.goToAbout = function() {
       $state.go('about');
     }
+
+    $scope.goToHelp = function() {
+      $state.go('help');
+    }
   }
 ]);

@@ -5,9 +5,6 @@
       <img src="https://res.cloudinary.com/dk7mpsfkw/image/upload/v1666639735/Defaults/auglysing.png" style="max-height: 25em;" alt="Auglysing">
     </div>
     <div class="carousel-item">
-      <img src="https://res.cloudinary.com/dk7mpsfkw/image/upload/v1666639735/Defaults/auglysing3.png" style="max-height: 25em;" alt="Auglysing">
-    </div>
-    <div class="carousel-item">
       <img src="https://res.cloudinary.com/dk7mpsfkw/image/upload/v1666641135/Defaults/faceBanner2.png" style="max-height: 25em;" alt="Auglysing">
     </div>
   </div>
@@ -26,30 +23,51 @@
   <h1 style="text-align: center;">Velkomin á Mathák</h1>
 
 
-<div class="row" style="text-align: center;">
-  <div class="col" style="background-color:white; padding:2em; margin: 1em;">
+<div class="row" style="text-align: center; align-items: center;">
+
+  <div class="col transition-div-left" style="background-color:white; padding:2em; margin: 1em;">
+    <img class="img-bg" background-image src="images/lock.svg"></img>
     <h3>Nú þegar með aðgang?</h3>
     <br>
     <button class="btn btn-secondary btn-lg btn-rounded" ng-click="goToLogin()"><i class="bi bi-lock" style="font-size: 1.3rem; padding-right:0.5em;"></i>Innskráning</button>
-
   </div>
-  <div class="col" style="background-color:white; padding:2em; margin: 1em;">
+
+  <div class="col transition-div-right" style="background-color:white; padding:2em; margin: 1em;">
+    <img class="img-bg" background-image src="images/question-circle.svg"></img>
     <h3>Viltu vita meira?</h3>
     <br>
-    <button class="btn btn-secondary btn-lg btn-rounded" ng-click="goToAbout()"><i class="bi bi-question-circle" style="font-size: 1.3rem; padding-right:0.5em;"></i>Um Mathák</button>
-  </div>
-  
-  <br/>
-  <div style="background-color:white; padding:2em; margin-top: 1em;">
-    <h3>Notkunarleiðbeiningar</h3>
-    <br>
-    <div ng-include src="'views/modules/instructions.html'"></div>
+    <button class="btn btn-secondary btn-lg btn-rounded" ng-click="goToHelp()"><i class="bi bi-question-circle" style="font-size: 1.3rem; padding-right:0.5em;"></i>Um Mathák</button>
   </div>
 
-  <div style="background-color:white; padding:2em; margin-top: 2em;">
+
+  <br/>
+  <div class="transition-div-bottom" style="background-color:white; padding:2em; margin-top: 1em;">
+
+    <div class="row">
+
+      <div class="col">
+        <img src="images/apple.svg" style="max-height: 5em;">
+        <p>Stjórnandi býr til vörur og ákveður verð</p>
+      </div>
+      <div class="col">
+        <img src="images/user.svg" style="max-height: 5em;">
+        <p>Stjórnandi stofnar notendur</p>
+      </div>
+      <div class="col">
+        <img src="images/money-management.svg" style="max-height: 5em;">
+        <p>Stjórnandi tekur við greiðslum frá starfsfólki og uppfærir inneignina þeirra</p>
+      </div>
+      <div class="col">
+       <img src="images/shopping-cart.svg" style="max-height: 5em;">
+       <p>Starfsfólk verslar vörur fyrir inneignina sína</p>
+      </div>
+    </div>
+  
+  </div>
+  <!--div style="background-color:white; padding:2em; margin-top: 2em;">
     <br>
     <div ng-include src="'views/modules/about.html'"></div>
-  </div>
+  </div-->
 
 </div>
 

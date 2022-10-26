@@ -87,6 +87,10 @@ angular
         url: '/about',
         templateUrl: 'views/modules/about.html',
       })
+      .state('help', {
+        url: '/help',
+        templateUrl: 'views/modules/help.html',
+      })
   })
   .config(function (CloudinaryProvider) {
     CloudinaryProvider.configure({

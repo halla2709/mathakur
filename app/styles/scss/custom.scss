@@ -197,7 +197,6 @@ html {
   #footerText {
     color: $color-myPurpleDark;
     text-decoration: none;
-    font-size: medium;
     font-weight: 500;
   }
 
@@ -253,18 +252,29 @@ html {
 
   .animated {
     display:none
- } /* by default animated pic is hidden */
+} 
+
 .img-container:hover .animated {
     display:block;
 }
+
 .img-container:hover .simple {
     display: none;
-} /* hide simple image and display animated on mouseover */
-
+}
 
 .carousel .item {
   height: 300px;
 }
+
+.img-bg {
+  opacity: 10%;
+  height: -webkit-fill-available;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  padding: 0.5em;
+}
+
 
 #image-font {
   font-family: 'Bebas Neue', sans-serif;
@@ -272,8 +282,63 @@ html {
   padding: 1em;
 }
 
+.transition-div-left {
+  animation: slideInFromLeft ease 3s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+
+}
+
+.transition-div-right {
+  animation: slideInFromRight ease 3s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+
+}
+
+.transition-div-bottom {
+  animation: slideInFromBottom ease 3s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+
+}
 
 
+@keyframes fadeInAnimation {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+      transform: translateX(-10%);
+  }
+  100% {
+      transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+      transform: translateX(10%);
+  }
+  100% {
+      transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromBottom {
+  0% {
+      transform: translateY(50%);
+  }
+  100% {
+      transform: translateY(0);
+  }
+}
 
 
   @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
