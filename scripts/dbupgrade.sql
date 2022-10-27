@@ -4,7 +4,7 @@ ALTER TABLE school
 RENAME TO company;
 
 ALTER TABLE company
-ADD COLUMN IF NOT EXISTS allowFundsBelowZero boolean, 
+ADD COLUMN IF NOT EXISTS allowfundsbelowzero boolean, 
 DROP CONSTRAINT IF EXISTS school_pkey,
 DROP COLUMN IF EXISTS id,
 ADD COLUMN id uuid DEFAULT gen_random_uuid(),

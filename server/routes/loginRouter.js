@@ -104,7 +104,7 @@ function authenticateAdminConnection(req, res, next) {
 
 function addCompany(req, res, next) {
     dbHelper.insertIntoTableReturningID(database, 'company',
-        ['name', 'password', 'rand', 'allowfundsbelowzero'], [req.body.companyName, companyAuth.finalPassword, companyAuth.randomString, req.body.allowFundsBelowZero])
+        ['name', 'password', 'rand', 'allowfundsbelowzero'], [req.body.companyName, companyAuth.finalPassword, companyAuth.randomString, req.body.allowfundsbelowzero])
         .then(function (id) {
             req.body.companyId = id.id;
             next();
@@ -148,7 +148,7 @@ function checkCompanyCredientials(req, res, next) {
                 res.loggedIn = {
                     name: results[0].name,
                     id: results[0].id,
-                    allowFundsBelowZero: results[0].allowfundsbelowzero == true // gæti verið undefined
+                    allowfundsbelowzero: results[0].allowfundsbelowzero == true // gæti verið undefined
                 }
             }
             else {

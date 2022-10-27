@@ -70,51 +70,27 @@ describe('Admin Controller', function () {
       mockServer.get.calls.reset();
       var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
 
+      var image = "animagebinaryrep";
       scope.updating = true;
       scope.currentEmployee = {
         id: "id",
         name: "Halla",
         nickname: "Holly",
-        credit: 5000
+        credit: 5000,
+        newImage: image
       };
-      scope.image = "animagebinaryrep";
       scope.submitEmployee();
       expect(mockServer.patch).toHaveBeenCalledOnceWith('/employee/id',
         jasmine.objectContaining({
           newCredit: 5000,
-          photo: scope.image
+          photo: image
         }));
 
       spy.calls.mostRecent().returnValue.then(function () {
         expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyId);
         expect(mockServer.get).not.toHaveBeenCalledWith('product/' + companyId);
         expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyId);
-        done();
-      });
-    });
-
-    it('should only update employee credit when no image has been uploaded and not reload', function (done) {
-      mockServer.get.calls.reset();
-      var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
-
-      scope.updating = true;
-      scope.currentEmployee = {
-        id: "id",
-        name: "Halla",
-        nickname: "Holly",
-        credit: 5000
-      };
-
-      scope.submitEmployee();
-      expect(mockServer.patch).toHaveBeenCalledOnceWith('/employee/updatecredit/id',
-        jasmine.objectContaining({
-          newCredit: 5000
-        }));
-
-
-      spy.calls.mostRecent().returnValue.then(function () {
-        expect(mockServer.get).not.toHaveBeenCalled();
-        done();
+        done(); 
       });
     });
 
@@ -202,48 +178,26 @@ describe('Admin Controller', function () {
       var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
 
       scope.updating = true;
+      var image = "animagebinaryrep";
       scope.currentProduct = {
         id: 'id',
         name: "Halla",
         category: "Holly",
-        price: 5000
+        price: 5000,
+        newImage: image
       };
-      scope.image = "animagebinaryrep";
+      
       scope.submitProduct();
       expect(mockServer.patch).toHaveBeenCalledOnceWith('/product/' + companyId + '/id',
         jasmine.objectContaining({
           newPrice: 5000,
-          photo: scope.image
+          photo: image
         }));
 
       spy.calls.mostRecent().returnValue.then(function () {
         expect(mockServer.get).not.toHaveBeenCalledWith('employee/' + companyId);
         expect(mockServer.get).toHaveBeenCalledWith('product/' + companyId);
         expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyId);
-        done();
-      });
-    });
-
-    it('should only update product price when no image has been uploaded and not reload', function (done) {
-      mockServer.get.calls.reset();
-      var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve())
-
-      scope.updating = true;
-      scope.currentProduct = {
-        id: 'id',
-        name: "Halla",
-        category: "Holly",
-        price: 5000
-      };
-
-      scope.submitProduct();
-      expect(mockServer.patch).toHaveBeenCalledOnceWith('/product/price/' + companyId + '/id',
-        jasmine.objectContaining({
-          newPrice: 5000
-        }));
-
-      spy.calls.mostRecent().returnValue.then(function () {
-        expect(mockServer.get).not.toHaveBeenCalled();
         done();
       });
     });
@@ -313,7 +267,7 @@ describe('Admin Controller', function () {
       expect(scope.wrongpassword).toBeTrue();
     });
 
-    it('should add new admin in two post requests', function (done) {
+    fit('should add new admin in two post requests', function (done) {
       var newAdmin = {
         password: 'a',
         passwordConfirm: 'a',
@@ -330,7 +284,7 @@ describe('Admin Controller', function () {
           return Promise.resolve({ data: { adminRandomString: 'abcdef' } });
         }
         else {
-          return Promise.resolve();
+          return Promise.resolve({ data: { id: 'abcd' } });
         }
       });
       scope.submitAdmin(newAdmin);
@@ -359,7 +313,7 @@ describe('Admin Controller', function () {
 
   describe("Update settings", function() {
     it("will not send update if no change", function() {
-      scope.newSettings.allowFundsBelowZero = isBelowZeroAllowed;
+      scope.newSettings.allowfundsbelowzero = isBelowZeroAllowed;
       mockServer.get.calls.reset();
       var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
 
@@ -370,7 +324,7 @@ describe('Admin Controller', function () {
     });
 
     it("will send update for allow funds below zero if changed and show alert on success", function() {
-      scope.newSettings.allowFundsBelowZero = !isBelowZeroAllowed;
+      scope.newSettings.allowfundsbelowzero = !isBelowZeroAllowed;
       mockServer.get.calls.reset();
       var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
 
@@ -378,7 +332,7 @@ describe('Admin Controller', function () {
       
       expect(mockServer.patch).toHaveBeenCalledWith("/company/"+companyId, 
       jasmine.objectContaining({
-        allowFundsBelowZero: !isBelowZeroAllowed
+        allowfundsbelowzero: !isBelowZeroAllowed
       }));
       spy.calls.mostRecent().returnValue.then(function () {
         expect(mockServer.get).not.toHaveBeenCalled();
@@ -387,7 +341,7 @@ describe('Admin Controller', function () {
     });
 
     it("will show warning alert if update fails", function() {
-      scope.newSettings.allowFundsBelowZero = !isBelowZeroAllowed;
+      scope.newSettings.allowfundsbelowzero = !isBelowZeroAllowed;
       mockServer.get.calls.reset();
       var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
 
@@ -395,7 +349,7 @@ describe('Admin Controller', function () {
       
       expect(mockServer.patch).toHaveBeenCalledWith("/company/"+companyId, 
       jasmine.objectContaining({
-        allowFundsBelowZero: !isBelowZeroAllowed
+        allowfundsbelowzero: !isBelowZeroAllowed
       }));
       spy.calls.mostRecent().returnValue.catch(function () {
         expect(scope.errorAlert).toBeTruthy();
