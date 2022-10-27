@@ -1,6 +1,6 @@
 <div class="position-absolute top-50 start-50 translate-middle" id="login-div">
 
-	<h2><small>Vinsamlega skráðu inn fyrirtæki:</small></h2>
+	<h2><small>Vinsamlega skráðu inn vinnustað:</small></h2>
 	<br>
 	<form role="form" ng-submit="submit()">
 
@@ -9,12 +9,12 @@
 				<i class="bi bi-house" style="font-size: 2rem;"></i>
 			</span>
 			<input ng-change="onNewSearch()" ng-model="searchValue" type="text" class="form-control form-control-lg"
-				placeholder="Byrjaðu að skrifa...">
+				placeholder="Vinnustaður"/>
 		</div>
 		<div class="input-group input-group-lg">
 			<div style="width:100%; position: absolute; z-index: 1;">
 				<div ng-repeat="c in filteredCompanies">
-					<p class="form-control form-control-lg" ng-click="selectCompany(c)">{{c.name}}</p>
+					<p class="form-control form-control-lg companyDropDown" ng-click="selectCompany(c)">{{c.name}}</p>
 				</div>
 			</div>
 		</div>
@@ -46,6 +46,11 @@
 			<br>til að endurheimta lykilorð fyrir vinnustað
 		</p>
 	</div>
+	<br>
+	<br>
+	<a class="btn" ng-click="goToHome()" style="color: #4b4b4b">
+		<p>Aftur á forsíðu</p>
+	</a>
 </div>
 
 <br>

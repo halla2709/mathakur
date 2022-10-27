@@ -32,7 +32,7 @@ html {
   }
 
   body {
-    margin: 6em 0.8em 6em 0.8em !important;
+    margin: 8em 0.8em 4em 0.8em !important;
     background-color: $color-myGreyLight !important;
   }
 
@@ -92,6 +92,10 @@ html {
     background-color: $color-myPurpleDark;
     color: white;
     max-width: 35em;
+  }
+
+  .companyDropDown:hover {
+    background-color: lightgrey;
   }
 
   /* -------- STAFF --------- */
@@ -180,6 +184,7 @@ html {
     padding: 1em;
     font-size: larger;
     background-color: white;    
+    margin-top: 1em;
   }
 
 
@@ -266,6 +271,105 @@ html {
   height: 300px;
 }
 
+.frontpageworkflow {
+  background: white;
+  padding-top: 1em;
+  box-shadow: 0 0 5px $color-myPurpleDark;
+  margin: 1em;
+  border-top-left-radius: 20px; 
+  border-top-right-radius: 20px; 
+  border-bottom-right-radius: 20px; 
+  border-bottom-left-radius: 20px;
+}
+
+.line1 {
+  margin: 12em 0 0.6em 0em;
+  height:1em;
+  width:0;
+  background:white;
+  transform:rotate(-40deg);
+  transform-origin:left;
+  animation:grow1 3s linear forwards;
+  border-top-left-radius: 20px; 
+  border-top-right-radius: 20px; 
+  border-bottom-right-radius: 20px; 
+  border-bottom-left-radius: 20px;
+}
+.line2 {
+  margin:-1.5em 0em 0.5em 2em;
+  height:2em;
+  width:0;
+  background:$color-myPurpleDark;
+  transform:rotate(-40deg);
+  transform-origin:left;
+  animation:grow2 1s linear forwards;
+  border-top-left-radius: 20px; 
+  border-top-right-radius: 20px; 
+  border-bottom-right-radius: 20px; 
+  border-bottom-left-radius: 20px;
+}
+.line3 {
+  margin:0em 0 0.6em 2em;
+  height:2.5em;
+  width:0;
+  background:$color-myPinkLight;
+  transform:rotate(-40deg);
+  transform-origin:left;
+  animation:grow3 2s linear forwards;
+  border-top-left-radius: 20px; 
+  border-top-right-radius: 20px; 
+  border-bottom-right-radius: 20px; 
+  border-bottom-left-radius: 20px;
+}
+.line4 {
+  margin:-5em 0px 0.6em 8em;
+  height:2em;
+  width:0;
+  background:$color-myPinkDark;
+  transform:rotate(-40deg);
+  transform-origin:left;
+  animation:grow4 3s linear forwards;
+  border-top-left-radius: 20px; 
+  border-top-right-radius: 20px; 
+  border-bottom-right-radius: 20px; 
+  border-bottom-left-radius: 20px;
+}
+.line5 {
+  margin:1em 0px 0.6em 7em;
+  height:1.2em;
+  width:0;
+  background:lightgray;
+  transform:rotate(-40deg);
+  transform-origin:left;
+  animation:grow5 2s linear forwards;
+  border-top-left-radius: 20px; 
+  border-top-right-radius: 20px; 
+  border-bottom-right-radius: 20px; 
+  border-bottom-left-radius: 20px;
+}
+@keyframes grow1{
+  to {width:23em;}
+}
+@keyframes grow2{
+  to {width:18em;}
+}
+@keyframes grow3{
+  to {width:26em;}
+}
+@keyframes grow4{
+  to {width:22em;}
+}
+@keyframes grow4{
+  to {width:18em;}
+}
+@keyframes grow5{
+  to {width:24em;}
+}
+
+
+
+
+
 .img-bg {
   opacity: 10%;
   height: -webkit-fill-available;
@@ -303,6 +407,13 @@ html {
 
 }
 
+.transition-div-top {
+  animation: slideInFromTop ease 3s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+
+}
+
 
 @keyframes fadeInAnimation {
   0% {
@@ -334,6 +445,15 @@ html {
 @keyframes slideInFromBottom {
   0% {
       transform: translateY(50%);
+  }
+  100% {
+      transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromTop {
+  0% {
+      transform: translateY(-50%);
   }
   100% {
       transform: translateY(0);

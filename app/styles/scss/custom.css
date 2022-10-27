@@ -15,7 +15,7 @@ html {
 }
 
 body {
-  margin: 6em 0.8em 6em 0.8em !important;
+  margin: 8em 0.8em 4em 0.8em !important;
   background-color: #f0f0f0 !important;
 }
 
@@ -66,6 +66,10 @@ h6, .h6 {
   background-color: #440A67;
   color: white;
   max-width: 35em;
+}
+
+.companyDropDown:hover {
+  background-color: lightgrey;
 }
 
 /* -------- STAFF --------- */
@@ -156,6 +160,7 @@ h6, .h6 {
   padding: 1em;
   font-size: larger;
   background-color: white;
+  margin-top: 1em;
 }
 
 /* ---------- FOOTER ------- */
@@ -236,6 +241,169 @@ h6, .h6 {
   height: 300px;
 }
 
+.frontpageworkflow {
+  background: white;
+  padding-top: 1em;
+  -webkit-box-shadow: 0 0 5px #440A67;
+          box-shadow: 0 0 5px #440A67;
+  margin: 1em;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.line1 {
+  margin: 12em 0 0.6em 0em;
+  height: 1em;
+  width: 0;
+  background: white;
+  -webkit-transform: rotate(-40deg);
+          transform: rotate(-40deg);
+  -webkit-transform-origin: left;
+          transform-origin: left;
+  -webkit-animation: grow1 3s linear forwards;
+          animation: grow1 3s linear forwards;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.line2 {
+  margin: -1.5em 0em 0.5em 2em;
+  height: 2em;
+  width: 0;
+  background: #440A67;
+  -webkit-transform: rotate(-40deg);
+          transform: rotate(-40deg);
+  -webkit-transform-origin: left;
+          transform-origin: left;
+  -webkit-animation: grow2 1s linear forwards;
+          animation: grow2 1s linear forwards;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.line3 {
+  margin: 0em 0 0.6em 2em;
+  height: 2.5em;
+  width: 0;
+  background: #FFE3FE;
+  -webkit-transform: rotate(-40deg);
+          transform: rotate(-40deg);
+  -webkit-transform-origin: left;
+          transform-origin: left;
+  -webkit-animation: grow3 2s linear forwards;
+          animation: grow3 2s linear forwards;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.line4 {
+  margin: -5em 0px 0.6em 8em;
+  height: 2em;
+  width: 0;
+  background: #93329E;
+  -webkit-transform: rotate(-40deg);
+          transform: rotate(-40deg);
+  -webkit-transform-origin: left;
+          transform-origin: left;
+  -webkit-animation: grow4 3s linear forwards;
+          animation: grow4 3s linear forwards;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.line5 {
+  margin: 1em 0px 0.6em 7em;
+  height: 1.2em;
+  width: 0;
+  background: lightgray;
+  -webkit-transform: rotate(-40deg);
+          transform: rotate(-40deg);
+  -webkit-transform-origin: left;
+          transform-origin: left;
+  -webkit-animation: grow5 2s linear forwards;
+          animation: grow5 2s linear forwards;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+@-webkit-keyframes grow1 {
+  to {
+    width: 23em;
+  }
+}
+
+@keyframes grow1 {
+  to {
+    width: 23em;
+  }
+}
+
+@-webkit-keyframes grow2 {
+  to {
+    width: 18em;
+  }
+}
+
+@keyframes grow2 {
+  to {
+    width: 18em;
+  }
+}
+
+@-webkit-keyframes grow3 {
+  to {
+    width: 26em;
+  }
+}
+
+@keyframes grow3 {
+  to {
+    width: 26em;
+  }
+}
+
+@-webkit-keyframes grow4 {
+  to {
+    width: 22em;
+  }
+}
+
+@keyframes grow4 {
+  to {
+    width: 22em;
+  }
+}
+
+@keyframes grow4 {
+  to {
+    width: 18em;
+  }
+}
+
+@-webkit-keyframes grow5 {
+  to {
+    width: 24em;
+  }
+}
+
+@keyframes grow5 {
+  to {
+    width: 24em;
+  }
+}
+
 .img-bg {
   opacity: 10%;
   height: -webkit-fill-available;
@@ -272,6 +440,15 @@ h6, .h6 {
 .transition-div-bottom {
   -webkit-animation: slideInFromBottom ease 3s;
           animation: slideInFromBottom ease 3s;
+  -webkit-animation-iteration-count: 1;
+          animation-iteration-count: 1;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.transition-div-top {
+  -webkit-animation: slideInFromTop ease 3s;
+          animation: slideInFromTop ease 3s;
   -webkit-animation-iteration-count: 1;
           animation-iteration-count: 1;
   -webkit-animation-fill-mode: forwards;
@@ -355,6 +532,28 @@ h6, .h6 {
   0% {
     -webkit-transform: translateY(50%);
             transform: translateY(50%);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+@-webkit-keyframes slideInFromTop {
+  0% {
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromTop {
+  0% {
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
   }
   100% {
     -webkit-transform: translateY(0);

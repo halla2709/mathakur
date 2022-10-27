@@ -14,10 +14,11 @@ angular.module('mathakur')
     $scope.password = '';
     $scope.wrongpassword = false;
     $scope.filteredCompanies = [];
+    $scope.testCompanies = [{name:"Test"}, {name:"Tes2"}, {name:"Langt Nafn"}, {name:"very very very very long name"}];
 
     $scope.onNewSearch = function() {
       if ($scope.searchValue.length > 1) {
-        $scope.filteredCompanies = $scope.allCompanies.filter(function(comp) {
+        $scope.filteredCompanies = $scope.testCompanies.filter(function(comp) {
           return comp.name.toLowerCase().startsWith($scope.searchValue.toLowerCase());
         })
       }
@@ -26,6 +27,10 @@ angular.module('mathakur')
       }
     }
 
+    $scope.goToHome = function() {
+      $state.go('frontpage');
+    }
+    
     $scope.selectCompany = function(company) {
       $scope.company = company;
       $scope.filteredCompanies = [];
@@ -83,5 +88,7 @@ angular.module('mathakur')
         $state.go('staff');
       }
     });
+
+    
 
   }]);

@@ -34,7 +34,7 @@ angular.module('mathakur')
         $scope.copyEmployeeData = function() {
             var data = "";
             for (let i = 0; i < $scope.employeeData.length; i++) {
-                data += $scope.employeeData[i].name + " - " + $scope.employeeData[i].credit + "\n";
+                data += $scope.employeeData[i].name + ":  " + $scope.employeeData[i].credit + "kr" + "\n";
             }
             copyToClipboard(data);
         }

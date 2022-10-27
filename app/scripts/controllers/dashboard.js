@@ -110,7 +110,7 @@ angular.module('mathakur')
             .then(function () {
               $scope.employee.credit = newCredit;
               $scope.receipt = [];
-              $scope.message = "Innkaupin tókust " + $scope.employee.nickname + ", inneignin þín er nú: " + $scope.employee.credit + " kr";
+              $scope.message = "Innkaupin tókust " + $scope.employee.nickname + ", inneignin þín er nú: " + $scope.employee.credit + "kr";
               $state.go("dashboard");
               $scope.showErrorMessage = false;
               $scope.undoPossible = true;
@@ -147,13 +147,13 @@ angular.module('mathakur')
         newCredit: $scope.lastTransaction.creditBefore
       })
         .then(function () {
-          $scope.message = "Tókst að bakfæra, inneign breytt til baka í " + $scope.lastTransaction.creditBefore;
+          $scope.message = "Bakfærslan tókst, inneignin þín er ennþá: " + $scope.lastTransaction.creditBefore + "kr";
           $scope.lastTransaction.employee.credit = $scope.lastTransaction.creditBefore;
           $scope.showSuccessMessage = true;
           $scope.undoPossible = false;
           $timeout(function () {
             $scope.showSuccessMessage = false;
-          }, 5000);
+          }, 10000);
         })
         .catch(function (error) {
           console.error(error);
