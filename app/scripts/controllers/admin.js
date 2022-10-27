@@ -219,8 +219,7 @@ angular.module('mathakur')
                 photo: $scope.currentEmployee.newImage,
                 companyId: $scope.currentCompanyLoggedIn,
                 newName: $scope.currentEmployee.name,
-                newNickname: $scope.currentEmployee.nickname,
-                updatePhoto: $scope.currentEmployee.newImage == true
+                newNickname: $scope.currentEmployee.nickname
             })
                 .then(function () {
                     showSuccessMessage();
@@ -270,8 +269,7 @@ angular.module('mathakur')
                 newPrice: $scope.currentProduct.price,
                 newName: $scope.currentProduct.name,
                 photo: $scope.currentProduct.newImage,
-                companyId: $scope.currentCompanyLoggedIn,
-                updatePhoto: $scope.currentProduct.newImage == true
+                companyId: $scope.currentCompanyLoggedIn
             })
                 .then(function () {
                     showSuccessMessage();
