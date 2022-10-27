@@ -13,7 +13,7 @@ router.get('/:id', getCompanies, cleanData, function(req, res, next) {
 });
 
 router.patch('/:id', function(req, res, next) {
-    dbHelper.updateAllowFundsBelowZero(database, req.params.id, req.body.allowFundsBelowZero)
+    dbHelper.updateAllowFundsBelowZero(database, req.params.id, req.body.allowfundsbelowzero)
     .then(function() {
         res.end();
     })

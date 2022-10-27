@@ -370,9 +370,9 @@ angular.module('mathakur')
         }
 
         $scope.saveSettings = function () {
-            if ($rootScope.session.isBelowZeroAllowed() != $scope.newSettings.allowFundsBelowZero) {
+            if ($rootScope.session.isBelowZeroAllowed() != $scope.newSettings.allowfundsbelowzero) {
                 server.patch('/company/' + $scope.currentCompanyLoggedIn, {
-                    allowFundsBelowZero: $scope.newSettings.allowFundsBelowZero
+                    allowfundsbelowzero: $scope.newSettings.allowfundsbelowzero
                 })
                     .then(function () {
                         $rootScope.session.onNewSettings($scope.newSettings);
@@ -406,7 +406,7 @@ angular.module('mathakur')
             $scope.currentProduct = {};
             $scope.formAdmin = {};
             $scope.newSettings = {
-                allowFundsBelowZero: $rootScope.session.isBelowZeroAllowed()
+                allowfundsbelowzero: $rootScope.session.isBelowZeroAllowed()
             };
         }
 
@@ -422,7 +422,7 @@ angular.module('mathakur')
                 return;
             }
             $scope.currentCompanyLoggedIn = $rootScope.session.getCompanyId();
-            $scope.newSettings.allowFundsBelowZero = $rootScope.session.isBelowZeroAllowed();
+            $scope.newSettings.allowfundsbelowzero = $rootScope.session.isBelowZeroAllowed();
             reloadData(true, true, true);
         });
 

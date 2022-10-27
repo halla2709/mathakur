@@ -81,7 +81,7 @@ function updateProduct(db, productId, newName, newPhotoUrl) {
 }
 
 function updateAllowFundsBelowZero(db, companyId, newValue) {
-    let queryString = 'UPDATE company SET allowFundsBelowZero = $1 WHERE id = $2';
+    let queryString = 'UPDATE company SET allowfundsbelowzero = $1 WHERE id = $2';
     return db.none(queryString, [newValue, companyId]);
 }
 

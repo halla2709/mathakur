@@ -359,7 +359,7 @@ describe('Admin Controller', function () {
 
   describe("Update settings", function() {
     it("will not send update if no change", function() {
-      scope.newSettings.allowFundsBelowZero = isBelowZeroAllowed;
+      scope.newSettings.allowfundsbelowzero = isBelowZeroAllowed;
       mockServer.get.calls.reset();
       var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
 
@@ -370,7 +370,7 @@ describe('Admin Controller', function () {
     });
 
     it("will send update for allow funds below zero if changed and show alert on success", function() {
-      scope.newSettings.allowFundsBelowZero = !isBelowZeroAllowed;
+      scope.newSettings.allowfundsbelowzero = !isBelowZeroAllowed;
       mockServer.get.calls.reset();
       var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
 
@@ -378,7 +378,7 @@ describe('Admin Controller', function () {
       
       expect(mockServer.patch).toHaveBeenCalledWith("/company/"+companyId, 
       jasmine.objectContaining({
-        allowFundsBelowZero: !isBelowZeroAllowed
+        allowfundsbelowzero: !isBelowZeroAllowed
       }));
       spy.calls.mostRecent().returnValue.then(function () {
         expect(mockServer.get).not.toHaveBeenCalled();
@@ -387,7 +387,7 @@ describe('Admin Controller', function () {
     });
 
     it("will show warning alert if update fails", function() {
-      scope.newSettings.allowFundsBelowZero = !isBelowZeroAllowed;
+      scope.newSettings.allowfundsbelowzero = !isBelowZeroAllowed;
       mockServer.get.calls.reset();
       var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
 
@@ -395,7 +395,7 @@ describe('Admin Controller', function () {
       
       expect(mockServer.patch).toHaveBeenCalledWith("/company/"+companyId, 
       jasmine.objectContaining({
-        allowFundsBelowZero: !isBelowZeroAllowed
+        allowfundsbelowzero: !isBelowZeroAllowed
       }));
       spy.calls.mostRecent().returnValue.catch(function () {
         expect(scope.errorAlert).toBeTruthy();

@@ -83,7 +83,7 @@ angular.module('mathakur')
         }
 
         this.onNewSettings = function(newSettings) {
-            this._company.allowfundsbelowzero = newSettings.allowFundsBelowZero;
+            this._company.allowfundsbelowzero = newSettings.allowfundsbelowzero;
         }
 
         this.load = function() {
