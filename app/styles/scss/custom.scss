@@ -255,7 +255,7 @@ html {
 
   /* -------- FRONT PAGE ---------- */
 
-  .animated {
+.animated {
     display:none
 } 
 
@@ -284,20 +284,21 @@ html {
 
 .line1 {
   margin: 12em 0 0.6em 0em;
-  height:1em;
+  height:0.5em;
   width:0;
   background:white;
   transform:rotate(-40deg);
   transform-origin:left;
-  animation:grow1 3s linear forwards;
+  animation:grow1 1s linear forwards;
   border-top-left-radius: 20px; 
   border-top-right-radius: 20px; 
   border-bottom-right-radius: 20px; 
   border-bottom-left-radius: 20px;
 }
+
 .line2 {
-  margin:-1.5em 0em 0.5em 2em;
-  height:2em;
+  margin:-2em 0em 0em 2em;
+  height:0.8em;
   width:0;
   background:$color-myPurpleDark;
   transform:rotate(-40deg);
@@ -308,9 +309,10 @@ html {
   border-bottom-right-radius: 20px; 
   border-bottom-left-radius: 20px;
 }
+
 .line3 {
-  margin:0em 0 0.6em 2em;
-  height:2.5em;
+  margin:0.5em 0 0em 2em;
+  height:1em;
   width:0;
   background:$color-myPinkLight;
   transform:rotate(-40deg);
@@ -321,9 +323,10 @@ html {
   border-bottom-right-radius: 20px; 
   border-bottom-left-radius: 20px;
 }
+
 .line4 {
   margin:-5em 0px 0.6em 8em;
-  height:2em;
+  height:0.7em;
   width:0;
   background:$color-myPinkDark;
   transform:rotate(-40deg);
@@ -334,41 +337,44 @@ html {
   border-bottom-right-radius: 20px; 
   border-bottom-left-radius: 20px;
 }
+
 .line5 {
   margin:1em 0px 0.6em 7em;
-  height:1.2em;
+  height:0.4em;
   width:0;
   background:lightgray;
   transform:rotate(-40deg);
   transform-origin:left;
-  animation:grow5 2s linear forwards;
+  animation:grow5 1s linear forwards;
   border-top-left-radius: 20px; 
   border-top-right-radius: 20px; 
   border-bottom-right-radius: 20px; 
   border-bottom-left-radius: 20px;
 }
+
 @keyframes grow1{
-  to {width:23em;}
+  to {width:22em;}
 }
+
 @keyframes grow2{
   to {width:18em;}
 }
+
 @keyframes grow3{
-  to {width:26em;}
+  to {width:20em;}
 }
+
 @keyframes grow4{
   to {width:22em;}
 }
+
 @keyframes grow4{
-  to {width:18em;}
+  to {width:16em;}
 }
+
 @keyframes grow5{
-  to {width:24em;}
+  to {width:12em;}
 }
-
-
-
-
 
 .img-bg {
   opacity: 10%;
@@ -387,31 +393,37 @@ html {
 }
 
 .transition-div-left {
-  animation: slideInFromLeft ease 3s;
+  animation: slideInFromLeft ease 2s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 
 }
 
 .transition-div-right {
-  animation: slideInFromRight ease 3s;
+  animation: slideInFromRight ease 2s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 
 }
 
 .transition-div-bottom {
-  animation: slideInFromBottom ease 3s;
+  animation: slideInFromBottom ease 2s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 
 }
 
 .transition-div-top {
-  animation: slideInFromTop ease 3s;
+  animation: slideInFromTop ease 2s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 
+}
+
+.transition-appear {
+  animation: fadeInAnimation ease 3s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
 }
 
 
