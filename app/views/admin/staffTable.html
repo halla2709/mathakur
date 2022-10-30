@@ -2,30 +2,33 @@
 
 <div class="container">
     <div class="row">
-      <div class="col col-10" style="width: 100%; padding: 0;">
-        <ul class="nav nav-tabs nav-fill">
-          <li class="nav-item">
-            <h5><a class="nav-link active" aria-current="page" ng-click="goToStaff()" id="adminNav">
-                <i class="bi bi-people" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Starfsmenn</a></h5>
-          </li>
-          <li class="nav-item">
-            <h5><a class="nav-link" ng-click="goToProduct()" id="adminNav">
-                <i class="bi bi-basket" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Vörur</a></h5>
-          </li>
-          <li class="nav-item">
-            <h5><a class="nav-link" ng-click="goToAdminList()" id="adminNav">
-                <i class="bi bi-person-badge" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Stjórnendur</a></h5>
-          </li>
-          <li class="nav-item">
-            <h5><a class="nav-link" ng-click="goToSettings()" id="adminNav">
-                <i class="bi bi-gear" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Stillingar</a></h5>
-          </li>
-        </ul>
-      </div>
+        <div class="col col-10" style="width: 100%; padding: 0;">
+            <ul class="nav nav-tabs nav-fill">
+                <li class="nav-item">
+                    <h5><a class="nav-link active" aria-current="page" ng-click="goToStaff()" id="adminNav">
+                            <i class="bi bi-people" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Starfsmenn</a>
+                    </h5>
+                </li>
+                <li class="nav-item">
+                    <h5><a class="nav-link" ng-click="goToProduct()" id="adminNav">
+                            <i class="bi bi-basket" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Vörur</a></h5>
+                </li>
+                <li class="nav-item">
+                    <h5><a class="nav-link" ng-click="goToAdminList()" id="adminNav">
+                            <i class="bi bi-person-badge"
+                                style="font-size: 1.3rem; padding-right: 0.4em;"></i>Stjórnendur</a></h5>
+                </li>
+                <li class="nav-item">
+                    <h5><a class="nav-link" ng-click="goToSettings()" id="adminNav">
+                            <i class="bi bi-gear" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Stillingar</a>
+                    </h5>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
+</div>
 
-  <div class="container" id="fancycontainer">
+<div class="container" id="fancycontainer">
     <div ng-show="!editing">
 
         <div class="container">
@@ -39,14 +42,15 @@
                         <span class="input-group-text" id="loginInputs" style="height: 50px;">
                             <i class="bi bi-search" style="font-size: 1.2rem;"></i>
                         </span>
-                        <input ng-model="searchBox" type="text" class="form-control ng-valid"
-                            placeholder="Leita..." style="max-width: 20em;">
+                        <input ng-model="searchBox" type="text" class="form-control ng-valid" placeholder="Leita..."
+                            style="max-width: 20em;">
                     </div>
                 </div>
                 <div class="col" style="padding: 0;">
-                    <button class="btn btn-lg btn-secondary" ng-show="!editing" ng-click="editEmployee()" style="float:right;">
+                    <button class="btn btn-lg btn-secondary" ng-show="!editing" ng-click="editEmployee()"
+                        style="float:right;">
                         <i class="bi bi-plus-circle" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Bæta við
-                        </button>
+                    </button>
                 </div>
             </div>
         </div>
@@ -56,35 +60,52 @@
             <p>Engir starfsmenn skráðir, smelltu á "Bæta við" hér að ofan</p>
             <br>
         </div>
+        <button class="btn btn-sm btn-primary" ng-click="copyEmployeeData()"></i>Afrita</button>
         <div ng-if="employeeData.length">
-        <table id="tafla" class="table table-responsive table-striped table-hover">
-            <thead>
-                <tr id="tofluHeader">
-                    <th>Fullt nafn</th>
-                    <th>Gælunafn</th>
-                    <th>Inneign</th>
-                    <th style="text-align: center">Mynd</th>
-                    <th>&nbsp;</th>
-                </tr>
-            </thead>
+            <table id="tafla" class="table table-responsive table-striped table-hover">
+                <thead>
+                    <tr id="tofluHeader">
+                        <th>Fullt nafn</th>
+                        <th>Gælunafn</th>
+                        <th style="text-align: center">Inneign</th>
+                        <th style="text-align: center">Mynd</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr ng-repeat="employee in employeeData | filter:searchBox | orderBy:'name':false:localeSensitiveComparator"
-                    ng-click="!employee.hasOwnProperty('id') || editEmployee(employee)">
+                        ng-click="!employee.hasOwnProperty('id') || editEmployee(employee)">
                         <td>{{employee.name}}</td>
                         <td>{{employee.nickname}}</td>
-                        <td>{{employee.credit}}kr</td>
-                        <td style="text-align: center"><span ng-show="{{employee.photourl !== '' && employee.photourl !== defaultEmployeePhotoUrl}}">
-                                <i class="bi bi-check-circle" style="color: green; font-size: 1.4rem; padding-right: 0.4em;"></i></span>
-                            <span ng-show="{{employee.photourl === '' || employee.photourl === defaultEmployeePhotoUrl}}">
-                                <i class="bi bi-x-circle" style="color: red; font-size: 1.4rem; padding-right: 0.4em;"></i></span>
+                        <td style="text-align: center">
+                            <span ng-if="employee.credit==0">
+                                {{employee.credit}}kr
+                            </span>
+                            <span style="color: green;" ng-if="employee.credit>0">
+                                {{employee.credit}}kr
+                            </span>
+                            <span style="color: red;" ng-if="employee.credit<0">
+                                {{employee.credit}}kr
+                            </span>
                         </td>
-                        <td style="text-align: center"><i class="bi bi-pencil" ng-style="employee.hasOwnProperty('id') ? {} : {opacity: .20}"
-                            style="font-size: 1.4rem; color:#440A67" title="Breyta"></i></td>
+                        <td style="text-align: center">
+                            <span
+                                ng-show="{{employee.photourl !== '' && employee.photourl !== defaultEmployeePhotoUrl}}">
+                                <i class="bi bi-check-circle"
+                                    style="color: green; font-size: 1.4rem; padding-right: 0.4em;"></i></span>
+                            <span
+                                ng-show="{{employee.photourl === '' || employee.photourl === defaultEmployeePhotoUrl}}">
+                                <i class="bi bi-x-circle"
+                                    style="color: red; font-size: 1.4rem; padding-right: 0.4em;"></i></span>
+                        </td>
+                        <td style="text-align: center"><i class="bi bi-pencil"
+                                ng-style="employee.hasOwnProperty('id') ? {} : {opacity: .20}"
+                                style="font-size: 1.4rem; color:#440A67" title="Breyta"></i></td>
                     </tr>
                 </tbody>
-        </table>
-        <button class="btn btn-sm btn-outline-secondary" type="button" ng-click="copyEmployeeData()"></i>Afrita stöðu</button>
-        </div>         
+            </table>
+
+        </div>
     </div>
 
     <!-------- EDIT ----------->
@@ -99,7 +120,8 @@
                 <div class="col">
                     <button class="btn btn-danger" type="button" ng-show="updating" id="deleteProductAndStaff"
                         style="float: right;" ng-click="deleteEmployee()">
-                        <i class="bi bi-trash" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Eyða starfsmanni</button>
+                        <i class="bi bi-trash" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Eyða
+                        starfsmanni</button>
                 </div>
             </div>
         </div>
@@ -114,28 +136,35 @@
 
                     <br> <label for="name" id="inputHeaders">Gælunafn</label>
                     <input id="nickname" maxlength="40" ng-model="currentEmployee.nickname" type="text"
-                        placeholder="Sigga" class="form-control form-control-lg"/>
+                        placeholder="Sigga" class="form-control form-control-lg" />
 
                     <br><label for="name" id="inputHeaders">Innistæða</label>
                     <div class="row">
-                     <div class="col-5">
-                        <div class="input-group input-group-lg">
-                            <input id="credit" required ng-model="currentEmployee.credit" type="number" placeholder="5000"
-                                class="form-control form-control-lg"/>
-                            <span class="input-group-text">
-                                kr
-                            </span>
-                        </div>
-                    </div>
+                        <div class="col-5">
+                            <div class="input-group input-group-lg">
+                                <input id="credit" required ng-model="currentEmployee.credit" type="number"
+                                    placeholder="5000" class="form-control form-control-lg" />
+                                <span class="input-group-text">
+                                    kr
+                                </span>
+                            </div>
+                        </div>                  
                         <div class="col" style="margin: auto;">
-                            <button class="btn btn-outline-success" type="button" id="quickAdd" ng-click="quickAdd(500)">+500</button>
-                            <button class="btn btn-outline-success" type="button" id="quickAdd" ng-click="quickAdd(1000)">+1000</button>
-                            <button class="btn btn-outline-success" type="button" id="quickAdd" ng-click="quickAdd(5000)">+5000</button>
-                        </div>
+                            <span ng-hide="">
+                            <button class="btn btn-outline-success" type="button" id="quickAdd"
+                                ng-click="quickAdd(500)">+500</button>
+                            <button class="btn btn-outline-success" type="button" id="quickAdd"
+                                ng-click="quickAdd(1000)">+1000</button>
+                            <button class="btn btn-outline-success" type="button" id="quickAdd"
+                                ng-click="quickAdd(5000)">+5000</button>
+                            </span>
+                        </div>            
                     </div>
                     <br>
                     <div ng-show="usingQuickAdd">
-                    <p><button title="Hætta við" class="btn btn-outline-danger btn-sm" type="button" ng-click="resetQuickAdd()"><i class="bi bi-x-lg"></i></button>    Bæta við <span style="color:#198754">{{quickAddedCredit}}kr</span> inneign fyrir starfsmann</p>            
+                        <p><button title="Hætta við" class="btn btn-outline-danger btn-sm" type="button"
+                                ng-click="resetQuickAdd()"><i class="bi bi-x-lg"></i></button> Bæta við <span
+                                style="color:#198754">{{quickAddedCredit}}kr</span> inneign fyrir starfsmann</p>
                     </div>
                     <br>
 

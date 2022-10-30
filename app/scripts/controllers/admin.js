@@ -13,6 +13,7 @@ angular.module('mathakur')
         $scope.class = 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main';
         $scope.newSettings = {};
         $scope.successAlert = false;
+        $scope.successAlertCopy = false;
         $scope.errorAlert = false;
         $scope.updatingCredit = false;
         $scope.quickAddedCredit = 0;
@@ -34,7 +35,7 @@ angular.module('mathakur')
         $scope.copyEmployeeData = function() {
             var data = "";
             for (let i = 0; i < $scope.employeeData.length; i++) {
-                data += $scope.employeeData[i].name + ":  " + $scope.employeeData[i].credit + "kr" + "\n";
+                data += $scope.employeeData[i].name + ": " + $scope.employeeData[i].credit + "kr" + "\n";
             }
             copyToClipboard(data);
         }
@@ -49,6 +50,7 @@ angular.module('mathakur')
             copyElement.select();
             document.execCommand('copy');
             body.removeChild(copyElement);
+            showSuccessMessageCopied();
         }
 
         $scope.quickAdd = function (x) {
@@ -73,7 +75,7 @@ angular.module('mathakur')
             $state.go('staffTable');
             $scope.editing = false;
             $scope.updating = false;
-
+            
             $scope.successAlert = false;
             $scope.errorAlert = false;
             $scope.usingQuickAdd = false;
@@ -113,6 +115,7 @@ angular.module('mathakur')
                 $scope.currentEmployee = employee;
             } else {
                 $scope.currentEmployee = {};
+                $scope.currentEmployee.credit = 0;
             }
             $scope.editing = true;
             $scope.usingQuickAdd = false;
@@ -177,6 +180,17 @@ angular.module('mathakur')
             }, 5000);
         }
 
+        function showSuccessMessageCopied() {
+            if (messageTimeout) {
+                $timeout.cancel(messageTimeout);
+            }
+            $scope.successAlertCopy = true;
+            messageTimeout = $timeout(function () {
+                $scope.successAlertCopy = false;
+                messageTimeout = null;
+            }, 5000);
+        }
+
         function showErrorMessage() {
             if (messageTimeout) {
                 $timeout.cancel(messageTimeout);
@@ -201,6 +215,7 @@ angular.module('mathakur')
                     companyId: $scope.currentCompanyLoggedIn
                 })
                     .then(function () {
+                        showSuccessMessage();
                         reloadData(true);
                     })
                     .catch(function (error) {
@@ -242,6 +257,7 @@ angular.module('mathakur')
                         if (index != -1) {
                             $scope.employeeData.splice(index, 1);
                         }
+                        showSuccessMessage();
                     })
                     .catch(function (error) {
                         showErrorMessage();
@@ -298,6 +314,7 @@ angular.module('mathakur')
                 })
                     .then(function () {
                         reloadData(false, true);
+                        showSuccessMessage();
                     })
                     .catch(function (error) {
                         showErrorMessage();
@@ -317,6 +334,7 @@ angular.module('mathakur')
                         if (index !== -1) {
                             $scope.productData.splice(index, 1);
                         }
+                        showSuccessMessage();
                     })
                     .catch(function (error) {
                         showErrorMessage();
@@ -351,6 +369,7 @@ angular.module('mathakur')
                                     username: formAdmin.username,
                                     id: response.data.adminId
                                 });
+                                showSuccessMessage();
                             })
                             .catch(function (error) {
                                 showErrorMessage();
@@ -389,6 +408,7 @@ angular.module('mathakur')
                     .then(function () {
                         const index = $scope.adminData.indexOf(toDelete);
                         $scope.adminData.splice(index, 1);
+                        showSuccessMessage();
                     })
                     .catch(function (error) {
                         showErrorMessage();
