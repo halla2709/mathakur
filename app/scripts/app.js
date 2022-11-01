@@ -94,7 +94,7 @@ angular
   })
   .config(function (CloudinaryProvider) {
     CloudinaryProvider.configure({
-      cloud_name: 'rubyhallaunnur'
+      cloud_name: 'rubyhallaunnur' // 'dk7mpsfkw'
     })
   })
   .run(['$rootScope', 'session', assignServicesToRootScope]);
