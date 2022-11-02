@@ -6,7 +6,7 @@
             <ul class="nav nav-tabs nav-fill">
                 <li class="nav-item">
                     <h5><a class="nav-link active" aria-current="page" ng-click="goToStaff()" id="adminNav">
-                            <i class="bi bi-people" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Starfsmenn</a>
+                            <i class="bi bi-people" style="font-size: 1.3rem; padding-right: 0.4em;"></i>Starfsfólk</a>
                     </h5>
                 </li>
                 <li class="nav-item">
@@ -34,7 +34,7 @@
         <div class="container">
             <div class="row">
                 <div class="col" style="padding: 0;">
-                    <h2><small>Starfsmenn</small></h2>
+                    <h2><small>Starfsfólk</small></h2>
                     <br>
                 </div>
                 <div class="col" style="padding: 0;">
@@ -57,7 +57,7 @@
 
         <div ng-if="!employeeData.length">
             <br>
-            <p>Engir starfsmenn skráðir, smelltu á "Bæta við" hér að ofan</p>
+            <p>Ekkert starfsfólk skráð, smelltu á "Bæta við" hér að ofan</p>
             <br>
         </div>
         <button class="btn btn-sm btn-primary" ng-click="copyEmployeeData()"></i>Afrita</button>
@@ -114,14 +114,12 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <h2><small>Starfsmaður</small></h2>
                     <br>
                 </div>
                 <div class="col">
                     <button class="btn btn-danger" type="button" ng-show="updating" id="deleteProductAndStaff"
                         style="float: right;" ng-click="deleteEmployee()">
-                        <i class="bi bi-trash" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Eyða
-                        starfsmanni</button>
+                        <i class="bi bi-trash" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Eyða</button>
                 </div>
             </div>
         </div>
@@ -138,7 +136,7 @@
                     <input id="nickname" maxlength="40" ng-model="currentEmployee.nickname" type="text"
                         placeholder="Sigga" class="form-control form-control-lg" />
 
-                    <br><label for="name" id="inputHeaders">Innistæða</label>
+                    <br><label for="name" id="inputHeaders">Inneign</label>
                     <div class="row">
                         <div class="col-5">
                             <div class="input-group input-group-lg">
@@ -164,7 +162,7 @@
                     <div ng-show="usingQuickAdd">
                         <p><button title="Hætta við" class="btn btn-outline-danger btn-sm" type="button"
                                 ng-click="resetQuickAdd()"><i class="bi bi-x-lg"></i></button> Bæta við <span
-                                style="color:#198754">{{quickAddedCredit}}kr</span> inneign fyrir starfsmann</p>
+                                style="color:#198754">{{quickAddedCredit}}kr</span> inneign</p>
                     </div>
                     <br>
 

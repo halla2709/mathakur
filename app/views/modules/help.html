@@ -1,14 +1,60 @@
 <div style="text-align: center; align-items: center;">
 
-  <div style="background-color:white; padding:2em; margin-top: 1em;">
-    <h3>Hvað er Mathákur?</h3>
+  <div class="transition-div-top" style="background-color:white; padding:2em; margin-top: 1em;">
+    <h3>Hvað gerir Mathákur?</h3>
     <br>
     <p>Mathákur er lausn fyrir fyrirtæki eða starfsmannafélög sem bjóða starfsfólki sínu að skrá á sig mat og drykki á vinnustöðum.</p>
-    <p>Með því að innleiða Mathák losnar þú við matarmiða, blað&blýant og sparar tíma.</p>
+    <p>Með þessum einföldum skrefum losnar þú við matarmiða, blað og blýant og sparar tíma.</p>
+  <div style="padding:1em;">
+    <div class="row">
+      <div class="col frontpageworkflow" >
+        <img src="images/apple.svg" style="max-height: 7em; padding: 1em;">
+        <p style="font-size: 14px; padding: 1em;">Stjórnandi býr til vörur og ákveður verð</p>
+      </div>
+      <div class="col frontpageworkflow">
+        <img src="images/user.svg" style="max-height: 7em; padding: 1em;">
+        <p style="font-size: 14px; padding: 1em;">Stjórnandi stofnar notendur</p>
+      </div>
+      <div class="col frontpageworkflow">
+        <img src="images/money-management.svg" style="max-height: 7em; padding: 0em 1em 1em 1em;">
+        <p style="font-size: 14px; padding: 1em;">Stjórnandi tekur við greiðslum frá starfsfólki og uppfærir inneignina þeirra</p>
+      </div>
+      <div class="col frontpageworkflow">
+       <img src="images/shopping-cart.svg" style="max-height: 7em; padding: 1em;">
+       <p style="font-size: 14px; padding: 1em;">Starfsfólk verslar vörur fyrir inneignina sína</p>
+      </div>
+    </div>
   </div>
-  
-  <br/>
-  <div style="background-color:white; padding:2em; margin-top: 1em;">
+  <div style="text-align: left;">
+    <h5>Mathákur:</h5>
+  <li>Gerir starfsfólki auðvelt að skrá á sig vörur með örfáum smellum.</li>
+  <li>Heldur utan um inneignarstöðu starfsfólks.</li>
+  <li>Gerir stjórnendum auðvelt að stofna aðgang fyrir starfsfólk með mynd, og uppfæra inneignarstöðu þeirra.</li>
+  <li>Gerir stjórnendum auðvelt að stofna vörur með mynd, ákvarða verð og breyta þeim eftir þörfum.</li>
+  <li>Gerir stjórnendum auðvelt að afrita stöðu starfsfólks til að senda út rukkanir ef þarf.</li>
+  <li>Leyfir stjórnendum að stilla hvort inneign starfsfólks má fara niður fyrir 0 (í skuld) eða ekki.</li>
+  <li>Er ætlaður til notkunar með tölvum eða spjaldtölvum.</li>
+</div>
+</div>
+    
+    <div class="transition-div-bottom" style="background-color:white; padding:2em; margin-top: 1em; text-align: left;">
+    <h3 style="text-align: center;">Hvað gerir Mathákur ekki?</h3>
+    <br>
+    <li>Tekur við greiðslum, greiðslur starfsfólks fer aðra leið og stjórnandi uppfærir stöðuna í Mathák handvirkt.</li>
+    <li>Sendir út rukkanir, ef fyrirtæki rukka starfsfólk eftir er farið aðra leið og stjórnandi uppfærir stöðuna í Mathák handvirkt.</li>
+    <li>Heldur utan um birgðastöðu.</li>
+    <li>Styður notkun í síma fallega (ennþá...).</li>
+  </div>
+
+  <div class="transition-div-top" style="background-color:white; padding:2em; margin-top: 1em; text-align: left;">
+    <h3 style="text-align: center;">Viltu vera með?</h3>
+    <br>
+    <p>Þú sendir okkur email á <strong>mathakurapp@gmail.com</strong> með helstu upplýsingum, allir viðskiptavinir fá frían prufumánuð.</p>
+    <p>Við stofnum fyrirtækið á vefsíðunni ásamt a.m.k. einum stjórnanda. Stjórnandinn stofnar vörur, starfsfólk og aðra stjórnendur (ef vill). Notkunarleiðbeiningar hér að neðan gagnast þeim sem vantar aðstoð við uppsetningu.</p>
+    <p>Fyrirtækið stillir upp t.d. spjaldtölvu á kaffistofunni, opnar <strong>mathakur.is</strong> og starfsfólk geta strax byrjað að skrá á sig mat og drykki.</p>
+  </div>
+
+  <div class="transition-div-bottom" style="background-color:white; padding:2em; margin-top: 1em;">
     <h3>Notkunarleiðbeiningar</h3>
     <br>
     <div class="container row"  id="fancycontainer" style="height: 80%; text-align: center; display: inline-flex;">
@@ -22,7 +68,7 @@
         </div>
     
         <div class="img-container col">
-            <h5>Búa til starfsmann</h5>
+            <h5>Búa til starfsfólk</h5>
             <img class="animated"
                 ng-src="https://res.cloudinary.com/dk7mpsfkw/image/upload/v1666645307/Defaults/BuaTilStarfsmann.gif"
                 width="525" height="420" />
@@ -32,6 +78,7 @@
         <div class="img-container col">
             <h5>Uppfæra inneign</h5>
             <img class="animated"
+            
                 ng-src="https://res.cloudinary.com/dk7mpsfkw/image/upload/v1666645307/Defaults/UppfaeraInneign.gif"
                 width="525" height="420" />
             <img class="simple" ng-src="https://res.cloudinary.com/dk7mpsfkw/image/upload/v1666904215/Defaults/mynduppfaerainneign.png" width="200" height="150" />

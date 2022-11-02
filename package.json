@@ -1,7 +1,7 @@
 {
   "name": "mathakur",
   "version": "2.0.0",
-  "description": "Mathákur er lítið og þægilegt vefsvæði til aðstoða við bókhald á kaffistofum minni fyrirtækja eða starfsmannafélaga.",
+  "description": "Litla þægilega vefsvæðið sem heldur utan um bókhald kaffistofa.",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"

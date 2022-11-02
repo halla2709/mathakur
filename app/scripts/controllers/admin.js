@@ -250,7 +250,7 @@ angular.module('mathakur')
         }
 
         $scope.deleteEmployee = function () {
-            if (confirm('Ertu viss um að þú viljir eyða þessum starfsmanni?')) {
+            if (confirm('Ertu viss um að þú viljir eyða?')) {
                 server.delete('/employee/' + $scope.currentEmployee.id)
                     .then(function () {
                         const index = $scope.employeeData.indexOf($scope.currentEmployee);
@@ -327,7 +327,7 @@ angular.module('mathakur')
         }
 
         $scope.deleteProduct = function () {
-            if (confirm('Ertu viss um að þú viljir eyða þessari vöru?')) {
+            if (confirm('Ertu viss um að þú viljir eyða?')) {
                 server.delete('/product/' + $scope.currentProduct.id + '/' + $scope.currentCompanyLoggedIn)
                     .then(function () {
                         const index = $scope.productData.indexOf($scope.currentProduct);
