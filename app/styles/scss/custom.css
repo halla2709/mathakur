@@ -244,13 +244,12 @@ h6, .h6 {
 .frontpageworkflow {
   background: white;
   padding-top: 1em;
-  -webkit-box-shadow: 0 0 5px #440A67;
-          box-shadow: 0 0 5px #440A67;
-  margin: 1em;
+  margin: 1em 0.4em;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;
+  border: solid 1px #440A67;
 }
 
 .line1 {
@@ -458,6 +457,15 @@ h6, .h6 {
 .transition-appear {
   -webkit-animation: fadeInAnimation ease 3s;
           animation: fadeInAnimation ease 3s;
+  -webkit-animation-iteration-count: 1;
+          animation-iteration-count: 1;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.transition-appearFast {
+  -webkit-animation: fadeInAnimation ease 1s;
+          animation: fadeInAnimation ease 1s;
   -webkit-animation-iteration-count: 1;
           animation-iteration-count: 1;
   -webkit-animation-fill-mode: forwards;
@@ -12292,6 +12300,24 @@ fieldset:disabled .btn {
   }
   .d-print-none {
     display: none !important;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .line1 {
+    display: none;
+  }
+  .line2 {
+    display: none;
+  }
+  .line3 {
+    display: none;
+  }
+  .line4 {
+    display: none;
+  }
+  .line5 {
+    display: none;
   }
 }
 /*# sourceMappingURL=custom.css.map */

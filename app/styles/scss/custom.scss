@@ -274,12 +274,13 @@ html {
 .frontpageworkflow {
   background: white;
   padding-top: 1em;
-  box-shadow: 0 0 5px $color-myPurpleDark;
-  margin: 1em;
+  //box-shadow: 0 0 5px $color-myPurpleDark;;
+  margin: 1em 0.4em;
   border-top-left-radius: 20px; 
   border-top-right-radius: 20px; 
   border-bottom-right-radius: 20px; 
   border-bottom-left-radius: 20px;
+  border: solid 1px $color-myPurpleDark;
 }
 
 .line1 {
@@ -426,6 +427,12 @@ html {
   animation-fill-mode: forwards;
 }
 
+.transition-appearFast {
+  animation: fadeInAnimation ease 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
 
 @keyframes fadeInAnimation {
   0% {
@@ -476,3 +483,22 @@ html {
   @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
   @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
   @import url('http://fonts.cdnfonts.com/css/bebas-neue');
+
+
+  @media only screen and (max-width: 1000px) {
+    .line1 {
+      display: none;
+    }
+    .line2 {
+      display: none;
+    }
+    .line3 {
+      display: none;
+    }
+    .line4 {
+      display: none;
+    }
+    .line5 {
+      display: none;
+    }
+  }
