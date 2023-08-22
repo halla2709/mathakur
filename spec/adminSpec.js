@@ -11,7 +11,8 @@ describe('Admin Controller', function () {
         cb();
       }};
     },
-    isBelowZeroAllowed: function() { return isBelowZeroAllowed; }
+    isBelowZeroAllowed: function() { return isBelowZeroAllowed; },
+    onNewSettings: function() { }
   }
 
   beforeEach(module('mathakur'));
@@ -32,7 +33,7 @@ describe('Admin Controller', function () {
   });
 
   it('should get all data on startup', function () {
-    expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyId);
+    expect(mockServer.get).toHaveBeenCalledWith('employee/all/' + companyId);
     expect(mockServer.get).toHaveBeenCalledWith('product/' + companyId);
     expect(mockServer.get).toHaveBeenCalledWith('admin/' + companyId);
   });
@@ -59,7 +60,7 @@ describe('Admin Controller', function () {
         }));
 
       spy.calls.mostRecent().returnValue.then(function () {
-        expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyId);
+        expect(mockServer.get).toHaveBeenCalledWith('employee/all/' + companyId);
         expect(mockServer.get).not.toHaveBeenCalledWith('product/' + companyId);
         expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyId);
         done();
@@ -87,7 +88,7 @@ describe('Admin Controller', function () {
         }));
 
       spy.calls.mostRecent().returnValue.then(function () {
-        expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyId);
+        expect(mockServer.get).toHaveBeenCalledWith('employee/all/' + companyId);
         expect(mockServer.get).not.toHaveBeenCalledWith('product/' + companyId);
         expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyId);
         done(); 
@@ -267,7 +268,7 @@ describe('Admin Controller', function () {
       expect(scope.wrongpassword).toBeTrue();
     });
 
-    fit('should add new admin in two post requests', function (done) {
+    it('should add new admin in two post requests', function (done) {
       var newAdmin = {
         password: 'a',
         passwordConfirm: 'a',
@@ -335,7 +336,7 @@ describe('Admin Controller', function () {
         allowfundsbelowzero: !isBelowZeroAllowed
       }));
       spy.calls.mostRecent().returnValue.then(function () {
-        expect(mockServer.get).not.toHaveBeenCalled();
+        expect(getSpy).not.toHaveBeenCalled();
         expect(scope.successAlert).toBeTruthy();
       });
     });

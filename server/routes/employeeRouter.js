@@ -18,7 +18,7 @@ router.get('/', function (req, res, next) {
         });
 });
 
-router.get('/:companyId', function (req, res, next) {
+router.get('/all/:companyId', function (req, res, next) {
     dbHelper.getFromTable(database, 'employee', 'companyid = \'' + req.params.companyId + '\'')
         .then(function (data) {
             req.employees = data;
@@ -28,6 +28,25 @@ router.get('/:companyId', function (req, res, next) {
             console.error(error)
             res.statusCode = 500;
             return res.json({ errors: ['Could not get employees for company ' + req.params.companyId] });
+        });
+});
+
+router.get('/:employeeId', function (req, res, next) {
+    dbHelper.getFromTable(database, 'employee', 'id = \'' + req.params.employeeId + '\'')
+        .then(function (data) {
+            req.employee = data;
+            if (req.employee.length > 0) {
+                res.json(req.employee[0]);
+            }
+            else {
+                res.statusCode = 500;
+                return res.json({ errors: ['Found more than one employee with the same id ' + req.params.employeeId] });
+            }
+        })
+        .catch(function (error) {
+            console.error(error)
+            res.statusCode = 500;
+            return res.json({ errors: ['Could not get employees for company ' + req.params.employeeId] });
         });
 });
 
@@ -56,9 +75,9 @@ router.patch('/:id', savePhotoToCloudinary, function (req, res, next) {
 
 router.patch('/updatecredit/:id', function (req, res, next) {
     const id = req.params.id;
-    const newCredit = req.body.newCredit;
+    const transaction = req.body.transaction;
 
-    dbHelper.updateEmployeeCredit(database, id, newCredit)
+    dbHelper.updateEmployeeCredit(database, id, transaction)
         .then(function () {
             res.statusCode = 200;
             res.end();

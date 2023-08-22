@@ -30,7 +30,7 @@ describe('Main workflow Controller', function () {
   });
 
   it('should get all data on startup', function () {
-    expect(mockServer.get).toHaveBeenCalledWith('employee/' + companyId);
+    expect(mockServer.get).toHaveBeenCalledWith('employee/all/' + companyId);
     expect(mockServer.get).toHaveBeenCalledWith('product/' + companyId);
   });
 
@@ -95,7 +95,7 @@ describe('Main workflow Controller', function () {
 
     scope.buyProduct();
     expect(mockServer.patch).toHaveBeenCalledOnceWith('employee/updatecredit/11111', jasmine.objectContaining({
-      newCredit: 880
+      transaction: 120
     }));
   });
 
@@ -116,7 +116,7 @@ describe('Main workflow Controller', function () {
     spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
     scope.buyProduct();
     expect(mockServer.patch).toHaveBeenCalledOnceWith('employee/updatecredit/11111', jasmine.objectContaining({
-      newCredit: 0
+      transaction: 10
     }));
   });
 
@@ -133,8 +133,31 @@ describe('Main workflow Controller', function () {
 
     scope.buyProduct();
     expect(mockServer.patch).toHaveBeenCalledOnceWith('employee/updatecredit/11111', jasmine.objectContaining({
-      newCredit: -110
+      transaction: 120
     }));
     sessionMock.isBelowZeroAllowed = function () { return false; }
+  });
+
+  it('updates employee information when starting to select product', function() {
+    mockServer.get.calls.reset();
+    const employeeId = 'aaa.aaa';
+    const selectedEmployee = { id: employeeId };
+    scope.selectStaff(selectedEmployee);
+    expect(mockServer.get).toHaveBeenCalledWith('employee/' + employeeId);
+  });
+
+  it('can revert the last transaction', function() {
+    scope.employee = { 
+      credit: 100,
+      id: 11111
+    };
+    scope.addProduct({ price: 10, name: 'product1' });
+    scope.buyProduct();
+
+    spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
+    scope.undoLastTransaction();
+    expect(mockServer.patch).toHaveBeenCalledOnceWith('employee/updatecredit/11111', jasmine.objectContaining({
+      transaction: -10
+    }));
   });
 });

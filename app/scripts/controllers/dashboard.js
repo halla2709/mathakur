@@ -17,13 +17,19 @@ angular.module('mathakur')
     $scope.showSuccessMessage = false;
 
     $scope.selectStaff = function (employee) {
-      $scope.employee = employee;
-      $scope.receipt = [];
-      $scope.total = 0;
-      $scope.total_count = 0;
-      $scope.showErrorMessage = false;
-      $scope.showSuccessMessage = false;
-      $state.go("selectproduct", { param: employee });
+      server.get('employee/'+employee.id)
+        .then(function(response) {
+          $scope.employee = response.data;
+          $scope.receipt = [];
+          $scope.total = 0;
+          $scope.total_count = 0;
+          $scope.showErrorMessage = false;
+          $scope.showSuccessMessage = false;
+          $state.go("selectproduct", { param: employee });
+        })
+        .catch(function(error) {
+          console.error("Could not update employee data");
+        });
     }
 
     $scope.showSidebar = function (sidebar) {
@@ -102,10 +108,11 @@ angular.module('mathakur')
           var newCredit = $scope.employee.credit - $scope.total;
           $scope.lastTransaction = {
             creditBefore: $scope.employee.credit,
+            amount: $scope.total,
             employee: $scope.employee
           }
           server.patch('employee/updatecredit/' + $scope.employee.id, {
-            newCredit: newCredit
+            transaction: $scope.total
           })
             .then(function () {
               $scope.employee.credit = newCredit;
@@ -144,7 +151,7 @@ angular.module('mathakur')
 
     $scope.undoLastTransaction = function () {
       server.patch('employee/updatecredit/' + $scope.lastTransaction.employee.id, {
-        newCredit: $scope.lastTransaction.creditBefore
+        transaction: -1*$scope.lastTransaction.amount
       })
         .then(function () {
           $scope.message = "Bakfærslan tókst, inneignin þín er ennþá: " + $scope.lastTransaction.creditBefore + "kr";
@@ -174,7 +181,7 @@ angular.module('mathakur')
       }
 
       var productPath = 'product/' + $rootScope.session.getCompanyId();
-      var employeePath = 'employee/' + $rootScope.session.getCompanyId();
+      var employeePath = 'employee/all/' + $rootScope.session.getCompanyId();
 
       server.get(employeePath).then(function (response) {
         $scope.myDataEmployee = response.data;
