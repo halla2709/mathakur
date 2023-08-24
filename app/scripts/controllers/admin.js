@@ -139,7 +139,7 @@ angular.module('mathakur')
 
         function reloadData(employee, product, admin) {
             if (employee) {
-                server.get("employee/" + $scope.currentCompanyLoggedIn).then(function (response) {
+                server.get("employee/all/" + $scope.currentCompanyLoggedIn).then(function (response) {
                     $scope.employeeData = response.data;
                 })
                     .catch(function (response) {
