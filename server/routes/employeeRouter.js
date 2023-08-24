@@ -37,12 +37,13 @@ router.patch('/:id', savePhotoToCloudinary, function (req, res, next) {
     let newPhotoUrl = res.photoUrl;
     const newName = req.body.newName;
     const newNickame = req.body.newNickname;
+    const newStatus = req.body.newStatus;
 
     if (!(typeof req.body.photo !== 'undefined' && req.body.photo !== '')) {
         newPhotoUrl = undefined;
     }
 
-    dbHelper.updateEmployee(database, id, newCredit, newName, newNickame, newPhotoUrl)
+    dbHelper.updateEmployee(database, id, newCredit, newName, newNickame, newPhotoUrl, newStatus)
         .then(function () {
             res.statusCode = 200;
             res.json({ photoUrl: newPhotoUrl });
@@ -76,7 +77,7 @@ router.post('/', savePhotoToCloudinary, addNicknameIfNotExists, function (req, r
     }
 
     dbHelper.insertIntoTable(database, 'employee',
-        ['name', 'nickname', 'credit', 'photoUrl', 'companyid'], [req.body.name, req.body.nickname, req.body.credit, res.photoUrl, req.body.companyId])
+        ['name', 'nickname', 'credit', 'photoUrl', 'companyid', 'active'], [req.body.name, req.body.nickname, req.body.credit, res.photoUrl, req.body.companyId, req.body.active])
         .then(function () {
             res.statusCode = 200;
             res.json({ photoUrl: res.photoUrl });

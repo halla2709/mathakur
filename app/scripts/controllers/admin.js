@@ -211,6 +211,7 @@ angular.module('mathakur')
                     photo: $scope.currentEmployee.newImage,
                     name: $scope.currentEmployee.name,
                     nickname: $scope.currentEmployee.nickname,
+                    active: $scope.currentEmployee.active,
                     credit: $scope.currentEmployee.credit,
                     companyId: $scope.currentCompanyLoggedIn
                 })
@@ -234,7 +235,8 @@ angular.module('mathakur')
                 photo: $scope.currentEmployee.newImage,
                 companyId: $scope.currentCompanyLoggedIn,
                 newName: $scope.currentEmployee.name,
-                newNickname: $scope.currentEmployee.nickname
+                newNickname: $scope.currentEmployee.nickname,
+                newStatus: $scope.currentEmployee.active,
             })
                 .then(function () {
                     showSuccessMessage();
