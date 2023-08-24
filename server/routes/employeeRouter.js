@@ -40,7 +40,7 @@ router.get('/:employeeId', function (req, res, next) {
             }
             else {
                 res.statusCode = 500;
-                return res.json({ errors: ['Found more than one employee with the same id ' + req.params.employeeId] });
+                return res.json({ errors: ['No employee found with id ' + req.params.employeeId] });
             }
         })
         .catch(function (error) {
