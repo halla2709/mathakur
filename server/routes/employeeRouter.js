@@ -19,7 +19,12 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/all/:companyId', function (req, res, next) {
-    dbHelper.getFromTable(database, 'employee', 'companyid = \'' + req.params.companyId + '\'')
+    let activeFilter = '';
+    if(req.query.active) {
+        activeFilter = 'AND active = true';
+    }
+
+        dbHelper.getFromTable(database, 'employee', 'companyid = \'' + req.params.companyId + '\' ' + activeFilter )
         .then(function (data) {
             req.employees = data;
             res.json(req.employees);

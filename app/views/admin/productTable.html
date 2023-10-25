@@ -63,6 +63,7 @@
                         <!--th>Flokkur</th-->
                         <th>Verð</th>
                         <th style="text-align: center">Mynd</th>
+                        <th style="text-align: center">Virk</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -80,6 +81,14 @@
                                 ng-show="{{!product.photourl || product.photourl === '' || product.photourl === defaultProductPhotoUrl}}">
                                 <i class="bi bi-x-circle" style="color: red; font-size: 1.4rem; padding-right: 0.4em;"></i></span>
                             </span>
+                        </td>
+                        <td style="text-align: center">
+                            <span ng-show="{{product.active == true}}">
+                                <i class="bi bi-check-circle"
+                                    style="color: green; font-size: 1.4rem; padding-right: 0.4em;"></i></span>
+                            <span ng-show="{{product.active == false}}">
+                                <i class="bi bi-x-circle"
+                                    style="color: red; font-size: 1.4rem; padding-right: 0.4em;"></i></span>
                         </td>
                         <td style="text-align: center"><i class="bi bi-pencil" ng-style="product.hasOwnProperty('id') ? {} : {opacity: .20}"
                                 style="font-size: 1.4rem; color:#440A67" title="Breyta"></i></td>
@@ -125,11 +134,13 @@
                             kr
                         </span>
                     </div>
+                    <br>
 
-                    <!--br><div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" ng-model="currentProduct.active">
-                        <label class="form-check-label">Virk</label>
-                      </div-->
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" ng-model="currentProduct.active" >
+                        <label class="form-check-label">Sýna í lista (virk/óvirk)</label>
+                      </div>
+
                 </div>
 
                 <div class="col" style="text-align: center;">

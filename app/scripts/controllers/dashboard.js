@@ -180,8 +180,8 @@ angular.module('mathakur')
         $state.go("dashboard");
       }
 
-      var productPath = 'product/' + $rootScope.session.getCompanyId();
-      var employeePath = 'employee/all/' + $rootScope.session.getCompanyId();
+      var productPath = 'product/' + $rootScope.session.getCompanyId() + '?active=true';
+      var employeePath = 'employee/all/' + $rootScope.session.getCompanyId() + '?active=true';
 
       server.get(employeePath).then(function (response) {
         $scope.myDataEmployee = response.data;

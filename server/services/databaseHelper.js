@@ -51,25 +51,25 @@ function updateEmployeeImage(db, employeeId, url) {
     return db.none(queryString, [url, employeeId]);
 }
 
-function updateEmployee(db, employeeId, newCredit, newName, newNickname, newPhotoUrl) {
-    let queryString = 'UPDATE employee SET credit = $1, name = $2, nickname = $3';
+function updateEmployee(db, employeeId, newCredit, newName, newNickname, newPhotoUrl, newStatus) {
+    let queryString = 'UPDATE employee SET credit = $1, name = $2, nickname = $3, active = $4 ';
     if (newPhotoUrl) {
-        queryString += ', photourl = $4 WHERE id = $5';
-        return db.none(queryString, [newCredit, newName, newNickname, newPhotoUrl, employeeId])
+        queryString += ', photourl = $5 WHERE id = $6';
+        return db.none(queryString, [newCredit, newName, newNickname, newStatus, newPhotoUrl, employeeId])
     }
     else {
-        queryString += 'WHERE id = $4';
-        return db.none(queryString, [newCredit, newName, newNickname, employeeId]);
+        queryString += 'WHERE id = $5';
+        return db.none(queryString, [newCredit, newName, newNickname, newStatus, employeeId]);
     }
 }
 
-function updateProductPrice(db, companyId, productId, newPrice) {
-    let queryString = 'UPDATE productprice SET price = $1 WHERE companyid = $2 and productid = $3';
-    return db.none(queryString, [newPrice, companyId, productId]);
+function updateProductPrice(db, companyId, productId, newPrice, newStatus) {
+    let queryString = 'UPDATE productprice SET price = $1, active = $2 WHERE companyid = $3 and productid = $4';
+    return db.none(queryString, [newPrice, newStatus, companyId, productId]);
 }
 
 function updateProduct(db, productId, newName, newPhotoUrl) {
-    let queryString = 'UPDATE product SET name = $1';
+    let queryString = 'UPDATE product SET name = $1 ';
     if (newPhotoUrl) {
         queryString += ", photourl = $2 WHERE id = $3";
         return db.none(queryString, [newName, newPhotoUrl, productId]);

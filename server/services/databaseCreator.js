@@ -31,7 +31,8 @@ db.none("CREATE TABLE IF NOT EXISTS company(id uuid DEFAULT gen_random_uuid() PR
                 nickname varchar(20), \
                 credit integer NOT NULL, \
                 photoUrl varchar(255) DEFAULT \'tzeqj4l6kjyq0jptankn\', \
-                companyid uuid REFERENCES company(id))")
+                companyid uuid REFERENCES company(id), \
+                active boolean DEFAULT TRUE)")
             .catch(error => {
                 console.log('ERROR:', error);
             });
@@ -57,7 +58,8 @@ db.none("CREATE TABLE IF NOT EXISTS product(id uuid DEFAULT gen_random_uuid() PR
 
         db.none("CREATE TABLE IF NOT EXISTS productprice(companyid uuid REFERENCES company(id), \
                 productid uuid REFERENCES product(id), \
-                price integer not null)")
+                price integer not null, \
+                active boolean DEFAULT TRUE)")
             .catch(error => {
                 console.log('ERROR:', error);
             });

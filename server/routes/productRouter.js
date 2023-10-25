@@ -14,7 +14,7 @@ router.get('/:companyId', getAllProducts, getPricesForCompany, function (req, re
     let resultTable = [];
     res.prices.forEach(function (price) {
         res.product.forEach(function (product) {
-            if (price.productid === product.id) resultTable.push({ id: product.id, name: product.name, category: product.category, photourl: product.photourl, price: price.price });
+            if (price.productid === product.id) resultTable.push({ id: product.id, name: product.name, category: product.category, photourl: product.photourl, price: price.price, active: price.active });
         });
     });
     res.json(resultTable);
@@ -31,8 +31,9 @@ router.patch('/:companyId/:id', savePhotoToCloudinary, function (req, res, next)
     const newPrice = req.body.newPrice;
     let newPhotoUrl = res.photoUrl;
     const newName = req.body.newName;
+    const newStatus = req.body.newStatus;
 
-    dbHelper.updateProductPrice(database, companyId, id, newPrice)
+    dbHelper.updateProductPrice(database, companyId, id, newPrice, newStatus)
         .then(function () {
             if (!(typeof req.body.photo !== 'undefined' && req.body.photo !== '')) {
                 newPhotoUrl = undefined;
@@ -98,7 +99,11 @@ function getAllProducts(req, res, next) {
 }
 
 function getPricesForCompany(req, res, next) {
-    dbHelper.getFromTable(database, 'productprice', 'companyid = \'' + req.params.companyId + '\' ')
+    let activeFilter = '';
+    if(req.query.active) {
+        activeFilter = 'AND active = true';
+    }
+    dbHelper.getFromTable(database, 'productprice', 'companyid = \'' + req.params.companyId + '\' ' + activeFilter)
         .then(function (data) {
             res.prices = data;
             next();
@@ -115,7 +120,7 @@ function insertIntoTables(req, res, next) {
         ['name', 'category', 'photoUrl'], [req.body.name, req.body.category, res.photoUrl])
         .then(function (id) {
             dbHelper.insertIntoTable(database, 'productprice',
-                ['companyid', 'productid', 'price'], [req.body.companyId, id.id, req.body.price])
+                ['companyid', 'productid', 'price', 'active'], [req.body.companyId, id.id, req.body.price, req.body.active])
                 .then(function () {
                 })
                 .catch(function (error) {

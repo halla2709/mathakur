@@ -116,6 +116,7 @@ angular.module('mathakur')
             } else {
                 $scope.currentEmployee = {};
                 $scope.currentEmployee.credit = 0;
+                $scope.currentEmployee.active = true;
             }
             $scope.editing = true;
             $scope.usingQuickAdd = false;
@@ -278,6 +279,7 @@ angular.module('mathakur')
             }
             else {
                 $scope.currentProduct = {};
+                $scope.currentProduct.active = true;
             }
             $scope.editing = true;
         }
@@ -287,7 +289,8 @@ angular.module('mathakur')
                 newPrice: $scope.currentProduct.price,
                 newName: $scope.currentProduct.name,
                 photo: $scope.currentProduct.newImage,
-                companyId: $scope.currentCompanyLoggedIn
+                companyId: $scope.currentCompanyLoggedIn,
+                newStatus: $scope.currentProduct.active,
             })
                 .then(function () {
                     showSuccessMessage();
@@ -312,7 +315,8 @@ angular.module('mathakur')
                     name: $scope.currentProduct.name,
                     category: $scope.currentProduct.category,
                     price: $scope.currentProduct.price,
-                    companyId: $scope.currentCompanyLoggedIn
+                    companyId: $scope.currentCompanyLoggedIn,
+                    active: $scope.currentProduct.active
                 })
                     .then(function () {
                         reloadData(false, true);
