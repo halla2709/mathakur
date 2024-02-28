@@ -63,6 +63,53 @@ function updateEmployee(db, employeeId, newCredit, newName, newNickname, newPhot
     }
 }
 
+function addShoppingHistoryForEmployee (db, employeeId) {
+    const day = calculateDay();
+    db.one('SELECT EXISTS(SELECT 1 FROM shoppingHistory WHERE employeeid = $1 & week = $2)',[employeeId, week])
+    .then(function(exists) {
+    if(exists) 
+        updateHistory(db, employeeId, week, transaction);
+    else 
+        newHistory(db, employeeId, week, transaction);
+})}
+
+function addAdminHistoryForEmployee (db, employeeId) {
+    const day = calculateDay();
+    db.one('SELECT EXISTS(SELECT 1 FROM adminHistory WHERE employeeid = $1 & week = $2)',[employeeId, week])
+    .then(function(exists) {
+    if(exists) 
+        updateHistory(db, employeeId, week, transaction);
+    else 
+        newHistory(db, employeeId, week, transaction);
+})}
+
+function newAdminHistory(db, employeeId, day, adminId, adminName, action, creditBefore, creditAfter) {
+ let queryString = 'INSERT INTO adminHistory (employeeid, day, adminId, adminName, action, creditBefore, creditAfter) VALUES ($1, $2, $3, $4, $5, $6, $7) ';
+ return db.none(queryString, [employeeId, day, adminId, adminName, action, creditBefore, creditAfter]);
+}
+
+function newShoppingHistory(db, employeeId, day, productIds[], productNames[], productPrices[], creditBefore) {
+ let queryString = 'INSERT INTO shoppingHistory (employeeid, day, adminId, adminName, action, creditBefore, creditAfter) VALUES ($1, $2, $3, $4, $5, $6, $7) ';
+ return db.none(queryString, [employeeId, day, adminId, adminName, action, creditBefore, creditAfter]);
+} 
+
+function updateAdminHistory(db, employeeId, week, transaction) {
+let queryString = 'UPDATE history SET transaction = transaction || $1::json WHERE employeeid = $2 AND week = $3 ';
+return db.none(queryString, [transaction, employeeId, week]);
+}
+
+function updateShoppingHistory {
+
+}
+
+function calculateDay() {
+   const today = new Date();
+   const week =  today.getDay();
+   const year = today.getFullYear();
+    console.log(today, week, year);
+    return parseInt(year + "" + week);
+  } 
+
 function updateProductPrice(db, companyId, productId, newPrice, newStatus) {
     let queryString = 'UPDATE productprice SET price = $1, active = $2 WHERE companyid = $3 and productid = $4';
     return db.none(queryString, [newPrice, newStatus, companyId, productId]);
@@ -135,6 +182,8 @@ function replaceTableName(tableName) {
             return 'productprice';
         case "company":
             return 'company';
+        case "history":
+            return 'history';
         default:
             console.error("no such table " + tableName);
             break;
@@ -153,5 +202,8 @@ module.exports = {
     updateAllowFundsBelowZero,
     deleteCompany,
     updateCompanyPassword,
-    updateEmployeeCredit
+    updateEmployeeCredit,
+    updateHistory,
+    newHistory,
+    addHistoryForEmployee
 }

@@ -36,7 +36,7 @@ router.get('/all/:companyId', function (req, res, next) {
         });
 });
 
-router.get('/:employeeId', function (req, res, next) {
+router.get('/:employeeId', getHistoryForEmployee, function (req, res, next) {
     dbHelper.getFromTable(database, 'employee', 'id = \'' + req.params.employeeId + '\'')
         .then(function (data) {
             req.employee = data;
@@ -62,12 +62,14 @@ router.patch('/:id', savePhotoToCloudinary, function (req, res, next) {
     const newName = req.body.newName;
     const newNickame = req.body.newNickname;
     const newStatus = req.body.newStatus;
+    const transaction = req.body.transaction;
 
     if (!(typeof req.body.photo !== 'undefined' && req.body.photo !== '')) {
         newPhotoUrl = undefined;
     }
-
-    dbHelper.updateEmployee(database, id, newCredit, newName, newNickame, newPhotoUrl, newStatus)
+    // ATH hvort það sé breyting í creditinu og þá 
+    //if(newCredit != )
+      dbHelper.updateEmployee(database, id, newCredit, newName, newNickame, newPhotoUrl, newStatus)
         .then(function () {
             res.statusCode = 200;
             res.json({ photoUrl: newPhotoUrl });
@@ -77,6 +79,7 @@ router.patch('/:id', savePhotoToCloudinary, function (req, res, next) {
             res.statusCode = 500;
             return res.json({ errors: ['Could not update employee'] });
         });
+    
 });
 
 router.patch('/updatecredit/:id', function (req, res, next) {
@@ -95,9 +98,41 @@ router.patch('/updatecredit/:id', function (req, res, next) {
         });
 });
 
+router.patch('/transaction/:id', createHistoryEntry, updateCredit, function (req, res, next) {
+    res.statusCode = 200;
+    res.end();
+
+})
+
+function createHistoryEntry(req, res, next) {
+
+    //Transaction á að vera: date, activity, value
+    let transaction = {
+       date: 1699907500,
+       activity: "",
+       value: 0,
+    }
+
+    //foreach transaction update activity and value
+    req.totalCost = total;
+
+    console.log(req.body.receipt);
+    next();
+
+}
+
+function updateCredit(req, res, next) {
+    req.totalCost
+// REikna total hér en ekki í framenda lengur
+
+}
+
+
 router.post('/', savePhotoToCloudinary, addNicknameIfNotExists, function (req, res, next) {
     if (typeof req.body.credit === 'undefined') {
         req.body.credit = 0;
+
+        //Ef ekki 0 þá viljum við skrifa það inn - createHistoryEntry
     }
 
     dbHelper.insertIntoTable(database, 'employee',
@@ -131,6 +166,23 @@ function addNicknameIfNotExists(req, res, next) {
         req.body.nickname = req.body.name.split(" ")[0];
     }
     next();
+}
+
+router.get('/history/:employeeId', getHistoryForEmployee, function (req, res, next) {
+    res.json(res.history);
+});
+
+function getHistoryForEmployee(req, res, next) {
+    dbHelper.getFromTable(database, 'history', 'employeeid = \'' + req.params.employeeId + '\' ')
+        .then(function (data) {
+            res.history = data;
+            next();
+        })
+        .catch(function (error) {
+            console.error(error)
+            res.statusCode = 500;
+            return res.json({ errors: ['Could not get employee history'] });
+        });
 }
 
 module.exports = router;

@@ -113,6 +113,9 @@ angular.module('mathakur')
                 $scope.updating = true;
                 $scope.quickAddedCredit = 0;
                 $scope.currentEmployee = employee;
+                server.get("employee/history/" + employee.id).then(function (response) {
+                    $scope.currentEmployee.history = response.data;
+                })                
             } else {
                 $scope.currentEmployee = {};
                 $scope.currentEmployee.credit = 0;

@@ -111,8 +111,8 @@ angular.module('mathakur')
             amount: $scope.total,
             employee: $scope.employee
           }
-          server.patch('employee/updatecredit/' + $scope.employee.id, {
-            transaction: $scope.total
+          server.patch('employee/transaction/' + $scope.employee.id, {
+            receipt: $scope.receipt
           })
             .then(function () {
               $scope.employee.credit = newCredit;
