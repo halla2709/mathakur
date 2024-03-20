@@ -8,11 +8,12 @@
  * Controller of yapp
  */
 angular.module('mathakur')
-  .controller('LoginCtrl', ['$scope', '$rootScope', '$state', 'server', 'md5', function ($scope, $rootScope, $state, server, md5) {
+  .controller('LoginCtrl', ['$scope', '$rootScope', '$state', '$stateParams', 'server', 'md5', function ($scope, $rootScope, $state, $stateParams, server, md5) {
 
     $scope.company = '';
     $scope.password = '';
     $scope.wrongpassword = false;
+    $scope.frozenCompany = $stateParams.frozen;
     $scope.filteredCompanies = [];
     //$scope.testCompanies = [{name:"Test"}, {name:"Tes2"}, {name:"Langt Nafn"}, {name:"very very very very long name"}];
 
@@ -38,6 +39,8 @@ angular.module('mathakur')
     }
 
     $scope.submit = function () {
+      $scope.frozenCompany = false;
+      $scope.wrongpassword = false;
       if ($scope.filteredCompanies.length > 0) {
         $scope.selectCompany($scope.filteredCompanies[0]);
       }
@@ -54,8 +57,13 @@ angular.module('mathakur')
               })
               .then(function (responseJson2) {
                 if (responseJson2.data.loggedIn) {
-                  $rootScope.session.setCompany(responseJson2.data.loggedIn, 0);
-                  $state.go('dashboard');
+                  if (responseJson2.data.loggedIn.frozen) {
+                    onCompanyFrozen();
+                  }
+                  else {
+                    $rootScope.session.setCompany(responseJson2.data.loggedIn, 0);
+                    $state.go('dashboard');
+                  }
                 }
                 else {
                   $scope.company = '';
@@ -63,12 +71,23 @@ angular.module('mathakur')
                   $scope.wrongpassword = true;
                 }
               })
-              .catch(function (error) { console.warn(error) })
+              .catch(function (error) { 
+                if (error.status === 403) {
+                  onCompanyFrozen();
+                }
+                else {
+                  console.warn(error)
+                }
+               })
           })
           .catch(function (error) { console.warn(error) });
       }
 
       return false;
+    }
+
+    function onCompanyFrozen() {
+      $scope.frozenCompany = true;
     }
 
     $rootScope.session.load().then(function() {

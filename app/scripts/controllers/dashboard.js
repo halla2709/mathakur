@@ -112,7 +112,8 @@ angular.module('mathakur')
             employee: $scope.employee
           }
           server.patch('employee/updatecredit/' + $scope.employee.id, {
-            transaction: $scope.total
+            transaction: $scope.total,
+            companyId: $rootScope.session.getCompanyId()
           })
             .then(function () {
               $scope.employee.credit = newCredit;
@@ -127,9 +128,11 @@ angular.module('mathakur')
               }, 10000);
             })
             .catch(function (error) {
-              console.error(error);
-              $scope.showErrorMessage = true;
-              $scope.errorMessage = "Villa átti sér stað við að framkvæma færsluna";
+              if (!isCompanyFrozen(error)) {
+                console.error(error);
+                $scope.showErrorMessage = true;
+                $scope.errorMessage = "Villa átti sér stað við að framkvæma færsluna";
+              }
             });
 
 
@@ -169,6 +172,17 @@ angular.module('mathakur')
         });
     }
 
+    function isCompanyFrozen(error) {
+      if (error.status === 403 && error.data.frozen) {
+        $rootScope.session.logOutCompany();
+        $state.go('login', { frozen: true });
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+
     $rootScope.session.load().then(function () {
       if (!$rootScope.session.isLoggedIn()) {
         console.log("no one is logged in");
@@ -186,17 +200,21 @@ angular.module('mathakur')
       server.get(employeePath).then(function (response) {
         $scope.myDataEmployee = response.data;
       })
-        .catch(function (response) {
-          //Error handle
-          $scope.content = "Something went wrong";
+        .catch(function (error) {
+          if (!isCompanyFrozen(error)) {
+            //Error handle
+            $scope.content = "Something went wrong";
+          }
         });
 
       server.get(productPath).then(function (response) {
         $scope.myDataProduct = response.data;
       })
-        .catch(function (response) {
-          //Error handle
-          $scope.content = "Something went wrong";
+        .catch(function (error) {
+          if (!isCompanyFrozen(error)) {
+            //Error handle
+            $scope.content = "Something went wrong";
+          }
         });
     });
   }]);

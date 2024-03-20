@@ -123,6 +123,12 @@ function deleteCompany(db, companyId) {
     });
 }
 
+function toggleCompanyFreeze(db, companyId)
+{
+    let queryString = 'UPDATE company SET frozen = NOT frozen WHERE id = $1';
+    return db.none(queryString, [companyId]);
+}
+
 function replaceTableName(tableName) {
     switch (tableName) {
         case "administrator":
@@ -153,5 +159,6 @@ module.exports = {
     updateAllowFundsBelowZero,
     deleteCompany,
     updateCompanyPassword,
-    updateEmployeeCredit
+    updateEmployeeCredit,
+    toggleCompanyFreeze
 }

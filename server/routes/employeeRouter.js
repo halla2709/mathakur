@@ -4,6 +4,7 @@ const path = require('path');
 const database = require('../services/databaseCreator').db;
 const dbHelper = require('../services/databaseHelper');
 const savePhotoToCloudinary = require("../services/cloudinaryHelper").savePhotoToCloudinary;
+const frozenCheck = require('../services/isFrozenCheck');
 
 router.get('/', function (req, res, next) {
     dbHelper.getFromTable(database, 'employee')
@@ -18,22 +19,22 @@ router.get('/', function (req, res, next) {
         });
 });
 
-router.get('/all/:companyId', function (req, res, next) {
+router.get('/all/:companyId', frozenCheck.verifyActiveCompany, function (req, res, next) {
     let activeFilter = '';
     if(req.query.active) {
         activeFilter = 'AND active = true';
     }
 
-        dbHelper.getFromTable(database, 'employee', 'companyid = \'' + req.params.companyId + '\' ' + activeFilter )
-        .then(function (data) {
-            req.employees = data;
-            res.json(req.employees);
-        })
-        .catch(function (error) {
-            console.error(error)
-            res.statusCode = 500;
-            return res.json({ errors: ['Could not get employees for company ' + req.params.companyId] });
-        });
+    dbHelper.getFromTable(database, 'employee', 'companyid = \'' + req.params.companyId + '\' ' + activeFilter )
+    .then(function (data) {
+        req.employees = data;
+        res.json(req.employees);
+    })
+    .catch(function (error) {
+        console.error(error)
+        res.statusCode = 500;
+        return res.json({ errors: ['Could not get employees for company ' + req.params.companyId] });
+    });
 });
 
 router.get('/:employeeId', function (req, res, next) {
@@ -79,7 +80,7 @@ router.patch('/:id', savePhotoToCloudinary, function (req, res, next) {
         });
 });
 
-router.patch('/updatecredit/:id', function (req, res, next) {
+router.patch('/updatecredit/:id', frozenCheck.findCompanyIdFromBody, frozenCheck.verifyActiveCompany, function (req, res, next) {
     const id = req.params.id;
     const transaction = req.body.transaction;
 
