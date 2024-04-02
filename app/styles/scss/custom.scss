@@ -34,6 +34,7 @@ html {
   body {
     margin: 8em 0.8em 4em 0.8em !important;
     background-color: $color-myGreyLight !important;
+    text-align: center !important;
   }
 
   p {
@@ -141,6 +142,7 @@ html {
     overflow:hidden; 
     white-space: nowrap;
   }
+  
 
   #staffInfo {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -152,6 +154,7 @@ html {
     right: 1em;
     top: 7em;
     color:$color-myBlueDark;
+    max-height: none;
   }
 
   /* ----------- ADMIN --------*/
@@ -195,7 +198,7 @@ html {
     background-color: #f0f0f0;
     border-top: 0.1em solid #dbdbdb;
     bottom: 0;
-    width: 100%;
+    width: 101%;
     position: absolute;
   }
 
@@ -269,6 +272,38 @@ html {
 
 .carousel .item {
   height: 300px;
+}
+
+.quote {
+  display:inline-block;
+  margin:1em;
+  overflow:hidden;
+  blockquote {
+
+    border: solid 3px #440A67;
+    display: inline-block;
+    margin: 0;
+    position: relative;
+    &:before {
+      background-color: #f0f0f0;
+      bottom: -10%;
+      content: "";
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: -10%;
+      transform: rotate(-15deg) skew(5deg);
+    }
+    cite {
+      display: block;
+      font-style: italic;
+
+    }
+    > * {
+      position: relative;
+      z-index: 1;
+    }
+  }
 }
 
 .frontpageworkflow {
@@ -380,10 +415,17 @@ html {
 .img-bg {
   opacity: 10%;
   height: -webkit-fill-available;
+  width: 30%;
   position: absolute;
+}
+
+.img-bg2 {
+  opacity: 30%;
+  height: -webkit-fill-available;
   left: 0px;
   top: 0px;
-  padding: 0.5em;
+  max-width: 3em;
+  float: inline-start;
 }
 
 
@@ -485,20 +527,34 @@ html {
   @import url('http://fonts.cdnfonts.com/css/bebas-neue');
 
 
-  @media only screen and (max-width: 1000px) {
-    .line1 {
-      display: none;
+  @media only screen and (max-width: 900px) {
+    #staffInfo {
+    right: auto;
+    top: auto;
+    position: relative !important;
+    width: 100%;
+    
     }
-    .line2 {
-      display: none;
+    #kaupataema {
+      padding: 0px;
+
     }
-    .line3 {
-      display: none;
+
+    #karfan {
+      max-height: max-content;
     }
-    .line4 {
-      display: none;
+
+    #leitabox {
+      max-width: 21em;
     }
-    .line5 {
-      display: none;
+
+    .col-8 {
+      width: 100% !important;
+    }
+
+    .img-bg {
+      visibility: hidden;
     }
   }
+
+ // @media only screen and (max-width: 400px) {}
