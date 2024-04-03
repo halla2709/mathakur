@@ -83,6 +83,11 @@ html {
     border-bottom-left-radius: 0px;
   }
 
+  #frontpagepadding {
+    padding: 4em; 
+    margin: 3em 0em 3em 0em;
+  }
+
   #login-div {
     border-radius: 15px; 
     text-align: center;
@@ -228,8 +233,7 @@ html {
     border-bottom-right-radius: 20px; 
     border-bottom-left-radius: 20px;
     color:$color-myBlueDark;
-    min-height: 17.3em;
-    max-height: 34.3em;
+    min-height: 17em;
     overflow-y: auto;
   }
 
@@ -533,15 +537,15 @@ html {
     top: auto;
     position: relative !important;
     width: 100%;
-    
     }
+
     #kaupataema {
       padding: 0px;
-
     }
 
-    #karfan {
-      max-height: max-content;
+    #frontpagepadding {
+      padding: 1em; 
+      margin: 1em 0em 1em 0em;
     }
 
     #leitabox {

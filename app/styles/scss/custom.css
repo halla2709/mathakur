@@ -57,6 +57,11 @@ h6, .h6 {
   border-bottom-left-radius: 0px;
 }
 
+#frontpagepadding {
+  padding: 4em;
+  margin: 3em 0em 3em 0em;
+}
+
 #login-div {
   border-radius: 15px;
   text-align: center;
@@ -199,8 +204,7 @@ h6, .h6 {
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;
   color: #160075;
-  min-height: 17.3em;
-  max-height: 34.3em;
+  min-height: 17em;
   overflow-y: auto;
 }
 
@@ -12357,10 +12361,9 @@ fieldset:disabled .btn {
   #kaupataema {
     padding: 0px;
   }
-  #karfan {
-    max-height: -webkit-max-content;
-    max-height: -moz-max-content;
-    max-height: max-content;
+  #frontpagepadding {
+    padding: 1em;
+    margin: 1em 0em 1em 0em;
   }
   #leitabox {
     max-width: 21em;
