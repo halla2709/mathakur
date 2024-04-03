@@ -62,10 +62,32 @@ h6, .h6 {
   margin: 3em 0em 3em 0em;
 }
 
+#frontpagepaddingplus {
+  padding: 4em;
+  margin: 3em 1em 3em 1em;
+}
+
 #login-div {
   border-radius: 15px;
   text-align: center;
   max-width: 35em !important;
+}
+
+#purplestyle {
+  color: white;
+  background-color: #93329E;
+  text-align: center;
+  margin: 0em 10em;
+  border-radius: 15px 50px;
+  padding: 2em;
+}
+
+#lesspadding {
+  padding: 4em;
+}
+
+#lessmargin {
+  margin: 0em 10em;
 }
 
 #loginInputs {
@@ -447,8 +469,10 @@ h6, .h6 {
 .img-bg {
   opacity: 10%;
   height: -webkit-fill-available;
-  width: 30%;
   position: absolute;
+  left: 0px;
+  top: 0px;
+  max-width: 12em;
 }
 
 .img-bg2 {
@@ -12358,12 +12382,28 @@ fieldset:disabled .btn {
     position: relative !important;
     width: 100%;
   }
+  .dropdown-menu[data-bs-popper] {
+    left: auto;
+    right: 0;
+  }
+  #purplestyle {
+    margin: 0em;
+    border-radius: 0px 0px;
+    padding: 1em;
+  }
   #kaupataema {
     padding: 0px;
+  }
+  #lessmargin {
+    margin: 0em;
   }
   #frontpagepadding {
     padding: 1em;
     margin: 1em 0em 1em 0em;
+  }
+  #frontpagepaddingplus {
+    padding: 1em;
+    margin: 1em;
   }
   #leitabox {
     max-width: 21em;
@@ -12373,6 +12413,9 @@ fieldset:disabled .btn {
   }
   .img-bg {
     visibility: hidden;
+  }
+  #lesspadding {
+    padding: 2em;
   }
 }
 /*# sourceMappingURL=custom.css.map */
