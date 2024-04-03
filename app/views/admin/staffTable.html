@@ -221,13 +221,11 @@
 
                     <tbody ng-repeat="history in currentEmployee.history" style="border: none;">
                         <tr ng-repeat="transaction in history.transactions" style="text-align: center">
-                            <td style="text-align: center">{{transaction.date * 1000 | date:'dd MMM yyyy kl HH:mm'}}</td>
-                            <td style="text-align: center">{{transaction.activity}}: {{transaction.productIds[0]}}</td>
-
-                            <!--Hér vantar að búa til transaction.creditChange til að nota í að sjá muninn á before og after-->
-                            <td style="text-align: center; color: green" ng-show="transaction.creditChange > 0">{{transaction.creditChange}} kr</td><td>VANTAR</td>
-                            <td style="text-align: center; color: red" ng-show="transaction.creditChange < 0">{{transaction.creditChange}} kr</td>
-                            <td style="text-align: center">{{transaction.creditAfter}} kr</td>
+                            <td style="text-align: center">{{day * 1000 | day:'dd MMM yyyy kl HH:mm'}}</td>
+                            <td style="text-align: center">{{action}}: {{transaction.productIds[0]}}</td>
+                            <td style="text-align: center; color: green" ng-show="transaction.creditChange > 0">{{creditBefore}} kr</td><td>VANTAR</td>
+                            <td style="text-align: center; color: red" ng-show="transaction.creditChange < 0">{{creditChange}} kr</td>
+                            <td style="text-align: center">{{creditAfter}} kr</td>
                         </tr>
                     </tbody>
 

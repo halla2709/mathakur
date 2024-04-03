@@ -34,22 +34,20 @@ db.none("CREATE TABLE IF NOT EXISTS company(id uuid DEFAULT gen_random_uuid() PR
                 companyid uuid REFERENCES company(id), \
                 active boolean DEFAULT TRUE)")
             .then(() => {
-                db.none("CREATE TABLE IF NOT EXISTS shoppingHistory(employeeId uuid REFERENCES employee(id), \
+                db.none("CREATE TABLE IF NOT EXISTS shoppinghistory(employeeId uuid REFERENCES employee(id), \
                     day integer NOT NULL, \
-                    productIds uuid ARRAY[100], \
-                    productNames varchar(40) ARRAY[100], \
-                    productPrices integer ARRAY[100] NOT NULL\
+                    productIds uuid[], \
+                    productNames text[], \
+                    productPrices integer[] NOT NULL,\
                     creditBefore integer NOT NULL, \
+                    PRIMARY KEY(employeeId, day) \
                     )")
-            })
-            .then(() => {
-                db.none("CREATE TABLE IF NOT EXISTS adminHistory(employeeId uuid REFERENCES employee(id), \
+                db.none("CREATE TABLE IF NOT EXISTS adminhistory(employeeId uuid REFERENCES employee(id), \
                     day integer NOT NULL, \
-                    adminId uuid, \
                     adminName varchar(40), \
                     action varchar(40), \
                     creditBefore integer NOT NULL, \
-                    creditAfter integer NOT NULL, \
+                    creditAfter integer NOT NULL \
                     )")
             })
             .catch(error => {

@@ -26,7 +26,7 @@ function insertIntoTableReturningID(db, tableName, columns, values) {
     return db.one(queryString, values);
 }
 
-function insertIntoTable(db, tableName, columns, values) {
+function insertIntoTable(db, tableName, columns, values, returnId) {
     let queryString = 'INSERT INTO ' + replaceTableName(tableName);
     let columnsString = '(';
     let valuesString = '(';
@@ -37,8 +37,14 @@ function insertIntoTable(db, tableName, columns, values) {
     }
     columnsString += ' ' + columns[columns.length-1] + ')';
     valuesString += ' $' + values.length + ')';
-    queryString += columnsString + " VALUES" + valuesString + ';';
-    return db.none(queryString, values);
+    queryString += columnsString + " VALUES" + valuesString;
+    if (returnId) {
+        queryString += " RETURNING id";
+        return db.one(queryString, values);
+    }
+    else {
+        return db.none(queryString, values);
+    }
 }
 
 function updateEmployeeCredit(db, employeeId, transaction) {
@@ -63,51 +69,44 @@ function updateEmployee(db, employeeId, newCredit, newName, newNickname, newPhot
     }
 }
 
-function addShoppingHistoryForEmployee (db, employeeId) {
+function addShoppingHistoryForEmployee (db, employeeId, productIds, productNames, productPrices, creditBefore) {
     const day = calculateDay();
-    db.one('SELECT EXISTS(SELECT 1 FROM shoppingHistory WHERE employeeid = $1 & week = $2)',[employeeId, week])
-    .then(function(exists) {
-    if(exists) 
-        updateHistory(db, employeeId, week, transaction);
-    else 
-        newHistory(db, employeeId, week, transaction);
-})}
+    let queryString = 'INSERT INTO shoppinghistory (employeeid, day, productIds, productNames, productPrices, creditBefore) VALUES ($1, $2, $3::uuid[], $4, $5, $6) ';
+    queryString += 'ON CONFLICT (employeeid, day) DO UPDATE SET ';
+    queryString += 'productIds = array_cat(shoppinghistory.productIds, EXCLUDED.productIds), '
+    queryString += 'productNames = array_cat(shoppinghistory.productNames, EXCLUDED.productNames), '
+    queryString += 'productPrices = array_cat(shoppinghistory.productPrices, EXCLUDED.productPrices)'
+    return db.none(queryString, [employeeId, day, productIds, productNames, productPrices, creditBefore]);
+}
 
-function addAdminHistoryForEmployee (db, employeeId) {
+function addAdminHistoryForEmployee(db, employeeId, adminName, action, creditBefore, creditAfter) {
     const day = calculateDay();
-    db.one('SELECT EXISTS(SELECT 1 FROM adminHistory WHERE employeeid = $1 & week = $2)',[employeeId, week])
-    .then(function(exists) {
-    if(exists) 
-        updateHistory(db, employeeId, week, transaction);
-    else 
-        newHistory(db, employeeId, week, transaction);
-})}
-
-function newAdminHistory(db, employeeId, day, adminId, adminName, action, creditBefore, creditAfter) {
- let queryString = 'INSERT INTO adminHistory (employeeid, day, adminId, adminName, action, creditBefore, creditAfter) VALUES ($1, $2, $3, $4, $5, $6, $7) ';
- return db.none(queryString, [employeeId, day, adminId, adminName, action, creditBefore, creditAfter]);
+    let queryString = 'INSERT INTO adminhistory (employeeid, day, adminName, action, creditBefore, creditAfter) VALUES ($1, $2, $3, $4, $5, $6) ';
+    return db.none(queryString, [employeeId, day, adminName, action, creditBefore, creditAfter]);
 }
 
-function newShoppingHistory(db, employeeId, day, productIds[], productNames[], productPrices[], creditBefore) {
- let queryString = 'INSERT INTO shoppingHistory (employeeid, day, adminId, adminName, action, creditBefore, creditAfter) VALUES ($1, $2, $3, $4, $5, $6, $7) ';
- return db.none(queryString, [employeeId, day, adminId, adminName, action, creditBefore, creditAfter]);
-} 
+// function newAdminHistory(db, employeeId, day, adminId, adminName, action, creditBefore, creditAfter) {
+//  let queryString = 'INSERT INTO adminHistory (employeeid, day, adminId, adminName, action, creditBefore, creditAfter) VALUES ($1, $2, $3, $4, $5, $6, $7) ';
+//  return db.none(queryString, [employeeId, day, adminId, adminName, action, creditBefore, creditAfter]);
+// }
 
-function updateAdminHistory(db, employeeId, week, transaction) {
-let queryString = 'UPDATE history SET transaction = transaction || $1::json WHERE employeeid = $2 AND week = $3 ';
-return db.none(queryString, [transaction, employeeId, week]);
-}
+// function newShoppingHistory(db, employeeId, day, productIds[], productNames[], productPrices[], creditBefore) {
+//  let queryString = 'INSERT INTO shoppingHistory (employeeid, day, adminId, adminName, action, creditBefore, creditAfter) VALUES ($1, $2, $3, $4, $5, $6, $7) ';
+//  return db.none(queryString, [employeeId, day, adminId, adminName, action, creditBefore, creditAfter]);
+// } 
 
-function updateShoppingHistory {
+// function updateAdminHistory(db, employeeId, week, transaction) {
+// let queryString = 'UPDATE history SET transaction = transaction || $1::json WHERE employeeid = $2 AND week = $3 ';
+// return db.none(queryString, [transaction, employeeId, week]);
+// }
 
-}
 
 function calculateDay() {
    const today = new Date();
-   const week =  today.getDay();
+   const day =  today.getDay(); ///LAGA ÞETTA UKB EKKI RETT DAY
    const year = today.getFullYear();
-    console.log(today, week, year);
-    return parseInt(year + "" + week);
+    console.log(today, day, year);
+    return parseInt(year + "" + day);
   } 
 
 function updateProductPrice(db, companyId, productId, newPrice, newStatus) {
@@ -184,6 +183,10 @@ function replaceTableName(tableName) {
             return 'company';
         case "history":
             return 'history';
+        case "adminhistory":
+            return "adminhistory";
+        case "shoppinghistory":
+            return "shoppinghistory";
         default:
             console.error("no such table " + tableName);
             break;
@@ -203,7 +206,6 @@ module.exports = {
     deleteCompany,
     updateCompanyPassword,
     updateEmployeeCredit,
-    updateHistory,
-    newHistory,
-    addHistoryForEmployee
+    addShoppingHistoryForEmployee,
+    addAdminHistoryForEmployee
 }

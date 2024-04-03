@@ -150,6 +150,7 @@ angular.module('mathakur')
     };
 
     $scope.undoLastTransaction = function () {
+      // todo saga hér select arr[6:array_lengt(arr,1)]
       server.patch('employee/updatecredit/' + $scope.lastTransaction.employee.id, {
         transaction: -1*$scope.lastTransaction.amount
       })

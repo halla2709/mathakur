@@ -115,6 +115,7 @@ angular.module('mathakur')
                 $scope.currentEmployee = employee;
                 server.get("employee/history/" + employee.id).then(function (response) {
                     $scope.currentEmployee.history = response.data;
+                    console.log($scope.currentEmployee.history);
                 })                
             } else {
                 $scope.currentEmployee = {};
@@ -123,16 +124,6 @@ angular.module('mathakur')
             }
             $scope.editing = true;
             $scope.usingQuickAdd = false;
-        };
-
-        $scope.editEmployeeCredit = function (employee) {
-            if (employee) {
-                $scope.updatingCredit = true;
-                $scope.currentEmployee = employee;
-            } else {
-                $scope.currentEmployee = {};
-            }
-            $scope.updatingCredit = true;
         };
 
         $scope.createAdmin = function () {
@@ -217,7 +208,8 @@ angular.module('mathakur')
                     nickname: $scope.currentEmployee.nickname,
                     active: $scope.currentEmployee.active,
                     credit: $scope.currentEmployee.credit,
-                    companyId: $scope.currentCompanyLoggedIn
+                    companyId: $scope.currentCompanyLoggedIn,
+                    adminName: $rootScope.session.getUser()
                 })
                     .then(function () {
                         showSuccessMessage();
@@ -241,6 +233,7 @@ angular.module('mathakur')
                 newName: $scope.currentEmployee.name,
                 newNickname: $scope.currentEmployee.nickname,
                 newStatus: $scope.currentEmployee.active,
+                adminName: $rootScope.session.getUser()
             })
                 .then(function () {
                     showSuccessMessage();
