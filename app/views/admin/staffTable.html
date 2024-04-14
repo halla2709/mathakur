@@ -214,18 +214,17 @@
                         <tr id="tofluHeader">
                             <th style="width: 20%; text-align: center">Dagsetning</th>
                             <th style="width: 60%; text-align: center">Athöfn</th>
-                            <th style="width: 20%; text-align: center">Breyting</th>
+                            <th style="width: 20%; text-align: center">Fyrir</th>
                             <th style="width: 20%; text-align: center">Lokastaða</th>
                         </tr>
                     </thead>
 
-                    <tbody ng-repeat="history in currentEmployee.history" style="border: none;">
-                        <tr ng-repeat="transaction in history.transactions" style="text-align: center">
-                            <td style="text-align: center">{{day * 1000 | day:'dd MMM yyyy kl HH:mm'}}</td>
-                            <td style="text-align: center">{{action}}: {{transaction.productIds[0]}}</td>
-                            <td style="text-align: center; color: green" ng-show="transaction.creditChange > 0">{{creditBefore}} kr</td><td>VANTAR</td>
-                            <td style="text-align: center; color: red" ng-show="transaction.creditChange < 0">{{creditChange}} kr</td>
-                            <td style="text-align: center">{{creditAfter}} kr</td>
+                    <tbody style="border: none;">
+                        <tr ng-repeat="history in currentEmployee.history" style="text-align: center">
+                            <td style="text-align: center">{{history.day | date: 'dd MMMM yy'}}</td>
+                            <td style="text-align: center">{{history.action || 'Versla'}}: {{history.adminname || history.shoppingtransaction}}</td>
+                            <td style="text-align: center">{{history.creditbefore}} kr</td>
+                            <td style="text-align: center">{{history.creditafter}} kr</td>
                         </tr>
                     </tbody>
 

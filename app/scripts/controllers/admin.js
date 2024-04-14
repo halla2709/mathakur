@@ -115,7 +115,26 @@ angular.module('mathakur')
                 $scope.currentEmployee = employee;
                 server.get("employee/history/" + employee.id).then(function (response) {
                     $scope.currentEmployee.history = response.data;
-                    console.log($scope.currentEmployee.history);
+                    $scope.currentEmployee.history.forEach(entry => {
+                        let products = {};
+                        if (entry.productnames) {
+                            entry.productnames.forEach(product => {
+                                if (products[product])
+                                    products[product] += 1;
+                                else 
+                                    products[product] = 1;
+                            });
+                            entry.shoppingtransaction = Object.entries(products)
+                                .map(([key, value]) => `${key} x${value}`)
+                                .join(', ');
+                        }
+                        if (entry.creditafter === null) {
+                            entry.creditafter = entry.creditbefore;
+                            entry.productprices.forEach(price => {
+                                entry.creditafter -= price;
+                            });
+                        }
+                    });
                 })                
             } else {
                 $scope.currentEmployee = {};

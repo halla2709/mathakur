@@ -253,8 +253,7 @@ router.get('/history/:employeeId', getHistoryForEmployee, function (req, res, ne
 });
 
 function getHistoryForEmployee(req, res, next) {
-    
-    dbHelper.getFromTable(database, 'shoppinghistory', 'employeeid = \'' + req.params.employeeId + '\' ')
+    dbHelper.getAllHistoryForEmployee(database, req.params.employeeId)
         .then(function (data) {
             res.history = data;
             next();

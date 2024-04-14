@@ -35,7 +35,7 @@ db.none("CREATE TABLE IF NOT EXISTS company(id uuid DEFAULT gen_random_uuid() PR
                 active boolean DEFAULT TRUE)")
             .then(() => {
                 db.none("CREATE TABLE IF NOT EXISTS shoppinghistory(employeeId uuid REFERENCES employee(id), \
-                    day integer NOT NULL, \
+                    day DATE NOT NULL DEFAULT CURRENT_DATE, \
                     productIds uuid[], \
                     productNames text[], \
                     productPrices integer[] NOT NULL,\
@@ -43,7 +43,7 @@ db.none("CREATE TABLE IF NOT EXISTS company(id uuid DEFAULT gen_random_uuid() PR
                     PRIMARY KEY(employeeId, day) \
                     )")
                 db.none("CREATE TABLE IF NOT EXISTS adminhistory(employeeId uuid REFERENCES employee(id), \
-                    day integer NOT NULL, \
+                    day DATE NOT NULL DEFAULT CURRENT_DATE, \
                     adminName varchar(40), \
                     action varchar(40), \
                     creditBefore integer NOT NULL, \
