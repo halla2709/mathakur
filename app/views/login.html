@@ -2,6 +2,10 @@
 
 	<h2><small>Vinsamlega skráðu inn vinnustað:</small></h2>
 	<br>
+	<div class="alert alert-primary" role="alert" ng-show="frozenCompany">
+		<p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>Aðgangur hefur verið frystur.</p>
+		<p>Vinsamlega hafðu samband við stjórnendur Matháks til að endurnýja áskrift.</p>
+	</div>
 	<form role="form" ng-submit="submit()">
 
 		<div class="input-group input-group-lg" style="min-width: max-content;">

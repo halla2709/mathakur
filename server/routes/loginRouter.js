@@ -5,6 +5,7 @@ const randomString = require('random-string');
 const md5 = require('md5');
 const database = require('../services/databaseCreator').db;
 const dbHelper = require('../services/databaseHelper');
+const frozenCheck = require('../services/isFrozenCheck');
 
 const masterKeyHash = md5(process.env.MASTER_SIGNUP_KEY || 'rubyhallaunnur');
 let companyAuth = {};
@@ -64,7 +65,7 @@ router.post('/signupAdmin', authenticateAdminConnection, addAdmin, function (req
     res.json({ name: req.body.name, adminId: res.adminId });
 });
 
-router.post('/loginUser', authenticateAdminConnection, checkUserCredientials, function (req, res, next) {
+router.post('/loginUser', frozenCheck.findCompanyIdFromBody, frozenCheck.verifyActiveCompany, authenticateAdminConnection, checkUserCredientials, function (req, res, next) {
     adminAuth = {};
     res.json({ loggedIn: res.loggedIn });
 });
@@ -148,7 +149,8 @@ function checkCompanyCredientials(req, res, next) {
                 res.loggedIn = {
                     name: results[0].name,
                     id: results[0].id,
-                    allowfundsbelowzero: results[0].allowfundsbelowzero == true // gæti verið undefined
+                    allowfundsbelowzero: results[0].allowfundsbelowzero == true, // gæti verið undefined
+                    frozen: results[0].frozen
                 }
             }
             else {

@@ -116,7 +116,8 @@ angular.module('mathakur')
           
           let allEmployeesPromise = getEmployees();
           let updatePromise = server.patch('employee/updatecredit/' + $scope.employee.id, {
-            transaction: $scope.total
+            transaction: $scope.total,
+            companyId: $rootScope.session.getCompanyId()
           });
           Promise.all([allEmployeesPromise, updatePromise])
             .then(function () {
@@ -132,9 +133,11 @@ angular.module('mathakur')
               }, 10000);
             })
             .catch(function (error) {
-              console.error(error);
-              $scope.showErrorMessage = true;
-              $scope.errorMessage = "Villa átti sér stað við að framkvæma færsluna";
+              if (!isCompanyFrozen(error)) {
+                console.error(error);
+                $scope.showErrorMessage = true;
+                $scope.errorMessage = "Villa átti sér stað við að framkvæma færsluna";
+              }
             });
 
 
@@ -181,8 +184,11 @@ angular.module('mathakur')
         $scope.myDataProduct = response.data;
       })
         .catch(function (response) {
-          //Error handle
-          $scope.content = "Something went wrong";
+          
+          if (!isCompanyFrozen(error)) {
+            //Error handle
+            $scope.content = "Something went wrong";
+          }
         });
     }
 
@@ -193,9 +199,22 @@ angular.module('mathakur')
         $scope.myDataEmployee = response.data;
       })
         .catch(function (response) {
-          //Error handle
-          $scope.content = "Something went wrong";
+          if (!isCompanyFrozen(error)) {
+            //Error handle
+            $scope.content = "Something went wrong";
+          }
         });
+    }
+
+    function isCompanyFrozen(error) {
+      if (error.status === 403 && error.data.frozen) {
+        $rootScope.session.logOutCompany();
+        $state.go('login', { frozen: true });
+        return true;
+      }
+      else {
+        return false;
+      }
     }
 
     $rootScope.session.load().then(function () {
