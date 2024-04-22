@@ -17,9 +17,11 @@ angular.module('mathakur')
     $scope.showSuccessMessage = false;
 
     $scope.selectStaff = function (employee) {
-      server.get('employee/'+employee.id)
-        .then(function(response) {
-          $scope.employee = response.data;
+      let productsPromise = getProducts();
+      let employeePromise = server.get('employee/'+employee.id)
+      Promise.all([productsPromise, employeePromise])
+        .then(function(responses) {
+          $scope.employee = responses[1].data;
           $scope.receipt = [];
           $scope.total = 0;
           $scope.total_count = 0;
@@ -111,9 +113,12 @@ angular.module('mathakur')
             amount: $scope.total,
             employee: $scope.employee
           }
-          server.patch('employee/updatecredit/' + $scope.employee.id, {
+          
+          let allEmployeesPromise = getEmployees();
+          let updatePromise = server.patch('employee/updatecredit/' + $scope.employee.id, {
             transaction: $scope.total
-          })
+          });
+          Promise.all([allEmployeesPromise, updatePromise])
             .then(function () {
               $scope.employee.credit = newCredit;
               $scope.receipt = [];
@@ -169,6 +174,30 @@ angular.module('mathakur')
         });
     }
 
+    function getProducts() {
+      var productPath = 'product/' + $rootScope.session.getCompanyId() + '?active=true';
+
+      return server.get(productPath).then(function (response) {
+        $scope.myDataProduct = response.data;
+      })
+        .catch(function (response) {
+          //Error handle
+          $scope.content = "Something went wrong";
+        });
+    }
+
+    function getEmployees() {
+      var employeePath = 'employee/all/' + $rootScope.session.getCompanyId() + '?active=true';
+
+      return server.get(employeePath).then(function (response) {
+        $scope.myDataEmployee = response.data;
+      })
+        .catch(function (response) {
+          //Error handle
+          $scope.content = "Something went wrong";
+        });
+    }
+
     $rootScope.session.load().then(function () {
       if (!$rootScope.session.isLoggedIn()) {
         console.log("no one is logged in");
@@ -180,24 +209,8 @@ angular.module('mathakur')
         $state.go("dashboard");
       }
 
-      var productPath = 'product/' + $rootScope.session.getCompanyId() + '?active=true';
-      var employeePath = 'employee/all/' + $rootScope.session.getCompanyId() + '?active=true';
+      getEmployees();
 
-      server.get(employeePath).then(function (response) {
-        $scope.myDataEmployee = response.data;
-      })
-        .catch(function (response) {
-          //Error handle
-          $scope.content = "Something went wrong";
-        });
-
-      server.get(productPath).then(function (response) {
-        $scope.myDataProduct = response.data;
-      })
-        .catch(function (response) {
-          //Error handle
-          $scope.content = "Something went wrong";
-        });
     });
   }]);
 
