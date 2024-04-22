@@ -86,7 +86,14 @@ html {
   #purplebox {
     color: white; 
     background-color: #440A67;
-    max-width: 15em;
+    max-width: 12em;
+  }
+  
+  #whitebox {
+    color: #440A67; 
+    max-width: 8em;
+    align-self: center;
+    border: none;
   }
 
   #frontpagepadding {
@@ -201,7 +208,7 @@ html {
   }
 
   #adminButton {
-    margin-left: 0.5em;  
+    margin: 0.5em 0em 0em 0.5em;
     background-color: $color-myPurpleLight;
   }
 

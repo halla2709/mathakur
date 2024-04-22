@@ -60,7 +60,16 @@ h6, .h6 {
 #purplebox {
   color: white;
   background-color: #440A67;
-  max-width: 15em;
+  max-width: 12em;
+}
+
+#whitebox {
+  color: #440A67;
+  max-width: 8em;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  border: none;
 }
 
 #frontpagepadding {
@@ -176,7 +185,7 @@ h6, .h6 {
 }
 
 #adminButton {
-  margin-left: 0.5em;
+  margin: 0.5em 0em 0em 0.5em;
   background-color: #ffffff;
 }
 
