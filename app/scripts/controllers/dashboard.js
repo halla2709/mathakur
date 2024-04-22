@@ -30,7 +30,10 @@ angular.module('mathakur')
           $state.go("selectproduct", { param: employee });
         })
         .catch(function(error) {
-          console.error("Could not update employee data");
+          if (!isCompanyFrozen(error)) {
+            //Error handle
+            console.error("Could not update employee data");
+          }
         });
     }
 
@@ -183,8 +186,7 @@ angular.module('mathakur')
       return server.get(productPath).then(function (response) {
         $scope.myDataProduct = response.data;
       })
-        .catch(function (response) {
-          
+        .catch(function (error) {
           if (!isCompanyFrozen(error)) {
             //Error handle
             $scope.content = "Something went wrong";
@@ -198,7 +200,7 @@ angular.module('mathakur')
       return server.get(employeePath).then(function (response) {
         $scope.myDataEmployee = response.data;
       })
-        .catch(function (response) {
+        .catch(function (error) {
           if (!isCompanyFrozen(error)) {
             //Error handle
             $scope.content = "Something went wrong";
