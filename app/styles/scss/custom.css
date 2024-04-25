@@ -60,12 +60,12 @@ h6, .h6 {
 #purplebox {
   color: white;
   background-color: #440A67;
-  max-width: 12em;
+  max-width: 14em;
 }
 
 #whitebox {
   color: #440A67;
-  max-width: 8em;
+  max-width: 10em;
   -ms-flex-item-align: center;
       -ms-grid-row-align: center;
       align-self: center;
@@ -12391,6 +12391,10 @@ fieldset:disabled .btn {
 }
 
 @media only screen and (max-width: 900px) {
+  #employeeCard {
+    margin: 0.2em;
+    max-width: 10em;
+  }
   #staffInfo {
     right: auto;
     top: auto;
