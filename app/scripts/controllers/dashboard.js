@@ -162,7 +162,8 @@ angular.module('mathakur')
 
     $scope.undoLastTransaction = function () {
       server.patch('employee/updatecredit/' + $scope.lastTransaction.employee.id, {
-        transaction: -1*$scope.lastTransaction.amount
+        transaction: -1*$scope.lastTransaction.amount,
+        companyId: $rootScope.session.getCompanyId()
       })
         .then(function () {
           $scope.message = "Bakfærslan tókst, inneignin þín er ennþá: " + $scope.lastTransaction.creditBefore + "kr";
@@ -177,6 +178,7 @@ angular.module('mathakur')
           console.error(error);
           $scope.showErrorMessage = true;
           $scope.errorMessage = "Villa átti sér stað við að bakfæra færsluna";
+          $scope.undoPossible = false;
         });
     }
 
