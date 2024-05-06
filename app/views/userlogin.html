@@ -1,6 +1,6 @@
 <div class="position-absolute top-50 start-50 translate-middle" id="login-div">
 
-	<h2><small>Vinsamlega skráðu inn stjórnanda:</small></h2>
+	<h2><small>Innskráning stjórnanda:</small></h2>
 	<br>
 	<form role="form" ng-submit="submit()">
 		<div class="input-group input-group-lg">
@@ -21,21 +21,20 @@
 		</div>
 
 		<br>
-		<div class="alert alert-danger" role="alert" ng-show="wrongpassword">
+		<div class="alert alert-danger" role="alert" ng-show="wrongpassword" style="text-align: center;">
 			<p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>Rangt notandanafn
-				eða lykilorð, vinsamlega reyndu aftur</p>
+				eða lykilorð,<br> vinsamlega reyndu aftur</p>
 		</div>
 		<br>
 
-		<button type="submit" class="btn btn-primary btn-lg btn-rounded">Skrá inn</button>
+		<button type="submit" class="btn btn-primary btn-lg btn-rounded">Innskrá</button>
 	</form>
 	<br>
-	<a class="btn" ng-click="forgotpassword = !forgotpassword" style="color: #4b4b4b">
+	<a class="btn" ng-click="forgotpassword = !forgotpassword" style="color: #535353">
 		<p>Gleymt lykilorð?</p>
 	</a>
 	<div style="float:b" ng-show="forgotpassword">
-		<p style="padding-top: 0.1em;">Vinsamlegast fáðu annan stjórnanda<br>á vinnustaðnum til þess að búa til nýjan aðgang, <br>eða sendu tölvupóst á <strong>mathakurapp@gmail.com</strong><br> til að endurheimta lykilorðið fyrir
-			stjórnanda</p>
+		<p style="padding-top: 0.1em;">Vinsamlegast fáðu annan stjórnanda<br>á vinnustaðnum til þess að búa til nýjan aðgang <br>eða sendu tölvupóst á <strong>mathakurapp@gmail.com</strong><br></p>
 	</div>
 </div>
 <br>

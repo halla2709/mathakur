@@ -151,14 +151,27 @@ angular.module('mathakur')
             $scope.newAdmin = {};
         }
 
+        function isCompanyFrozen(error) {
+            if (error.status === 403 && error.data.frozen) {
+              $rootScope.session.logOutCompany();
+              $state.go('login', { frozen: true });
+              return true;
+            }
+            else {
+              return false;
+            }
+          }
+
         function reloadData(employee, product, admin) {
             if (employee) {
                 server.get("employee/all/" + $scope.currentCompanyLoggedIn).then(function (response) {
                     $scope.employeeData = response.data;
                 })
-                    .catch(function (response) {
+                    .catch(function (error) {
+                        if (!isCompanyFrozen(error)) {
                         //Error handle
                         $scope.content = "Something went wrong while getting employees";
+                        }
                     });
             }
 
@@ -166,9 +179,11 @@ angular.module('mathakur')
                 server.get("product/" + $scope.currentCompanyLoggedIn).then(function (response) {
                     $scope.productData = response.data;
                 })
-                    .catch(function (response) {
-                        //Error handle
-                        $scope.content = "Something went wrong while getting products";
+                    .catch(function (error) {
+                        if (!isCompanyFrozen(error)) {
+                            //Error handle
+                            $scope.content = "Something went wrong while getting products";
+                        }
                     });
             }
 
@@ -176,7 +191,7 @@ angular.module('mathakur')
                 server.get("admin/" + $scope.currentCompanyLoggedIn).then(function (response) {
                     $scope.adminData = response.data;
                 })
-                    .catch(function (response) {
+                    .catch(function (error) {
                         //Error handle
                         $scope.content = "Something went wrong while getting admins";
                     });

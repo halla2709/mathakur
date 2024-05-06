@@ -5,12 +5,13 @@ const database = require('../services/databaseCreator').db;
 const dbHelper = require('../services/databaseHelper');
 const cloudinary = require("cloudinary");
 const savePhotoToCloudinary = require("../services/cloudinaryHelper").savePhotoToCloudinary;
+const frozenCheck = require('../services/isFrozenCheck').verifyActiveCompany;
 
 router.get('/', getAllProducts, function (req, res, next) {
     res.json(res.product);
 });
 
-router.get('/:companyId', getAllProducts, getPricesForCompany, function (req, res, next) {
+router.get('/:companyId', frozenCheck, getAllProducts, getPricesForCompany, function (req, res, next) {
     let resultTable = [];
     res.prices.forEach(function (price) {
         res.product.forEach(function (product) {
@@ -55,10 +56,6 @@ router.patch('/:companyId/:id', savePhotoToCloudinary, function (req, res, next)
             res.statusCode = 500;
             return res.json({ errors: ['Could not update product price'] });
         });
-});
-
-router.get('/productprice/:companyId', getPricesForCompany, function (req, res, next) {
-    res.json(res.prices);
 });
 
 router.delete('/:product/:companyId', function (req, res, next) {

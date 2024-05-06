@@ -5,25 +5,27 @@
 
 		<br>
 
-	<div class="alert alert-success" role="alert" ng-show="showSuccessMessage" ng-click="undoLastTransaction()">
+	<div class="alert alert-success" role="alert" ng-show="showSuccessMessage" style="text-align: center;" ng-click="undoLastTransaction()">
 		<p><i class="bi bi-cart-check" style="font-size: 1.2rem; padding-right: 2em;"></i>{{message}} 
-			<strong style="float:right;" ng-show="undoPossible">Bakfæra</strong>
+			<br><strong ng-show="undoPossible">Bakfæra</strong>
 		</p>
 	</div>
-	<div class="alert alert-danger" role="alert" ng-show="showErrorMessage">
+	<div class="alert alert-danger" role="alert" ng-show="showErrorMessage" style="text-align: center;">
 			<p><i class="bi bi-exclamation-circle" style="font-size: 1.2rem; padding-right: 2em;"></i>{{errorMessage}}</p>
 	</div>
+	
+	<div style="text-align: center;">
 	<h2>Starfsfólk</h2>
-	</div>
 
 	<div ng-if="!myDataEmployee.length">
 		<h4>ekkert starfsfólk skráð, stjórnandi þarf að búa til starfsfólk undir stjórnandasíðunni</h4>
 		<br>
 	</div>
-	<div ng-if="myDataEmployee.length">
+	<div ng-if="myDataEmployee.length" id="shoppingTop">
 		<h4>veldu þig til að byrja að versla</h4>
 		<br>
 	</div>
+</div>
 
 </div>
 

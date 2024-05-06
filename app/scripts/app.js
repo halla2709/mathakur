@@ -31,7 +31,8 @@ angular
       .state('login', {
         url: '/login',
         templateUrl: 'views/login.html',
-        controller: 'LoginCtrl'
+        controller: 'LoginCtrl',
+        params: { frozen: false }
       })
       .state('userlogin', {
         url: '/userlogin',

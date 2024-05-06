@@ -37,13 +37,30 @@ angular.module('mathakur')
               }
             })
             .catch(function (error) {
-               console.warn(error);
-               $scope.wrongpassword = true;
-              })
+              if (!isCompanyFrozen(error)) {
+                console.warn(error);
+                $scope.wrongpassword = true;
+              }
+            })
         })
-        .catch(function (error) { console.warn(error) });
+        .catch(function (error) { 
+          if (!isCompanyFrozen(error)) {
+            console.warn(error);
+          }
+        });
 
       return false;
+    }
+
+    function isCompanyFrozen(error) {
+      if (error.status === 403 && error.data.frozen) {
+        $rootScope.session.logOutCompany();
+        $state.go('login', { frozen: true });
+        return true;
+      }
+      else {
+        return false;
+      }
     }
 
     $rootScope.session.load().then(function() {

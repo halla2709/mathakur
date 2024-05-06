@@ -17,9 +17,11 @@ angular.module('mathakur')
     $scope.showSuccessMessage = false;
 
     $scope.selectStaff = function (employee) {
-      server.get('employee/'+employee.id)
-        .then(function(response) {
-          $scope.employee = response.data;
+      let productsPromise = getProducts();
+      let employeePromise = server.get('employee/'+employee.id)
+      Promise.all([productsPromise, employeePromise])
+        .then(function(responses) {
+          $scope.employee = responses[1].data;
           $scope.receipt = [];
           $scope.total = 0;
           $scope.total_count = 0;
@@ -28,7 +30,10 @@ angular.module('mathakur')
           $state.go("selectproduct", { param: employee });
         })
         .catch(function(error) {
-          console.error("Could not update employee data");
+          if (!isCompanyFrozen(error)) {
+            //Error handle
+            console.error("Could not update employee data");
+          }
         });
     }
 
@@ -111,9 +116,13 @@ angular.module('mathakur')
             amount: $scope.total,
             employee: $scope.employee
           }
-          server.patch('employee/transaction/' + $scope.employee.id, {
-            receipt: $scope.receipt
-          })
+          
+          let allEmployeesPromise = getEmployees();
+          let updatePromise = server.patch('employee/transaction/' + $scope.employee.id, {
+            receipt: $scope.receipt,
+            companyId: $rootScope.session.getCompanyId()
+          });
+          Promise.all([allEmployeesPromise, updatePromise])
             .then(function () {
               $scope.employee.credit = newCredit;
               $scope.receipt = [];
@@ -127,9 +136,11 @@ angular.module('mathakur')
               }, 10000);
             })
             .catch(function (error) {
-              console.error(error);
-              $scope.showErrorMessage = true;
-              $scope.errorMessage = "Villa átti sér stað við að framkvæma færsluna";
+              if (!isCompanyFrozen(error)) {
+                console.error(error);
+                $scope.showErrorMessage = true;
+                $scope.errorMessage = "Villa átti sér stað við að framkvæma færsluna";
+              }
             });
 
 
@@ -152,7 +163,8 @@ angular.module('mathakur')
     $scope.undoLastTransaction = function () {
       // todo saga hér select arr[6:array_lengt(arr,1)]
       server.patch('employee/updatecredit/' + $scope.lastTransaction.employee.id, {
-        transaction: -1*$scope.lastTransaction.amount
+        transaction: -1*$scope.lastTransaction.amount,
+        companyId: $rootScope.session.getCompanyId()
       })
         .then(function () {
           $scope.message = "Bakfærslan tókst, inneignin þín er ennþá: " + $scope.lastTransaction.creditBefore + "kr";
@@ -167,7 +179,47 @@ angular.module('mathakur')
           console.error(error);
           $scope.showErrorMessage = true;
           $scope.errorMessage = "Villa átti sér stað við að bakfæra færsluna";
+          $scope.undoPossible = false;
         });
+    }
+
+    function getProducts() {
+      var productPath = 'product/' + $rootScope.session.getCompanyId() + '?active=true';
+
+      return server.get(productPath).then(function (response) {
+        $scope.myDataProduct = response.data;
+      })
+        .catch(function (error) {
+          if (!isCompanyFrozen(error)) {
+            //Error handle
+            $scope.content = "Something went wrong";
+          }
+        });
+    }
+
+    function getEmployees() {
+      var employeePath = 'employee/all/' + $rootScope.session.getCompanyId() + '?active=true';
+
+      return server.get(employeePath).then(function (response) {
+        $scope.myDataEmployee = response.data;
+      })
+        .catch(function (error) {
+          if (!isCompanyFrozen(error)) {
+            //Error handle
+            $scope.content = "Something went wrong";
+          }
+        });
+    }
+
+    function isCompanyFrozen(error) {
+      if (error.status === 403 && error.data.frozen) {
+        $rootScope.session.logOutCompany();
+        $state.go('login', { frozen: true });
+        return true;
+      }
+      else {
+        return false;
+      }
     }
 
     $rootScope.session.load().then(function () {
@@ -181,24 +233,8 @@ angular.module('mathakur')
         $state.go("dashboard");
       }
 
-      var productPath = 'product/' + $rootScope.session.getCompanyId() + '?active=true';
-      var employeePath = 'employee/all/' + $rootScope.session.getCompanyId() + '?active=true';
+      getEmployees();
 
-      server.get(employeePath).then(function (response) {
-        $scope.myDataEmployee = response.data;
-      })
-        .catch(function (response) {
-          //Error handle
-          $scope.content = "Something went wrong";
-        });
-
-      server.get(productPath).then(function (response) {
-        $scope.myDataProduct = response.data;
-      })
-        .catch(function (response) {
-          //Error handle
-          $scope.content = "Something went wrong";
-        });
     });
   }]);
 

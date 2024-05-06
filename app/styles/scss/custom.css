@@ -15,7 +15,7 @@ html {
 }
 
 body {
-  margin: 8em 0.8em 4em 0.8em !important;
+  margin: 6em 0em 4em 0em !important;
   background-color: #f0f0f0 !important;
 }
 
@@ -43,6 +43,11 @@ h6, .h6 {
 }
 
 /* --- LOGIN --- */
+#loggedincompany {
+  color: #FFE3FE;
+  font-size: 1.2em;
+}
+
 #login-jumbotron {
   margin: auto;
   bottom: 8em;
@@ -56,10 +61,53 @@ h6, .h6 {
   border-bottom-left-radius: 0px;
 }
 
+#purplebox {
+  color: white;
+  background-color: #440A67;
+  max-width: 14em;
+}
+
+#whitebox {
+  color: #440A67;
+  max-width: 10em;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  border: none;
+}
+
+#frontpagepadding {
+  padding: 4em;
+  margin: 3em 0em 3em 0em;
+  text-align: center;
+}
+
+#frontpagepaddingplus {
+  padding: 4em;
+  margin: 3em 1em 3em 1em;
+}
+
 #login-div {
   border-radius: 15px;
   text-align: center;
   max-width: 35em !important;
+}
+
+#purplestyle {
+  color: white;
+  background-color: #93329E;
+  text-align: center;
+  margin: 0em 10em;
+  border-radius: 15px 50px;
+  padding: 2em;
+}
+
+#lesspadding {
+  padding: 4em;
+}
+
+#lessmargin {
+  margin: 0em 10em;
 }
 
 #loginInputs {
@@ -117,6 +165,10 @@ h6, .h6 {
   white-space: nowrap;
 }
 
+#thelogo {
+  max-height: 3.5em;
+}
+
 #staffInfo {
   -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -128,6 +180,7 @@ h6, .h6 {
   right: 1em;
   top: 7em;
   color: #160075;
+  max-height: none;
 }
 
 /* ----------- ADMIN --------*/
@@ -141,7 +194,7 @@ h6, .h6 {
 }
 
 #adminButton {
-  margin-left: 0.5em;
+  margin: 0.5em 0em 0em 0.5em;
   background-color: #ffffff;
 }
 
@@ -169,7 +222,7 @@ h6, .h6 {
   background-color: #f0f0f0;
   border-top: 0.1em solid #dbdbdb;
   bottom: 0;
-  width: 100%;
+  width: 101%;
   position: absolute;
 }
 
@@ -197,8 +250,7 @@ h6, .h6 {
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;
   color: #160075;
-  min-height: 17.3em;
-  max-height: 34.3em;
+  min-height: 17em;
   overflow-y: auto;
 }
 
@@ -227,6 +279,7 @@ h6, .h6 {
 /* -------- FRONT PAGE ---------- */
 .animated {
   display: none;
+  min-width: 12em;
 }
 
 .img-container:hover .animated {
@@ -239,6 +292,41 @@ h6, .h6 {
 
 .carousel .item {
   height: 300px;
+}
+
+.quote {
+  display: inline-block;
+  margin: 1em;
+  overflow: hidden;
+}
+
+.quote blockquote {
+  border: solid 3px #440A67;
+  display: inline-block;
+  margin: 0;
+  position: relative;
+}
+
+.quote blockquote:before {
+  background-color: #f0f0f0;
+  bottom: -10%;
+  content: "";
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: -10%;
+  -webkit-transform: rotate(-15deg) skew(5deg);
+          transform: rotate(-15deg) skew(5deg);
+}
+
+.quote blockquote cite {
+  display: block;
+  font-style: italic;
+}
+
+.quote blockquote > * {
+  position: relative;
+  z-index: 1;
 }
 
 .frontpageworkflow {
@@ -409,7 +497,16 @@ h6, .h6 {
   position: absolute;
   left: 0px;
   top: 0px;
-  padding: 0.5em;
+  max-width: 12em;
+}
+
+.img-bg2 {
+  opacity: 30%;
+  height: -webkit-fill-available;
+  left: 0px;
+  top: 0px;
+  max-width: 3em;
+  float: inline-start;
 }
 
 #image-font {
@@ -12303,21 +12400,63 @@ fieldset:disabled .btn {
   }
 }
 
-@media only screen and (max-width: 1000px) {
-  .line1 {
-    display: none;
+@media only screen and (max-width: 900px) {
+  body {
+    margin: 3.9em 0em 4em 0em !important;
   }
-  .line2 {
-    display: none;
+  #employeeCard {
+    margin: 0.2em;
+    max-width: 10em;
   }
-  .line3 {
-    display: none;
+  #thelogo {
+    max-height: 1.8em;
   }
-  .line4 {
-    display: none;
+  #loggedincompany {
+    font-size: 1em;
   }
-  .line5 {
-    display: none;
+  #staffInfo {
+    right: auto;
+    top: auto;
+    position: relative !important;
+    width: 100%;
+  }
+  .dropdown-menu[data-bs-popper] {
+    left: auto;
+    right: 0;
+  }
+  #whitebox {
+    min-width: 100%;
+  }
+  #purplestyle {
+    margin: 0em;
+    border-radius: 0px 0px;
+    padding: 1em;
+  }
+  #kaupataema {
+    padding: 0px;
+  }
+  #lessmargin {
+    margin: 0em;
+  }
+  #frontpagepadding {
+    padding: 1em;
+    margin: 1em 0em 1em 0em;
+  }
+  #frontpagepaddingplus {
+    padding: 1em;
+    margin: 1em;
+  }
+  #leitabox {
+    max-width: 21em;
+  }
+  .col-8 {
+    width: 100% !important;
+  }
+  .img-bg {
+    visibility: hidden;
+  }
+  #lesspadding {
+    padding: 2em;
   }
 }
 /*# sourceMappingURL=custom.css.map */
