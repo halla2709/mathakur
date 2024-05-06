@@ -56,7 +56,7 @@ router.get('/:employeeId', function (req, res, next) {
         });
 });
 
-router.patch('/:id', savePhotoToCloudinary, function (req, res, next) {
+router.patch('/:id', createAdminHistoryEntry, savePhotoToCloudinary, function (req, res, next) {
     const id = req.params.id;
     const newCredit = req.body.newCredit;
     let newPhotoUrl = res.photoUrl;
@@ -67,8 +67,7 @@ router.patch('/:id', savePhotoToCloudinary, function (req, res, next) {
     if (!(typeof req.body.photo !== 'undefined' && req.body.photo !== '')) {
         newPhotoUrl = undefined;
     }
-
-    dbHelper.updateEmployee(database, id, newCredit, newName, newNickame, newPhotoUrl, newStatus)
+      dbHelper.updateEmployee(database, id, newCredit, newName, newNickame, newPhotoUrl, newStatus)
         .then(function () {
             res.statusCode = 200;
             res.json({ photoUrl: newPhotoUrl });
@@ -78,6 +77,7 @@ router.patch('/:id', savePhotoToCloudinary, function (req, res, next) {
             res.statusCode = 500;
             return res.json({ errors: ['Could not update employee'] });
         });
+    
 });
 
 router.patch('/updatecredit/:id', frozenCheck.findCompanyIdFromBody, frozenCheck.verifyActiveCompany, function (req, res, next) {
@@ -96,23 +96,138 @@ router.patch('/updatecredit/:id', frozenCheck.findCompanyIdFromBody, frozenCheck
         });
 });
 
-router.post('/', savePhotoToCloudinary, addNicknameIfNotExists, function (req, res, next) {
-    if (typeof req.body.credit === 'undefined') {
-        req.body.credit = 0;
-    }
+router.patch('/transaction/:id', createShoppingHistoryEntry, updateCredit, function (req, res, next) {
+    res.statusCode = 200;
+    res.end();
+});
 
-    dbHelper.insertIntoTable(database, 'employee',
-        ['name', 'nickname', 'credit', 'photoUrl', 'companyid', 'active'], [req.body.name, req.body.nickname, req.body.credit, res.photoUrl, req.body.companyId, req.body.active])
+function createAdminHistoryEntry(req, res, next){
+    // const id = req.params.id;
+    // const newCredit = req.body.newCredit;
+    // let newPhotoUrl = res.photoUrl;
+    // const newName = req.body.newName;
+    // const newNickame = req.body.newNickname;
+    // const newStatus = req.body.newStatus;
+    // const transaction = req.body.transaction;
+    let action;
+    let creditAfter;
+    if (req.body.newCredit !== undefined) {
+        action = "update";
+        creditAfter = req.body.newCredit;
+
+        dbHelper.getFromTable(database, 'employee', 'id = \'' + req.params.id + '\'')
+        .then(function(employee) {
+            creditBefore = employee[0].credit;
+            if(creditBefore !== creditAfter) {
+                dbHelper.addAdminHistoryForEmployee(database, req.params.id, req.body.adminName, action, creditBefore, creditAfter)
+                .catch(function (error) {
+                    console.error(error);
+                    res.statusCode = 500;
+                    return res.json({ errors: ['Could not save admin history'] });
+                });
+            }
+            next();
+        })
+        .catch(function (error) {
+            console.error(error);
+            res.statusCode = 500;
+            return res.json({ errors: ['Could not get employee credit before'] });
+        });
+    }
+    else {
+        action = "create";
+        creditAfter = req.body.credit;
+        dbHelper.addAdminHistoryForEmployee(database, req.params.id, req.body.adminName, action, 0, creditAfter)
+        .catch(function (error) {
+            console.error(error);
+            res.statusCode = 500;
+            return res.json({ errors: ['Could not save admin history'] });
+        });
+        next();
+    }
+}
+
+function createShoppingHistoryEntry(req, res, next) {
+
+    //Transaction á að vera array af [
+    //     {
+    //         name: "epli",
+    //         price: 50,
+    //         id: "abc",
+    //         quantity: 3,
+    //         orderTotal: 150
+    //     }
+    // ]
+    let productIds = [];
+    let productNames = [];
+    let productPrices = [];
+    let creditBefore; // get from db
+    req.body.receipt.forEach(product => {
+        for (let i = 0; i < product.quantity; i++) {
+            productIds.push(product.id);
+            productNames.push(product.name);
+            productPrices.push(product.price);  
+        }        
+    });
+
+    
+    dbHelper.getFromTable(database, 'employee', 'id = \'' + req.params.id + '\'')
+    .then(function(employee) {
+        creditBefore = employee[0].credit;
+        dbHelper.addShoppingHistoryForEmployee(database, req.params.id, productIds, productNames, productPrices, creditBefore)
+        .catch(function (error) {
+            console.error(error);
+            res.statusCode = 500;
+            return res.json({ errors: ['Could not save employee history'] });
+        });
+    })
+    .catch(function (error) {
+        console.error(error);
+        res.statusCode = 500;
+        return res.json({ errors: ['Could not get employee credit before'] });
+    });
+
+    next();
+}
+
+function updateCredit(req, res, next) {
+    let totalCost = 0;
+    
+    req.body.receipt.forEach(product => {
+        totalCost += product.quantity*product.price;
+    });
+    dbHelper.updateEmployeeCredit(database, req.params.id, totalCost)
         .then(function () {
-            res.statusCode = 200;
-            res.json({ photoUrl: res.photoUrl });
+            next();
+        })
+        .catch(function (error) {
+            console.error(error)
+            res.statusCode = 500;
+            return res.json({ errors: ['Could not update credit'] });
+        });
+
+}
+
+
+router.post('/', savePhotoToCloudinary, addNicknameIfNotExists, insertEmployee, createAdminHistoryEntry, function (req, res, next) {
+    res.statusCode = 200;
+    res.json({ photoUrl: res.photoUrl });
+});
+
+function insertEmployee(req, res, next) {
+    dbHelper.insertIntoTable(database, 'employee',
+        ['name', 'nickname', 'credit', 'photoUrl', 'companyid', 'active'], [req.body.name, req.body.nickname, req.body.credit, res.photoUrl, req.body.companyId, req.body.active], true)
+        .then(function (createdEmployee) {
+            console.log(createdEmployee);
+            req.params.id = createdEmployee.id;
+            next();
         })
         .catch(function (error) {
             console.error(error);
             res.statusCode = 500;
             return res.json({ errors: ['Could not create employee'] });
         });
-});
+}
 
 router.delete('/:id', function (req, res, next) {
     dbHelper.deleteFromTable(database, 'employee', 'id = \'' + req.params.id + '\'')
@@ -132,6 +247,23 @@ function addNicknameIfNotExists(req, res, next) {
         req.body.nickname = req.body.name.split(" ")[0];
     }
     next();
+}
+
+router.get('/history/:employeeId', getHistoryForEmployee, function (req, res, next) {
+    res.json(res.history);
+});
+
+function getHistoryForEmployee(req, res, next) {
+    dbHelper.getAllHistoryForEmployee(database, req.params.employeeId)
+        .then(function (data) {
+            res.history = data;
+            next();
+        })
+        .catch(function (error) {
+            console.error(error)
+            res.statusCode = 500;
+            return res.json({ errors: ['Could not get employee history'] });
+        });
 }
 
 module.exports = router;

@@ -26,7 +26,7 @@ function insertIntoTableReturningID(db, tableName, columns, values) {
     return db.one(queryString, values);
 }
 
-function insertIntoTable(db, tableName, columns, values) {
+function insertIntoTable(db, tableName, columns, values, returnId) {
     let queryString = 'INSERT INTO ' + replaceTableName(tableName);
     let columnsString = '(';
     let valuesString = '(';
@@ -37,8 +37,14 @@ function insertIntoTable(db, tableName, columns, values) {
     }
     columnsString += ' ' + columns[columns.length-1] + ')';
     valuesString += ' $' + values.length + ')';
-    queryString += columnsString + " VALUES" + valuesString + ';';
-    return db.none(queryString, values);
+    queryString += columnsString + " VALUES" + valuesString;
+    if (returnId) {
+        queryString += " RETURNING id";
+        return db.one(queryString, values);
+    }
+    else {
+        return db.none(queryString, values);
+    }
 }
 
 function updateEmployeeCredit(db, employeeId, transaction) {
@@ -61,6 +67,20 @@ function updateEmployee(db, employeeId, newCredit, newName, newNickname, newPhot
         queryString += 'WHERE id = $5';
         return db.none(queryString, [newCredit, newName, newNickname, newStatus, employeeId]);
     }
+}
+
+function addShoppingHistoryForEmployee (db, employeeId, productIds, productNames, productPrices, creditBefore) {
+    let queryString = 'INSERT INTO shoppinghistory (employeeid, productIds, productNames, productPrices, creditBefore) VALUES ($1, $2::uuid[], $3, $4, $5) ';
+    queryString += 'ON CONFLICT (employeeid, day) DO UPDATE SET ';
+    queryString += 'productIds = array_cat(shoppinghistory.productIds, EXCLUDED.productIds), '
+    queryString += 'productNames = array_cat(shoppinghistory.productNames, EXCLUDED.productNames), '
+    queryString += 'productPrices = array_cat(shoppinghistory.productPrices, EXCLUDED.productPrices)'
+    return db.none(queryString, [employeeId, productIds, productNames, productPrices, creditBefore]);
+}
+
+function addAdminHistoryForEmployee(db, employeeId, adminName, action, creditBefore, creditAfter) {
+    let queryString = 'INSERT INTO adminhistory (employeeid, adminName, action, creditBefore, creditAfter) VALUES ($1, $2, $3, $4, $5) ';
+    return db.none(queryString, [employeeId, adminName, action, creditBefore, creditAfter]);
 }
 
 function updateProductPrice(db, companyId, productId, newPrice, newStatus) {
@@ -129,6 +149,16 @@ function toggleCompanyFreeze(db, companyId)
     return db.none(queryString, [companyId]);
 }
 
+function getAllHistoryForEmployee(db, employeeId) {
+    let query = "SELECT day, creditbefore, null as productids, null as productprices, null as productnames, action, creditafter, adminname \
+                    FROM adminhistory WHERE employeeid = cast($1 as UUID) \
+                    UNION ALL \
+                SELECT day, creditbefore, productids, productprices, productnames, null as action, null as creditafter, null as adminname  \
+                    FROM shoppinghistory WHERE employeeid = cast($1 as UUID) \
+                ORDER BY day DESC;"
+    return db.any(query, [employeeId]);
+}
+
 function replaceTableName(tableName) {
     switch (tableName) {
         case "administrator":
@@ -141,6 +171,12 @@ function replaceTableName(tableName) {
             return 'productprice';
         case "company":
             return 'company';
+        case "history":
+            return 'history';
+        case "adminhistory":
+            return "adminhistory";
+        case "shoppinghistory":
+            return "shoppinghistory";
         default:
             console.error("no such table " + tableName);
             break;
@@ -160,5 +196,8 @@ module.exports = {
     deleteCompany,
     updateCompanyPassword,
     updateEmployeeCredit,
-    toggleCompanyFreeze
+    toggleCompanyFreeze,
+    addShoppingHistoryForEmployee,
+    addAdminHistoryForEmployee,
+    getAllHistoryForEmployee
 }

@@ -118,8 +118,8 @@ angular.module('mathakur')
           }
           
           let allEmployeesPromise = getEmployees();
-          let updatePromise = server.patch('employee/updatecredit/' + $scope.employee.id, {
-            transaction: $scope.total,
+          let updatePromise = server.patch('employee/transaction/' + $scope.employee.id, {
+            receipt: $scope.receipt,
             companyId: $rootScope.session.getCompanyId()
           });
           Promise.all([allEmployeesPromise, updatePromise])
@@ -161,6 +161,7 @@ angular.module('mathakur')
     };
 
     $scope.undoLastTransaction = function () {
+      // todo saga hér select arr[6:array_lengt(arr,1)]
       server.patch('employee/updatecredit/' + $scope.lastTransaction.employee.id, {
         transaction: -1*$scope.lastTransaction.amount,
         companyId: $rootScope.session.getCompanyId()

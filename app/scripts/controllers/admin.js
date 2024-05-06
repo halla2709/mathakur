@@ -113,6 +113,29 @@ angular.module('mathakur')
                 $scope.updating = true;
                 $scope.quickAddedCredit = 0;
                 $scope.currentEmployee = employee;
+                server.get("employee/history/" + employee.id).then(function (response) {
+                    $scope.currentEmployee.history = response.data;
+                    $scope.currentEmployee.history.forEach(entry => {
+                        let products = {};
+                        if (entry.productnames) {
+                            entry.productnames.forEach(product => {
+                                if (products[product])
+                                    products[product] += 1;
+                                else 
+                                    products[product] = 1;
+                            });
+                            entry.shoppingtransaction = Object.entries(products)
+                                .map(([key, value]) => `${key} x${value}`)
+                                .join(', ');
+                        }
+                        if (entry.creditafter === null) {
+                            entry.creditafter = entry.creditbefore;
+                            entry.productprices.forEach(price => {
+                                entry.creditafter -= price;
+                            });
+                        }
+                    });
+                })                
             } else {
                 $scope.currentEmployee = {};
                 $scope.currentEmployee.credit = 0;
@@ -120,16 +143,6 @@ angular.module('mathakur')
             }
             $scope.editing = true;
             $scope.usingQuickAdd = false;
-        };
-
-        $scope.editEmployeeCredit = function (employee) {
-            if (employee) {
-                $scope.updatingCredit = true;
-                $scope.currentEmployee = employee;
-            } else {
-                $scope.currentEmployee = {};
-            }
-            $scope.updatingCredit = true;
         };
 
         $scope.createAdmin = function () {
@@ -229,7 +242,8 @@ angular.module('mathakur')
                     nickname: $scope.currentEmployee.nickname,
                     active: $scope.currentEmployee.active,
                     credit: $scope.currentEmployee.credit,
-                    companyId: $scope.currentCompanyLoggedIn
+                    companyId: $scope.currentCompanyLoggedIn,
+                    adminName: $rootScope.session.getUser()
                 })
                     .then(function () {
                         showSuccessMessage();
@@ -253,6 +267,7 @@ angular.module('mathakur')
                 newName: $scope.currentEmployee.name,
                 newNickname: $scope.currentEmployee.nickname,
                 newStatus: $scope.currentEmployee.active,
+                adminName: $rootScope.session.getUser()
             })
                 .then(function () {
                     showSuccessMessage();

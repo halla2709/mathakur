@@ -118,84 +118,120 @@
 
         </div>
     </div>
+</div>
 
     <!-------- EDIT ----------->
 
-    <form id="form" role="form" ng-show="editing" ng-submit="submitEmployee(currentEmployee)">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <br>
-                </div>
-                <div class="col">
-                    <button class="btn btn-danger" type="button" ng-show="updating" id="deleteProductAndStaff"
-                        style="float: right;" ng-click="deleteEmployee()">
-                        <i class="bi bi-trash" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Eyða</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="row">
-                <div class="col">
-
-                    <label for="name" id="inputHeaders">Fullt nafn</label>
-                    <input id="name" maxlength="40" required ng-model="currentEmployee.name" type="text"
-                        placeholder="Sigríður Jónsdóttir" class="form-control form-control-lg" />
-
-                    <br> <label for="name" id="inputHeaders">Gælunafn</label>
-                    <input id="nickname" maxlength="40" ng-model="currentEmployee.nickname" type="text"
-                        placeholder="Sigga" class="form-control form-control-lg" />
-
-                    <br><label for="name" id="inputHeaders">Inneign</label>
+    <div ng-show="editing">
+        <div class="container" id="fancycontainer">
+            <form id="form" role="form" ng-submit="submitEmployee(currentEmployee)">
+                <div class="container">
                     <div class="row">
-                        <div class="col-5">
-                            <div class="input-group input-group-lg">
-                                <input id="credit" required ng-model="currentEmployee.credit" type="number"
-                                    placeholder="5000" class="form-control form-control-lg" />
-                                <span class="input-group-text">
-                                    kr
-                                </span>
+                        <div class="col">
+                            <h2><small>Upplýsingar</small></h2>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-danger" type="button" ng-show="updating" id="deleteProductAndStaff"
+                                style="float: right;" ng-click="deleteEmployee()">
+                                <i class="bi bi-trash" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Eyða</button>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+    
+                            <label for="name" id="inputHeaders">Fullt nafn</label>
+                            <input id="name" maxlength="40" required ng-model="currentEmployee.name" type="text"
+                                placeholder="Sigríður Jónsdóttir" class="form-control form-control-lg" />
+    
+                            <br> <label for="name" id="inputHeaders">Gælunafn</label>
+                            <input id="nickname" maxlength="40" ng-model="currentEmployee.nickname" type="text"
+                                placeholder="Sigga" class="form-control form-control-lg" />
+    
+                            <br><label for="name" id="inputHeaders">Inneign</label>
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="input-group input-group-lg">
+                                        <input id="credit" required ng-model="currentEmployee.credit" type="number"
+                                            placeholder="5000" class="form-control form-control-lg" />
+                                        <span class="input-group-text">
+                                            kr
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col" style="margin: auto;">
+                                    <span ng-hide="">
+                                        <button class="btn btn-outline-success" type="button" id="quickAdd"
+                                            ng-click="quickAdd(500)">+500</button>
+                                        <button class="btn btn-outline-success" type="button" id="quickAdd"
+                                            ng-click="quickAdd(1000)">+1.000</button>
+                                        <button class="btn btn-outline-success" type="button" id="quickAdd"
+                                            ng-click="quickAdd(5000)">+5.000</button>
+                                        <button class="btn btn-outline-success" type="button" id="quickAdd"
+                                            ng-click="quickAdd(10000)">+10.000</button>
+                                    </span>
+                                </div>
                             </div>
-                        </div>                  
-                        <div class="col" style="margin: auto;">
-                            <span ng-hide="">
-                            <button class="btn btn-outline-success" type="button" id="quickAdd"
-                                ng-click="quickAdd(500)">+500</button>
-                            <button class="btn btn-outline-success" type="button" id="quickAdd"
-                                ng-click="quickAdd(1000)">+1000</button>
-                            <button class="btn btn-outline-success" type="button" id="quickAdd"
-                                ng-click="quickAdd(5000)">+5000</button>
-                            </span>
-                        </div>            
+                            <br>
+                            <div ng-show="usingQuickAdd">
+                                <p><button title="Hætta við" class="btn btn-outline-danger btn-sm" type="button"
+                                        ng-click="resetQuickAdd()"><i class="bi bi-x-lg"></i></button> Bæta við <span
+                                        style="color:#198754">{{quickAddedCredit}}kr</span> inneign</p>
+                            </div>
+                            <br>
+    
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" ng-model="currentEmployee.active">
+                                <label class="form-check-label">Sýna í lista (virkt/óvirkt)</label>
+                            </div>
+    
+                        </div>
+                        <div class="col-5" style="text-align: center;">
+                            <imagedisplay container="currentEmployee" editing-watch="editing" />
+                        </div>
+    
+                        <div class="btn-toolbar justify-content-between" style="padding-top:2em;">
+                            <button class="btn btn-lg btn-secondary" type="submit">
+                                <i class="bi bi-check-circle"
+                                    style="font-size: 1.2rem; padding-right: 0.4em;"></i>Vista</button>
+                            <button class="btn btn-lg btn-outline-secondary" type="button" ng-click="back()"><i
+                                    class="bi bi-x-circle"
+                                    style="font-size: 1.2rem; padding-right: 0.4em;"></i>Hætta</button>
+                        </div>
+    
                     </div>
-                    <br>
-                    <div ng-show="usingQuickAdd">
-                        <p><button title="Hætta við" class="btn btn-outline-danger btn-sm" type="button"
-                                ng-click="resetQuickAdd()"><i class="bi bi-x-lg"></i></button> Bæta við <span
-                                style="color:#198754">{{quickAddedCredit}}kr</span> inneign</p>
-                    </div>
-                    <br>
-
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" ng-model="currentEmployee.active">
-                        <label class="form-check-label">Sýna í lista (virkt/óvirkt)</label>
-                      </div>
-
                 </div>
-                <div class="col-5" style="text-align: center;">
-                    <imagedisplay container="currentEmployee" editing-watch="editing" />
-                </div>
-
-                <div class="btn-toolbar justify-content-between" style="padding-top:2em;">
-                    <button class="btn btn-lg btn-secondary" type="submit">
-                        <i class="bi bi-check-circle"
-                            style="font-size: 1.2rem; padding-right: 0.4em;"></i>Vista</button>
-                    <button class="btn btn-lg btn-outline-secondary" type="button" ng-click="back()"><i
-                            class="bi bi-x-circle" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Hætta</button>
-                </div>
-                
-            </div>
+            </form>
         </div>
-    </form>
-</div>
+    
+            <div class="container" id="fancycontainer">
+                <h2><small>Verslunarsaga</small></h2>
+
+                <table id="tafla" class="table">
+                    <thead>
+                        <tr id="tofluHeader">
+                            <th style="width: 20%; text-align: center">Dagsetning</th>
+                            <th style="width: 60%; text-align: center">Athöfn</th>
+                            <th style="width: 20%; text-align: center">Fyrir</th>
+                            <th style="width: 20%; text-align: center">Lokastaða</th>
+                        </tr>
+                    </thead>
+
+                    <tbody style="border: none;">
+                        <tr ng-repeat="history in currentEmployee.history" style="text-align: center">
+                            <td style="text-align: center">{{history.day | date: 'dd MMMM yy'}}</td>
+                            <td style="text-align: center">{{history.action || 'Versla'}}: {{history.adminname || history.shoppingtransaction}}</td>
+                            <td style="text-align: center">{{history.creditbefore}} kr</td>
+                            <td style="text-align: center">{{history.creditafter}} kr</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+                </div>
+            </div>
+    </div>
+
+
+

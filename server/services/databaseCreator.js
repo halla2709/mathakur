@@ -34,6 +34,23 @@ db.none("CREATE TABLE IF NOT EXISTS company(id uuid DEFAULT gen_random_uuid() PR
                 photoUrl varchar(255) DEFAULT \'tzeqj4l6kjyq0jptankn\', \
                 companyid uuid REFERENCES company(id), \
                 active boolean DEFAULT TRUE)")
+            .then(() => {
+                db.none("CREATE TABLE IF NOT EXISTS shoppinghistory(employeeId uuid REFERENCES employee(id), \
+                    day DATE NOT NULL DEFAULT CURRENT_DATE, \
+                    productIds uuid[], \
+                    productNames text[], \
+                    productPrices integer[] NOT NULL,\
+                    creditBefore integer NOT NULL, \
+                    PRIMARY KEY(employeeId, day) \
+                    )")
+                db.none("CREATE TABLE IF NOT EXISTS adminhistory(employeeId uuid REFERENCES employee(id), \
+                    day DATE NOT NULL DEFAULT CURRENT_DATE, \
+                    adminName varchar(40), \
+                    action varchar(40), \
+                    creditBefore integer NOT NULL, \
+                    creditAfter integer NOT NULL \
+                    )")
+            })
             .catch(error => {
                 console.log('ERROR:', error);
             });
