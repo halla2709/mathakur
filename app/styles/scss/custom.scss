@@ -308,7 +308,8 @@ html {
   /* -------- FRONT PAGE ---------- */
 
 .animated {
-    display:none
+    display:none;
+    min-width: 12em;
 } 
 
 .img-container:hover .animated {
@@ -582,6 +583,10 @@ html {
 
   @media only screen and (max-width: 900px) {
     
+    body {
+      margin: 3.9em 0em 4em 0em !important
+    }
+    
     #employeeCard {
       margin: 0.2em;
       max-width: 10em;
@@ -605,6 +610,10 @@ html {
     .dropdown-menu[data-bs-popper] {
       left: auto;
       right: 0;
+    }
+
+    #whitebox {
+      min-width: 100%;
     }
     
   #purplestyle {
