@@ -29,10 +29,25 @@ describe('Main workflow Controller', function () {
     expect(scope.receipt).toEqual([]);
   });
 
-  it('should get all data on startup', function () {
-    expect(mockServer.get).toHaveBeenCalledWith('employee/all/' + companyId);
-    expect(mockServer.get).toHaveBeenCalledWith('product/' + companyId);
+  it('should only get all employee data on startup', function () {
+    expect(mockServer.get).toHaveBeenCalledWith('employee/all/' + companyId + '?active=true');
+    expect(mockServer.get).not.toHaveBeenCalledWith('product/' + companyId + '?active=true');
   });
+
+  it('should get product information when employee selected', function() {
+    scope.selectStaff('something');
+    expect(mockServer.get).toHaveBeenCalledWith('product/' + companyId + '?active=true');
+  });
+
+  it('should get updated employee information when transaction is finished', function() {
+    scope.employee = { 
+      credit: 1000,
+      id: 11111
+    };
+    scope.addProduct({ price: 10, name: 'product1' });
+    scope.buyProduct();
+    expect(mockServer.get).toHaveBeenCalledWith('employee/all/' + companyId + '?active=true');
+  })
 
   it('can add up the order', function() {
     scope.employee = { 

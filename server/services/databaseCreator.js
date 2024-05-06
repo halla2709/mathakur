@@ -24,7 +24,8 @@ db.none("CREATE TABLE IF NOT EXISTS company(id uuid DEFAULT gen_random_uuid() PR
         name varchar(40) UNIQUE NOT NULL, \
         password varchar(155) NOT NULL, \
         rand varchar(10) NOT NULL, \
-        allowfundsbelowzero boolean)")
+        allowfundsbelowzero boolean DEFAULT false, \
+        frozen boolean DEFAULT false)")
     .then(() => {
         db.none("CREATE TABLE IF NOT EXISTS employee(id uuid DEFAULT gen_random_uuid() PRIMARY KEY, \
                 name varchar(40) NOT NULL, \

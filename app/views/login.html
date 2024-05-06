@@ -1,10 +1,15 @@
 <div class="position-absolute top-50 start-50 translate-middle" id="login-div">
 
-	<h2><small>Vinsamlega skráðu inn vinnustað:</small></h2>
+	<h2><small>Innskráning vinnustaðar:</small></h2>
 	<br>
+	
+	<div class="alert alert-danger" role="alert" ng-show="frozenCompany" style="text-align: center;">
+		<p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>Aðgangur hefur verið frystur.</p>
+		<p>Vinsamlega hafðu samband við stjórnendur Matháks <br> til að endurnýja áskrift.</p>
+	</div>
 	<form role="form" ng-submit="submit()">
 
-		<div class="input-group input-group-lg">
+		<div class="input-group input-group-lg" style="min-width: max-content;">
 			<span class="input-group-text" id="loginInputs">
 				<i class="bi bi-house" style="font-size: 2rem;"></i>
 			</span>
@@ -34,23 +39,21 @@
 				vinsamlega reyndu aftur</p>
 		</div>
 
-		<button type="submit" class="btn btn-primary btn-lg btn-rounded">Skrá inn</button>
+		<button type="submit" class="btn btn-primary btn-lg btn-rounded">Innskrá</button>
 	</form>
 	<br>
-	<a class="btn" ng-click="forgotpassword = !forgotpassword" style="color: #4b4b4b">
+	<a class="btn" ng-click="forgotpassword = !forgotpassword" style="color: #535353">
 		<p>Gleymt lykilorð?</p>
 	</a>
 	<div style="float:b" ng-show="forgotpassword">
 		<p style="padding-top: 0.1em;">Vinsamlegast sendu tölvupóst á
 			<br><strong>mathakurapp@gmail.com</strong>
-			<br>til að endurheimta lykilorð fyrir vinnustað
+			<br>til að endurheimta lykilorð fyrir vinnustað.
 		</p>
 	</div>
 	<br>
 	<br>
-	<a class="btn" ng-click="goToHome()" style="color: #4b4b4b">
-		<p>Aftur á forsíðu</p>
-	</a>
+	<a class="btn" ng-click="goToHome()" style="color: #160075;"><p>Aftur á forsíðu</p></a>
 </div>
 
 <br>

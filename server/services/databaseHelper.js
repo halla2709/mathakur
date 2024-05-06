@@ -143,6 +143,12 @@ function deleteCompany(db, companyId) {
     });
 }
 
+function toggleCompanyFreeze(db, companyId)
+{
+    let queryString = 'UPDATE company SET frozen = NOT frozen WHERE id = $1';
+    return db.none(queryString, [companyId]);
+}
+
 function getAllHistoryForEmployee(db, employeeId) {
     let query = "SELECT day, creditbefore, null as productids, null as productprices, null as productnames, action, creditafter, adminname \
                     FROM adminhistory WHERE employeeid = cast($1 as UUID) \
@@ -190,6 +196,7 @@ module.exports = {
     deleteCompany,
     updateCompanyPassword,
     updateEmployeeCredit,
+    toggleCompanyFreeze,
     addShoppingHistoryForEmployee,
     addAdminHistoryForEmployee,
     getAllHistoryForEmployee
