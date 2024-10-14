@@ -115,6 +115,7 @@ angular.module('mathakur')
                 $scope.currentEmployee = employee;
                 server.get("employee/history/" + employee.id).then(function (response) {
                     $scope.currentEmployee.history = response.data;
+                    $scope.currentEmployee.history.creditDifference = 0;
                     $scope.currentEmployee.history.forEach(entry => {
                         let products = {};
                         if (entry.productnames) {
@@ -128,6 +129,7 @@ angular.module('mathakur')
                                 .map(([key, value]) => `${key} x${value}`)
                                 .join(', ');
                         }
+                        //entry.creditDifference = entry.creditbefore - entry.creditafter;
                         if (entry.creditafter === null) {
                             entry.creditafter = entry.creditbefore;
                             entry.productprices.forEach(price => {

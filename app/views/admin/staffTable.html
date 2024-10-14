@@ -214,7 +214,7 @@
                         <tr id="tofluHeader">
                             <th style="width: 20%; text-align: center">Dagsetning</th>
                             <th style="width: 60%; text-align: center">Athöfn</th>
-                            <th style="width: 20%; text-align: center">Fyrir</th>
+                            <th style="width: 20%; text-align: center">Breyting</th>
                             <th style="width: 20%; text-align: center">Lokastaða</th>
                         </tr>
                     </thead>
@@ -222,8 +222,28 @@
                     <tbody style="border: none;">
                         <tr ng-repeat="history in currentEmployee.history" style="text-align: center">
                             <td style="text-align: center">{{history.day | date: 'dd MMMM yy'}}</td>
-                            <td style="text-align: center">{{history.action || 'Versla'}}: {{history.adminname || history.shoppingtransaction}}</td>
-                            <td style="text-align: center">{{history.creditbefore}} kr</td>
+
+                            
+                                <td style="text-align: center">
+                                    <span ng-if="history.action==='update'">{{history.adminname + ' uppfærði inneign'}}</span>
+                                    <span ng-if="history.action==='create'">{{history.adminname + ' bjó til notanda'}}</span>
+                                    <span ng-if="!history.action">{{'Versla: ' + history.shoppingtransaction}}</span>
+                                </td>
+
+                            <!--CreditBefore-CreditAfter-->
+                            <td style="text-align: center">
+                                <span ng-if="history.creditDifference==0">
+                                    {{history.creditDifference}} kr
+                                </span>
+                                <span style="color: green;" ng-if="history.creditDifference>0">
+                                    {{history.creditDifference}} kr
+                                </span>
+                                <span style="color: red;" ng-if="history.creditDifference<0">
+                                    {{history.creditDifference}} kr
+                                </span>
+                            </td>
+                               
+                            <!--CreditAfter-->
                             <td style="text-align: center">{{history.creditafter}} kr</td>
                         </tr>
                     </tbody>
