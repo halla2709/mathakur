@@ -33,9 +33,19 @@ angular.module('mathakur')
         }  
 
         $scope.copyEmployeeData = function() {
-            var data = "";
+            var data = ""; 
             for (let i = 0; i < $scope.employeeData.length; i++) {
                 data += $scope.employeeData[i].name + ": " + $scope.employeeData[i].credit + "kr" + "\n";
+            }
+            copyToClipboard(data);
+        }
+
+        $scope.copyEmployeeShoppingHistory = function() {
+            var data = "";
+
+            console.log($scope.currentEmployee.history.length);
+            for (let i = 0; i < $scope.currentEmployee.history.length; i++) {
+                data += $scope.currentEmployee.history[i].day + ": " + $scope.currentEmployee.history[i].shoppingtransaction + ", Samtals: " + $scope.currentEmployee.history[i].creditDifference + "kr" + ", Lokastaða: " + $scope.currentEmployee.history[i].creditafter + "kr" + "\n";
             }
             copyToClipboard(data);
         }
@@ -115,7 +125,6 @@ angular.module('mathakur')
                 $scope.currentEmployee = employee;
                 server.get("employee/history/" + employee.id).then(function (response) {
                     $scope.currentEmployee.history = response.data;
-                    $scope.currentEmployee.history.creditDifference = 0;
                     $scope.currentEmployee.history.forEach(entry => {
                         let products = {};
                         if (entry.productnames) {
@@ -129,13 +138,14 @@ angular.module('mathakur')
                                 .map(([key, value]) => `${key} x${value}`)
                                 .join(', ');
                         }
-                        //entry.creditDifference = entry.creditbefore - entry.creditafter;
+                        
                         if (entry.creditafter === null) {
                             entry.creditafter = entry.creditbefore;
                             entry.productprices.forEach(price => {
                                 entry.creditafter -= price;
                             });
                         }
+                        entry.creditDifference = entry.creditafter - entry.creditbefore;
                     });
                 })                
             } else {

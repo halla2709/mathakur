@@ -96,6 +96,31 @@ router.patch('/updatecredit/:id', frozenCheck.findCompanyIdFromBody, frozenCheck
         });
 });
 
+router.patch('/undoTransaction/:id', frozenCheck.findCompanyIdFromBody, frozenCheck.verifyActiveCompany, function (req, res, next) {
+    const id = req.params.id;
+    const transaction = req.body.transaction;
+    const receipt = req.body.receipt;
+
+    let transactionCount = 0;
+    receipt.forEach(product => {
+        transactionCount += product.quantity;
+    });
+        
+
+    Promise.all([dbHelper.updateEmployeeCredit(database, id, transaction), dbHelper.undoLastTransactionHistory(database, id, transactionCount)])
+    .then(function () {
+        res.statusCode = 200;
+        res.end();
+    })
+    .catch(function (error) {
+        console.error(error)
+        res.statusCode = 500;
+        return res.json({ errors: ['Could not undo transaction'] });
+    });
+});
+
+
+
 router.patch('/transaction/:id', createShoppingHistoryEntry, updateCredit, function (req, res, next) {
     res.statusCode = 200;
     res.end();

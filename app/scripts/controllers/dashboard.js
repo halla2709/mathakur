@@ -114,7 +114,8 @@ angular.module('mathakur')
           $scope.lastTransaction = {
             creditBefore: $scope.employee.credit,
             amount: $scope.total,
-            employee: $scope.employee
+            employee: $scope.employee,
+            receipt: $scope.receipt
           }
           
           let allEmployeesPromise = getEmployees();
@@ -162,13 +163,15 @@ angular.module('mathakur')
 
     $scope.undoLastTransaction = function () {
       // todo saga hér select arr[6:array_lengt(arr,1)]
-      server.patch('employee/updatecredit/' + $scope.lastTransaction.employee.id, {
+      server.patch('employee/undoTransaction/' + $scope.lastTransaction.employee.id, {
         transaction: -1*$scope.lastTransaction.amount,
+        receipt: $scope.lastTransaction.receipt,
         companyId: $rootScope.session.getCompanyId()
       })
         .then(function () {
           $scope.message = "Bakfærslan tókst, inneignin þín er ennþá: " + $scope.lastTransaction.creditBefore + "kr";
           $scope.lastTransaction.employee.credit = $scope.lastTransaction.creditBefore;
+          $scope.lastTransaction = {};
           $scope.showSuccessMessage = true;
           $scope.undoPossible = false;
           $timeout(function () {

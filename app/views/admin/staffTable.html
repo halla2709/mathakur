@@ -28,9 +28,7 @@
     </div>
 </div>
 
-<div class="container" id="fancycontainer">
-    <div ng-show="!editing">
-
+<div class="container" id="fancycontainer" ng-show="!editing">
         <div class="container">
             <div class="row">
                 <div class="col" style="padding: 0;">
@@ -118,7 +116,6 @@
 
         </div>
     </div>
-</div>
 
     <!-------- EDIT ----------->
 
@@ -230,7 +227,6 @@
                                     <span ng-if="!history.action">{{'Versla: ' + history.shoppingtransaction}}</span>
                                 </td>
 
-                            <!--CreditBefore-CreditAfter-->
                             <td style="text-align: center">
                                 <span ng-if="history.creditDifference==0">
                                     {{history.creditDifference}} kr
@@ -243,8 +239,8 @@
                                 </span>
                             </td>
                                
-                            <!--CreditAfter-->
                             <td style="text-align: center">{{history.creditafter}} kr</td>
+                            <button class="btn btn-sm btn-primary" ng-click="copyEmployeeShoppingHistory()"></i>Afritar</button>
                         </tr>
                     </tbody>
 
