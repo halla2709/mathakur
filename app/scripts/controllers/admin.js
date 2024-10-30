@@ -42,10 +42,18 @@ angular.module('mathakur')
 
         $scope.copyEmployeeShoppingHistory = function() {
             var data = "";
-
-            console.log($scope.currentEmployee.history.length);
+            
             for (let i = 0; i < $scope.currentEmployee.history.length; i++) {
-                data += $scope.currentEmployee.history[i].day + ": " + $scope.currentEmployee.history[i].shoppingtransaction + ", Samtals: " + $scope.currentEmployee.history[i].creditDifference + "kr" + ", Lokastaða: " + $scope.currentEmployee.history[i].creditafter + "kr" + "\n";
+                var date = $scope.currentEmployee.history[i].day.split("T");
+                let dateformatted = date.slice(0, date.length - 1);
+                if($scope.currentEmployee.history[i].shoppingtransaction == null)
+                    {
+                        data += dateformatted + ": " + $scope.currentEmployee.history[i].adminname + " uppfærði inneign, breyting: " + $scope.currentEmployee.history[i].creditDifference + "kr" + ", lokastaða: " + $scope.currentEmployee.history[i].creditafter + "kr." + "\n";
+                    }
+                    else
+                    {
+                        data += dateformatted + ": " + $scope.currentEmployee.history[i].shoppingtransaction + ", samtals: " + $scope.currentEmployee.history[i].creditDifference + "kr" + ", lokastaða: " + $scope.currentEmployee.history[i].creditafter + "kr." + "\n";
+                    }
             }
             copyToClipboard(data);
         }
