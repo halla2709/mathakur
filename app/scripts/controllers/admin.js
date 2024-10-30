@@ -129,7 +129,6 @@ angular.module('mathakur')
         $scope.editEmployee = function (employee) {
             if (employee) {
                 $scope.updating = true;
-                $scope.quickAddedCredit = 0;
                 $scope.currentEmployee = employee;
                 server.get("employee/history/" + employee.id).then(function (response) {
                     $scope.currentEmployee.history = response.data;
@@ -157,10 +156,11 @@ angular.module('mathakur')
                     });
                 })                
             } else {
-                $scope.currentEmployee = {};
+                $scope.quickAddedCredit = 0;$scope.currentEmployee = {};
                 $scope.currentEmployee.credit = 0;
                 $scope.currentEmployee.active = true;
             }
+            $scope.quickAddedCredit = 0;
             $scope.editing = true;
             $scope.usingQuickAdd = false;
         };
