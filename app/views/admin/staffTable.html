@@ -67,7 +67,7 @@
                         <th>Gælunafn</th>
                         <th style="text-align: center">Inneign</th>
                         <th style="text-align: center">Mynd</th>
-                        <th style="text-align: center">Virkt</th>
+                        <th style="text-align: center">Sýna</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -181,7 +181,7 @@
     
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" ng-model="currentEmployee.active">
-                                <label class="form-check-label">Sýna í lista (virkt/óvirkt)</label>
+                                <label class="form-check-label">Sýna í lista</label>
                             </div>
     
                         </div>
@@ -204,7 +204,7 @@
         </div>
     
             <div class="container" id="fancycontainer">
-                <h2><small>Færslusaga</small></h2>
+                <h2><small>Færslusaga síðustu 6 vikur</small></h2>
 
                 <table id="tafla" class="table">
                     <thead>
@@ -212,7 +212,7 @@
                             <th style="width: 20%; text-align: center">Dagsetning</th>
                             <th style="width: 60%; text-align: center">Athöfn</th>
                             <th style="width: 20%; text-align: center">Breyting</th>
-                            <th style="width: 20%; text-align: center">Lokastaða</th>
+                            <!--th style="width: 20%; text-align: center">Lokastaða</th-->
                         </tr>
                     </thead>
 
@@ -239,7 +239,7 @@
                                 </span>
                             </td>
                                
-                            <td style="text-align: center">{{history.creditafter}} kr</td>
+                            <!--td style="text-align: center">{{history.creditafter}} kr</td-->
                             <button class="btn btn-sm btn-primary" ng-click="copyEmployeeShoppingHistory()"></i>Afrita</button>
                         </tr>
                     </tbody>
