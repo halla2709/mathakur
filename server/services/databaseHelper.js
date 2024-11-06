@@ -85,9 +85,18 @@ function addAdminHistoryForEmployee(db, employeeId, adminName, action, creditBef
 
 function undoLastTransactionHistory(db, employeeId, transactionCount)
 {
-    let queryString = 'UPDATE shoppinghistory SET productprices = productprices[1:array_length(productprices,1)-$1], productnames = productnames[1:array_length(productnames,1)-$1], ';
-    queryString += 'productids = productids[1:array_length(productids,1)-$1] WHERE employeeid = $2 AND day = CURRENT_DATE';
-    return db.none(queryString, [transactionCount,employeeId]);
+    let queryString = 'UPDATE shoppinghistory SET ';
+    queryString += 'productprices = productprices[1:array_length(productprices,1)-$1], ';
+    queryString += 'productnames = productnames[1:array_length(productnames,1)-$1], ';
+    queryString += 'productids = productids[1:array_length(productids,1)-$1] ';
+    queryString += 'WHERE employeeid = $2 AND day = CURRENT_DATE ';
+    queryString += 'RETURNING productids;'
+    return db.one(queryString, [transactionCount,employeeId])
+    .then(function(data) {
+        if (data.productids.length === 0) {
+            return deleteFromTable(db, 'shoppinghistory', 'employeeid = \'' + employeeId + '\' AND day = CURRENT_DATE');
+        }
+    });
 }
 
 function updateProductPrice(db, companyId, productId, newPrice, newStatus) {

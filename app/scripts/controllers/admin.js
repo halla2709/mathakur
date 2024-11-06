@@ -130,6 +130,7 @@ angular.module('mathakur')
         $scope.editEmployee = function (employee) {
             if (employee) {
                 $scope.updating = true;
+                // todo call database here to show correct credit
                 $scope.currentEmployee = employee;
                 server.get("employee/history/" + employee.id).then(function (response) {
                     $scope.currentEmployee.history = response.data;
@@ -483,6 +484,7 @@ angular.module('mathakur')
             $scope.newSettings = {
                 allowfundsbelowzero: $rootScope.session.isBelowZeroAllowed()
             };
+            reloadData(true, true, true);
         }
 
         $scope.logOutAdmin = function () {
