@@ -53,7 +53,7 @@
         <tr ng-repeat="admin in adminData">
           <td>{{admin.name}}</td>
           <td>{{admin.username}}</td>
-          <td ng-show="adminData.length > 1" style="text-align: center;"><i class="bi bi-x-lg" ng-click="deleteAdmin(admin)"
+          <td ng-show="adminData.length > 1" style="text-align: center;"><i class="bi bi-trash" ng-click="deleteAdmin(admin)"
             style="color: red; font-size: 1.4rem; padding-right: 0.4em;" title="Eyða"></i></td>
         </tr>
       </tbody>
