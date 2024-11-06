@@ -41,18 +41,19 @@ angular.module('mathakur')
         }
 
         $scope.copyEmployeeShoppingHistory = function() {
-            var data = "";
+            var data = $scope.currentEmployee.name + ", inneign: " + $scope.currentEmployee.credit + "kr" + "\n" + "Færslusaga:" + "\n";
             
             for (let i = 0; i < $scope.currentEmployee.history.length; i++) {
                 var date = $scope.currentEmployee.history[i].day.split("T");
                 let dateformatted = date.slice(0, date.length - 1);
+                
                 if($scope.currentEmployee.history[i].shoppingtransaction == null)
                     {
-                        data += dateformatted + ": " + $scope.currentEmployee.history[i].adminname + " uppfærði inneign, breyting: " + $scope.currentEmployee.history[i].creditDifference + "kr" + ", lokastaða: " + $scope.currentEmployee.history[i].creditafter + "kr." + "\n";
+                        data += dateformatted + " - " + $scope.currentEmployee.history[i].adminname + " uppfærði inneign, breyting: " + $scope.currentEmployee.history[i].creditDifference + "kr" + "\n";
                     }
                     else
                     {
-                        data += dateformatted + ": " + $scope.currentEmployee.history[i].shoppingtransaction + ", samtals: " + $scope.currentEmployee.history[i].creditDifference + "kr" + ", lokastaða: " + $scope.currentEmployee.history[i].creditafter + "kr." + "\n";
+                        data += dateformatted + " - " + $scope.currentEmployee.history[i].shoppingtransaction + ", samtals: " + $scope.currentEmployee.history[i].creditDifference + "kr" + "\n";
                     }
             }
             copyToClipboard(data);
