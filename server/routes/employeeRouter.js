@@ -255,7 +255,7 @@ function insertEmployee(req, res, next) {
 }
 
 router.delete('/:id', function (req, res, next) {
-    dbHelper.deleteFromTable(database, 'employee', 'id = \'' + req.params.id + '\'')
+    dbHelper.deleteEmployee(database, req.params.id )
         .then(function () {
             res.statusCode = 200;
             res.end();

@@ -159,6 +159,16 @@ function deleteCompany(db, companyId) {
     });
 }
 
+function deleteEmployee(db, employeeId) {
+    return deleteFromTable(db, 'adminhistory', 'employeeid = \'' + employeeId + '\'')
+    .then(function() {
+        return deleteFromTable(db, 'shoppinghistory', 'employeeid = \'' + employeeId + '\'');
+    })
+    .then(function() {
+        return deleteFromTable(db, 'employee', 'id = \'' + employeeId + '\'');
+    })
+}
+
 function toggleCompanyFreeze(db, companyId)
 {
     let queryString = 'UPDATE company SET frozen = NOT frozen WHERE id = $1';
@@ -216,5 +226,6 @@ module.exports = {
     addShoppingHistoryForEmployee,
     addAdminHistoryForEmployee,
     getAllHistoryForEmployee,
-    undoLastTransactionHistory
+    undoLastTransactionHistory,
+    deleteEmployee
 }
