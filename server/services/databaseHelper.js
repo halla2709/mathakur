@@ -83,6 +83,22 @@ function addAdminHistoryForEmployee(db, employeeId, adminName, action, creditBef
     return db.none(queryString, [employeeId, adminName, action, creditBefore, creditAfter]);
 }
 
+function undoLastTransactionHistory(db, employeeId, transactionCount)
+{
+    let queryString = 'UPDATE shoppinghistory SET ';
+    queryString += 'productprices = productprices[1:array_length(productprices,1)-$1], ';
+    queryString += 'productnames = productnames[1:array_length(productnames,1)-$1], ';
+    queryString += 'productids = productids[1:array_length(productids,1)-$1] ';
+    queryString += 'WHERE employeeid = $2 AND day = CURRENT_DATE ';
+    queryString += 'RETURNING productids;'
+    return db.one(queryString, [transactionCount,employeeId])
+    .then(function(data) {
+        if (data.productids.length === 0) {
+            return deleteFromTable(db, 'shoppinghistory', 'employeeid = \'' + employeeId + '\' AND day = CURRENT_DATE');
+        }
+    });
+}
+
 function updateProductPrice(db, companyId, productId, newPrice, newStatus) {
     let queryString = 'UPDATE productprice SET price = $1, active = $2 WHERE companyid = $3 and productid = $4';
     return db.none(queryString, [newPrice, newStatus, companyId, productId]);
@@ -143,6 +159,16 @@ function deleteCompany(db, companyId) {
     });
 }
 
+function deleteEmployee(db, employeeId) {
+    return deleteFromTable(db, 'adminhistory', 'employeeid = \'' + employeeId + '\'')
+    .then(function() {
+        return deleteFromTable(db, 'shoppinghistory', 'employeeid = \'' + employeeId + '\'');
+    })
+    .then(function() {
+        return deleteFromTable(db, 'employee', 'id = \'' + employeeId + '\'');
+    })
+}
+
 function toggleCompanyFreeze(db, companyId)
 {
     let queryString = 'UPDATE company SET frozen = NOT frozen WHERE id = $1';
@@ -199,5 +225,7 @@ module.exports = {
     toggleCompanyFreeze,
     addShoppingHistoryForEmployee,
     addAdminHistoryForEmployee,
-    getAllHistoryForEmployee
+    getAllHistoryForEmployee,
+    undoLastTransactionHistory,
+    deleteEmployee
 }

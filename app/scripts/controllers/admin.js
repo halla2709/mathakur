@@ -33,9 +33,28 @@ angular.module('mathakur')
         }  
 
         $scope.copyEmployeeData = function() {
-            var data = "";
+            var data = ""; 
             for (let i = 0; i < $scope.employeeData.length; i++) {
                 data += $scope.employeeData[i].name + ": " + $scope.employeeData[i].credit + "kr" + "\n";
+            }
+            copyToClipboard(data);
+        }
+
+        $scope.copyEmployeeShoppingHistory = function() {
+            var data = $scope.currentEmployee.name + ", inneign: " + $scope.currentEmployee.credit + "kr" + "\n" + "Færslusaga:" + "\n";
+            
+            for (let i = 0; i < $scope.currentEmployee.history.length; i++) {
+                var date = $scope.currentEmployee.history[i].day.split("T");
+                let dateformatted = date.slice(0, date.length - 1);
+                
+                if($scope.currentEmployee.history[i].shoppingtransaction == null)
+                    {
+                        data += dateformatted + " - " + $scope.currentEmployee.history[i].adminname + " uppfærði inneign, breyting: " + $scope.currentEmployee.history[i].creditDifference + "kr" + "\n";
+                    }
+                    else
+                    {
+                        data += dateformatted + " - " + $scope.currentEmployee.history[i].shoppingtransaction + ", samtals: " + $scope.currentEmployee.history[i].creditDifference + "kr" + "\n";
+                    }
             }
             copyToClipboard(data);
         }
@@ -111,7 +130,7 @@ angular.module('mathakur')
         $scope.editEmployee = function (employee) {
             if (employee) {
                 $scope.updating = true;
-                $scope.quickAddedCredit = 0;
+                // todo call database here to show correct credit
                 $scope.currentEmployee = employee;
                 server.get("employee/history/" + employee.id).then(function (response) {
                     $scope.currentEmployee.history = response.data;
@@ -128,19 +147,22 @@ angular.module('mathakur')
                                 .map(([key, value]) => `${key} x${value}`)
                                 .join(', ');
                         }
+                        
                         if (entry.creditafter === null) {
                             entry.creditafter = entry.creditbefore;
                             entry.productprices.forEach(price => {
                                 entry.creditafter -= price;
                             });
                         }
+                        entry.creditDifference = entry.creditafter - entry.creditbefore;
                     });
                 })                
             } else {
-                $scope.currentEmployee = {};
+                $scope.quickAddedCredit = 0;$scope.currentEmployee = {};
                 $scope.currentEmployee.credit = 0;
                 $scope.currentEmployee.active = true;
             }
+            $scope.quickAddedCredit = 0;
             $scope.editing = true;
             $scope.usingQuickAdd = false;
         };
@@ -462,6 +484,7 @@ angular.module('mathakur')
             $scope.newSettings = {
                 allowfundsbelowzero: $rootScope.session.isBelowZeroAllowed()
             };
+            reloadData(true, true, true);
         }
 
         $scope.logOutAdmin = function () {
