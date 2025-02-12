@@ -62,6 +62,10 @@ h6, .h6 {
   border-bottom-left-radius: 0px;
 }
 
+#icons {
+  font-size: 2rem;
+}
+
 #purplebox {
   color: white;
   background-color: #440A67;
@@ -264,12 +268,6 @@ h6, .h6 {
   color: #160075;
   min-height: 17em;
   overflow-y: auto;
-}
-
-#korfuHeader {
-  background-color: #93329E;
-  color: white;
-  font-weight: 200;
 }
 
 #showSidebarButton {
@@ -10520,8 +10518,17 @@ textarea.form-control-lg {
   h2, .h2 {
     font-size: 1.5rem;
   }
+  h3, .h3 {
+    font-size: 1.2rem;
+  }
+  h4, .h4 {
+    font-size: 1.2rem;
+  }
   h5, .h5 {
-    font-size: 1rem;
+    font-size: 1 rem;
+  }
+  h6, .h6 {
+    font-size: 0.8rem;
   }
   #employeeCard {
     margin: 0.2em;
@@ -10597,8 +10604,8 @@ textarea.form-control-lg {
     padding: 0.2rem 0.5rem;
     font-size: 1rem;
   }
-  .form-control-lg, .input-group-lg, .input-group, .input-group-text {
-    font-size: 0.8rem !important;
+  .form-control-lg, .input-group-lg, .input-group, .input-group-text, p, cite, li {
+    font-size: 0.9rem !important;
   }
   #tofluHeader {
     font-size: small;
@@ -10607,6 +10614,9 @@ textarea.form-control-lg {
     display: none;
   }
   .td {
+    font-size: small !important;
+  }
+  #karfan {
     font-size: small;
   }
   #greencheckicon {
@@ -10616,5 +10626,8 @@ textarea.form-control-lg {
   #redcheckicon {
     font-size: 0.8rem;
     padding-right: 0;
+  }
+  #icons {
+    font-size: 1.2rem;
   }
 }/*# sourceMappingURL=custom.css.map */

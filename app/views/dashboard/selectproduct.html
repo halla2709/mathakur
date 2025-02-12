@@ -47,7 +47,7 @@
                 <img cl-src="{{employee.photourl}}" class="card-img-top" style="padding:0.1em; max-width: 5em;" err-src="../../images/no_photo_user.png"/>
             </h3>
             <table class="table table-condensed table-hover align-left" style="overflow-y: scroll; ">
-                <thead id="korfuHeader">
+                <thead id="tofluHeader">
                     <tr>
                         <th>Vörur</th>
                         <th style="text-align: center">Fjöldi</th>
@@ -61,7 +61,7 @@
                         <td style="vertical-align: middle;">{{x.name}}</td>
                         <td style="text-align: center; vertical-align: middle;">{{x.quantity}}</td>
                         <td style="text-align: center; vertical-align: middle;">{{x.price}}kr</td>
-                        <td style="text-align: center; vertical-align: middle;" ><i class="bi bi-x-lg" style="font-size: 1.5rem; color: #dc3545;"></i></td>
+                        <td style="text-align: center; vertical-align: middle;" ><i class="bi bi-x-lg" id="icons" style="color: #dc3545;"></i></td>
 
                     </tr>
                     <tr style="border-top: 0.2em double black">

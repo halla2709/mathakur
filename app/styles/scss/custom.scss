@@ -89,6 +89,10 @@ html {
     border-bottom-left-radius: 0px;
   }
 
+  #icons {
+    font-size: 2rem;
+  }
+
   #purplebox {
     color: white; 
     background-color: #440A67;
@@ -293,12 +297,6 @@ html {
     color:$color-myBlueDark;
     min-height: 17em;
     overflow-y: auto;
-  }
-
-  #korfuHeader {
-    background-color: $color-myPinkDark;
-    color: white;
-    font-weight: 200;
   }
   
   #showSidebarButton {
@@ -600,12 +598,24 @@ html {
       margin: 3.9em 0em 4em 0em !important
     }
 
-    h2{
+    h2 {
       font-size: 1.5rem;
     }
 
-    h5{
-      font-size: 1rem;
+    h3 {
+      font-size: 1.2rem;
+    }
+
+    h4 {
+      font-size: 1.2rem;
+    }
+
+    h5 {
+      font-size: 1 rem;
+    }
+
+    h6 {
+      font-size: 0.8rem;
     }
     
     #employeeCard {
@@ -702,8 +712,8 @@ html {
       font-size: 1rem;
     }
 
-    .form-control-lg, .input-group-lg, .input-group, .input-group-text{
-      font-size: 0.8rem !important;
+    .form-control-lg, .input-group-lg, .input-group, .input-group-text, p, cite, li {
+      font-size: 0.9rem !important;
   }
 
     #tofluHeader{
@@ -714,7 +724,11 @@ html {
       display: none;
     }
 
-    .td{
+    .td {
+      font-size: small !important;
+    }
+
+    #karfan {
       font-size: small;
     }
 
@@ -726,6 +740,10 @@ html {
     #redcheckicon{
       font-size: 0.8rem; 
       padding-right: 0;
+    }
+
+    #icons {
+      font-size: 1.2rem;
     }
   }
 
