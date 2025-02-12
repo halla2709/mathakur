@@ -4,15 +4,15 @@
             <div class="col col-8" style=" margin-top: 0.5em;">
                 <div class="input-group input-group-lg col-sm-6 justify-content-md-center" id="leitabox">
                     <span class="input-group-text" id="loginInputs">
-                        <i class="bi bi-search" style="font-size: 2rem;"></i>
+                        <i class="bi bi-search" id="searchicon"></i>
                     </span>
                     <input ng-model="searchBox" type="text" class="form-control form-control-lg" placeholder="Leita..."
-                        placeholder="Lykilorð" style="max-width: 20em;">
+                        style="max-width: 20em;">
                 </div>
             </div>
 
                 <div class="col col-8">
-                    <div class="row" style="margin-left: 1em;">
+                    <div class="row" style="margin-left: 0.2em;">
                     <div ng-repeat="x in myDataProduct | filter:searchBox | orderBy:'name':false:localeSensitiveComparator" ng-click="selectProduct(x)" id="productCard" class="col col-2">
                         <div class="staffname" type="add" ng-click="addProduct(x)">
                             <img cl-src="{{x.photourl}}" class="card-img-top" style="padding: 0.6em; max-width: 8em;" err-src="../../images/no_photo.jpg"></img>

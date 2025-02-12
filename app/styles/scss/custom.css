@@ -119,6 +119,10 @@ h6, .h6 {
   background-color: lightgrey;
 }
 
+#searchicon {
+  font-size: 2rem;
+}
+
 /* -------- STAFF --------- */
 #employeeCard {
   background-color: white;
@@ -210,6 +214,18 @@ h6, .h6 {
   font-size: larger;
   background-color: white;
   margin-top: 1em;
+}
+
+#greencheckicon {
+  color: green;
+  font-size: 1.4rem;
+  padding-right: 0.4em;
+}
+
+#redcheckicon {
+  color: red;
+  font-size: 1.4rem;
+  padding-right: 0.4em;
 }
 
 /* ---------- FOOTER ------- */
@@ -10501,15 +10517,33 @@ textarea.form-control-lg {
   body {
     margin: 3.9em 0em 4em 0em !important;
   }
+  h2, .h2 {
+    font-size: 1.5rem;
+  }
+  h5, .h5 {
+    font-size: 1rem;
+  }
   #employeeCard {
     margin: 0.2em;
     max-width: 8em;
+  }
+  #productCard {
+    margin: 0.2em;
+    min-width: 8em;
+  }
+  #searchicon {
+    font-size: 1rem;
   }
   #thelogo {
     max-height: 1.8em;
   }
   #loggedincompany {
     font-size: 1em;
+  }
+  #fancycontainer {
+    padding: 0.5em;
+    font-size: small;
+    margin-top: 0.5em;
   }
   #staffInfo {
     right: auto;
@@ -10546,7 +10580,7 @@ textarea.form-control-lg {
   #leitabox {
     max-width: 21em;
   }
-  .col-8 {
+  .col-8, .col-5 {
     width: 100% !important;
   }
   .img-bg {
@@ -10554,5 +10588,33 @@ textarea.form-control-lg {
   }
   #lesspadding {
     padding: 2em;
+  }
+  .btn-lg, .btn-group-lg > .btn {
+    padding: 0.2rem 0.5rem;
+    font-size: 1rem;
+  }
+  .btn {
+    padding: 0.2rem 0.5rem;
+    font-size: 1rem;
+  }
+  .form-control-lg, .input-group-lg, .input-group, .input-group-text {
+    font-size: 0.8rem !important;
+  }
+  #tofluHeader {
+    font-size: small;
+  }
+  #hidewhenscreenissmall {
+    display: none;
+  }
+  .td {
+    font-size: small;
+  }
+  #greencheckicon {
+    font-size: 0.8rem;
+    padding-right: 0;
+  }
+  #redcheckicon {
+    font-size: 0.8rem;
+    padding-right: 0;
   }
 }/*# sourceMappingURL=custom.css.map */
