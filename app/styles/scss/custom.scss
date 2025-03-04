@@ -89,6 +89,10 @@ html {
     border-bottom-left-radius: 0px;
   }
 
+  #icons {
+    font-size: 2rem;
+  }
+
   #purplebox {
     color: white; 
     background-color: #440A67;
@@ -146,6 +150,9 @@ html {
     background-color: lightgrey;
   }
 
+  #searchicon {
+    font-size: 2rem;
+  }
   /* -------- STAFF --------- */
 
   #employeeCard {
@@ -240,7 +247,17 @@ html {
     margin-top: 1em;
   }
 
+  #greencheckicon{
+    color: green;
+    font-size: 1.4rem; 
+    padding-right: 0.4em;
+  }
 
+  #redcheckicon{
+    color: red;
+    font-size: 1.4rem; 
+    padding-right: 0.4em;
+  }
   /* ---------- FOOTER ------- */
 
   #footerView {
@@ -280,12 +297,6 @@ html {
     color:$color-myBlueDark;
     min-height: 17em;
     overflow-y: auto;
-  }
-
-  #korfuHeader {
-    background-color: $color-myPinkDark;
-    color: white;
-    font-weight: 200;
   }
   
   #showSidebarButton {
@@ -586,10 +597,39 @@ html {
     body {
       margin: 3.9em 0em 4em 0em !important
     }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+    }
+
+    h4 {
+      font-size: 1.2rem;
+    }
+
+    h5 {
+      font-size: 1 rem;
+    }
+
+    h6 {
+      font-size: 0.8rem;
+    }
     
     #employeeCard {
       margin: 0.2em;
       max-width: 8em;
+    }
+
+    #productCard {
+      margin: 0.2em;
+      min-width: 8em;
+    }
+
+    #searchicon {
+      font-size: 1rem;
     }
 
     #thelogo {
@@ -600,6 +640,12 @@ html {
       font-size: 1em;
     }
     
+    #fancycontainer {
+      padding: 0.5em;
+      font-size: small;
+      margin-top: 0.5em;
+    }
+
     #staffInfo {
     right: auto;
     top: auto;
@@ -644,7 +690,7 @@ html {
       max-width: 21em;
     }
 
-    .col-8 {
+    .col-8, .col-5 {
       width: 100% !important;
     }
 
@@ -654,6 +700,50 @@ html {
 
     #lesspadding {
       padding: 2em;
+    }
+
+    .btn-lg{
+      padding: 0.2rem 0.5rem;
+      font-size: 1rem;
+    }
+
+    .btn{
+      padding: 0.2rem 0.5rem;
+      font-size: 1rem;
+    }
+
+    .form-control-lg, .input-group-lg, .input-group, .input-group-text, p, cite, li {
+      font-size: 0.9rem !important;
+  }
+
+    #tofluHeader{
+      font-size: small;
+    }
+
+    #hidewhenscreenissmall{
+      display: none;
+    }
+
+    .td {
+      font-size: small !important;
+    }
+
+    #karfan {
+      font-size: small;
+    }
+
+    #greencheckicon{
+      font-size: 0.8rem; 
+      padding-right: 0;
+    }
+  
+    #redcheckicon{
+      font-size: 0.8rem; 
+      padding-right: 0;
+    }
+
+    #icons {
+      font-size: 1.2rem;
     }
   }
 

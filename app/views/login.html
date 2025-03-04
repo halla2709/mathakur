@@ -9,9 +9,9 @@
 	</div>
 	<form role="form" ng-submit="submit()">
 
-		<div class="input-group input-group-lg" style="min-width: max-content;">
+		<div class="input-group input-group-lg" style="min-width: 12em;">
 			<span class="input-group-text" id="loginInputs">
-				<i class="bi bi-house" style="font-size: 2rem;"></i>
+				<i class="bi bi-house" id="icons"></i>
 			</span>
 			<input ng-change="onNewSearch()" ng-model="searchValue" type="text" class="form-control form-control-lg"
 				placeholder="Vinnustaður"/>
@@ -27,7 +27,7 @@
 
 		<div class="input-group input-group-lg">
 			<span class="input-group-text" id="loginInputs">
-				<i class="bi bi-lock" style="font-size: 2rem;"></i>
+				<i class="bi bi-lock" id="icons"></i>
 			</span>
 			<input ng-model="password" type="password" class="form-control form-control-lg" id="passwordplaceholder"
 				placeholder="Lykilorð">
