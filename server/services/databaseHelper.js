@@ -1,13 +1,15 @@
-function getFromTable(db, tableName, condition) {
+const getDb = require("./databaseCreator.js").getDb;
+
+function getFromTable(tableName, condition) {
     let queryString = 'SELECT * FROM ' + replaceTableName(tableName);
     if (condition) {
         queryString += ' WHERE ' + condition;
     }
     queryString += ";";
-    return db.any(queryString, tableName);
+    return getDb().any(queryString, tableName);
 }
 
-function insertIntoTableReturningID(db, tableName, columns, values) {
+function insertIntoTableReturningID(tableName, columns, values) {
     if(tableName == 'productprice') {
         console.error(tableName + " does not have id");
         return;
@@ -23,10 +25,10 @@ function insertIntoTableReturningID(db, tableName, columns, values) {
     columnsString += ' ' + columns[columns.length-1] + ')';
     valuesString += ' $' + values.length + ')';
     queryString += columnsString + " VALUES" + valuesString + ' RETURNING id;';
-    return db.one(queryString, values);
+    return getDb().one(queryString, values);
 }
 
-function insertIntoTable(db, tableName, columns, values, returnId) {
+function insertIntoTable(tableName, columns, values, returnId) {
     let queryString = 'INSERT INTO ' + replaceTableName(tableName);
     let columnsString = '(';
     let valuesString = '(';
@@ -40,50 +42,50 @@ function insertIntoTable(db, tableName, columns, values, returnId) {
     queryString += columnsString + " VALUES" + valuesString;
     if (returnId) {
         queryString += " RETURNING id";
-        return db.one(queryString, values);
+        return getDb().one(queryString, values);
     }
     else {
-        return db.none(queryString, values);
+        return getDb().none(queryString, values);
     }
 }
 
-function updateEmployeeCredit(db, employeeId, transaction) {
+function updateEmployeeCredit(employeeId, transaction) {
     let queryString = 'UPDATE employee SET credit = credit - $1 WHERE id = $2';
-    return db.none(queryString, [transaction, employeeId]);
+    return getDb().none(queryString, [transaction, employeeId]);
 }
 
-function updateEmployeeImage(db, employeeId, url) {
+function updateEmployeeImage(employeeId, url) {
     let queryString = 'UPDATE employee SET photourl = $1 WHERE id = $2';
-    return db.none(queryString, [url, employeeId]);
+    return getDb().none(queryString, [url, employeeId]);
 }
 
-function updateEmployee(db, employeeId, newCredit, newName, newNickname, newPhotoUrl, newStatus) {
+function updateEmployee(employeeId, newCredit, newName, newNickname, newPhotoUrl, newStatus) {
     let queryString = 'UPDATE employee SET credit = $1, name = $2, nickname = $3, active = $4 ';
     if (newPhotoUrl) {
         queryString += ', photourl = $5 WHERE id = $6';
-        return db.none(queryString, [newCredit, newName, newNickname, newStatus, newPhotoUrl, employeeId])
+        return getDb().none(queryString, [newCredit, newName, newNickname, newStatus, newPhotoUrl, employeeId])
     }
     else {
         queryString += 'WHERE id = $5';
-        return db.none(queryString, [newCredit, newName, newNickname, newStatus, employeeId]);
+        return getDb().none(queryString, [newCredit, newName, newNickname, newStatus, employeeId]);
     }
 }
 
-function addShoppingHistoryForEmployee (db, employeeId, productIds, productNames, productPrices, creditBefore) {
+function addShoppingHistoryForEmployee (employeeId, productIds, productNames, productPrices, creditBefore) {
     let queryString = 'INSERT INTO shoppinghistory (employeeid, productIds, productNames, productPrices, creditBefore) VALUES ($1, $2::uuid[], $3, $4, $5) ';
     queryString += 'ON CONFLICT (employeeid, day) DO UPDATE SET ';
     queryString += 'productIds = array_cat(shoppinghistory.productIds, EXCLUDED.productIds), '
     queryString += 'productNames = array_cat(shoppinghistory.productNames, EXCLUDED.productNames), '
     queryString += 'productPrices = array_cat(shoppinghistory.productPrices, EXCLUDED.productPrices)'
-    return db.none(queryString, [employeeId, productIds, productNames, productPrices, creditBefore]);
+    return getDb().none(queryString, [employeeId, productIds, productNames, productPrices, creditBefore]);
 }
 
-function addAdminHistoryForEmployee(db, employeeId, adminName, action, creditBefore, creditAfter) {
+function addAdminHistoryForEmployee(employeeId, adminName, action, creditBefore, creditAfter) {
     let queryString = 'INSERT INTO adminhistory (employeeid, adminName, action, creditBefore, creditAfter) VALUES ($1, $2, $3, $4, $5) ';
-    return db.none(queryString, [employeeId, adminName, action, creditBefore, creditAfter]);
+    return getDb().none(queryString, [employeeId, adminName, action, creditBefore, creditAfter]);
 }
 
-function undoLastTransactionHistory(db, employeeId, transactionCount)
+function undoLastTransactionHistory(employeeId, transactionCount)
 {
     let queryString = 'UPDATE shoppinghistory SET ';
     queryString += 'productprices = productprices[1:array_length(productprices,1)-$1], ';
@@ -91,64 +93,64 @@ function undoLastTransactionHistory(db, employeeId, transactionCount)
     queryString += 'productids = productids[1:array_length(productids,1)-$1] ';
     queryString += 'WHERE employeeid = $2 AND day = CURRENT_DATE ';
     queryString += 'RETURNING productids;'
-    return db.one(queryString, [transactionCount,employeeId])
+    return getDb().one(queryString, [transactionCount,employeeId])
     .then(function(data) {
         if (data.productids.length === 0) {
-            return deleteFromTable(db, 'shoppinghistory', 'employeeid = \'' + employeeId + '\' AND day = CURRENT_DATE');
+            return deleteFromTable('shoppinghistory', 'employeeid = \'' + employeeId + '\' AND day = CURRENT_DATE');
         }
     });
 }
 
-function updateProductPrice(db, companyId, productId, newPrice, newStatus) {
+function updateProductPrice(companyId, productId, newPrice, newStatus) {
     let queryString = 'UPDATE productprice SET price = $1, active = $2 WHERE companyid = $3 and productid = $4';
-    return db.none(queryString, [newPrice, newStatus, companyId, productId]);
+    return getDb().none(queryString, [newPrice, newStatus, companyId, productId]);
 }
 
-function updateProduct(db, productId, newName, newPhotoUrl) {
+function updateProduct(productId, newName, newPhotoUrl) {
     let queryString = 'UPDATE product SET name = $1 ';
     if (newPhotoUrl) {
         queryString += ", photourl = $2 WHERE id = $3";
-        return db.none(queryString, [newName, newPhotoUrl, productId]);
+        return getDb().none(queryString, [newName, newPhotoUrl, productId]);
     }
     else {
         queryString += " WHERE id = $2";
-        return db.none(queryString, [newName, productId]);
+        return getDb().none(queryString, [newName, productId]);
     }
 }
 
-function updateAllowFundsBelowZero(db, companyId, newValue) {
+function updateAllowFundsBelowZero(companyId, newValue) {
     let queryString = 'UPDATE company SET allowfundsbelowzero = $1 WHERE id = $2';
-    return db.none(queryString, [newValue, companyId]);
+    return getDb().none(queryString, [newValue, companyId]);
 }
 
-function updateCompanyPassword(db, companyName, passwordHash, randomString) {
+function updateCompanyPassword(companyName, passwordHash, randomString) {
     let queryString = 'UPDATE company SET password = $1, rand = $2 WHERE name = $3';
-    return db.none(queryString, [passwordHash, randomString, companyName]);
+    return getDb().none(queryString, [passwordHash, randomString, companyName]);
 }
 
-function deleteFromTable(db, tableName, condition) {
+function deleteFromTable(tableName, condition) {
     let queryString = 'DELETE FROM ' + replaceTableName(tableName);
     if (condition) {
         queryString += ' WHERE ' + condition;
     };
     queryString += ";";
-    return db.none(queryString);
+    return getDb().none(queryString);
 }
 
-function deleteCompany(db, companyId) {
-    return deleteFromTable(db, 'administrator', 'companyid = \'' + companyId + '\'')
+function deleteCompany(companyId) {
+    return deleteFromTable('administrator', 'companyid = \'' + companyId + '\'')
     .then(function() {
-        return deleteFromTable(db, 'employee', 'companyid = \'' + companyId + '\'');
+        return deleteFromTable('employee', 'companyid = \'' + companyId + '\'');
     })
     .then(function() {
-        return deleteFromTable(db, 'productprice', 'companyid = \'' + companyId + '\'');
+        return deleteFromTable('productprice', 'companyid = \'' + companyId + '\'');
     })
     .then(function() {
         queryString = 'DELETE FROM product p WHERE NOT EXISTS (SELECT FROM productprice WHERE productid = p.id)';
-        return db.none(queryString);
+        return getDb().none(queryString);
     })
     .then(function() {
-        return deleteFromTable(db, 'company', 'id = \'' + companyId + '\'');
+        return deleteFromTable('company', 'id = \'' + companyId + '\'');
     })
     .then(function() {
         console.log("Successfully deleted company " + companyId);
@@ -159,30 +161,30 @@ function deleteCompany(db, companyId) {
     });
 }
 
-function deleteEmployee(db, employeeId) {
-    return deleteFromTable(db, 'adminhistory', 'employeeid = \'' + employeeId + '\'')
+function deleteEmployee(employeeId) {
+    return deleteFromTable('adminhistory', 'employeeid = \'' + employeeId + '\'')
     .then(function() {
-        return deleteFromTable(db, 'shoppinghistory', 'employeeid = \'' + employeeId + '\'');
+        return deleteFromTable('shoppinghistory', 'employeeid = \'' + employeeId + '\'');
     })
     .then(function() {
-        return deleteFromTable(db, 'employee', 'id = \'' + employeeId + '\'');
+        return deleteFromTable('employee', 'id = \'' + employeeId + '\'');
     })
 }
 
-function toggleCompanyFreeze(db, companyId)
+function toggleCompanyFreeze(companyId)
 {
     let queryString = 'UPDATE company SET frozen = NOT frozen WHERE id = $1';
-    return db.none(queryString, [companyId]);
+    return getDb().none(queryString, [companyId]);
 }
 
-function getAllHistoryForEmployee(db, employeeId) {
+function getAllHistoryForEmployee(employeeId) {
     let query = "SELECT day, creditbefore, null as productids, null as productprices, null as productnames, action, creditafter, adminname \
                     FROM adminhistory WHERE employeeid = cast($1 as UUID) \
                     UNION ALL \
                 SELECT day, creditbefore, productids, productprices, productnames, null as action, null as creditafter, null as adminname  \
                     FROM shoppinghistory WHERE employeeid = cast($1 as UUID) \
                 ORDER BY day DESC;"
-    return db.any(query, [employeeId]);
+    return getDb().any(query, [employeeId]);
 }
 
 function replaceTableName(tableName) {

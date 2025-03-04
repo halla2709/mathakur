@@ -13,8 +13,8 @@ module.exports = function(config) {
       "./app/scripts/controllers/admin.js",
       "./app/scripts/controllers/dashboard.js",
       "./app/scripts/services/session.js",
-      "./spec/adminSpec.js",
-      "./spec/dashboardSpec.js"
+      "./app/spec/adminSpec.js",
+      "./app/spec/dashboardSpec.js"
     ]
   })
 }

@@ -1,5 +1,4 @@
 const dbHelper = require('../services/databaseHelper');
-const database = require('../services/databaseCreator').db;
 
 function findCompanyNameFromBody(req, res, next) {
     res.companyName = req.body.companyName;
@@ -28,7 +27,7 @@ function verifyActiveCompany(req, res, next) {
     return res.json({ errors: ['Error while retieving company information'] });
   }
 
-  dbHelper.getFromTable(database, "company", condition)
+  dbHelper.getFromTable("company", condition)
   .then(function(company) {
     if (company.length === 1) {
       if (company[0].frozen) {

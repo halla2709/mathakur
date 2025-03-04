@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
-const database = require('../services/databaseCreator').db;
 const dbHelper = require('../services/databaseHelper');
-const cloudinary = require("cloudinary");
 const savePhotoToCloudinary = require("../services/cloudinaryHelper").savePhotoToCloudinary;
 const frozenCheck = require('../services/isFrozenCheck').verifyActiveCompany;
 
@@ -34,13 +31,13 @@ router.patch('/:companyId/:id', savePhotoToCloudinary, function (req, res, next)
     const newName = req.body.newName;
     const newStatus = req.body.newStatus;
 
-    dbHelper.updateProductPrice(database, companyId, id, newPrice, newStatus)
+    dbHelper.updateProductPrice(companyId, id, newPrice, newStatus)
         .then(function () {
             if (!(typeof req.body.photo !== 'undefined' && req.body.photo !== '')) {
                 newPhotoUrl = undefined;
             }
 
-            dbHelper.updateProduct(database, id, newName, newPhotoUrl)
+            dbHelper.updateProduct(id, newName, newPhotoUrl)
                 .then(function () {
                     res.statusCode = 200;
                     res.json({ photoUrl: newPhotoUrl });
@@ -59,7 +56,7 @@ router.patch('/:companyId/:id', savePhotoToCloudinary, function (req, res, next)
 });
 
 router.delete('/:product/:companyId', function (req, res, next) {
-    dbHelper.deleteFromTable(database, 'productprice', 'productid = \'' + req.params.product + '\' AND companyid = \'' + req.params.companyId + '\'')
+    dbHelper.deleteFromTable('productprice', 'productid = \'' + req.params.product + '\' AND companyid = \'' + req.params.companyId + '\'')
         .then(function () {
             res.statusCode = 200;
             res.end();
@@ -83,7 +80,7 @@ function validateColumns(req, res, next) {
 }
 
 function getAllProducts(req, res, next) {
-    dbHelper.getFromTable(database, 'product')
+    dbHelper.getFromTable('product')
         .then(function (data) {
             res.product = data;
             next();
@@ -100,7 +97,7 @@ function getPricesForCompany(req, res, next) {
     if(req.query.active) {
         activeFilter = 'AND active = true';
     }
-    dbHelper.getFromTable(database, 'productprice', 'companyid = \'' + req.params.companyId + '\' ' + activeFilter)
+    dbHelper.getFromTable('productprice', 'companyid = \'' + req.params.companyId + '\' ' + activeFilter)
         .then(function (data) {
             res.prices = data;
             next();
@@ -113,10 +110,10 @@ function getPricesForCompany(req, res, next) {
 }
 
 function insertIntoTables(req, res, next) {
-    dbHelper.insertIntoTableReturningID(database, 'product',
+    dbHelper.insertIntoTableReturningID('product',
         ['name', 'category', 'photoUrl'], [req.body.name, req.body.category, res.photoUrl])
         .then(function (id) {
-            dbHelper.insertIntoTable(database, 'productprice',
+            dbHelper.insertIntoTable('productprice',
                 ['companyid', 'productid', 'price', 'active'], [req.body.companyId, id.id, req.body.price, req.body.active])
                 .then(function () {
                 })
