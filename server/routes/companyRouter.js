@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
-const database = require('../services/databaseCreator').db;
 const dbHelper = require('../services/databaseHelper');
 
 router.get('/', getCompanies, cleanData, function (req, res, next) {
@@ -13,7 +11,7 @@ router.get('/:id', getCompanies, cleanData, function(req, res, next) {
 });
 
 router.patch('/:id', function(req, res, next) {
-    dbHelper.updateAllowFundsBelowZero(database, req.params.id, req.body.allowfundsbelowzero)
+    dbHelper.updateAllowFundsBelowZero(req.params.id, req.body.allowfundsbelowzero)
     .then(function() {
         res.end();
     })
@@ -24,7 +22,7 @@ router.patch('/:id', function(req, res, next) {
 });
 
 router.patch('/freeze/:id', function(req, res, next) {
-    dbHelper.toggleCompanyFreeze(database, req.params.id)
+    dbHelper.toggleCompanyFreeze(req.params.id)
     .then(function() {
         res.end();
     })
@@ -36,7 +34,7 @@ router.patch('/freeze/:id', function(req, res, next) {
 });
 
 router.delete('/:id', function(req, res, next) {
-    dbHelper.deleteCompany(database, req.params.id)
+    dbHelper.deleteCompany(req.params.id)
     .then(function() {
         res.end();
     })
@@ -50,7 +48,7 @@ router.delete('/:id', function(req, res, next) {
 function getCompanies(req, res, next) {
     const id = req.params.id;
     if(typeof id === 'undefined') {
-        dbHelper.getFromTable(database, 'company')
+        dbHelper.getFromTable('company')
         .then(function(data) {
             req.companies = data;
             next();
@@ -62,7 +60,7 @@ function getCompanies(req, res, next) {
         });
     }
     else {
-        dbHelper.getFromTable(database, 'company', 'id = \'' + id + '\'')
+        dbHelper.getFromTable('company', 'id = \'' + id + '\'')
         .then(function(data) {
             req.companies = data;
             next();

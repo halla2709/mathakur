@@ -3,7 +3,6 @@ const router = express.Router();
 const path = require('path');
 const randomString = require('random-string');
 const md5 = require('md5');
-const database = require('../services/databaseCreator').db;
 const dbHelper = require('../services/databaseHelper');
 const frozenCheck = require('../services/isFrozenCheck');
 
@@ -104,7 +103,7 @@ function authenticateAdminConnection(req, res, next) {
 }
 
 function addCompany(req, res, next) {
-    dbHelper.insertIntoTableReturningID(database, 'company',
+    dbHelper.insertIntoTableReturningID('company',
         ['name', 'password', 'rand', 'allowfundsbelowzero'], [req.body.companyName, companyAuth.finalPassword, companyAuth.randomString, req.body.allowfundsbelowzero])
         .then(function (id) {
             req.body.companyId = id.id;
@@ -119,7 +118,7 @@ function addCompany(req, res, next) {
 }
 
 function addAdmin(req, res, next) {
-    dbHelper.insertIntoTableReturningID(database, 'administrator',
+    dbHelper.insertIntoTableReturningID('administrator',
         ['name', 'password', 'rand', 'username', 'companyid'],
         [req.body.adminName, adminAuth.finalPassword, adminAuth.randomString, req.body.adminUser.toLowerCase(), req.body.companyId])
         .then(function (idobj) {
@@ -136,7 +135,7 @@ function addAdmin(req, res, next) {
 
 function checkCompanyCredientials(req, res, next) {
     const companyName = req.body.companyName;
-    dbHelper.getFromTable(database, 'company', 'name = \'' + companyName + '\'')
+    dbHelper.getFromTable('company', 'name = \'' + companyName + '\'')
         .then(function (results) {
             if (results.length != 1) {
                 companyAuth = {};
@@ -168,7 +167,7 @@ function checkCompanyCredientials(req, res, next) {
 
 function checkUserCredientials(req, res, next) {
     var filter = 'username = \'' + req.body.adminUser.toLowerCase() + '\' AND companyid = \'' + req.body.companyId + '\''
-    dbHelper.getFromTable(database, 'administrator', filter)
+    dbHelper.getFromTable('administrator', filter)
         .then(function (results) {
             if (results.length == 0) {
                 hashedCompanyPassword = '';
@@ -206,7 +205,7 @@ function checkUserCredientials(req, res, next) {
 }
 
 function changePassword(req, res, next) {
-    dbHelper.getFromTable(database, 'company', 'name = \'' + req.body.companyName + '\'')
+    dbHelper.getFromTable('company', 'name = \'' + req.body.companyName + '\'')
         .then(function (results) {
             if (results.length != 1) {
                 companyAuth = {};
@@ -214,7 +213,7 @@ function changePassword(req, res, next) {
                 return res.json({ errors: ['Could not find company'] });
             }
 
-            dbHelper.updateCompanyPassword(database, req.body.companyName, companyAuth.finalPassword, companyAuth.randomString)
+            dbHelper.updateCompanyPassword(req.body.companyName, companyAuth.finalPassword, companyAuth.randomString)
                 .then(function () {
                     next();
                 })
