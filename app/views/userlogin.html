@@ -5,7 +5,7 @@
 	<form role="form" ng-submit="submit()">
 		<div class="input-group input-group-lg">
 			<span class="input-group-text" id="loginInputs">
-				<i class="bi bi-person" style="font-size: 2rem;"></i>
+				<i class="bi bi-person" id="icons"></i>
 			</span>
 			<input type="text" ng-model="username" class="form-control form-control-lg" placeholder="Notandanafn"
 				required>
@@ -14,7 +14,7 @@
 
 		<div class="input-group input-group-lg">
 			<span class="input-group-text" id="loginInputs">
-				<i class="bi bi-lock" style="font-size: 2rem;"></i>
+				<i class="bi bi-lock" id="icons"></i>
 			</span>
 			<input ng-model="password" type="password" class="form-control form-control-lg" id="passwordplaceholder"
 				placeholder="Lykilorð">
@@ -22,9 +22,10 @@
 
 		<br>
 		<div class="alert alert-danger" role="alert" ng-show="wrongpassword" style="text-align: center;">
-			<p><i class="bi bi-exclamation-circle" style="font-size: 1rem; padding-right: 0.5em;"></i>Rangt notandanafn
-				eða lykilorð,<br> vinsamlega reyndu aftur</p>
+			<p><i class="bi bi-exclamation-circle" id="iconssmaller" style="padding-right: 0.3em;"></i>Rangt lykilorð,
+				vinsamlega reyndu aftur</p>
 		</div>
+
 		<br>
 
 		<button type="submit" class="btn btn-primary btn-lg btn-rounded">Innskrá</button>
@@ -34,7 +35,7 @@
 		<p>Gleymt lykilorð?</p>
 	</a>
 	<div style="float:b" ng-show="forgotpassword">
-		<p style="padding-top: 0.1em;">Vinsamlegast fáðu annan stjórnanda<br>á vinnustaðnum til þess að búa til nýjan aðgang <br>eða sendu tölvupóst á <strong>mathakurapp@gmail.com</strong><br></p>
+		<p style="padding-top: 0.1em;">Vinsamlegast fáðu annan stjórnanda á vinnustaðnum til þess að búa til nýjan aðgang <br>eða sendu tölvupóst á <strong>mathakurapp@gmail.com</strong> og við aðstoðum þig.<br></p>
 	</div>
 </div>
 <br>

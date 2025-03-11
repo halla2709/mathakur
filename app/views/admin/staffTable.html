@@ -162,7 +162,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col" style="margin: auto;">
+                                <div class="col" style="margin: auto; padding-top: 0.5em;">
                                     <span ng-hide="">
                                         <button class="btn btn-outline-success" type="button" id="quickAdd"
                                             ng-click="quickAdd(500)">+500</button>
@@ -178,7 +178,7 @@
                             <br>
                             <div ng-show="usingQuickAdd">
                                 <p><button title="Hætta við" class="btn btn-outline-danger btn-sm" type="button"
-                                        ng-click="resetQuickAdd()"><i class="bi bi-x-lg"></i></button> Bæta við <span
+                                        ng-click="resetQuickAdd()"><i class="bi bi-x-lg" id="icons"></i></button> Bæta við <span
                                         style="color:#198754">{{quickAddedCredit}}kr</span> inneign</p>
                             </div>
                             <br>
@@ -222,7 +222,7 @@
 
                     <tbody style="border: none;">
                         <tr ng-repeat="history in currentEmployee.history" style="text-align: center">
-                            <td style="text-align: center">{{history.day | date: 'dd MMMM yy'}}</td>
+                            <td style="text-align: center">{{history.day | date: 'dd MMM y'}}</td>
 
                             
                                 <td style="text-align: center">

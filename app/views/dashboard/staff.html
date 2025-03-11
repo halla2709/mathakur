@@ -6,12 +6,12 @@
 		<br>
 
 	<div class="alert alert-success" role="alert" ng-show="showSuccessMessage" style="text-align: center;" ng-click="undoLastTransaction()">
-		<p><i class="bi bi-cart-check" style="font-size: 1.2rem; padding-right: 2em;"></i>{{message}} 
+		<p><i class="bi bi-cart-check" id="icons" style="padding-right: 2em;"></i>{{message}} 
 			<br><strong ng-show="undoPossible">Bakfæra</strong>
 		</p>
 	</div>
 	<div class="alert alert-danger" role="alert" ng-show="showErrorMessage" style="text-align: center;">
-			<p><i class="bi bi-exclamation-circle" style="font-size: 1.2rem; padding-right: 2em;"></i>{{errorMessage}}</p>
+			<p><i class="bi bi-exclamation-circle" id="icons" style="padding-right: 2em;"></i>{{errorMessage}}</p>
 	</div>
 	
 	<div style="text-align: center;">

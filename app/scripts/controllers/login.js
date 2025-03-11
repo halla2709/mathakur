@@ -13,6 +13,7 @@ angular.module('mathakur')
     $scope.company = '';
     $scope.password = '';
     $scope.wrongpassword = false;
+    $scope.missingworkplace = false;
     $scope.frozenCompany = $stateParams.frozen;
     $scope.filteredCompanies = [];
     //$scope.testCompanies = [{name:"Test"}, {name:"Tes2"}, {name:"Langt Nafn"}, {name:"very very very very long name"}];
@@ -41,6 +42,7 @@ angular.module('mathakur')
     $scope.submit = function () {
       $scope.frozenCompany = false;
       $scope.wrongpassword = false;
+      $scope.missingworkplace = false;
       if ($scope.filteredCompanies.length > 0) {
         $scope.selectCompany($scope.filteredCompanies[0]);
       }
@@ -77,6 +79,8 @@ angular.module('mathakur')
                 }
                 else {
                   console.warn(error)
+                  $scope.missingworkplace = true;
+
                 }
                })
           })

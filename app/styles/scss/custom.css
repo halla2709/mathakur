@@ -66,6 +66,10 @@ h6, .h6 {
   font-size: 2rem;
 }
 
+#iconssmaller {
+  font-size: 1rem;
+}
+
 #purplebox {
   color: white;
   background-color: #440A67;
@@ -10525,18 +10529,18 @@ textarea.form-control-lg {
     font-size: 1.2rem;
   }
   h5, .h5 {
-    font-size: 1 rem;
+    font-size: 1rem;
   }
   h6, .h6 {
     font-size: 0.8rem;
   }
   #employeeCard {
     margin: 0.2em;
-    max-width: 8em;
+    max-width: 7em;
   }
   #productCard {
     margin: 0.2em;
-    min-width: 8em;
+    min-width: 7em;
   }
   #searchicon {
     font-size: 1rem;
@@ -10551,6 +10555,10 @@ textarea.form-control-lg {
     padding: 0.5em;
     font-size: small;
     margin-top: 0.5em;
+  }
+  .container {
+    padding-left: 0.5em;
+    padding-right: 0.2em;
   }
   #staffInfo {
     right: auto;
