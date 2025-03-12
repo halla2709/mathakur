@@ -242,11 +242,16 @@ angular.module('mathakur')
             }, 5000);
         }
 
-        function showErrorMessage() {
+        function showErrorMessage(error) {
             if (messageTimeout) {
                 $timeout.cancel(messageTimeout);
             }
-            $scope.errorAlert = true;
+            if (error === 'Employee credit changed before updating') {
+                $scope.errorAlert = "Starfsmaðurinn verslaði meðan uppfærslan átti sér stað. Vinsamlega reyndu aftur."
+            }
+            else {
+                $scope.errorAlert = "Vinsamlega reyndu aftur."
+            }
             messageTimeout = $timeout(function () {
                 $scope.errorAlert = false;
                 messageTimeout = null;
@@ -296,7 +301,7 @@ angular.module('mathakur')
                     reloadData(true);
                 })
                 .catch(function (error) {
-                    showErrorMessage();
+                    showErrorMessage(error.data.error);
                     console.error(error);
                 })
                 .finally(function () {
