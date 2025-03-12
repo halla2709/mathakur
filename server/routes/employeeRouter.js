@@ -54,14 +54,14 @@ router.get('/:employeeId', function (req, res, next) {
         });
 });
 
-router.patch('/:id', createAdminHistoryEntry, savePhotoToCloudinary, function (req, res, next) {
+router.patch('/:id', verifyCreditBeforeUpdate, createAdminHistoryEntry, savePhotoToCloudinary, function (req, res, next) {
     const id = req.params.id;
     const newCredit = req.body.newCredit;
     let newPhotoUrl = res.photoUrl;
     const newName = req.body.newName;
     const newNickame = req.body.newNickname;
     const newStatus = req.body.newStatus;
-
+    
     if (!(typeof req.body.photo !== 'undefined' && req.body.photo !== '')) {
         newPhotoUrl = undefined;
     }
@@ -256,6 +256,24 @@ function getHistoryForEmployee(req, res, next) {
             res.statusCode = 500;
             return res.json({ errors: ['Could not get employee history'] });
         });
+}
+
+function verifyCreditBeforeUpdate(req, res, next) {
+    dbHelper.getFromTable('employee', 'id = \'' + req.params.id + '\'')
+    .then(function(employee) {
+        if (employee[0].credit === req.body.currentCredit) {
+            next();
+        }
+        else {
+            res.statusCode = 500;
+            return res.json({ error: 'Employee credit changed before updating' });
+        }
+    })
+    .catch(function(error) {
+        console.error(error)
+        res.statusCode = 500;
+        return res.json({ errors: ['Could not get employee'] });
+    });
 }
 
 module.exports = router;
