@@ -109,9 +109,18 @@ describe('Main workflow Controller', function () {
     scope.addProduct({ price: 100, name: 'product2' });
 
     scope.buyProduct();
-    expect(mockServer.patch).toHaveBeenCalledOnceWith('employee/updatecredit/11111', jasmine.objectContaining({
-      transaction: 120
-    }));
+  
+    expect(mockServer.patch).toHaveBeenCalledOnceWith('employee/transaction/11111', jasmine.any(Object));
+    var receipt = mockServer.patch.calls.mostRecent().args[1].receipt;
+    expect(receipt.length).toBe(2);
+    for(product in receipt) {
+      if (product.name === 'product1') {
+        expect(product.quantity).toBe(2);
+      }
+      else if (product.name === 'product2') {
+        expect(product.quantity).toBe(1);
+      }
+    }
   });
 
   it('will not add more to basket without enough credit', function() {
@@ -130,9 +139,15 @@ describe('Main workflow Controller', function () {
 
     spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
     scope.buyProduct();
-    expect(mockServer.patch).toHaveBeenCalledOnceWith('employee/updatecredit/11111', jasmine.objectContaining({
-      transaction: 10
-    }));
+  
+    expect(mockServer.patch).toHaveBeenCalledOnceWith('employee/transaction/11111', jasmine.any(Object));
+    var receipt = mockServer.patch.calls.mostRecent().args[1].receipt;
+    expect(receipt.length).toBe(1);
+    for(product in receipt) {
+      if (product.name === 'product1') {
+        expect(product.quantity).toBe(1);
+      }
+    }
   });
 
   it('will allow the order without enough credit when configured that way', function() {
@@ -147,9 +162,18 @@ describe('Main workflow Controller', function () {
     scope.addProduct({ price: 100, name: 'product2' });
 
     scope.buyProduct();
-    expect(mockServer.patch).toHaveBeenCalledOnceWith('employee/updatecredit/11111', jasmine.objectContaining({
-      transaction: 120
-    }));
+  
+    expect(mockServer.patch).toHaveBeenCalledOnceWith('employee/transaction/11111', jasmine.any(Object));
+    var receipt = mockServer.patch.calls.mostRecent().args[1].receipt;
+    expect(receipt.length).toBe(2);
+    for(product in receipt) {
+      if (product.name === 'product1') {
+        expect(product.quantity).toBe(2);
+      }
+      else if (product.name === 'product2') {
+        expect(product.quantity).toBe(1);
+      }
+    }
     sessionMock.isBelowZeroAllowed = function () { return false; }
   });
 
@@ -171,7 +195,7 @@ describe('Main workflow Controller', function () {
 
     spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
     scope.undoLastTransaction();
-    expect(mockServer.patch).toHaveBeenCalledOnceWith('employee/updatecredit/11111', jasmine.objectContaining({
+    expect(mockServer.patch).toHaveBeenCalledOnceWith('employee/undoTransaction/11111', jasmine.objectContaining({
       transaction: -10
     }));
   });

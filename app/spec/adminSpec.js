@@ -12,7 +12,8 @@ describe('Admin Controller', function () {
       }};
     },
     isBelowZeroAllowed: function() { return isBelowZeroAllowed; },
-    onNewSettings: function() { }
+    onNewSettings: function() { },
+    getUser: function() { return { name: "Company", id: companyId, frozen: false }}
   }
 
   beforeEach(module('mathakur'));
