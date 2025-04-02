@@ -9,3 +9,9 @@ Create new database with name for example mathakur and set the owner to the new 
 ## Run app on localhost port 3000
 If needed: ``npm install`` <br>
 ``npm start`` <br>
+
+## Run server side tests
+``npm run testserver``
+
+## Run front end tests
+``npm run testfrontend``
