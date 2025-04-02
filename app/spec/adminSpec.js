@@ -143,6 +143,33 @@ describe('Admin Controller', function () {
         done();
       });
     });
+
+    it("should send current and new credit when updating", function(done) {
+      mockServer.get.calls.reset();
+      var spy = spyOn(mockServer, 'patch').and.returnValue(Promise.resolve());
+
+      var currentEmployee = {
+        id: "id",
+        name: "Halla",
+        nickname: "Holly",
+        credit: 5000
+      };
+      scope.editEmployee(currentEmployee);
+      scope.currentEmployee.credit = 5100;
+      scope.submitEmployee();
+      expect(mockServer.patch).toHaveBeenCalledOnceWith('/employee/id',
+        jasmine.objectContaining({
+          newCredit: 5100,
+          oldCredit: 5000
+        }));
+
+      spy.calls.mostRecent().returnValue.then(function () {
+        expect(mockServer.get).toHaveBeenCalledWith('employee/all/' + companyId);
+        expect(mockServer.get).not.toHaveBeenCalledWith('product/' + companyId);
+        expect(mockServer.get).not.toHaveBeenCalledWith('admin/' + companyId);
+        done(); 
+      });
+    });
   });
 
   describe('submit product', function () {

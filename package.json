@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "npx karma start",
+    "testfrontend": "npx karma start",
     "testserver": "jest"
   },
   "repository": {
