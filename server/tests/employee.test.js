@@ -38,7 +38,7 @@ describe("employee", () => {
         const invalidOldCredit = employeeJohn.credit-100;
         const newCredit = employeeJohn.credit+100;
         const response = await request(app).patch("/employee/"+employeeJohn.id)
-                                            .send({ newCredit: newCredit, currentCredit: invalidOldCredit })
+                                            .send({ newCredit: newCredit, oldCredit: invalidOldCredit })
                                             .set("Accept", 'application/json');
         expect(response.statusCode).toBe(500);
         expect(response.body.error).toBe("Employee credit changed before updating");
@@ -51,7 +51,7 @@ describe("employee", () => {
         databaseHelper.getFromTable.mockResolvedValue([employeeJohn]);
 
         const response = await request(app).patch("/employee/"+employeeId)
-                                .send({ newCredit: newCredit, currentCredit: employeeJohn.credit })
+                                .send({ newCredit: newCredit, oldCredit: employeeJohn.credit })
                                 .set("Accept", 'application/json');
         expect(response.statusCode).toBe(200);          
         expect(databaseHelper.updateEmployee).toHaveBeenCalledTimes(1);

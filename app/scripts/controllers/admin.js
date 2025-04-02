@@ -130,8 +130,8 @@ angular.module('mathakur')
         $scope.editEmployee = function (employee) {
             if (employee) {
                 $scope.updating = true;
-                // todo call database here to show correct credit
                 $scope.currentEmployee = employee;
+                $scope.currentEmployee.oldCredit = employee.credit;
                 server.get("employee/history/" + employee.id).then(function (response) {
                     $scope.currentEmployee.history = response.data;
                     $scope.currentEmployee.history.forEach(entry => {
@@ -289,6 +289,7 @@ angular.module('mathakur')
         function submitEmployeeUpdate(employeeID) {
             server.patch('/employee/' + employeeID, {
                 newCredit: $scope.currentEmployee.credit,
+                oldCredit: $scope.currentEmployee.oldCredit,
                 photo: $scope.currentEmployee.newImage,
                 companyId: $scope.currentCompanyLoggedIn,
                 newName: $scope.currentEmployee.name,

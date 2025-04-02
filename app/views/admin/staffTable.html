@@ -1,4 +1,4 @@
-<div ng-include src="'views/modules/adminTabs.html'"></div>
+<div ng-include src="'views/modules/adminHeader.html'"></div>
 
 <div class="container">
     <div class="row">
@@ -53,18 +53,7 @@
             <br>
         </div>
 
-        <div class="row">
-            <div class="col">
-                <button class="btn btn-sm btn-primary" ng-click="copyEmployeeData()"></i>Afrita</button>
-                <br>
-            </div>
-            <div class="col">
-                <button class="btn btn-lg btn-secondary" ng-show="!editing" ng-click="editEmployee()"
-                    style="float:right;">
-                    <i class="bi bi-plus-circle" style="font-size: 1.2rem; padding-right: 0.4em;"></i>Bæta við
-                </button>
-            </div>
-        </div>
+        <div class="col" ng-include src="'views/modules/adminTableHeader.html'"></div>
 
         <div ng-if="employeeData.length">
             <table id="tafla" class="table table-responsive table-striped table-hover">

@@ -261,7 +261,7 @@ function getHistoryForEmployee(req, res, next) {
 function verifyCreditBeforeUpdate(req, res, next) {
     dbHelper.getFromTable('employee', 'id = \'' + req.params.id + '\'')
     .then(function(employee) {
-        if (employee[0].credit === req.body.currentCredit) {
+        if (employee[0].credit === req.body.oldCredit) {
             next();
         }
         else {
