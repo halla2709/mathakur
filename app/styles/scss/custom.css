@@ -10515,12 +10515,16 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-@media only screen and (max-height: 600px) {
+@media only screen and (max-height: 700px) {
   #karfamyndhverfa {
     content-visibility: hidden;
   }
   #karfan {
     min-height: 12em;
+    padding: 0em;
+  }
+  .table {
+    margin-bottom: 0rem;
   }
 }
 @media only screen and (max-width: 900px) {
