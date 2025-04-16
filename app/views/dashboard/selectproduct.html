@@ -15,7 +15,7 @@
                     <div class="row" style="margin-left: 0.2em;">
                     <div ng-repeat="x in myDataProduct | filter:searchBox | orderBy:'name':false:localeSensitiveComparator" ng-click="selectProduct(x)" id="productCard" class="col col-2">
                         <div class="staffname" type="add" ng-click="addProduct(x)">
-                            <img cl-src="{{x.photourl}}" class="card-img-top" id="karfamyndhverfa" style="padding: 0.6em; max-width: 8em;" err-src="../../images/no_photo.jpg"></img>
+                            <img cl-src="{{x.photourl}}" class="card-img-top" style="padding: 0.6em; max-width: 8em;" err-src="../../images/no_photo.jpg"></img>
                             <br>
                             <h6 id="productHeaderName">{{x.name}}
                             </h6>
